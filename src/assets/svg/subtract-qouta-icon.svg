@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="2px" viewBox="0 0 10 2" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Path</title>
+    <g id="full-design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="mockup-25" transform="translate(-763.000000, -446.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="form" transform="translate(715.000000, 94.000000)">
+                <g id="Group" transform="translate(48.000000, 352.000000)">
+                    <path d="M4.75,-3.75 C5.2628358,-3.75 5.6855072,-3.36395981 5.7432723,-2.86662113 L5.75,-2.75 L5.75,4.75 C5.75,5.3022847 5.3022847,5.75 4.75,5.75 C4.2371642,5.75 3.8144928,5.3639598 3.7567277,4.8666211 L3.75,4.75 L3.75,-2.75 C3.75,-3.30228475 4.1977153,-3.75 4.75,-3.75 Z" id="Path" transform="translate(4.750000, 1.000000) rotate(90.000000) translate(-4.750000, -1.000000) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

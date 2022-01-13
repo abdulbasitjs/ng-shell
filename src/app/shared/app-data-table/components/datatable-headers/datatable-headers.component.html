@@ -1,0 +1,12 @@
+<tr [style.--customer-table-columns]="config.totalColumns">
+  <th *ngFor="let header of config.headers.list">
+    <i
+      *ngIf="header.renderIcon"
+      [shouldRemoveParent]="false"
+      appSvg
+      [src]="config.headers.headersIcon"
+    >
+    </i>
+    {{ header.name }}
+  </th>
+</tr>

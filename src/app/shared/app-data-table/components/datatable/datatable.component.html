@@ -1,0 +1,12 @@
+<table class="datatable" [style.--customer-table-columns]="dataTableConfig.totalColumns">
+  <tbody
+    app-datatable-headers
+    [config]="dataTableConfig"
+    class="datatable--headers"
+  ></tbody>
+  <tbody
+    app-datatable-rows
+    [config]="dataTableConfig"
+    class="datatable--body"
+  ></tbody>
+</table>

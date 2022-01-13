@@ -1,0 +1,8 @@
+<tr *ngFor="let item of config.data" [ngClass]="{ disabled: item.disabled }">
+  <td
+    *ngFor="let header of config.headers.list"
+    [ngClass]="{ suspended: item.row[header.accessor] === 'Suspended' }"
+  >
+    {{ item.row[header.accessor] }}
+  </td>
+</tr>

@@ -1,0 +1,40 @@
+<app-section-title
+  class="section-title"
+  sectionTitle="Customer Management"
+></app-section-title>
+<app-button class="button-component" [config]="config"></app-button>
+<app-datatable class="table-component"></app-datatable>
+<app-pagination class="pagination-component">Pagination Table</app-pagination>
+<app-panel class="panel">
+  <div class="panel__header">
+    <h3 class="panel__header--title">Add a New Company Profile</h3>
+    <i
+      [shouldRemoveParent]="false"
+      appSvg
+      src="assets/svg/panel-close-icon.svg"
+    ></i>
+  </div>
+  <div class="panel__content">
+    <div class="panel__content--wizard">
+      <div class="panel__content--wizard__wizard-steps">
+        <span
+          class="panel__content--wizard__wizard-steps__step active"
+          data-step-name="Company Profile"
+          ><i></i
+        ></span>
+        <span
+          class="panel__content--wizard__wizard-steps__step"
+          data-step-name="Subscription Info"
+          ><i></i
+        ></span>
+        <span
+          class="panel__content--wizard__wizard-steps__step finished"
+          data-step-name="Exclude Classifier"
+          ><i></i
+        ></span>
+      </div>
+    </div>
+    <form></form>
+  </div>
+  <div class="panel__footer"></div>
+</app-panel>

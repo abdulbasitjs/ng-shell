@@ -1,0 +1,20 @@
+<!---*-*-*-*-*-*-*-*--*-*-*- Header Compoenet --*-*-*-*-*-*-*-*-*-*-*-->
+<div class="header__menu">
+    <div class="header__menu--tab">
+        <p>RTPD <span> Dashboard </span> </p>
+        <i [shouldRemoveParent]="false" appSvg src="assets/svg/header-dropdown-icon.svg" appDropdown="header__menu--tab header__menu--list"></i>
+    </div>
+    <div class="header__menu--list">
+        <app-dashboard></app-dashboard>
+    </div>
+</div>
+
+<div class="header__user">
+    <div class="header__user--info">
+        <h3 class="header__user--info__title">Admin</h3>
+        <h4 class="header__user--info__role">Administrator</h4>
+    </div>
+    <div class="header__user--settings">
+        <i [shouldRemoveParent]="true" appSvg src="assets/svg/settings-icon.svg"></i>
+    </div>
+</div>

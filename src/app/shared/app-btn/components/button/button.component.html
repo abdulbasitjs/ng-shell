@@ -1,0 +1,9 @@
+<div [class]="'button ' + config.classes">
+  <i
+    *ngIf="config.icon"
+    [shouldRemoveParent]="false"
+    appSvg
+    [src]="config.icon"
+  ></i>
+  <p>{{ config.btnTitle }}</p>
+</div>

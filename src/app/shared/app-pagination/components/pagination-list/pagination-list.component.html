@@ -1,0 +1,14 @@
+<div class="pagination__perpage">
+  {{ records[0] }}
+  <ul class="pagination__perpage--list">
+    <li *ngFor="let record of records">
+      {{ record }}
+    </li>
+  </ul>
+</div>
+<i
+  [shouldRemoveParent]="false"
+  appSvg
+  src="assets/svg/pagination-dropdown-icon.svg"
+>
+</i>

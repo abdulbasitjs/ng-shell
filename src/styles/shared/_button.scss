@@ -1,0 +1,29 @@
+%button {
+  .button {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.1rem 1rem;
+    gap: 1rem;
+
+    & > i {
+      justify-content: center;
+      align-content: center;
+    }
+
+    & > p {
+      color: var(--color-secondary);
+      font-size: font-size(regular);
+      color: #ffffff;
+      font-weight: font-weight(regular);
+    }
+  }
+
+  .button-primary {
+    background: var(--color-tertiary);
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
