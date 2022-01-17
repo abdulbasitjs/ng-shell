@@ -1,9 +1,11 @@
-<div [class]="'button ' + config.classes">
+<div
+[class]="'button ' + classes"
+(click)="onClickHandler($event)">
   <i
-    *ngIf="config.icon"
+    *ngIf="icon"
     [shouldRemoveParent]="false"
     appSvg
-    [src]="config.icon"
+    [src]="icon"
   ></i>
-  <p>{{ config.btnTitle }}</p>
+  <p>{{ btnTitle }}</p>
 </div>

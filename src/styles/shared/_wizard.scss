@@ -1,0 +1,65 @@
+.wizard {
+  &__wizard-steps {
+    display: flex;
+    height: 2.4rem;
+    justify-content: space-between;
+    width: 75%;
+    position: relative;
+    z-index: 1;
+
+    &__step {
+      width: 2.4rem;
+      height: inherit;
+      background: var(--color-secondary);
+      border: 2.5px solid var(--color-primary);
+      border-radius: 50%;
+      position: relative;
+
+      & > i {
+        position: absolute;
+        width: 1.2rem;
+        height: 1.2rem;
+        border-radius: 50%;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.3s cubic-bezier(1, 0, 0, 1);
+      }
+
+      &.active > i {
+        background: var(--color-primary);
+      }
+
+      &.finished > i {
+        background: url("/assets/svg/steps-check-icon.svg");
+      }
+
+      &.active > i,
+      &.finished > i {
+        opacity: 1;
+      }
+    }
+
+    &__step::after {
+      position: absolute;
+      content: attr(data-step-name);
+      left: -0.2rem;
+      top: 2.7rem;
+      font-size: font-size(small);
+      color: var(--color-primary);
+      font-weight: font-weight(medium);
+      width: max-content;
+    }
+  }
+
+  &__wizard-steps::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 0.2rem;
+    background: var(--color-primary);
+    z-index: -1;
+    top: 50%;
+  }
+}

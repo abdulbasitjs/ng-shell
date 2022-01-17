@@ -2,39 +2,197 @@
   class="section-title"
   sectionTitle="Customer Management"
 ></app-section-title>
-<app-button class="button-component" [config]="config"></app-button>
+<app-button
+  class="button-component"
+  icon="assets/svg/add-button-icon.svg"
+  btnTitle="Add New Company Profile"
+  classes="button-primary button-pd"
+  (clickHandler)="onAddNewCompany()"
+>
+</app-button>
 <app-datatable class="table-component"></app-datatable>
 <app-pagination class="pagination-component">Pagination Table</app-pagination>
-<app-panel class="panel">
-  <div class="panel__header">
-    <h3 class="panel__header--title">Add a New Company Profile</h3>
-    <i
-      [shouldRemoveParent]="false"
-      appSvg
-      src="assets/svg/panel-close-icon.svg"
-    ></i>
-  </div>
+<app-panel>
   <div class="panel__content">
-    <div class="panel__content--wizard">
-      <div class="panel__content--wizard__wizard-steps">
-        <span
-          class="panel__content--wizard__wizard-steps__step active"
-          data-step-name="Company Profile"
-          ><i></i
-        ></span>
-        <span
-          class="panel__content--wizard__wizard-steps__step"
-          data-step-name="Subscription Info"
-          ><i></i
-        ></span>
-        <span
-          class="panel__content--wizard__wizard-steps__step finished"
-          data-step-name="Exclude Classifier"
-          ><i></i
-        ></span>
-      </div>
-    </div>
-    <form></form>
+    <app-wizard [stepData]="newCompanyProfileData"></app-wizard>
+    <form
+      class="form"
+      (ngSubmit)="onAddNewCompany()"
+      [formGroup]="newCompanyForm"
+      [ngSwitch]="currentStep?.stepIndex"
+    >
+      <app-wizard-template *ngSwitchCase="'1'" [step]="currentStep">
+        <ng-container formGroupName="profile">
+          <div class="form__input">
+            <label>Company Name</label>
+            <input
+              type="text"
+              formControlName="company_name"
+              [ngClass]="{
+                input__error:
+                  !newCompanyForm.get('profile.company_name')?.valid &&
+                  !newCompanyForm.get('profile.company_name')?.touched
+              }"
+            />
+          </div>
+          <div class="form__input">
+            <label>Customer Name</label>
+            <input
+              type="text"
+              formControlName="customer_name"
+              [ngClass]="{
+                input__error:
+                  !newCompanyForm.get('profile.customer_name')?.valid &&
+                  !newCompanyForm.get('profile.customer_name')?.touched
+              }"
+            />
+          </div>
+          <div class="form__input">
+            <label>Email</label>
+            <input
+              type="text"
+              formControlName="email"
+              [ngClass]="{
+                input__error:
+                  !newCompanyForm.get('profile.customer_name')?.valid &&
+                  !newCompanyForm.get('profile.customer_name')?.touched
+              }"
+            />
+          </div>
+          <div class="form__input">
+            <label>Address (Optional)</label>
+            <input type="text" formControlName="address" />
+          </div>
+          <div class="form__input">
+            <label>Contact No. (Optional)</label>
+            <input type="text" formControlName="contact_no" />
+          </div>
+          <div class="form__input">
+            <label>Salesforce ID (Optional)</label>
+            <input type="text" formControlName="salesforce_id" />
+          </div>
+          <!-- <button [disabled]="" (click)="test()">test</button> -->
+        </ng-container>
+      </app-wizard-template>
+      <app-wizard-template *ngSwitchCase="'2'" [step]="currentStep">
+        <ng-container formGroupName="subscription">
+          <div class="form__input">
+            <label>Company ID</label>
+            <input
+              type="text"
+              formControlName="company_id"
+              [ngClass]="{
+                input__error:
+                  !newCompanyForm.get('subscription.company_id')?.valid &&
+                  !newCompanyForm.get('subscription.company_id')?.touched
+              }"
+            />
+          </div>
+          <div class="form__input radio">
+            <label>Subscription Type</label>
+            <label
+              *ngFor="let type of subscriptionTypes"
+              class="form__input--radio-container"
+            >
+              <input
+                type="radio"
+                formControlName="type"
+                [value]="type.key"
+                [ngClass]="{
+                  input__error:
+                    !newCompanyForm.get('subscription.type')?.valid &&
+                    !newCompanyForm.get('subscription.type')?.touched
+                }"
+              />
+              <span>{{ type.value }}</span>
+            </label>
+          </div>
+          <div class="form__input custom__input">
+            <label>Company Key</label>
+            <input
+              type="text"
+              placeholder="123123123123123123132"
+              formControlName="company_key"
+              [ngClass]="{
+                input__error:
+                  !newCompanyForm.get('subscription.company_key')?.valid &&
+                  !newCompanyForm.get('subscription.company_key')?.touched
+              }"
+            />
+            <a href="#"
+              >| Regenerate Api Key
+              <i
+                [shouldRemoveParent]="false"
+                appSvg
+                src="assets/svg/regenerate-key-icon.svg"
+              ></i
+            ></a>
+          </div>
+          <div class="form__input radio">
+            <label>Api Tier</label>
+            <hr class="line" />
+            <label
+              *ngFor="let tier of tiers"
+              class="form__input--radio-container"
+            >
+              <input
+                type="radio"
+                formControlName="tier"
+                [value]="tier.key"
+                [ngClass]="{
+                  input__error:
+                    !newCompanyForm.get('subscription.tier')?.valid &&
+                    !newCompanyForm.get('subscription.tier')?.touched
+                }"
+              />
+              <span>{{ tier.value }}</span>
+            </label>
+          </div>
+          <div class="form__input radio">
+            <label>Expiration Date</label>
+            <label
+              *ngFor="let exp of expDates"
+              class="form__input--radio-container"
+            >
+              <input
+                type="radio"
+                formControlName="exp_date"
+                class="disabled"
+                [value]="exp.key"
+                [ngClass]="{
+                  input__error:
+                    !newCompanyForm.get('subscription.exp_date')?.valid &&
+                    !newCompanyForm.get('subscription.exp_date')?.touched
+                }"
+              />
+              <span>{{ exp.value }}</span>
+            </label>
+          </div>
+        </ng-container>
+      </app-wizard-template>
+      <app-wizard-template *ngSwitchCase="'3'" [step]="currentStep">
+        <ng-container formGroupName="exclude_classifier">
+          <div class="form__input checkbox">
+            <label class="m-b-10">Classifier List</label>
+            <label
+              *ngFor="let classifier of classifierList; let i = index;"
+              class="form__input--checkbox-container"
+              formArrayName="classifier_list"
+            >
+              <input
+                type="checkbox"
+                [formControlName]="i"
+                [ngClass]="{
+                  input__error:
+                    !newCompanyForm.get('exclude_classifier.classifier_list')?.valid &&
+                    !newCompanyForm.get('exclude_classifier.classifier_list')?.touched
+                }"
+              />
+              <span>{{ classifier.value }}</span>
+            </label>
+          </div>
+        </ng-container>
+      </app-wizard-template>
+    </form>
   </div>
-  <div class="panel__footer"></div>
 </app-panel>

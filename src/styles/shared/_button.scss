@@ -1,29 +1,45 @@
-%button {
-  .button {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0.1rem 1rem;
-    gap: 1rem;
+.button {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid var(--color-primary);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
 
-    & > i {
-      justify-content: center;
-      align-content: center;
-    }
-
-    & > p {
-      color: var(--color-secondary);
-      font-size: font-size(regular);
-      color: #ffffff;
-      font-weight: font-weight(regular);
-    }
+  & > i {
+    justify-content: center;
+    align-content: center;
   }
 
-  .button-primary {
-    background: var(--color-tertiary);
+  & > p {
+    color: var(--color-secondary);
+    font-size: font-size(regular);
+    font-weight: font-weight(regular);
   }
-
   &:hover {
     cursor: pointer;
+  }
+}
+
+.button-pd {
+  padding: 0.1rem 1.5rem;
+}
+
+.button-primary {
+  background: var(--color-primary);
+}
+
+.button-lg {
+  padding: 0;
+  width: 10rem;
+  height: 4rem;
+}
+
+.button-default {
+  & > p {
+    font-size: font-size(regular);
+    color: var(--color-primary);
+    font-weight: font-weight(regular);
   }
 }

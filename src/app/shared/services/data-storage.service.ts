@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataTable } from '../app-data-table/interfaces/datatable';
 import { Sidebar } from '../app-side-bar/interfaces/sidebar';
+import { StepModel } from '../app-wizard/interfaces/wizard';
 
 @Injectable({ providedIn: 'root' })
 export class DataStorageService {
@@ -134,4 +135,9 @@ export class DataStorageService {
     };
     return configurations;
   }
+
+  getOtiProvisioningNewCompanySteps(): string[] {
+    return ['Company Profile', 'Subscription Info', 'Exclude Classifier'];
+  }
+
 }

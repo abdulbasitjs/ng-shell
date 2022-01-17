@@ -1,3 +1,8 @@
-<aside class="panel">
+<aside #panel class="panel" [ngClass]="{active: (showPanel | async )}">
+  <app-panel-header
+    headerTitle="Testing"
+    clearIcon="assets/svg/panel-close-icon.svg"
+  ></app-panel-header>
   <ng-content></ng-content>
+  <app-panel-footer mode="wizard"></app-panel-footer>
 </aside>

@@ -1,0 +1,23 @@
+.show {
+  display: none;
+}
+
+.error-msg {
+  width: 85%;
+  padding: 1rem;
+  color: #d8000c;
+  background-color: #ffbaba;
+}
+
+.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.color-white {
+  color: white;
+}
+
+.m-b-10 {
+  margin-bottom: 1rem!important;
+}

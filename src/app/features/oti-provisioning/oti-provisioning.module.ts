@@ -8,6 +8,8 @@ import { AppButtonModule } from '@shared/app-btn/app-button.module';
 import { AppDataTableModule } from '@shared/app-data-table/app-data-table.module';
 import { AppPaginationModule } from '@shared/app-pagination/app-pagination.module';
 import { AppPanelModule } from '@shared/app-panel/app-panel.module';
+import { AppWizardModule } from '@shared/app-wizard/app-wizard.module';
+import { CoreModule } from '@core/core.module';
 
 @NgModule({
   declarations: [
@@ -17,11 +19,13 @@ import { AppPanelModule } from '@shared/app-panel/app-panel.module';
   ],
   imports: [
     CommonModule,
+    CoreModule,
     AppSectionTitleModule,
     AppButtonModule,
     AppDataTableModule,
     AppPaginationModule,
-    AppPanelModule
+    AppPanelModule,
+    AppWizardModule
   ],
   exports: [
     OtiProvisioningDashboardComponent,

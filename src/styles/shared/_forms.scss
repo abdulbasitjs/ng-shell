@@ -1,0 +1,168 @@
+$form-width: 85%;
+
+%customRadioCheckBoxContainer {
+  display: flex;
+  gap: 1.2rem;
+  // margin-top: 0.1rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+%customRadioCheckBoxSpan {
+  font-size: font-size(small);
+  color: var(--color-primary);
+  font-weight: font-weight(regular);
+}
+
+
+.form {
+  margin-top: 5rem;
+
+  &__input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    & > label {
+      margin-bottom: 0.5rem;
+      font-size: font-size(small);
+      color: var(--color-primary);
+      font-weight: font-weight(regular);
+    }
+
+    & input[type="text"] {
+      width: $form-width;
+      height: 4rem;
+      padding: 1rem 1.6rem;
+      border: 1px solid var(--color-primary);
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      flex: 1;
+      color: var(--color-quinary);
+      font-size: font-size(small);
+    }
+
+    &--radio-container {
+      @extend %customRadioCheckBoxContainer;
+      & > input[type="radio"] {
+        -webkit-appearance: none;
+        appearance: none;
+        margin: 0;
+
+        font: inherit;
+        color: var(--color-primary);
+        width: 1.4rem;
+        height: 1.4rem;
+        border: 2px solid var(--color-primary);
+        border-radius: 50%;
+        transform: translateY(-0.075rem);
+
+        display: grid;
+        place-content: center;
+      }
+
+      & > input[type="radio"]::before {
+        content: "";
+        width: 0.6rem;
+        height: 0.6rem;
+        border-radius: 50%;
+        transform: scale(0);
+        transition: 120ms transform ease-in-out;
+        box-shadow: inset 1em 1em var(--color-primary);
+      }
+
+      & > input[type="radio"]:checked::before {
+        transform: scale(1);
+      }
+
+      & > span {
+       @extend %customRadioCheckBoxSpan;
+      }
+    }
+
+    &--checkbox-container {
+      @extend %customRadioCheckBoxContainer;
+
+      margin-bottom: 1rem!important;
+      gap: 0.8rem!important;
+      & > input[type=checkbox] {
+        -webkit-appearance: none;
+        appearance: none;
+        margin: 0;
+
+        font: inherit;
+        width: 1.6rem;
+        height: 1.6rem;
+        border: 1px solid var(--color-primary);
+        border-radius: 4px;
+
+        display: grid;
+        place-content: center;
+      }
+
+
+      & > input[type="checkbox"]:checked::before {
+        content: "";
+        width: 1.6rem;
+        height: 1.6rem;
+        border: 1px solid var(--color-primary);
+        border-radius: 4px;
+        transform: scale(0);
+        background-color: var(--color-primary);
+        background-image: url('/assets/svg/checkbox-icon.svg');
+        background-repeat: no-repeat;
+        object-fit: cover;
+        background-position: center;
+        transition: 120ms transform ease-in-out;
+      }
+
+      & > input[type="checkbox"]:checked::before {
+        transform: scale(1);
+      }
+
+      & > span {
+        @extend %customRadioCheckBoxSpan;
+      }
+    }
+
+    &.custom__input {
+      display: flex;
+      position: relative;
+    }
+
+    &.custom__input > input[type=text] {
+      padding-right: 4rem;
+    }
+
+    &.custom__input > a {
+      position: absolute;
+      color: var(--color-primary);
+      font-size: font-size(regular);
+      font-weight: font-weight(regular);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      right: 10rem;
+      top: 3.2rem;
+    }
+
+  }
+}
+
+.form .input__error {
+  border: 1px solid #ffbaba;
+}
+
+.radio {
+  margin-bottom: 1.5rem;
+}
+
+.line {
+  background: var(--color-primary);
+  border: none;
+  width: $form-width;
+  height: 0.1rem;
+  margin-top: -0.2rem;
+  margin-bottom: 1.3rem;
+}
