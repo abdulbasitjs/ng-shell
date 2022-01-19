@@ -7,12 +7,14 @@ html {
   --color-quinary: #434343;
   --color-senary: #8fc745;
   --color-septanry: rgba(46,121,166,0.06);
-
+  --color-octonary: #d6d6d6;
+  --color-octonary--light: rgb(214, 214, 214, 0.5);
 
   --border-box-project: 2px solid #2e79a6;
   --customer-table-columns: 5;
   --disabled: #A0A0A0;
   --danger: #d0021b;
+  --wizard-template-animation-direction: 1;
 }
 
 // Dark Color Palette (Custom Properties) In Future
@@ -36,7 +38,9 @@ $font-weights: (
 $font-sizes: (
   "small": calc(1.1rem + 0.08vw),
   "regular": calc(1.3rem + 0.1389vw),
+  "regularFix": calc(1.4rem),
   "medium": calc(1.8rem + 0.1389vw),
+  'largeFix': 2.4rem,
   "large": calc(2.5rem + 0.15vw),
 );
 

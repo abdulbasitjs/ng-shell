@@ -8,12 +8,14 @@ import { FooterActionState } from '../../interfaces/panel';
 })
 export class PanelFooterComponent implements OnInit {
   public btnState!: FooterActionState;
-  constructor(private panelService: PanelService) {}
+  constructor(
+    private panelService: PanelService
+  ) {}
 
   ngOnInit(): void {
-    this.panelService.getCurrentActionState().subscribe(state => {
+    this.panelService.getCurrentActionState().subscribe((state) => {
       this.btnState = state;
-    })
+    });
   }
 
   onAction(type: string) {

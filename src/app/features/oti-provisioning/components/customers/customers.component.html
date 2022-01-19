@@ -21,7 +21,7 @@
       [formGroup]="newCompanyForm"
       [ngSwitch]="currentStep?.stepIndex"
     >
-      <app-wizard-template *ngSwitchCase="'1'" [step]="currentStep">
+      <div app-wizard-template *ngSwitchCase="'1'" [step]="currentStep">
         <ng-container formGroupName="profile">
           <div class="form__input">
             <label>Company Name</label>
@@ -73,8 +73,8 @@
           </div>
           <!-- <button [disabled]="" (click)="test()">test</button> -->
         </ng-container>
-      </app-wizard-template>
-      <app-wizard-template *ngSwitchCase="'2'" [step]="currentStep">
+      </div>
+      <div app-wizard-template *ngSwitchCase="'2'" [step]="currentStep">
         <ng-container formGroupName="subscription">
           <div class="form__input">
             <label>Company ID</label>
@@ -169,8 +169,8 @@
             </label>
           </div>
         </ng-container>
-      </app-wizard-template>
-      <app-wizard-template *ngSwitchCase="'3'" [step]="currentStep">
+      </div>
+      <div app-wizard-template *ngSwitchCase="'3'" [step]="currentStep">
         <ng-container formGroupName="exclude_classifier">
           <div class="form__input checkbox">
             <label class="m-b-10">Classifier List</label>
@@ -192,7 +192,7 @@
             </label>
           </div>
         </ng-container>
-      </app-wizard-template>
+      </div>
     </form>
   </div>
 </app-panel>

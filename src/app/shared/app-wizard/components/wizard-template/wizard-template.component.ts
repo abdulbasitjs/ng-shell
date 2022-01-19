@@ -1,14 +1,50 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
+import { PanelService } from '@shared/app-panel/app-panel.service';
 import { StepModel } from '@shared/app-wizard/interfaces/wizard';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-wizard-template',
+  selector: '[app-wizard-template]',
   templateUrl: './wizard-template.component.html',
+  styleUrls: ['./wizard-template.component.scss'],
 })
-export class WizardTemplateComponent implements OnInit {
+export class WizardTemplateComponent
+  implements OnInit, AfterContentInit, OnDestroy
+{
   @Input() step!: StepModel;
+  animationSubscription!: Subscription;
 
-  constructor() {}
+  constructor(
+    private el: ElementRef,
+    private rendrer: Renderer2,
+    private panelService: PanelService
+  ) {}
+
+  ngOnDestroy(): void {
+    this.animationSubscription.unsubscribe();
+  }
+
+  ngAfterContentInit(): void {
+    this.animationSubscription = this.panelService
+      .getCurrentAction()
+      .subscribe((e) => {
+        const direction =
+          e === 'next' ? 'fadeInOutForward' : 'fadeInOutBackward';
+        this.rendrer.setStyle(
+          this.el.nativeElement,
+          'animation',
+          `${direction} 0.3s ease-in-out`
+        );
+      });
+  }
 
   ngOnInit(): void {}
 

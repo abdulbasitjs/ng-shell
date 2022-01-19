@@ -2,7 +2,7 @@
   grid-column: container-start / container-end;
   display: flex;
 
-  router-outlet + * {
+  app-oti-provisiong-customers {
     flex: 1;
     display: grid;
     gap: 1.6rem;
@@ -15,29 +15,23 @@
 
     grid-template-rows: repeat(4, min-content);
 
-    & > .section-title {
-      grid-column: section-start / col-end 1;
-      margin-top: 2rem;
-      @extend %sec-title;
-    }
+    @extend %customers;
+  }
 
-    & > .button-component {
-      grid-column: col-end 5 / section-end;
-      margin-top: 2rem;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
+  app-oti-provisiong-customer-detail {
+    flex: 1;
+    display: grid;
+    gap: 1.6rem;
+    grid-template-columns:
+      [container-start] minmax(2.4rem, 1fr) [section-start] repeat(
+        6,
+        [col-start] minmax(min-content, 30rem) [col-end]
+      )
+      [section-end] minmax(2.4rem, 1fr) [container-end];
 
-    }
+    grid-template-rows: repeat(4, min-content);
 
-    & > .table-component {
-      grid-column: section-start / section-end;
-      @extend %datatable;
-    }
+   @extend %customer-detail;
 
-    & > .pagination-component {
-      grid-column: section-start / section-end;
-      @extend %pagination;
-    }
   }
 }

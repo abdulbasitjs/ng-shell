@@ -13,6 +13,5 @@ export class DataTableComponent implements OnInit {
   ngOnInit(): void {
     this.dataTableConfig =
       this.dataStorageService.getOtiProvisioningCustomersTableConfig();
-      console.log(this.dataTableConfig.data);
   }
 }

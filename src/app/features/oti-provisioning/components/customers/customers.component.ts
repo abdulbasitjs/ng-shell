@@ -1,10 +1,13 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataTableService } from '@shared/app-data-table/app-datatable.service';
 import { PanelService } from '@shared/app-panel/app-panel.service';
 import { StepsService } from '@shared/app-wizard/app-wizard-data.service';
 import { Action, StepModel } from '@shared/app-wizard/interfaces/wizard';
 import { DataStorageService } from '@shared/services/data-storage.service';
 import { Observable, Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-oti-provisiong-customers',
@@ -16,6 +19,7 @@ export class OtiProvisioningCustomersComponent implements OnInit, OnDestroy {
   _profileSubscription!: Subscription;
   _companySubscription!: Subscription;
   _excludeClassifierSubscription!: Subscription;
+  _rowSubscription!: Subscription;
 
   currentStep!: StepModel;
   steps!: StepModel[];
@@ -63,13 +67,17 @@ export class OtiProvisioningCustomersComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private dataStorageService: DataStorageService,
     private stepsService: StepsService,
-    private panelService: PanelService
+    private panelService: PanelService,
+    private dataTableService: DataTableService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnDestroy(): void {
     this._profileSubscription.unsubscribe();
     this._excludeClassifierSubscription.unsubscribe();
     this._companySubscription.unsubscribe();
+    this._rowSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -97,7 +105,8 @@ export class OtiProvisioningCustomersComponent implements OnInit, OnDestroy {
       }),
       exclude_classifier: this.formBuilder.group({
         classifier_list: this.formBuilder.array(
-          this.classifierList.map((e) => false), Validators.required
+          this.classifierList.map((e) => false),
+          Validators.required
         ),
       }),
     });
@@ -115,6 +124,13 @@ export class OtiProvisioningCustomersComponent implements OnInit, OnDestroy {
       this.invokeAction(type);
     });
 
+    this._rowSubscription = this.dataTableService.getCurrentRow().subscribe((obj) => {
+      if (Object.keys(obj).length) {
+        this.router.navigate([`./${obj.row.customer.replaceAll(' ', '-')}`], { relativeTo: this.activatedRoute });
+        this.dataTableService.setClickedRow({});
+      }
+    });
+
     this.onProfileComplete();
     this.onSubscriptionComplete();
     this.onClassifierComplete();
@@ -123,7 +139,6 @@ export class OtiProvisioningCustomersComponent implements OnInit, OnDestroy {
   onNextStep() {
     if (!this.stepsService.isLastStep()) {
       this.stepsService.moveToNextStep();
-      console.log(this.newCompanyForm.value);
     } else {
       this.onAddNewCompany();
     }
@@ -144,10 +159,15 @@ export class OtiProvisioningCustomersComponent implements OnInit, OnDestroy {
     } else if (type === Action.Back) {
       this.onBackStep();
       this.stepsService.getSteps().subscribe((steps) => {
-        steps.forEach((s) => (s.isComplete = false));
+        steps.forEach((s) => {
+          if (s.stepIndex === this.currentStep.stepIndex) {
+            s.isComplete = false;
+          }
+        });
       });
     } else if (type === Action.Save) {
       console.log(this.newCompanyForm.value);
+      this.panelService.setShowPanel(false);
     }
   }
 
@@ -204,7 +224,6 @@ export class OtiProvisioningCustomersComponent implements OnInit, OnDestroy {
   }
 
   renderFooterButtons(index: number) {
-    console.log(index);
     if (index === 1) {
       this.panelService.setCurrentActionState({
         next: {
@@ -225,7 +244,10 @@ export class OtiProvisioningCustomersComponent implements OnInit, OnDestroy {
     if (index === 3) {
       this.panelService.setCurrentActionState({
         back: { state: true },
-        save: { state: true, disable: this.newCompanyForm.controls['exclude_classifier'].invalid },
+        save: {
+          state: true,
+          disable: this.newCompanyForm.controls['exclude_classifier'].invalid,
+        },
       });
     }
   }

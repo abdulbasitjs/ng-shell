@@ -10,12 +10,14 @@ import { AppPaginationModule } from '@shared/app-pagination/app-pagination.modul
 import { AppPanelModule } from '@shared/app-panel/app-panel.module';
 import { AppWizardModule } from '@shared/app-wizard/app-wizard.module';
 import { CoreModule } from '@core/core.module';
+import { OtiProvisioningCustomerDetailComponent } from './components/customer-detail/customer-detail.component';
 
 @NgModule({
   declarations: [
     OtiProvisioningDashboardComponent,
     OtiProvisioningCustomersComponent,
     OtiProvisioningPackagesComponent,
+    OtiProvisioningCustomerDetailComponent
   ],
   imports: [
     CommonModule,
@@ -31,6 +33,7 @@ import { CoreModule } from '@core/core.module';
     OtiProvisioningDashboardComponent,
     OtiProvisioningCustomersComponent,
     OtiProvisioningPackagesComponent,
+    OtiProvisioningCustomerDetailComponent
   ],
 })
 export class OtiProvisioningModule {}
