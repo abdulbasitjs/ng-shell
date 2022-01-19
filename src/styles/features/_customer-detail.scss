@@ -1,0 +1,110 @@
+%customer-detail {
+  & > .breadcrumb-container {
+    grid-column: section-start / section-end;
+    margin-top: 2rem;
+  }
+
+  & > .divider-container {
+    grid-column: col-start 1 / section-end;
+    margin-top: 0.5rem;
+    & > div {
+      border: 1px solid var(--color-octonary--light);
+    }
+  }
+
+  & > .section-title {
+    grid-column: section-start / col-end 1;
+    margin-top: 2rem;
+    @extend %sec-title;
+  }
+
+  & > .action-container {
+    grid-column: col-end 5 / section-end;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2.6rem;
+  }
+
+  & > .quota--container {
+    grid-column: section-start / section-end;
+    margin-top: 1rem;
+
+    & .quota {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 3rem;
+
+      &--info {
+        display: flex;
+        flex-direction: column;
+
+        &__title {
+          font-size: font-size(regularFix);
+          color: var(--color-tertiary);
+          font-weight: font-weight(medium);
+          margin-bottom: 0.5rem;
+        }
+
+        &__name {
+          font-size: font-size(largeFix);
+          color: var(--color-quinary);
+          font-weight: font-weight(bold);
+        }
+      }
+
+      &--info:not(:first-child):not(:last-child) {
+        flex: 3;
+        border-right: 1px solid rgb(151, 151, 151, 0.29);
+        height: 6.9rem;
+      }
+
+      &--info:first-child {
+        flex: 0 1 20rem;
+      }
+
+      &--info:last-child {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  & > .company-profile-container, & > .subscription-information-container {
+    grid-column: section-start / col-start 3;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: 20vh;
+    width: 25rem;
+    align-content: space-between;
+    gap: 0.9rem;
+    .section {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      &--title {
+        font-size: font-size(regularFix);
+        color: var(--color-primary);
+        font-weight: font-weight(medium);
+      }
+
+      &--name {
+        font-size: font-size(regularFix);
+        color: var(--color-quinary);
+        font-weight: font-weight(regular);
+        text-overflow: ellipsis;
+
+      }
+
+      &--name.icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+      }
+    }
+  }
+}

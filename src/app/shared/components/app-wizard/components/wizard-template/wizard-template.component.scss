@@ -1,0 +1,23 @@
+:host {
+}
+
+@keyframes fadeInOutForward {
+  0% {
+    transform: translateX(60rem);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+
+@keyframes fadeInOutBackward {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(60rem);
+  }
+}

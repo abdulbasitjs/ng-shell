@@ -1,0 +1,25 @@
+%customers {
+  & > .section-title {
+    grid-column: section-start / col-end 1;
+    margin-top: 2rem;
+    @extend %sec-title;
+  }
+
+  & > .button-component {
+    grid-column: col-end 5 / section-end;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  & > .table-component {
+    grid-column: section-start / section-end;
+    @extend %datatable;
+  }
+
+  & > .pagination-component {
+    grid-column: section-start / section-end;
+    @extend %pagination;
+  }
+}

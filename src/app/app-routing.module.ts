@@ -5,9 +5,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./pages/home-page/home-page.module').then(
-        (m) => m.HomePageModule
-      ),
+      import('./modules/home/home.module').then((m) => m.HomeModule),
   },
   {
     path: 'home',
@@ -17,22 +15,20 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () =>
-      import('./pages/login-page/login-page.module').then(
-        (m) => m.LoginPageModule
-      ),
+      import('./modules/login/login.module').then((m) => m.LoginModule),
   },
   {
     path: 'oti-provisioning',
     loadChildren: () =>
-      import('./pages/oti-provisioning-page/oti-provisioning-page.module').then(
-        (m) => m.OtiProvisiongPageModule
+      import('./modules/oti-provisioning/oti-provisioning.module').then(
+        (m) => m.OtiProvisioningModule
       ),
   },
   {
     path: '**',
     loadChildren: () =>
-      import('./pages/not-found-page/not-found-page.module').then(
-        (m) => m.NotFoundPageModule
+      import('./modules/not-found/not-found.module').then(
+        (m) => m.NotFoundModule
       ),
   },
 ];
