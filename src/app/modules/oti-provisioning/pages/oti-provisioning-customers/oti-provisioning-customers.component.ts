@@ -1,41 +1,36 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { EP } from '@configs/endpoints';
 import { DataStorageService } from '@core/services/data-storage.service';
-import { DataTableService } from '@shared/components/app-data-table/app-datatable.service';
-import { PanelService } from '@shared/components/app-panel/app-panel.service';
-import { StepsService } from '@shared/components/app-wizard/app-wizard-data.service';
-import { Action, StepModel } from '@shared/components/app-wizard/interfaces/wizard';
-import { Observable, Subscription } from 'rxjs';
+import { DataTable } from '@shared/components/app-data-table/interfaces/datatable';
+import { StepModel } from '@shared/components/app-wizard/interfaces/wizard';
+// import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+// import { ActivatedRoute, Router } from '@angular/router';
+// import { DataStorageService } from '@core/services/data-storage.service';
+// import { DataTableService } from '@shared/components/app-data-table/app-datatable.service';
+// import { PanelService } from '@shared/components/app-panel/app-panel.service';
+// import { StepsService } from '@shared/components/app-wizard/app-wizard-data.service';
+// import { Action, StepModel } from '@shared/components/app-wizard/interfaces/wizard';
+// import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-oti-provisioning-customers',
   templateUrl: './oti-provisioning-customers.component.html',
-  styleUrls: ['./oti-provisioning-customers.component.scss']
+  styleUrls: ['./oti-provisioning-customers.component.scss'],
 })
 export class OtiProvisioningCustomersComponent implements OnInit {
+  customerDatatable!: DataTable;
+  steps!: StepModel[];
+  isPanelOpen: boolean = false;
+  activeStep!: StepModel;
+
+  customers!: any;
+  customers1!: any;
 
   newCompanyForm!: FormGroup;
-
-  _profileSubscription!: Subscription;
-  _companySubscription!: Subscription;
-  _excludeClassifierSubscription!: Subscription;
-  _rowSubscription!: Subscription;
-
-  currentStep!: StepModel;
-  steps!: StepModel[];
-  currentAction!: Observable<string>;
-  showPanel!: Observable<boolean>;
-  config = {
-    icon: 'assets/svg/add-button-icon.svg',
-    btnTitle: 'Add New Company Profile',
-    classes: 'button-primary',
-  };
-
-  newCompanyProfileData!: string[];
-
   subscriptionTypes: Array<any> = [
-    { key: 'community', value: 'Community Edition' },
+    { key: 'community', value: 'Community Editionnnn' },
     { key: 'enterprise', value: 'Enterprise Edition' },
   ];
 
@@ -65,28 +60,17 @@ export class OtiProvisioningCustomersComponent implements OnInit {
   ];
 
   constructor(
-    private formBuilder: FormBuilder,
     private dataStorageService: DataStorageService,
-    private stepsService: StepsService,
-    private panelService: PanelService,
-    private dataTableService: DataTableService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
+    private formBuilder: FormBuilder,
+    private http: HttpClient
   ) {}
 
-  ngOnDestroy(): void {
-    this._profileSubscription.unsubscribe();
-    this._excludeClassifierSubscription.unsubscribe();
-    this._companySubscription.unsubscribe();
-    this._rowSubscription.unsubscribe();
-  }
-
   ngOnInit(): void {
-    this.newCompanyProfileData =
-      this.dataStorageService.getOtiProvisioningNewCompanySteps();
+    this.customerDatatable =
+      this.dataStorageService.getOtiProvisioningCustomersTableConfig();
+    this.steps = this.dataStorageService.getOtiProvisioningNewCompanySteps();
 
-    this.currentAction = this.panelService.getCurrentAction();
-    this.showPanel = this.panelService.getShowNav();
+    this.activeStep = this.steps[0];
 
     this.newCompanyForm = this.formBuilder.group({
       profile: this.formBuilder.group({
@@ -112,145 +96,44 @@ export class OtiProvisioningCustomersComponent implements OnInit {
       }),
     });
 
-    this.stepsService.getCurrentStep().subscribe((cStep) => {
-      this.currentStep = cStep;
-      this.renderFooterButtons(this.currentStep.stepIndex);
+    this.http.get(EP.Customers).subscribe((customres) => {
+      this.customers = customres;
     });
+  }
 
-    this.stepsService.getSteps().subscribe((steps) => {
-      this.steps = steps;
-    });
+  onAddNewCompany() {}
 
-    this.currentAction.subscribe((type) => {
-      this.invokeAction(type);
-    });
-
-    this._rowSubscription = this.dataTableService.getCurrentRow().subscribe((obj) => {
-      if (Object.keys(obj).length) {
-        this.router.navigate([`./${obj.row.customer.replaceAll(' ', '-')}`], { relativeTo: this.activatedRoute });
-        this.dataTableService.setClickedRow({});
-      }
-    });
-
-    this.onProfileComplete();
-    this.onSubscriptionComplete();
-    this.onClassifierComplete();
+  handleStepChange(step: StepModel) {
+    this.activeStep = step;
   }
 
   onNextStep() {
-    if (!this.stepsService.isLastStep()) {
-      this.stepsService.moveToNextStep();
-    } else {
-      this.onAddNewCompany();
+    const index = this.activeStep.stepIndex;
+    this.activeStep.isComplete = true;
+    if (index < this.steps.length) {
+      this.activeStep = this.steps[index];
     }
   }
 
-  onBackStep() {
-    this.stepsService.moveToBackStep();
+  onPreviousStep() {
+    const index = this.activeStep.stepIndex - 1;
+    if (index > 0) {
+      this.activeStep = this.steps[index - 1];
+      this.activeStep.isComplete = false;
+    }
   }
 
-  onAddNewCompany() {
-    this.panelService.setShowPanel(true);
+  onSave() {
+    console.log(this.newCompanyForm.value);
+    this.isPanelOpen = false;
   }
 
-  invokeAction(type: string) {
-    if (type === Action.Next) {
-      this.currentStep.isComplete = true;
-      this.onNextStep();
-    } else if (type === Action.Back) {
-      this.onBackStep();
-      this.stepsService.getSteps().subscribe((steps) => {
-        steps.forEach((s) => {
-          if (s.stepIndex === this.currentStep.stepIndex) {
-            s.isComplete = false;
-          }
-        });
+  handleHeaderClick([sortBy, order]: Array<any>) {
+    this.http
+      .get(`${EP.Customers}?_sort=${sortBy}&_order=${order}`)
+      .subscribe((customers) => {
+        this.customers = customers;
       });
-    } else if (type === Action.Save) {
-      console.log(this.newCompanyForm.value);
-      this.panelService.setShowPanel(false);
-    }
-  }
-
-  onProfileComplete() {
-    this._profileSubscription = this.newCompanyForm.controls[
-      'profile'
-    ].statusChanges.subscribe((status) => {
-      if (status === 'VALID') {
-        this.panelService.setCurrentActionState({
-          next: { state: true, disable: false },
-        });
-      } else if (status == 'INVALID') {
-        this.panelService.setCurrentActionState({
-          next: { state: true, disable: true },
-        });
-      }
-    });
-  }
-
-  onSubscriptionComplete() {
-    this._companySubscription = this.newCompanyForm.controls[
-      'subscription'
-    ].statusChanges.subscribe((status) => {
-      if (status === 'VALID') {
-        this.panelService.setCurrentActionState({
-          next: { state: true, disable: false },
-          back: { state: true, disable: false },
-        });
-      } else if (status == 'INVALID') {
-        this.panelService.setCurrentActionState({
-          next: { state: true, disable: true },
-          back: { state: true, disable: false },
-        });
-      }
-    });
-  }
-
-  onClassifierComplete() {
-    this._excludeClassifierSubscription = this.newCompanyForm.controls[
-      'exclude_classifier'
-    ].statusChanges.subscribe((status) => {
-      if (status === 'VALID') {
-        this.panelService.setCurrentActionState({
-          save: { state: true, disable: false },
-          back: { state: true, disable: false },
-        });
-      } else if (status == 'INVALID') {
-        this.panelService.setCurrentActionState({
-          save: { state: true, disable: true },
-          back: { state: true, disable: false },
-        });
-      }
-    });
-  }
-
-  renderFooterButtons(index: number) {
-    if (index === 1) {
-      this.panelService.setCurrentActionState({
-        next: {
-          state: true,
-          disable: this.newCompanyForm.controls['profile'].invalid,
-        },
-      });
-    }
-    if (index > 1) {
-      this.panelService.setCurrentActionState({
-        back: { state: true },
-        next: {
-          state: true,
-          disable: this.newCompanyForm.controls['subscription'].invalid,
-        },
-      });
-    }
-    if (index === 3) {
-      this.panelService.setCurrentActionState({
-        back: { state: true },
-        save: {
-          state: true,
-          disable: this.newCompanyForm.controls['exclude_classifier'].invalid,
-        },
-      });
-    }
   }
 
 }

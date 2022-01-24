@@ -11,6 +11,7 @@ type button = {
   templateUrl: './button.component.html',
 })
 export class ButtonComponent implements OnInit {
+  @Input('type') btnType: string = 'button';
   @Input() btnTitle!: string;
   @Input() icon!: string;
   @Input() classes!: string;

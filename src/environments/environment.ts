@@ -2,8 +2,18 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { endpoints } from 'src/app/configs/endpoints';
+
 export const environment = {
-  production: false
+  production: false,
+  LOG_LEVEL: 'DEBUG',
+  sso: {
+    baseUrl: 'http://18.119.133.175/',
+  },
+  local: {
+    baseUrl: 'http://localhost:3000/',
+  },
+  endpoints: [...endpoints],
 };
 
 /*

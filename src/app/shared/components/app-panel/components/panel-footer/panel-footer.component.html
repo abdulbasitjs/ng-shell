@@ -1,34 +1,3 @@
 <div class="panel__footer">
-  <app-button
-    *ngIf="btnState?.back?.state"
-    btnTitle="Back"
-    class="button"
-    [ngClass]="{ disabled: btnState?.back?.disable }"
-    classes="button-default button-lg"
-    (clickHandler)="onAction('back')"
-  ></app-button>
-  <app-button
-    *ngIf="btnState?.next?.state"
-    btnTitle="Next"
-    class="button"
-    [ngClass]="{ disabled: btnState?.next?.disable }"
-    classes="button-primary button-lg"
-    (clickHandler)="onAction('next')"
-  ></app-button>
-  <app-button
-    *ngIf="btnState?.save?.state"
-    btnTitle="Save"
-    class="button"
-    [ngClass]="{ disabled: btnState?.save?.disable }"
-    classes="button-primary button-lg color-white"
-    (clickHandler)="onAction('save')"
-  ></app-button>
-  <app-button
-    *ngIf="btnState?.close?.state"
-    btnTitle="Close"
-    class="button"
-    [ngClass]="{ disabled: btnState?.close?.disable }"
-    classes="button-primary button-lg"
-    (clickHandler)="onAction('close')"
-  ></app-button>
+  <ng-content></ng-content>
 </div>

@@ -1,24 +1,28 @@
-export interface headerList {
+import { Observable } from 'rxjs';
+export enum Order {
+  Ascending = 'asc',
+  Descending = 'desc',
+  Default = ''
+}
+export interface HeaderList {
   name: string;
-  renderIcon?: boolean;
   accessor: string;
   cell?: Object | Function;
 }
 
-export interface headers {
-  headersIcon: string;
-  list: headerList[];
+export interface Headers {
+  list: HeaderList[];
+  sortBy: string;
+  order: Order
 }
 
-export interface row {
-  row: {
-    [key: string]: string;
-  };
-  disabled?: boolean;
+export interface Row {
+  [key: string]: string;
 }
 
 export interface DataTable {
   totalColumns: number;
-  headers: headers;
-  data: row[];
+  headers: Headers;
+  data: any;
+  pagination?: boolean;
 }

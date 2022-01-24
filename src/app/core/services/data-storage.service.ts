@@ -1,10 +1,16 @@
-import { Injectable } from '@angular/core';
-import { DataTable } from '@shared/components/app-data-table/interfaces/datatable';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, OnInit } from '@angular/core';
+import { DataTable, Order } from '@shared/components/app-data-table/interfaces/datatable';
 import { Sidebar } from '@shared/components/app-side-bar/interfaces/sidebar';
+import { StepModel } from '@shared/components/app-wizard/interfaces/wizard';
 
 @Injectable({ providedIn: 'root' })
 export class DataStorageService {
-  constructor() {}
+  constructor(private http:HttpClient) {}
+
+  _getCustomers() {
+      return this.http.get('http://localhost:3000/customers');
+  }
 
   getOtiProvisioningSidebarValues(): Sidebar[] {
     return [
@@ -29,114 +35,27 @@ export class DataStorageService {
         return configurations.headers.list.length;
       },
       headers: {
-        headersIcon: 'assets/svg/table-sorting-icon.svg',
         list: [
           { name: 'Customers', accessor: 'customer' },
           { name: 'Subscription Type', accessor: 'subscription' },
           { name: 'Package', accessor: 'package' },
-          { name: 'Created On', renderIcon: true, accessor: 'created' },
-          { name: 'Status', accessor: 'status' }
+          { name: 'Created On', accessor: 'created' },
+          { name: 'Status', accessor: 'status' },
         ],
+        sortBy: '',
+        order: Order.Default
       },
-      data: [
-        {
-          row: {
-            customer: 'JP Morgan',
-            subscription: 'Customer',
-            package: 'Default',
-            created: '05-10-2018',
-            status: 'Active',
-          },
-        },
-        {
-          row: {
-            customer: 'Aculity Brands',
-            subscription: 'Prospect',
-            package: 'Custom',
-            created: '05-10-2018',
-            status: 'Active',
-          },
-        },
-        {
-          row: {
-            customer: 'ADT Corp',
-            subscription: 'Customer',
-            package: 'Custom',
-            created: '05-10-2018',
-            status: 'Active',
-          },
-        },
-        {
-          row: {
-            customer: 'Arkeia Software',
-            subscription: 'Customer',
-            package: 'Gold (Custom)',
-            created: '05-10-2018',
-            status: 'Active',
-          },
-        },
-        {
-          row: {
-            customer: 'BFG Technologies',
-            subscription: 'Prospect',
-            package: 'Gold',
-            created: '05-10-2018',
-            status: 'Suspended',
-          },
-          disabled: true,
-        },
-        {
-          row: {
-            customer: 'Brunswick Corporation',
-            subscription: 'Prospect',
-            package: 'Default (Custom)',
-            created: '05-10-2018',
-            status: 'Active',
-          },
-        },
-        {
-          row: {
-            customer: 'Chevron Corporation',
-            subscription: 'Customer',
-            package: 'Custom',
-            created: '05-10-2018',
-            status: 'Active',
-          },
-        },
-        {
-          row: {
-            customer: 'Lifetouch Inc.',
-            subscription: 'Customer',
-            package: 'Custom',
-            created: '05-10-2018',
-            status: 'Active',
-          },
-        },
-        {
-          row: {
-            customer: 'Omni Air International',
-            subscription: 'Prospect',
-            package: 'Gold',
-            created: '05-10-2018',
-            status: 'Active',
-          },
-        },
-        {
-          row: {
-            customer: 'Sierra Nevada Corporation',
-            subscription: 'Prospect',
-            package: 'Silver',
-            created: '05-10-2018',
-            status: 'Active',
-          },
-        }
-      ],
+      data: [],
+      pagination: true,
     };
     return configurations;
   }
 
-  getOtiProvisioningNewCompanySteps(): string[] {
-    return ['Company Profile', 'Subscription Info', 'Exclude Classifier'];
+  getOtiProvisioningNewCompanySteps(): StepModel[] {
+    return [
+      { stepIndex: 1, isComplete: false, label: 'Company Profile' },
+      { stepIndex: 2, isComplete: false, label: 'Subscription Info' },
+      { stepIndex: 3, isComplete: false, label: 'Exclude Classifier' },
+    ];
   }
-
 }

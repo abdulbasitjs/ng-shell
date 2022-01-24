@@ -1,6 +1,7 @@
 export interface StepModel {
   stepIndex: number;
   isComplete: boolean;
+  label?: string;
 }
 
 export enum Action {

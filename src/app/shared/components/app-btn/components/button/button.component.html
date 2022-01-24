@@ -1,4 +1,5 @@
-<div
+<button
+[type]="btnType"
 [class]="'button ' + classes"
 (click)="onClickHandler($event)">
   <i
@@ -7,5 +8,5 @@
     appSvg
     [src]="icon"
   ></i>
-  <p>{{ btnTitle }}</p>
-</div>
+  <span>{{ btnTitle }}</span>
+</button>

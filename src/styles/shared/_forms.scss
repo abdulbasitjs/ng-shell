@@ -14,7 +14,6 @@ $form-width: 85%;
   font-weight: font-weight(regular);
 }
 
-
 .form {
   margin-top: 5rem;
 
@@ -31,7 +30,8 @@ $form-width: 85%;
       font-weight: font-weight(regular);
     }
 
-    & input[type="text"] {
+    & input[type="text"],
+    & [type="password"] {
       width: $form-width;
       height: 4rem;
       padding: 1rem 1.6rem;
@@ -41,6 +41,11 @@ $form-width: 85%;
       flex: 1;
       color: var(--color-quinary);
       font-size: font-size(small);
+    }
+
+    & input[type="text"].fw,
+    & input[type="password"].fw {
+      width: 100%;
     }
 
     &--radio-container {
@@ -69,7 +74,8 @@ $form-width: 85%;
         border-radius: 50%;
         transform: scale(0);
         transition: 120ms transform ease-in-out;
-        box-shadow: inset 1em 1em var(--color-primary);
+        // box-shadow: inset 1em 1em var(--color-primary);
+        background: var(--color-primary);
       }
 
       & > input[type="radio"]:checked::before {
@@ -77,16 +83,16 @@ $form-width: 85%;
       }
 
       & > span {
-       @extend %customRadioCheckBoxSpan;
+        @extend %customRadioCheckBoxSpan;
       }
     }
 
     &--checkbox-container {
       @extend %customRadioCheckBoxContainer;
 
-      margin-bottom: 1rem!important;
-      gap: 0.8rem!important;
-      & > input[type=checkbox] {
+      margin-bottom: 1rem !important;
+      gap: 0.8rem !important;
+      & > input[type="checkbox"] {
         -webkit-appearance: none;
         appearance: none;
         margin: 0;
@@ -101,7 +107,6 @@ $form-width: 85%;
         place-content: center;
       }
 
-
       & > input[type="checkbox"]:checked::before {
         content: "";
         width: 1.6rem;
@@ -110,7 +115,7 @@ $form-width: 85%;
         border-radius: 4px;
         transform: scale(0);
         background-color: var(--color-primary);
-        background-image: url('/assets/svg/checkbox-icon.svg');
+        background-image: url("/assets/svg/checkbox-icon.svg");
         background-repeat: no-repeat;
         object-fit: cover;
         background-position: center;
@@ -131,7 +136,7 @@ $form-width: 85%;
       position: relative;
     }
 
-    &.custom__input > input[type=text] {
+    &.custom__input > input[type="text"] {
       padding-right: 4rem;
     }
 
@@ -146,11 +151,10 @@ $form-width: 85%;
       right: 10rem;
       top: 3.2rem;
     }
-
   }
 }
 
-.form .input__error {
+.form .error-msg:focus {
   border: 1px solid #ffbaba;
 }
 

@@ -1,6 +1,7 @@
 // Light Color Palette (Custom Properties)
 html {
   --color-primary: #2e79a6;
+  --color-primary-light: rgb(46, 121, 166, 0.2);
   --color-secondary: white;
   --color-tertiary: #3492c9;
   --color-quaternary:  #EFEFEF;
@@ -12,9 +13,11 @@ html {
 
   --border-box-project: 2px solid #2e79a6;
   --customer-table-columns: 5;
-  --disabled: #A0A0A0;
+  --disabled: rgba(160, 160, 160, 0.5);
   --danger: #d0021b;
   --wizard-template-animation-direction: 1;
+  --color-progress-loader: #ce0000;
+  --width-progress-loader: 0;
 }
 
 // Dark Color Palette (Custom Properties) In Future

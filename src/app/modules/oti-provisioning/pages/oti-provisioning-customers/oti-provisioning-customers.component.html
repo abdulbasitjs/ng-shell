@@ -2,37 +2,59 @@
   class="section-title"
   sectionTitle="Customer Management"
 ></app-section-title>
+
 <app-button
   class="button-component"
   icon="assets/svg/add-button-icon.svg"
   btnTitle="Add New Company Profile"
   classes="button-primary button-pd"
-  (clickHandler)="onAddNewCompany()"
+  (clickHandler)="isPanelOpen = true"
 >
 </app-button>
-<app-datatable class="table-component"></app-datatable>
+
+<app-datatable class="table-component" [config]="customerDatatable">
+  <app-datatable-headers
+    [headers]="customerDatatable.headers"
+    (onHeader)="handleHeaderClick($event)"
+  >
+  </app-datatable-headers>
+  <app-datatable-rows
+    [rows]="customers"
+    [headers]="customerDatatable.headers.list"
+  ></app-datatable-rows>
+</app-datatable>
+
 <app-pagination class="pagination-component">Pagination Table</app-pagination>
-<app-panel>
-  <div class="panel__content">
-    <app-wizard [stepData]="newCompanyProfileData"></app-wizard>
+
+<app-panel [showPanel]="isPanelOpen">
+  <app-panel-header
+    headerTitle="Add a New Company Profile"
+    clearIcon="assets/svg/panel-close-icon.svg"
+    (onPanelClose)="isPanelOpen = false"
+  >
+  </app-panel-header>
+
+  <app-panel-body class="panel__content">
+    <app-wizard [steps]="steps" [currentStep]="activeStep"></app-wizard>
+
+    <!-- Add new Company Profile -->
     <form
       class="form"
+      [ngSwitch]="activeStep?.stepIndex"
       (ngSubmit)="onAddNewCompany()"
       [formGroup]="newCompanyForm"
-      [ngSwitch]="currentStep?.stepIndex"
     >
-      <div app-wizard-template *ngSwitchCase="'1'" [step]="currentStep">
+      <div app-wizard-template *ngSwitchCase="'1'" [step]="activeStep">
         <ng-container formGroupName="profile">
           <div class="form__input">
             <label>Company Name</label>
             <input
               type="text"
               formControlName="company_name"
-              [ngClass]="{
-                input__error:
-                  !newCompanyForm.get('profile.company_name')?.valid &&
-                  !newCompanyForm.get('profile.company_name')?.touched
-              }"
+              [class.error-msg]="
+                !newCompanyForm.get('profile.company_name')?.valid &&
+                newCompanyForm.get('profile.company_name')?.touched
+              "
             />
           </div>
           <div class="form__input">
@@ -41,9 +63,9 @@
               type="text"
               formControlName="customer_name"
               [ngClass]="{
-                input__error:
+                'error-msg':
                   !newCompanyForm.get('profile.customer_name')?.valid &&
-                  !newCompanyForm.get('profile.customer_name')?.touched
+                  newCompanyForm.get('profile.customer_name')?.touched
               }"
             />
           </div>
@@ -53,9 +75,9 @@
               type="text"
               formControlName="email"
               [ngClass]="{
-                input__error:
-                  !newCompanyForm.get('profile.customer_name')?.valid &&
-                  !newCompanyForm.get('profile.customer_name')?.touched
+                'error-msg':
+                  !newCompanyForm.get('profile.email')?.valid &&
+                  newCompanyForm.get('profile.email')?.touched
               }"
             />
           </div>
@@ -74,7 +96,7 @@
           <!-- <button [disabled]="" (click)="test()">test</button> -->
         </ng-container>
       </div>
-      <div app-wizard-template *ngSwitchCase="'2'" [step]="currentStep">
+      <div app-wizard-template *ngSwitchCase="'2'" [step]="activeStep">
         <ng-container formGroupName="subscription">
           <div class="form__input">
             <label>Company ID</label>
@@ -99,9 +121,9 @@
                 formControlName="type"
                 [value]="type.key"
                 [ngClass]="{
-                  input__error:
+                  'error-msg':
                     !newCompanyForm.get('subscription.type')?.valid &&
-                    !newCompanyForm.get('subscription.type')?.touched
+                    newCompanyForm.get('subscription.type')?.touched
                 }"
               />
               <span>{{ type.value }}</span>
@@ -114,9 +136,9 @@
               placeholder="123123123123123123132"
               formControlName="company_key"
               [ngClass]="{
-                input__error:
+                'error-msg':
                   !newCompanyForm.get('subscription.company_key')?.valid &&
-                  !newCompanyForm.get('subscription.company_key')?.touched
+                  newCompanyForm.get('subscription.company_key')?.touched
               }"
             />
             <a href="#"
@@ -140,9 +162,9 @@
                 formControlName="tier"
                 [value]="tier.key"
                 [ngClass]="{
-                  input__error:
+                  '':
                     !newCompanyForm.get('subscription.tier')?.valid &&
-                    !newCompanyForm.get('subscription.tier')?.touched
+                    newCompanyForm.get('subscription.tier')?.touched
                 }"
               />
               <span>{{ tier.value }}</span>
@@ -160,9 +182,9 @@
                 class="disabled"
                 [value]="exp.key"
                 [ngClass]="{
-                  input__error:
+                  'error-msg':
                     !newCompanyForm.get('subscription.exp_date')?.valid &&
-                    !newCompanyForm.get('subscription.exp_date')?.touched
+                    newCompanyForm.get('subscription.exp_date')?.touched
                 }"
               />
               <span>{{ exp.value }}</span>
@@ -170,12 +192,12 @@
           </div>
         </ng-container>
       </div>
-      <div app-wizard-template *ngSwitchCase="'3'" [step]="currentStep">
+      <div app-wizard-template *ngSwitchCase="'3'" [step]="activeStep">
         <ng-container formGroupName="exclude_classifier">
           <div class="form__input checkbox">
             <label class="m-b-10">Classifier List</label>
             <label
-              *ngFor="let classifier of classifierList; let i = index;"
+              *ngFor="let classifier of classifierList; let i = index"
               class="form__input--checkbox-container"
               formArrayName="classifier_list"
             >
@@ -183,9 +205,11 @@
                 type="checkbox"
                 [formControlName]="i"
                 [ngClass]="{
-                  input__error:
-                    !newCompanyForm.get('exclude_classifier.classifier_list')?.valid &&
-                    !newCompanyForm.get('exclude_classifier.classifier_list')?.touched
+                  'error-msg':
+                    !newCompanyForm.get('exclude_classifier.classifier_list')
+                      ?.valid &&
+                    newCompanyForm.get('exclude_classifier.classifier_list')
+                      ?.touched
                 }"
               />
               <span>{{ classifier.value }}</span>
@@ -194,5 +218,46 @@
         </ng-container>
       </div>
     </form>
-  </div>
+  </app-panel-body>
+
+  <app-panel-footer>
+    <ng-container [ngSwitch]="activeStep?.stepIndex">
+      <ng-container *ngSwitchCase="'1'">
+        <app-button
+          btnTitle="Next"
+          classes="button-primary button-lg"
+          [class.disabled]="newCompanyForm.controls['profile'].invalid"
+          (clickHandler)="onNextStep()"
+        ></app-button>
+      </ng-container>
+      <ng-container *ngSwitchCase="'2'">
+        <app-button
+          btnTitle="Back"
+          classes="button-default button-lg"
+          (clickHandler)="onPreviousStep()"
+        ></app-button>
+        <app-button
+          btnTitle="Next"
+          classes="button-primary button-lg"
+          [class.disabled]="newCompanyForm.controls['subscription'].invalid"
+          (clickHandler)="onNextStep()"
+        ></app-button>
+      </ng-container>
+      <ng-container *ngSwitchCase="'3'">
+        <app-button
+          btnTitle="Back"
+          classes="button-default button-lg"
+          (clickHandler)="onPreviousStep()"
+        ></app-button>
+        <app-button
+          btnTitle="Save"
+          [class.disabled]="
+            newCompanyForm.controls['exclude_classifier'].invalid
+          "
+          classes="button-primary button-lg"
+          (clickHandler)="onSave()"
+        ></app-button>
+      </ng-container>
+    </ng-container>
+  </app-panel-footer>
 </app-panel>

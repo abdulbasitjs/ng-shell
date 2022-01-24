@@ -34,7 +34,7 @@
 
     &--headers {
       & tr {
-        background: var(--color-primary);
+        background: var(--color-tertiary);
         border-radius: 4px 4px 0 0;
 
         & th {
@@ -63,7 +63,6 @@
         }
 
         &.disabled {
-          opacity: 0.35;
           background: var(--disabled);
         }
       }

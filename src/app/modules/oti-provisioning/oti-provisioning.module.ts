@@ -32,7 +32,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppDataTableModule,
     AppPaginationModule,
     AppPanelModule,
-    AppWizardModule
+    AppWizardModule,
   ],
 })
 export class OtiProvisioningModule {}

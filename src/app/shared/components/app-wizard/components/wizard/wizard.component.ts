@@ -1,7 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { StepsService } from '../../app-wizard-data.service';
 import { StepModel } from '../../interfaces/wizard';
 
 @Component({
@@ -9,19 +7,15 @@ import { StepModel } from '../../interfaces/wizard';
   templateUrl: './wizard.component.html',
 })
 export class WizardComponent implements OnInit {
-  @Input() stepData!: string[];
+  @Input() steps!: StepModel[];
+  @Input() currentStep!: StepModel;
+  @Output() onStepChange: EventEmitter<StepModel> = new EventEmitter<StepModel>();
 
-  steps$!: Observable<StepModel[]>;
-  currentStep$!: Observable<StepModel>;
+  constructor() {}
 
-  constructor(private stepsService: StepsService) {}
-
-  ngOnInit(): void {
-    this.steps$ = this.stepsService.getSteps();
-    this.currentStep$ = this.stepsService.getCurrentStep();
-  }
+  ngOnInit(): void {}
 
   onStepClick(step: StepModel) {
-    this.stepsService.setCurrentStep(step);
+    this.onStepChange.emit(step);
   }
 }

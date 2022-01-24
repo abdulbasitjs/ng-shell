@@ -42,7 +42,7 @@ export class WizardTemplateComponent
         this.rendrer.setStyle(
           this.el.nativeElement,
           'animation',
-          `${direction} 0.3s ease-in-out`
+          `fadeInOutForward 150ms cubic-bezier(0, 0, 0.2, 1)`
         );
       });
   }

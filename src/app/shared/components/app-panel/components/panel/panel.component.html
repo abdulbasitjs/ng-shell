@@ -1,8 +1,5 @@
-<aside #panel class="panel" [ngClass]="{active: (showPanel | async )}">
-  <app-panel-header
-    headerTitle="Add a New Company Profile"
-    clearIcon="assets/svg/panel-close-icon.svg"
-  ></app-panel-header>
-  <ng-content></ng-content>
-  <app-panel-footer mode="wizard"></app-panel-footer>
+<aside #panel class="panel" [class.active]="showPanel">
+  <ng-content select="app-panel-header"></ng-content>
+  <ng-content select="app-panel-body"></ng-content>
+  <ng-content select="app-panel-footer"></ng-content>
 </aside>

@@ -1,18 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { PanelService } from '../../app-panel.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-panel-header',
   templateUrl: './panel-header.component.html',
+  exportAs: 'panelHeader'
 })
 export class PanelHeaderComponent implements OnInit {
   @Input() headerTitle = '';
   @Input() clearIcon = '';
-  constructor(private panelService: PanelService) {}
+  @Output() onPanelClose: EventEmitter<void> = new EventEmitter();
+  constructor() {}
 
   ngOnInit(): void {}
 
   onClose() {
-    this.panelService.setShowPanel(false);
+    this.onPanelClose.emit();
   }
 }

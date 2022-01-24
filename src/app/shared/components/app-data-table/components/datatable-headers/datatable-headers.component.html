@@ -1,10 +1,17 @@
-<tr [style.--customer-table-columns]="config.totalColumns">
-  <th *ngFor="let header of config.headers.list">
+<tr [style.--customer-table-columns]="headers.list.length">
+  <th *ngFor="let header of headers.list; let i = index;" (click)="onHeaderClick(header)">
     <i
-      *ngIf="header.renderIcon"
+      *ngIf="headers.sortBy === header.accessor && headers.order === 'asc' "
       [shouldRemoveParent]="false"
       appSvg
-      [src]="config.headers.headersIcon"
+      [src]="ascIcon"
+    >
+    </i>
+    <i
+      *ngIf="headers.sortBy === header.accessor && headers.order === 'desc' "
+      [shouldRemoveParent]="false"
+      appSvg
+      [src]="descIcon"
     >
     </i>
     {{ header.name }}

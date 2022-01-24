@@ -1,16 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PanelService } from '../../app-panel.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-panel',
   templateUrl: './panel.component.html',
 })
 export class PanelComponent implements OnInit {
-  showPanel!: Observable<any>
-  constructor(private panelService: PanelService) {}
+  @Input() showPanel: boolean = false;
+  constructor() {}
 
-  ngOnInit(): void {
-    this.showPanel = this.panelService.getShowNav();
-  }
+  ngOnInit(): void {}
 }

@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '@core/guards/auth.guard';
+import { NoAuthGuard } from '@core/guards/no-auth.guard';
 
 const routes: Routes = [
   {
+    canActivate: [AuthGuard],
     path: '',
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule),
+      data: { isHomePage: true }
   },
   {
     path: 'home',
@@ -13,11 +17,13 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    canActivate: [NoAuthGuard],
     path: 'login',
     loadChildren: () =>
       import('./modules/login/login.module').then((m) => m.LoginModule),
   },
   {
+    canActivate: [AuthGuard],
     path: 'oti-provisioning',
     loadChildren: () =>
       import('./modules/oti-provisioning/oti-provisioning.module').then(
