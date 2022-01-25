@@ -34,6 +34,7 @@
       }
 
       & > i {
+        transition: 0.2s all;
         margin-left: 8px;
         cursor: pointer;
         // Need to change as currently we don't have white icon
@@ -51,6 +52,10 @@
       box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.32);
       & > i > svg > g > g {
         fill: #2E79A6;
+      }
+
+      i {
+          transform: rotate(-180deg);      
       }
     }
 
