@@ -1,0 +1,19 @@
+<app-side-bar>
+  <!-- First Route -->
+  <a [routerLink]="['./' + sidebarList[0].route]">
+    <i [shouldRemoveParent]="false" appSvg [src]="sidebarList[0].iconPath"></i
+  ></a>
+
+  <!-- Others -->
+  <a
+    [routerLink]="['./' + sidebar.route]"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    *ngFor="let sidebar of sidebarList.slice(1)"
+  >
+    <i [shouldRemoveParent]="false" appSvg [src]="sidebar.iconPath"></i>
+  </a>
+</app-side-bar>
+<article>
+  <router-outlet></router-outlet>
+</article>

@@ -1,0 +1,8 @@
+<table class="datatable" [style.--customer-table-columns]="dataTableConfig.totalColumns">
+  <thead  class="datatable--headers">
+    <ng-content select="app-datatable-headers"></ng-content>
+  </thead>
+  <tbody class="datatable--body">
+    <ng-content select="app-datatable-rows"></ng-content>
+  </tbody>
+</table>

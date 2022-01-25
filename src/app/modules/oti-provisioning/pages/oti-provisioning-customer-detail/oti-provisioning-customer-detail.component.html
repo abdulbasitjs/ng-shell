@@ -1,0 +1,163 @@
+<!-- Breadcrumbs Container  -->
+<div class="breadcrumb-container">
+  <div class="breadcrumbs">
+    <i
+      [shouldRemoveParent]="false"
+      appSvg
+      src="assets/svg/breadcrumb-back-icon.svg"
+      routerLink="../"
+    ></i>
+    <ul class="breadcrumbs--list">
+      <li class="breadcrumbs--list__item inactive">
+        <a href="#">Customer Management</a>
+      </li>
+      <li class="breadcrumbs--list__item"><a href="#">JP Moragn</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- Divider -->
+<div class="divider-container">
+  <div></div>
+</div>
+
+<!-- Section Title -->
+<app-section-title
+  class="section-title"
+  sectionTitle="OTI API QUOTA"
+></app-section-title>
+
+<!-- Action Container -->
+<div class="action-container">
+  <app-button
+    class="button-component"
+    btnTitle="Scan Stats"
+    classes="button-primary button-pd"
+  >
+  </app-button>
+  <i [shouldRemoveParent]="false" appSvg src="assets/svg/edit-icon.svg"></i>
+</div>
+
+<!-- Quota Container -->
+<div class="quota--container">
+  <div class="quota">
+    <div class="quota--info">
+      <p class="quota--info__title">Package</p>
+      <p class="quota--info__name">Silver</p>
+    </div>
+    <div class="quota--info">
+      <p class="quota--info__title">Daily Licensed Quota</p>
+      <p class="quota--info__name">1M</p>
+    </div>
+    <div class="quota--info">
+      <p class="quota--info__title">Daily Remaining Quota</p>
+      <p class="quota--info__name">120390</p>
+    </div>
+    <div class="quota--info">
+      <p class="quota--info__title">Expiration Date</p>
+      <p class="quota--info__name">01-01-2019</p>
+    </div>
+  </div>
+</div>
+
+<!-- Divider -->
+<div class="divider-container">
+  <div></div>
+</div>
+
+<!-- Section Title -->
+<app-section-title
+  class="section-title m-0"
+  sectionTitle="Company Profile"
+></app-section-title>
+
+<!-- Action Container -->
+<div class="action-container m-0">
+  <app-button
+    class="button-component"
+    btnTitle="Suspend"
+    classes="button-default button-pd"
+  >
+  </app-button>
+  <i [shouldRemoveParent]="false" appSvg src="assets/svg/edit-icon.svg"></i>
+  <i [shouldRemoveParent]="false" appSvg src="assets/svg/delete-icon.svg"></i>
+</div>
+
+<!-- Profile Container -->
+<div class="company-profile-container">
+  <div class="section">
+    <p class="section--title">Company Name</p>
+    <p class="section--name">JP Morgan</p>
+  </div>
+  <div class="section">
+    <p class="section--title">Customer Name</p>
+    <p class="section--name">Jim Markel</p>
+  </div>
+  <div class="section">
+    <p class="section--title">Contact No.</p>
+    <p class="section--name">+1 910 123 4567</p>
+  </div>
+  <div class="section">
+    <p class="section--title">Created</p>
+    <p class="section--name">08-07-2020</p>
+  </div>
+  <div class="section">
+    <p class="section--title">Email</p>
+    <p class="section--name">customer@email.com</p>
+  </div>
+  <div class="section">
+    <p class="section--title">Address</p>
+    <p class="section--name">67 West STE 334, Pleasanton, Ca 94588</p>
+  </div>
+</div>
+
+<!-- Divider -->
+<div class="divider-container">
+  <div></div>
+</div>
+
+<!-- Section Title -->
+<app-section-title
+  class="section-title m-0"
+  sectionTitle="Subscription Information"
+></app-section-title>
+
+<!-- Action Container -->
+<div class="action-container m-0">
+  <app-button
+    class="button-component"
+    btnTitle="Send Invitation"
+    classes="button-primary button-pd"
+  >
+  </app-button>
+</div>
+
+<div class="subscription-information-container">
+  <div class="section">
+    <p class="section--title">Customer ID</p>
+    <p class="section--name">JP Morgan</p>
+  </div>
+  <div class="section">
+    <p class="section--title">Subscription Type</p>
+    <p class="section--name">Customer</p>
+  </div>
+  <div class="section">
+    <p class="section--title">Salesforce ID</p>
+    <p class="section--name">abc-123-xyz</p>
+  </div>
+  <div class="section">
+    <p class="section--title">Status</p>
+    <p class="section--name">Active</p>
+  </div>
+  <div class="section">
+    <p class="section--title">Customer Key</p>
+    <p class="section--name icon">
+      <span>32532432332494588</span>
+      <i
+        [shouldRemoveParent]="false"
+        appSvg
+        src="assets/svg/copy-link-icon.svg"
+      ></i>
+    </p>
+  </div>
+</div>

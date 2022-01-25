@@ -1,0 +1,48 @@
+.login {
+  grid-column: col-start 2 / col-end 5;
+  grid-row: 1 / -1;
+
+  & > div {
+    padding: 3.3rem 2.4rem 5.7rem 4rem;
+    width: 56.4rem;
+    height: 43rem;
+    background: var(--color-primary);
+
+    & > .title {
+      & > span {
+        font-size: font-size(large);
+        color: var(--color-secondary);
+        font-weight: font-weight(black);
+      }
+
+      & > span:last-child {
+        font-weight: font-weight(light);
+      }
+      margin-bottom: 2.5rem;
+    }
+  }
+
+  .form {
+    margin: 0;
+    .form__input > label {
+      font-size: 1.4rem;
+      font-weight: font-weight(regular);
+      color: var(--color-secondary);
+    }
+
+    .form__input > input[type="text"],
+    .form__input > input[type="password"] {
+      background: var(--color-secondary);
+      border: 1px solid #DEDEDE;
+      padding: 1.5rem 1.6rem;
+      color: var(--color-login-text)!important;
+      font-weight: font-weight(regular);
+    }
+
+    button {
+      margin-top: 2.5rem;
+    }
+
+
+  }
+}

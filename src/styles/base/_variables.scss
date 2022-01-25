@@ -1,0 +1,62 @@
+// Light Color Palette (Custom Properties)
+html {
+  --color-primary: #2e79a6;
+  --color-primary-light: rgb(46, 121, 166, 0.2);
+  --color-secondary: white;
+  --color-tertiary: #3492c9;
+  --color-quaternary:  #EFEFEF;
+  --color-quinary: #434343;
+  --color-senary: #8fc745;
+  --color-septanry: rgba(46,121,166,0.06);
+  --color-octonary: #d6d6d6;
+  --color-octonary--light: rgb(214, 214, 214, 0.5);
+
+  --color-login-text: #6E6E6E;
+  --border-box-project: 2px solid #2e79a6;
+  --customer-table-columns: 5;
+  --disabled: rgba(160, 160, 160, 0.5);
+  --danger: #d0021b;
+  --wizard-template-animation-direction: 1;
+  --color-progress-loader: #ce0000;
+  --width-progress-loader: 0;
+}
+
+// Dark Color Palette (Custom Properties) In Future
+html[data-theme="dark"] {
+}
+
+// Fonts
+$font-weights: (
+  "thin": 100,
+  "light": 300,
+  "regular": 400,
+  "medium": 500,
+  "bold": 700,
+  "black": 900
+);
+
+@function font-weight($font-weight-style) {
+  @return map-get($font-weights, $font-weight-style);
+}
+
+$font-sizes: (
+  "small": calc(1.1rem + 0.08vw),
+  "regular": calc(1.3rem + 0.1389vw),
+  "regularFix": calc(1.4rem),
+  "medium": calc(1.8rem + 0.1389vw),
+  'largeFix': 2.4rem,
+  "large": calc(2.5rem + 0.15vw),
+);
+
+@function font-size($font-size-style) {
+  @return map-get($font-sizes, $font-size-style);
+}
+
+// $break-points: (
+//   "break-point-tablet": 800px,
+//   "break-point-desktop": 1300px
+// );
+
+// @function break-point($break-point-limit) {
+//   @return map-get($break-points, $break-point-limit);
+// }

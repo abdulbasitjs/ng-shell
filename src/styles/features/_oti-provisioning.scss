@@ -2,7 +2,7 @@
   grid-column: container-start / container-end;
   display: flex;
 
-  app-oti-provisiong-customers {
+  app-oti-provisioning-customers {
     flex: 1;
     display: grid;
     gap: 1.6rem;
@@ -18,7 +18,7 @@
     @extend %customers;
   }
 
-  app-oti-provisiong-customer-detail {
+  app-oti-provisioning-customer-detail {
     flex: 1;
     display: grid;
     gap: 1.6rem;

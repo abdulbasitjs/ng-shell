@@ -34,6 +34,16 @@
 
       & > a.active {
         background: var(--color-primary);
+
+        & svg g[fill] {
+          fill: var(--color-secondary);
+        }
+      }
+
+      & > a:not(.active) {
+        & svg g[fill] {
+          fill: var(--color-primary);
+        }
       }
     }
   }

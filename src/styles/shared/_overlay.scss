@@ -1,0 +1,14 @@
+.overlay {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color-octonary);
+  position: fixed;
+  opacity: 0;
+  display: none;
+  z-index: 10;
+}
+
+.overlay.active {
+  display: block;
+  opacity: 0.8;
+}

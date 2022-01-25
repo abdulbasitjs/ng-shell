@@ -21,11 +21,13 @@ export class SvgDirective implements AfterContentInit {
   ) {}
 
   ngAfterContentInit() {
-    this.http.get(this.src, { responseType: 'text' }).subscribe((svg) => {
-      const el = this.shouldRemoveParent
-        ? this.elementRef.nativeElement.parentElement
-        : this.elementRef.nativeElement;
-      this.renderer2.setProperty(el, 'innerHTML', svg);
-    });
+    this.http
+      .get(this.src, { responseType: 'text', headers: { assets: 'snx-local-svg' } })
+      .subscribe((svg) => {
+        const el = this.shouldRemoveParent
+          ? this.elementRef.nativeElement.parentElement
+          : this.elementRef.nativeElement;
+        this.renderer2.setProperty(el, 'innerHTML', svg);
+      });
   }
 }

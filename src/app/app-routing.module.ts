@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '@core/guards/auth.guard';
+import { NoAuthGuard } from '@core/guards/no-auth.guard';
 
 const routes: Routes = [
   {
+    canActivate: [AuthGuard],
     path: '',
     loadChildren: () =>
-      import('./pages/home-page/home-page.module').then(
-        (m) => m.HomePageModule
-      ),
+      import('./modules/home/home.module').then((m) => m.HomeModule),
+      data: { isHomePage: true }
   },
   {
     path: 'home',
@@ -15,24 +17,24 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    canActivate: [NoAuthGuard],
     path: 'login',
     loadChildren: () =>
-      import('./pages/login-page/login-page.module').then(
-        (m) => m.LoginPageModule
-      ),
+      import('./modules/login/login.module').then((m) => m.LoginModule),
   },
   {
+    canActivate: [AuthGuard],
     path: 'oti-provisioning',
     loadChildren: () =>
-      import('./pages/oti-provisioning-page/oti-provisioning-page.module').then(
-        (m) => m.OtiProvisiongPageModule
+      import('./modules/oti-provisioning/oti-provisioning.module').then(
+        (m) => m.OtiProvisioningModule
       ),
   },
   {
     path: '**',
     loadChildren: () =>
-      import('./pages/not-found-page/not-found-page.module').then(
-        (m) => m.NotFoundPageModule
+      import('./modules/not-found/not-found.module').then(
+        (m) => m.NotFoundModule
       ),
   },
 ];

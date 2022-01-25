@@ -1,0 +1,12 @@
+<button
+[type]="btnType"
+[class]="'button ' + classes"
+(click)="onClickHandler($event)">
+  <i
+    *ngIf="icon"
+    [shouldRemoveParent]="false"
+    appSvg
+    [src]="icon"
+  ></i>
+  <span>{{ btnTitle }}</span>
+</button>

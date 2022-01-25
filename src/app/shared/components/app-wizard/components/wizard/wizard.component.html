@@ -1,0 +1,15 @@
+<div class="wizard">
+  <div class="wizard__wizard-steps">
+    <span
+      (click)="onStepClick(step)"
+      *ngFor="let step of steps; let i = index"
+      class="wizard__wizard-steps__step"
+      [ngClass]="{
+        finished: step.isComplete,
+        active: currentStep?.stepIndex === step.stepIndex
+      }"
+      [attr.data-step-name]="step.label"
+      ><i></i
+    ></span>
+  </div>
+</div>

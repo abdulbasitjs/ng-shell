@@ -1,0 +1,33 @@
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  & > i {
+    cursor: pointer;
+  }
+
+  &--list {
+    display: flex;
+
+    &__item {
+      padding-left: calc(0.1rem + 0.1vw);
+      & > a {
+        font-size: font-size(small);
+        font-weight: font-weight(regular);
+        color: var(--color-primary);
+      }
+
+      &.inactive > a {
+        color: var(--color-quinary);
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      &:not(:last-child) > a::after {
+        content: " /";
+        padding-left: 0 0.2rem;
+      }
+    }
+  }
+}

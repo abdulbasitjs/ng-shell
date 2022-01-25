@@ -1,0 +1,13 @@
+<ul class="dashboard__list">
+  <li
+    class="dashboard__list--item"
+    *ngFor="let dItem of dashboardItems"
+    [ngStyle]="setLinearBackground(dItem.gradient)"
+    [style.--border-box-project]="dItem.boxBorder"
+    [class.active]="dItem.selected"
+    [class.disabled]="dItem.disable"
+    (click)="onDashboardSelect(dItem)"
+  >
+    <app-dashboard-item [item]="dItem"></app-dashboard-item>
+  </li>
+</ul>

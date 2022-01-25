@@ -1,0 +1,125 @@
+{
+  "customers": [
+    {
+      "customer": "JP Morgan",
+      "subscription": "Customer",
+      "package": "Default",
+      "created": "05-10-2018",
+      "status": "Active"
+    },
+
+    {
+      "customer": "Abdul Basit",
+      "subscription": "Prospect",
+      "package": "Custom",
+      "created": "05-10-2018",
+      "status": "Active"
+    },
+    {
+      "customer": "ADT Corp",
+      "subscription": "Customer",
+      "package": "Custom",
+      "created": "05-10-2018",
+      "status": "Active"
+    },
+    {
+      "customer": "Arkeia Software",
+      "subscription": "Customer",
+      "package": "Gold (Custom)",
+      "created": "05-10-2018",
+      "status": "Active"
+    },
+    {
+      "customer": "BFG Technologies",
+      "subscription": "Prospect",
+      "package": "Gold",
+      "created": "05-10-2018",
+      "status": "Suspended"
+    },
+
+    {
+      "customer": "Brunswick Corporation",
+      "subscription": "Prospect",
+      "package": "Default (Custom)",
+      "created": "05-10-2018",
+      "status": "Active"
+    },
+
+    {
+      "customer": "Chevron Corporation",
+      "subscription": "Customer",
+      "package": "Custom",
+      "created": "05-10-2018",
+      "status": "Active"
+    },
+
+    {
+      "customer": "Lifetouch Inc.",
+      "subscription": "Customer",
+      "package": "Custom",
+      "created": "05-10-2018",
+      "status": "Active"
+    },
+
+    {
+      "customer": "Omni Air International",
+      "subscription": "Prospect",
+      "package": "Gold",
+      "created": "05-10-2018",
+      "status": "Active"
+    },
+
+    {
+      "customer": "Sierra Nevada Corporation",
+      "subscription": "Prospect",
+      "package": "Silver",
+      "created": "05-10-2018",
+      "status": "Active"
+    },
+    {
+      "customer": "Sierra Nevada Corporation",
+      "subscription": "Prospect",
+      "package": "Silver",
+      "created": "05-10-2018",
+      "status": "Active"
+    },
+    {
+      "customer": "Sierra Nevada Corporation",
+      "subscription": "Prospect",
+      "package": "Silver",
+      "created": "05-10-2018",
+      "status": "Active"
+    },
+    {
+      "customer": "Sierra Nevada Corporation",
+      "subscription": "Prospect",
+      "package": "Silver",
+      "created": "05-10-2018",
+      "status": "Active"
+    },
+    {
+      "customer": "Sierra Nevada Corporation",
+      "subscription": "Prospect",
+      "package": "Silver",
+      "created": "05-10-2019",
+      "status": "Active"
+    },
+    {
+      "customer": "Sierra Nevada Corporation",
+      "subscription": "Prospect",
+      "package": "Silver",
+      "created": "05-10-2018",
+      "status": "Active"
+    }
+  ],
+
+  "roles": [
+    {
+      "OTP": "Admin"
+    },
+
+    {
+      "OTD": "Sale Ops"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+<tr
+  *ngFor="let row of rows"
+  (click)="onRow(row)"
+  [class.disabled]="row['status'] === 'Suspended' "
+>
+  <td
+    *ngFor="let header of headers"
+    [ngClass]="{ suspended: row[header.accessor] === 'Suspended' }"
+  >
+    {{ row[header.accessor] }}
+  </td>
+</tr>
