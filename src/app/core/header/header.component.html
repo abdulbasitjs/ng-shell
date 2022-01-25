@@ -1,4 +1,4 @@
-<div class="header__menu">
+<div class="header__menu" *ngIf="showSelectedHeader">
   <div class="header__menu--tab">
     <p>
       {{ headerTitle }} <span> {{ headerDesc }} </span>
@@ -9,6 +9,9 @@
       appSvg
       src="assets/svg/header-dropdown-icon.svg"
       appDropdown="header__menu--tab header__menu--list"
+      appClickOutside
+      (clickOutside)="dropdown.close()"
+      #dropdown="dropdown"
     ></i>
   </div>
   <div class="header__menu--list">
@@ -23,9 +26,18 @@
   </div>
   <div class="header__user--settings">
     <i
-      [shouldRemoveParent]="true"
+      [shouldRemoveParent]="false"
       appSvg
       src="assets/svg/settings-icon.svg"
+      appDropdown=".setting-dropdown > .dropdown"
+      appClickOutside
+      (clickOutside)="dropdown.close()"
+      #dropdown="dropdown"
     ></i>
+    <app-dropdown
+      class="setting-dropdown"
+      [items]="settingList"
+      (onSelect)="onSettingItemSelect($event)"
+    ></app-dropdown>
   </div>
 </div>

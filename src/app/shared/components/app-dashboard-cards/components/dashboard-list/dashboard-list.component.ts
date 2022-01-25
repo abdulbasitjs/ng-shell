@@ -26,4 +26,15 @@ export class DashboardListComponent implements OnInit {
     };
     return styles;
   }
+
+  onDashboardSelect(dItem: any) {
+    dItem.selected = true;
+    this.dashboardService.setCurrentDashboard({
+      title: dItem.title,
+      desc: dItem.desc,
+      route: dItem.route,
+      selected: dItem.selcted,
+    });
+    this.dashboardService.showSelectedDashboard();
+  }
 }

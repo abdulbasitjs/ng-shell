@@ -32,6 +32,7 @@ $form-width: 85%;
 
     & input[type="text"],
     & [type="password"] {
+      outline: none;
       width: $form-width;
       height: 4rem;
       padding: 1rem 1.6rem;

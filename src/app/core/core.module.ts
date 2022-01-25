@@ -9,6 +9,7 @@ import { DashboardCardsModule } from '@shared/components/app-dashboard-cards/app
 import { ApiPrefixInterceptor } from './interceptors/api-prefix.interceptor';
 import { ErrorHandlerInterceptor } from './interceptors/error-handler.interceptor';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
+import { AppDropdownModule } from '@shared/components/app-dropdown/app-dropdown.module';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent],
@@ -17,6 +18,7 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
     CoreRoutingModule,
     DirectivesModule,
     DashboardCardsModule,
+    AppDropdownModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },

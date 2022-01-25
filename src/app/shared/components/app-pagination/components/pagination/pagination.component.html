@@ -21,6 +21,8 @@
       <span
         class="pagination--list"
         appDropdown
+        appClickOutside (clickOutside)="dropdown.close()"
+        #dropdown="dropdown"
         app-pagination-list
         [records]="[1, 2, 3, 4]"
       ></span>

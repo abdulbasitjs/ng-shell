@@ -66,9 +66,9 @@
       border-bottom-left-radius: 1rem;
       border-top-right-radius: 1rem;
       opacity: 0;
-      transition: opacity 0.5s ease-in-out;
+      transition: opacity 0.3s ease;
       pointer-events: none;
-      z-index: -2;
+      z-index: 10;
 
       & li {
         gap: 1rem;
@@ -118,6 +118,11 @@
       align-content: center;
       margin-top: 1rem;
       align-items: center;
+      position: relative;
+
+      & i {
+        cursor: pointer;
+      }
     }
   }
 }

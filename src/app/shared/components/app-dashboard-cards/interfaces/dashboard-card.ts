@@ -3,6 +3,7 @@ export interface DashboardCard {
   desc: string;
   gradient: string;
   boxBorder: string;
+  selected: boolean,
   disable?: boolean,
   route?: string
 }

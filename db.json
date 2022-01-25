@@ -113,21 +113,13 @@
     }
   ],
 
-  "customers1": [
+  "roles": [
     {
-      "customer": "JP Morgan",
-      "subscription": "Customer",
-      "package": "Default",
-      "created": "05-10-2018",
-      "status": "Active"
+      "OTP": "Admin"
     },
 
     {
-      "customer": "Abdul Basit",
-      "subscription": "Prospect",
-      "package": "Custom",
-      "created": "05-10-2018",
-      "status": "Active"
+      "OTD": "Sale Ops"
     }
   ]
 }

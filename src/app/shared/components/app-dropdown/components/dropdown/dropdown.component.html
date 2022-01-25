@@ -1,0 +1,17 @@
+<div class="dropdown">
+  <ul class="dropdown--list">
+    <li
+      class="dropdown--list__item"
+      [class.active]="item.active"
+      *ngFor="let item of items"
+      (click)="onItemSelect(item)"
+    >
+      <span>{{ item.label }}</span
+      ><i
+        [shouldRemoveParent]="false"
+        appSvg
+        src="assets/svg/user-dropdown-check-icon.svg"
+      ></i>
+    </li>
+  </ul>
+</div>

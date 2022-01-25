@@ -8,7 +8,7 @@ import { LoaderService } from '@core/services/loader.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   host: {
-    class: 'login-container',
+    class: 'login',
   },
 })
 export class LoginComponent implements OnInit {

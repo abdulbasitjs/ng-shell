@@ -16,8 +16,19 @@ body {
       [col-start] minmax(min-content, 16.66667rem) [col-end]
     )
     [center-end] 1fr [container-end];
-
   grid-template-rows: minmax(min-content, 7rem) 1fr;
+}
+
+.login-container {
+  display: grid;
+  grid-template-columns:
+    [container-start] 1fr [center-start] repeat(
+      6,
+      [col-start] minmax(min-content, 16.66667rem) [col-end]
+    )
+    [center-end] 1fr [container-end];
+  grid-template-rows: 100vh;
+  place-items: center;
 }
 
 li {
@@ -38,4 +49,3 @@ i[appSvg] {
 %sec-padding {
   padding: 4vh 3.5vw;
 }
-
