@@ -1,5 +1,14 @@
 .show {
-  display: none;
+  display: block !important;
+}
+
+.hide {
+  display: none !important;
+}
+
+.disabled {
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 .error-msg {
@@ -9,17 +18,12 @@
   background-color: #ffbaba;
 }
 
-.disabled {
-  opacity: 0.6;
-  pointer-events: none;
-}
-
 .color-white {
   color: white;
 }
 
 .m-b-10 {
-  margin-bottom: 1rem!important;
+  margin-bottom: 1rem !important;
 }
 
 .m-0 {

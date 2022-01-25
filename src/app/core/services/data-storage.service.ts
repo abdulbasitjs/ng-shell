@@ -40,7 +40,7 @@ export class DataStorageService {
           { name: 'Subscription Type', accessor: 'subscription' },
           { name: 'Package', accessor: 'package' },
           { name: 'Created On', accessor: 'created' },
-          { name: 'Status', accessor: 'status' },
+          { name: 'Status', accessor: 'status' }
         ],
         sortBy: '',
         order: Order.Default

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { settingDropdownList } from '@configs/ui.config';
+import { AuthenticationService } from '@core/authentication/authentication.service';
 import { DashboardService } from '@core/services/dashboard.service';
 import { Subscription } from 'rxjs';
 
@@ -13,11 +14,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   headerTitle!: string;
   headerDesc!: string;
   headerSubscription!: Subscription;
-  showHeaderSubscription!: Subscription;
+
   showSelectedHeader: boolean = false;
+  showHeaderSubscription!: Subscription;
   settingList: Array<any> = settingDropdownList;
 
-  constructor(public dashboardService: DashboardService) {}
+  constructor(
+    public dashboardService: DashboardService,
+    public authService: AuthenticationService
+  ) {}
 
   ngOnInit(): void {
     this.headerSubscription = this.dashboardService
@@ -30,9 +35,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
 
     this.showHeaderSubscription = this.dashboardService
-      .getShowSelectedDashboard()
+      .getshouldShowHeader()
       .subscribe((state) => {
-        this.showSelectedHeader = state;
+        // Prevent from Angular Chnage detection.
+        setTimeout(() => {
+          this.showSelectedHeader = state;
+        }, 0);
       });
   }
 

@@ -8,13 +8,15 @@ import { AppLoaderModule } from '@shared/components/app-loader/loader.module';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DashboarResolverGuard } from './core/guards/dashboard.resolver';
+import { RoleGuard } from '@core/guards/role.guard';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-  BrowserModule,
+BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     CoreModule,
@@ -22,7 +24,7 @@ import { AppComponent } from './app.component';
     ToastrModule.forRoot(),
     AppLoaderModule
   ],
-  providers: [ AuthGuard ],
+  providers: [ AuthGuard, DashboarResolverGuard, RoleGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

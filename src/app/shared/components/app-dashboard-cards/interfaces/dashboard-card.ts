@@ -5,5 +5,5 @@ export interface DashboardCard {
   boxBorder: string;
   selected: boolean,
   disable?: boolean,
-  route?: string
+  route: string
 }

@@ -1,21 +1,23 @@
 <div class="header__menu" *ngIf="showSelectedHeader">
   <div class="header__menu--tab">
-    <p>
-      {{ headerTitle }} <span> {{ headerDesc }} </span>
-    </p>
-    <i
-      *ngIf="headerTitle !== 'SSO'"
-      [shouldRemoveParent]="false"
-      appSvg
-      src="assets/svg/header-dropdown-icon.svg"
-      appDropdown="header__menu--tab header__menu--list"
-      appClickOutside
-      (clickOutside)="dropdown.close()"
-      #dropdown="dropdown"
-    ></i>
+    <ng-container *ngIf="headerTitle || headerDesc">
+      <p>
+        {{ headerTitle }} <span> {{ headerDesc }} </span>
+      </p>
+      <i
+        *ngIf="headerTitle !== 'SSO'"
+        [shouldRemoveParent]="false"
+        appSvg
+        src="assets/svg/header-dropdown-icon.svg"
+        appDropdown="header__menu--tab header__menu--list"
+        appClickOutside
+        (clickOutside)="dropdown.close()"
+        #dropdown="dropdown"
+      ></i>
+    </ng-container>
   </div>
   <div class="header__menu--list">
-    <app-dashboard-list></app-dashboard-list>
+    <app-dashboard-list [list]="authService.getUserRoles()"></app-dashboard-list>
   </div>
 </div>
 

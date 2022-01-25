@@ -1,4 +1,10 @@
 import { DashboardCard } from '../interfaces/dashboard-card';
+import {
+  OTI_DASHBOARD_KEY,
+  OTI_PROVISIONING_KEY,
+  RTPD_DASHBOARD_KEY,
+  RTPD_PROVISIONING_KEY,
+} from '@configs/ui.config';
 
 export const deafultDashboardCards: DashboardCard[] = [
   {
@@ -8,7 +14,7 @@ export const deafultDashboardCards: DashboardCard[] = [
     boxBorder: '2px solid #0072C3',
     disable: true,
     selected: false,
-    route: 'rtpd-dashboard',
+    route: RTPD_DASHBOARD_KEY,
   },
   {
     title: 'RTPD',
@@ -17,7 +23,7 @@ export const deafultDashboardCards: DashboardCard[] = [
     boxBorder: '2px solid #0E6027',
     disable: true,
     selected: false,
-    route: 'rtpd-provisioning',
+    route: RTPD_PROVISIONING_KEY,
   },
   {
     title: 'OTI',
@@ -26,14 +32,14 @@ export const deafultDashboardCards: DashboardCard[] = [
     boxBorder: '2px solid #740937',
     disable: true,
     selected: false,
-    route: 'oti-dashboard',
+    route: OTI_DASHBOARD_KEY,
   },
   {
     title: 'OTI',
     desc: 'Provisioning',
     gradient: '-45deg, #803EBF 0%, #491D8B 100%',
     boxBorder: '2px solid #491D8B',
-    route: 'oti-provisioning',
+    route: OTI_PROVISIONING_KEY,
     selected: false,
   },
 ];

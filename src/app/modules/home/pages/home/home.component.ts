@@ -4,6 +4,7 @@ import { AuthenticationService } from '@core/authentication/authentication.servi
 import { DashboardCard } from '@shared/components/app-dashboard-cards/interfaces/dashboard-card';
 import { DashboardService } from '@core/services/dashboard.service';
 import { Subscription } from 'rxjs';
+import { SSORoles } from '@shared/models/roles.model';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,8 @@ import { Subscription } from 'rxjs';
 export class HomeComponent implements OnInit, OnDestroy {
   username!: string;
   routerSubscription!: Subscription;
+  roles!: SSORoles;
+
   constructor(
     private authService: AuthenticationService,
     private route: ActivatedRoute,
@@ -29,16 +32,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const { name = '' } = this.authService.getUser();
     this.username = name;
-
-    setTimeout(() => {
       this.routerSubscription = this.route.data.subscribe((data) => {
         if (data && data['isHomepage']) {
-          this.dashboardService.showSelectedDashboard$.next(true);
+          this.dashboardService.shouldShowHeader$.next(true);
         } else {
-          this.dashboardService.showSelectedDashboard$.next(false);
+          this.dashboardService.shouldShowHeader$.next(false);
         }
+
+        if (data && data['roles']) {
+          this.roles = data['roles'];
+        }
+
       });
-    }, 0);
   }
 
   handleDashboardSelect(item: DashboardCard) {

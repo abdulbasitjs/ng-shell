@@ -1,24 +1,29 @@
 import {
   Component,
-  EventEmitter,
-  OnDestroy,
+  Input,
   OnInit,
-  Output,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { DashboardService } from '@core/services/dashboard.service';
-import { DashboardCard } from '../../interfaces/dashboard-card';
 import { deafultDashboardCards } from '../../values/dashboard.values';
+import { SSORoles } from '@shared/models/roles.model';
 
 @Component({
   selector: 'app-dashboard-list',
   templateUrl: './dashboard-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardListComponent implements OnInit {
+  @Input('list') list!: SSORoles;
   dashboardItems = deafultDashboardCards;
 
   constructor(public dashboardService: DashboardService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dashboardItems = this.dashboardItems.filter(
+      (item) => !!this.list[item.route]
+    );
+  }
 
   setLinearBackground(input: string) {
     const styles = {
@@ -35,6 +40,6 @@ export class DashboardListComponent implements OnInit {
       route: dItem.route,
       selected: dItem.selcted,
     });
-    this.dashboardService.showSelectedDashboard();
+    this.dashboardService.showHeader();
   }
 }
