@@ -1,21 +1,25 @@
 .dropdown {
   display: flex;
-  width: calc(19.1rem + 2vw) ;
-  height: calc(10.3rem + 2vh);
+  width: calc(17.1rem + 2vw) ;
+  height: unset;
   position: absolute;
   background: var(--color-secondary);
   border: 1px solid #ececec;
   top: 90%;
   right: -30%;
-  padding: 1.6rem calc(1.2rem + 0.1vw);
+  padding: 0.3rem calc(1.2rem + 0.1vw);
   transition: transform 0.4s cubic-bezier(1, 0, 0, 1);
   transform: scaleY(0);
   transform-origin: top;
+  max-height: 200px;
+  box-shadow: 0rem 0rem 0.4rem #bfbcbc;
+  overflow-y: auto;
+  z-index: 999999999;
 
   &--list {
     flex: 1;
     align-self: center;
-    margin-bottom: 1.2rem;
+    margin-bottom: 0;
     &__item {
       display: flex;
       justify-content: space-between;
