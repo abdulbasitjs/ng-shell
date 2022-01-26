@@ -55,7 +55,8 @@
           background: var(--color-senary);
           transform: scaleY(0);
           transition: transform 0.45s ease-in-out;
-          transform-origin: top;
+          transform-origin: bottom;
+          bottom: 33px;
           & > li {
             color: white;
             padding: 0.5rem;
