@@ -9,8 +9,11 @@ import { LoaderService } from '@core/services/loader.service';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-loader',
+  selector: '[app-loader]',
   templateUrl: './loader.component.html',
+  host: {
+    class: 'app-loader'
+  }
 })
 export class LoaderComponent implements OnInit, OnDestroy {
   @Output() onLoading: EventEmitter<boolean> = new EventEmitter<boolean>();

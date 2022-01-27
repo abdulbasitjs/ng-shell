@@ -38,7 +38,8 @@ export class AuthenticationService implements OnDestroy {
     this.userSusbscription.unsubscribe();
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string, isRemeber: boolean) {
+    console.log(isRemeber);
     if (email === 'admin@admin.com' && password === 'admin') {
       this.http.get(EP.Login).subscribe((res) => {
         const response = <SSOResponse>res;

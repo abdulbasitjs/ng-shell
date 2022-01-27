@@ -8,7 +8,7 @@ import { LoaderService } from '@core/services/loader.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   host: {
-    class: 'login',
+    class: 'auth',
   },
 })
 export class LoginComponent implements OnInit {
@@ -23,13 +23,14 @@ export class LoginComponent implements OnInit {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
+      isRemember: new FormControl()
     });
   }
 
   onLogin() {
-    const { email, password } = this.loginForm.value;
+    const { email, password, isRemember } = this.loginForm.value;
     if (email && password) {
-      this.authService.login(email, password);
+      this.authService.login(email, password, isRemember);
     }
   }
 }

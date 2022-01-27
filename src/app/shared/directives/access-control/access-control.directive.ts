@@ -31,4 +31,5 @@ export class AccessControlDirective implements OnInit {
       this.renderer.addClass(this.elementRef.nativeElement, 'hide');
     }
   }
+
 }

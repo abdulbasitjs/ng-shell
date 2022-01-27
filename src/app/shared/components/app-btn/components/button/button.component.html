@@ -1,6 +1,8 @@
 <button
 [type]="btnType"
 [class]="'button ' + classes"
+[class.disabled]="isDisabled"
+[style.width]="width"
 (click)="onClickHandler($event)">
   <i
     *ngIf="icon"

@@ -227,7 +227,7 @@
         <app-button
           btnTitle="Next"
           classes="button-primary button-lg"
-          [class.disabled]="newCompanyForm.controls['profile'].invalid"
+          [isDisabled]="newCompanyForm.controls['profile'].invalid"
           (clickHandler)="onNextStep()"
         ></app-button>
       </ng-container>
@@ -240,7 +240,7 @@
         <app-button
           btnTitle="Next"
           classes="button-primary button-lg"
-          [class.disabled]="newCompanyForm.controls['subscription'].invalid"
+          [isDisabled]="newCompanyForm.controls['subscription'].invalid"
           (clickHandler)="onNextStep()"
         ></app-button>
       </ng-container>
@@ -252,7 +252,7 @@
         ></app-button>
         <app-button
           btnTitle="Save"
-          [class.disabled]="
+          [isDisabled]="
             newCompanyForm.controls['exclude_classifier'].invalid
           "
           classes="button-primary button-lg"

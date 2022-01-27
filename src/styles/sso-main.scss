@@ -1,8 +1,43 @@
+//*-*-*-*-*-*-*-*-*-*-- The 1300px Mark Break Point*-*-*-*-*-*-*-*-*-*-*
+@mixin media-desktop {
+  @media screen and (min-width: break-point(desktop)) {
+    @content;
+  }
+}
+
+//*-*-*-*-*-*-*-*-*-*-- The 1100px Mark Custom Break Point*-*-*-*-*-*-*-*-*-*-*
+@mixin media-custom-tablet {
+  @media screen and (max-width: break-point(custom-tablet)) {
+    @content;
+  }
+}
+
+//*-*-*-*-*-*-*-*-*-*-- The 800px Mark Break Point*-*-*-*-*-*-*-*-*-*-*
+@mixin media-tablet {
+  @media screen and (max-width: break-point(tablet)) {
+    @content;
+  }
+}
+
+//*-*-*-*-*-*-*-*-*-*-- The 600px Mark Break Point*-*-*-*-*-*-*-*-*-*-*
+@mixin media-medium {
+  @media screen and (max-width: break-point(medium)) {
+    @content;
+  }
+}
+
+//*-*-*-*-*-*-*-*-*-*-- The 400px Mark Break Point*-*-*-*-*-*-*-*-*-*-*
+@mixin media-small {
+  @media screen and (max-width: break-point(small)) {
+    @content;
+  }
+}
+
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* Base Styles *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-@import './base/base.scss';
+@import "./base/base.scss";
 
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* Core Styles *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-@import './features/features.scss';
+@import "./features/features.scss";
 
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* Shared Styles *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-@import './shared/shared.scss';
+@import "./shared/shared.scss";
