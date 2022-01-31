@@ -7,16 +7,18 @@ import { LoginComponent } from './pages/login/login.component';
 import { AppButtonModule } from '@shared/components/app-btn/app-button.module';
 import { DirectivesModule } from '@shared/directives/directives.module';
 import { AppLoaderModule } from '@shared/components/app-loader/loader.module';
+import { ForgotComponent } from './pages/forgot/forgot.component';
+import { AuthComponent } from './pages/auth/auth.component';
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, ForgotComponent, AuthComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
     ReactiveFormsModule,
     AppButtonModule,
     DirectivesModule,
-    AppLoaderModule
+    AppLoaderModule,
   ],
 })
 export class AuthModule {}

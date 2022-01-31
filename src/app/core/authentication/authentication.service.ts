@@ -63,6 +63,10 @@ export class AuthenticationService implements OnDestroy {
     }
   }
 
+  forgot(email: string) {
+    alert(email);
+  }
+
   logout() {
     if (this.getToken()) this.storage.remove(this.userKey);
     this._user$.next(null);

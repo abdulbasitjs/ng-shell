@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { LoaderService } from '@core/services/loader.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
+  selector: 'app-auth',
+  templateUrl: './auth.component.html',
   host: {
-    class: 'auth--form',
+    class: 'auth',
   },
 })
-export class LoginComponent implements OnInit {
+export class AuthComponent implements OnInit {
   loginForm!: FormGroup;
   constructor(
     private authService: AuthenticationService,

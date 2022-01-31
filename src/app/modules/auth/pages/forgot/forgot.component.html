@@ -1,0 +1,68 @@
+<div app-loader class="hide"></div>
+<section class="auth--form__section forgot" *ngIf="false">
+  <a routerLink="../login" class="auth--form__section--navigation">
+    <i
+      [shouldRemoveParent]="false"
+      appSvg
+      src="assets/svg/breadcrumb-back-icon.svg"
+    ></i>
+    Sign in
+  </a>
+  <p class="auth--form__section--title">Forgot Password</p>
+  <p class="auth--form__section--description">Enter your details below</p>
+  <form class="form" [formGroup]="forgotForm">
+    <div class="form__input m-t-10">
+      <label class="email-label"
+        >Please enter your email address to reset password</label
+      >
+      <div
+        class="icon-container pos-rel"
+        [class.error]="
+          !forgotForm.get('email')?.valid && forgotForm.get('email')?.touched
+        "
+      >
+        <i [shouldRemoveParent]="false" appSvg src="assets/svg/Email.svg"></i>
+        <input
+          class="fw"
+          type="text"
+          formControlName="email"
+          placeholder="Enter email address"
+        />
+        <div
+          class="pos-abs error-msg"
+          *ngIf="
+            !forgotForm.get('email')?.valid && forgotForm.get('email')?.touched
+          "
+        >
+          <p>We couldn't find an account with that email address.</p>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="form__action">
+    <app-button
+      btnTitle="Send Email"
+      width="100%"
+      [isDisabled]="forgotForm.invalid || (loaderService.getLoader() | async)"
+      classes="button-primary button-lg"
+      (clickHandler)="onLogin()"
+      type="submit"
+    ></app-button>
+  </div>
+</section>
+
+<section class="auth--form__section forgot">
+  <p class="auth--form__section--title">Email Sent Successfully!!</p>
+  <form class="center m-b-50">
+    <i [shouldRemoveParent]="false" appSvg src="assets/svg/EmailSent.svg"></i>
+  </form>
+  <div class="form__action">
+    <app-button
+      btnTitle="Back to Sign in"
+      width="100%"
+      classes="button-primary button-lg"
+      (clickHandler)="gotoLogin()"
+      type="submit"
+    ></app-button>
+  </div>
+</section>
