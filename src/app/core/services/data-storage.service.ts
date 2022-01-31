@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { DataTable, Order } from '@shared/components/app-data-table/interfaces/datatable';
 import { Sidebar } from '@shared/components/app-side-bar/interfaces/sidebar';
 import { StepModel } from '@shared/components/app-wizard/interfaces/wizard';

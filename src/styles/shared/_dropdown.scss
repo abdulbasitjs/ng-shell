@@ -1,20 +1,20 @@
+$dropdown-width: calc(19.2rem + 0.5vw);
+$dropdown-left-right-padding: calc(1rem + 0.1vw);
+$dropdown-left-margin: 1.2rem;
 .dropdown {
   display: flex;
-  width: calc(17.1rem + 2vw) ;
-  height: unset;
+  width: $dropdown-width;
   position: absolute;
   background: var(--color-secondary);
-  border: 1px solid #ececec;
+  border: --border-box-dropdown;
   top: 90%;
   right: -30%;
-  padding: 0.3rem calc(1.2rem + 0.1vw);
-  transition: transform 0.4s cubic-bezier(1, 0, 0, 1);
+  padding: 0.5rem $dropdown-left-right-padding;
+  transition: transform 0.2s ease-in-out;
   transform: scaleY(0);
   transform-origin: top;
-  max-height: 200px;
   box-shadow: 0rem 0rem 0.4rem #bfbcbc;
-  overflow-y: auto;
-  z-index: 999999999;
+  z-index: 10;
 
   &--list {
     flex: 1;
@@ -28,7 +28,7 @@
       color: var(--color-quinary);
       font-weight: font-weight(regular);
       position: relative;
-      margin-left: 1.2rem;
+      margin-left: $dropdown-left-margin;
       height: 3.2rem;
       line-height: 3.2rem;
 
@@ -44,7 +44,7 @@
         width: 4px;
         height: 4px;
         border-radius: 50%;
-        left: -1.8rem;
+        left: -1.6rem;
         top: 45%;
         background: var(--color-tertiary);
         opacity: 0;
@@ -55,29 +55,39 @@
         content: "";
         position: absolute;
         bottom: 0;
-        left:-1.2rem;
+        left: -1.2rem;
         opacity: 0.22;
-        width: calc(100% + 1.2rem);
-        height: 1.2px;
-        background: #979797;
+        width: calc(100% + #{$dropdown-left-margin});
+        border: 0.3px solid var(--color-nonary);
+        // height: 1.5px;
+
       }
 
       &.active:not(:last-child)::after {
         background: var(--color-primary);
-        width:calc(100% + 4rem + 0.1vw);
-        left: -2.7rem;
+        width: $dropdown-width;
+        border: 0px solid var(--color-primary);
+        left: calc(
+          (#{$dropdown-left-margin} + #{$dropdown-left-right-padding}) * -1
+        );
+        opacity: 1;
+        height: 1.5px;
+      }
+
+      &.active > span {
+        color: var(--color-primary);
       }
 
       &.active::before {
         opacity: 1;
       }
 
-      &:hover {
+      &:hover > span {
         color: var(--color-primary);
         cursor: pointer;
       }
 
-      &:hover i {
+      &:hover > i {
         transform: scaleX(1);
       }
     }
@@ -87,15 +97,22 @@
     content: "";
     position: absolute;
     right: 0.9rem;
-    top: -1.5rem;
+    top: -1.4rem;
     border-color: transparent transparent var(--color-secondary) transparent;
     border-style: solid;
     border-width: 0.7rem 0.7rem 0.7rem 0.7rem;
-    z-index: 10;
   }
 
   &.open {
     transform: scaleY(1);
+    z-index: 10;
+  }
+
+  @include media-desktop {
+    &.open {
+      // transform: translate(-8.5%) scale(1.2);
+    }
   }
 
 }
+

@@ -16,7 +16,7 @@ import { RoleGuard } from '@core/guards/role.guard';
     AppComponent
   ],
   imports: [
-BrowserModule,
+BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
     AppRoutingModule,
     CoreModule,

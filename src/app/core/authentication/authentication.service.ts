@@ -74,7 +74,7 @@ export class AuthenticationService implements OnDestroy {
   logout() {
     if (this.getToken()) this.storage.remove(this.userKey);
     this._user$.next(null);
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/auth/login');
   }
 
   isAuthenticated() {

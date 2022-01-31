@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { settingDropdownList } from '@configs/ui.config';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { DashboardService } from '@core/services/dashboard.service';
@@ -50,6 +49,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onSettingItemSelect(event: any) {
-    console.log(event);
+    if (event && event.value === 'logout') {
+      this.authService.logout();
+    }
   }
 }

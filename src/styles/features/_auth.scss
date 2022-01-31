@@ -21,7 +21,7 @@
     section.logo {
       margin-top: 12.3rem;
       grid-column: container-start / col-end 5;
-      padding-bottom: 5rem;
+      padding-bottom: 4rem;
     }
 
     section.name {
@@ -87,11 +87,12 @@
           font-size: font-size(normal);
           color: var(--color-quinary);
           font-weight: font-weight(light);
-          margin-bottom: 1rem;
+          line-height: 1;
+          // margin-bottom: 1rem;
         }
 
         & > form {
-          margin-top: 2rem;
+          margin-top: 3rem;
           flex-grow: 1;
         }
 
@@ -210,7 +211,7 @@
       &:-webkit-autofill {
         transition: background-color 5000s ease-in-out 0s;
         -webkit-text-fill-color: var(--color-quinary) !important;
-        -webkit-box-shadow: 0 0 0 1000px var(--color-secondary) inset;
+        // -webkit-box-shadow: 0 0 0 5000px var(--color-secondary) inset;
       }
 
       &:-webkit-autofill::first-line {
@@ -276,6 +277,6 @@
 
 %sec-form-action {
   & .form__action {
-    margin-top: 3rem;
+    // margin-top: 3rem;
   }
 }
