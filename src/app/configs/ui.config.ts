@@ -11,6 +11,10 @@ export const ProjectAccessControls: any = {
         {
           module_name: 'admin-management',
           action: "disabled",
+          create: true,
+          update: false,
+          delelte: false,
+          read: true,
         },
         {
           module_name: 'new-company',

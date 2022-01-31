@@ -5,15 +5,15 @@ import { AuthenticationService } from '@core/authentication/authentication.servi
 import { LoaderService } from '@core/services/loader.service';
 
 @Component({
-  selector: 'app-forgot',
-  templateUrl: './forgot.component.html',
+  selector: 'app-reset',
+  templateUrl: './reset.component.html',
   host: {
     class: 'auth--form',
   },
 })
-export class ForgotComponent implements OnInit {
-  forgotForm!: FormGroup;
-  isEmailSent: boolean = false;
+export class ResetComponent implements OnInit {
+  isPasswordReset:boolean = false;
+  resetForm!: FormGroup;
   constructor(
     private authService: AuthenticationService,
     public loaderService: LoaderService,
@@ -22,17 +22,18 @@ export class ForgotComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.forgotForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
+    this.resetForm = new FormGroup({
+      password: new FormControl('', [Validators.required]),
+      cPassword: new FormControl('', [Validators.required]),
     });
   }
 
-  onLogin() {
-    const { email } = this.forgotForm.value;
-    if (email) {
-      this.authService.forgot(email);
-      this.isEmailSent = true;
-    }
+  onResetPassword() {
+    const { password, cPassword } = this.resetForm.value;
+    if (password === cPassword) {
+      this.authService.resetPassword(password);
+      this.isPasswordReset = true;
+    } else return;
   }
 
   gotoLogin() {
