@@ -15,7 +15,7 @@ export class DashboardService {
   selectedDashboard$: BehaviorSubject<DashboardHeader> =
     new BehaviorSubject<DashboardHeader>(null);
 
-  showSelectedDashboard$: BehaviorSubject<boolean> =
+  shouldShowHeader$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
 
   constructor(private router: Router) {}
@@ -27,16 +27,16 @@ export class DashboardService {
     this.selectedDashboard$.next(currentDashboard);
   }
 
-  showSelectedDashboard() {
-    this.showSelectedDashboard$.next(true);
+  showHeader() {
+    this.shouldShowHeader$.next(true);
   }
 
-  hideSelectedDashboard() {
-    this.showSelectedDashboard$.next(false);
+  hideDashboard() {
+    this.shouldShowHeader$.next(false);
   }
 
-  getShowSelectedDashboard() {
-    return this.showSelectedDashboard$.asObservable();
+  getshouldShowHeader() {
+    return this.shouldShowHeader$.asObservable();
   }
 
   getCurrentDashboard() {

@@ -36,7 +36,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     this.toaster.error(response.message, response.statusText);
     switch (response['status']) {
       case HttpStatusCode.Unauthorized:
-        this.router.navigateByUrl('/login');
+        this.router.navigateByUrl('/auth/login');
         break;
 
       case HttpStatusCode.Forbidden:

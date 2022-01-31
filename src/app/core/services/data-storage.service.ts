@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { DataTable, Order } from '@shared/components/app-data-table/interfaces/datatable';
 import { Sidebar } from '@shared/components/app-side-bar/interfaces/sidebar';
 import { StepModel } from '@shared/components/app-wizard/interfaces/wizard';
@@ -40,7 +40,7 @@ export class DataStorageService {
           { name: 'Subscription Type', accessor: 'subscription' },
           { name: 'Package', accessor: 'package' },
           { name: 'Created On', accessor: 'created' },
-          { name: 'Status', accessor: 'status' },
+          { name: 'Status', accessor: 'status' }
         ],
         sortBy: '',
         order: Order.Default

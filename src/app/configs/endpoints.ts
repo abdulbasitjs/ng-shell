@@ -2,17 +2,25 @@ import { EndpointConfig } from '@shared/models/endpoint-config.model';
 
 export const endpoints: EndpointConfig[] = [
   // SSO Apis
+  // {
+  //   baseUrl: 'sso',
+  //   name: 'login',
+  //   api: '',
+  //   path: 'abubakar/one-portal-api/public/api/v1/auth/',
+  //   isPollable: false,
+  //   runAt: 'onDemand',
+  // },
   {
-    baseUrl: 'sso',
-    name: 'login',
+    baseUrl: 'local',
+    name: 'customers',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/auth/',
+    path: '',
     isPollable: false,
     runAt: 'onDemand',
   },
   {
     baseUrl: 'local',
-    name: 'customers',
+    name: 'login',
     api: '',
     path: '',
     isPollable: false,
@@ -23,4 +31,5 @@ export const endpoints: EndpointConfig[] = [
 export const EP = {
   Login: 'login',
   Customers: 'customers',
+  Roles: 'roles',
 };

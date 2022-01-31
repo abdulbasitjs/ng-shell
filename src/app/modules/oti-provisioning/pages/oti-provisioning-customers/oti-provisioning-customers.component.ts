@@ -5,20 +5,13 @@ import { EP } from '@configs/endpoints';
 import { DataStorageService } from '@core/services/data-storage.service';
 import { DataTable } from '@shared/components/app-data-table/interfaces/datatable';
 import { StepModel } from '@shared/components/app-wizard/interfaces/wizard';
-// import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-// import { ActivatedRoute, Router } from '@angular/router';
-// import { DataStorageService } from '@core/services/data-storage.service';
-// import { DataTableService } from '@shared/components/app-data-table/app-datatable.service';
-// import { PanelService } from '@shared/components/app-panel/app-panel.service';
-// import { StepsService } from '@shared/components/app-wizard/app-wizard-data.service';
-// import { Action, StepModel } from '@shared/components/app-wizard/interfaces/wizard';
-// import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-oti-provisioning-customers',
   templateUrl: './oti-provisioning-customers.component.html',
   styleUrls: ['./oti-provisioning-customers.component.scss'],
 })
+
 export class OtiProvisioningCustomersComponent implements OnInit {
   customerDatatable!: DataTable;
   steps!: StepModel[];

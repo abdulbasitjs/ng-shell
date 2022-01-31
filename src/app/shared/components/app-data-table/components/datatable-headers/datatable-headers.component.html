@@ -5,13 +5,14 @@
       [shouldRemoveParent]="false"
       appSvg
       [src]="ascIcon"
+      [style.transform]="'scale(1, -1)'"
     >
     </i>
     <i
       *ngIf="headers.sortBy === header.accessor && headers.order === 'desc' "
       [shouldRemoveParent]="false"
       appSvg
-      [src]="descIcon"
+      [src]="ascIcon"
     >
     </i>
     {{ header.name }}

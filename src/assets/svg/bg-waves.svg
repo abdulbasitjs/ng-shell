@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1357px" height="482px" viewBox="0 0 1357 482" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group</title>
+    <defs>
+        <linearGradient x1="50%" y1="21.8312988%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#0B73B1" offset="0%"></stop>
+            <stop stop-color="#53B0E6" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#66B1DE" offset="0%"></stop>
+            <stop stop-color="#339EDD" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="SIgn-in-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.613180978">
+        <g id="mockup-12" transform="translate(0.000000, -348.000000)">
+            <g id="Group" transform="translate(-0.000000, 348.212401)">
+                <path d="M0,409.450673 C44.0834675,336.236341 112.528223,296.378416 205.334267,289.876898 C344.543333,280.124621 392.296497,369.450673 518.583042,339.663786 C676.993138,300.124621 614.114834,125.830118 798.776793,110.662097 C983.438753,95.4940769 1028.66547,196.514436 1124.62607,182.246057 C1220.58666,167.977677 1294.24088,0 1336,0 C1363.83941,0 1363.83941,160.595866 1336,481.787599 L0,481.787599 L0,409.450673 Z" id="Path-2" fill="url(#linearGradient-1)"></path>
+                <path d="M0,409.450673 C44.0834675,376.236341 112.528223,356.378416 205.334267,349.876898 C344.543333,340.124621 392.296497,469.450673 518.583042,439.663786 C676.993138,400.124621 614.114834,125.830118 798.776793,110.662097 C983.438753,95.4940769 1028.66547,236.514436 1124.62607,222.246057 C1220.58666,207.977677 1294.24088,0 1336,0 C1363.83941,0 1363.83941,160.595866 1336,481.787599 L0,481.787599 L0,409.450673 Z" id="Path-2" fill="url(#linearGradient-2)"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -2,7 +2,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
-  role: number;
+  roles: number;
   permissions: Array<any>;
   token: string;
 }

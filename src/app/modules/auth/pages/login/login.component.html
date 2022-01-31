@@ -1,0 +1,85 @@
+<div app-loader class="hide"></div>
+<section class="auth--form__section login">
+  <p class="auth--form__section--title">Single Sign On Portal</p>
+  <p class="auth--form__section--description">Enter your details below</p>
+  <form class="form" [formGroup]="loginForm">
+    <div class="form__input">
+      <label class="email-label">Email Address</label>
+      <div
+        class="icon-container pos-rel"
+        [class.error]="
+          !loginForm.get('email')?.valid && loginForm.get('email')?.touched
+        "
+      >
+        <i [shouldRemoveParent]="false" appSvg src="assets/svg/Email.svg"></i>
+        <input
+          class="fw"
+          type="text"
+          formControlName="email"
+          placeholder="Enter email address"
+        />
+        <div
+          class="pos-abs error-msg"
+          *ngIf="
+            !loginForm.get('email')?.valid && loginForm.get('email')?.touched
+          "
+        >
+          <p>We couldn't find an account with that email address.</p>
+        </div>
+      </div>
+    </div>
+    <div class="form__input password">
+      <label class="password-label">Password</label>
+      <div
+        class="icon-container pos-rel"
+        [class.error]="
+          !loginForm.get('password')?.valid &&
+          loginForm.get('password')?.touched
+        "
+      >
+        <i
+          [shouldRemoveParent]="false"
+          appSvg
+          src="assets/svg/Password.svg"
+        ></i>
+        <input
+          class="fw"
+          type="password"
+          placeholder="Enter your password"
+          formControlName="password"
+          [class.error-msg]="
+            !loginForm.get('password')?.valid &&
+            loginForm.get('password')?.touched
+          "
+        />
+        <div
+          class="pos-abs error-msg"
+          *ngIf="
+            !loginForm.get('password')?.valid &&
+            loginForm.get('password')?.touched
+          "
+        >
+          <p>We couldn't find an account with that email address.</p>
+        </div>
+      </div>
+    </div>
+    <div class="checkbox-container">
+      <div class="form__input--checkbox-container auth--form__checkbox">
+        <input type="checkbox" id="remember-me" formControlName="isRemember" />
+        <label for="remember-me">Remember me</label>
+        <span></span>
+        <a routerLink="../forgot">Forgot password?</a>
+      </div>
+    </div>
+  </form>
+  <div class="form__action">
+    <app-button
+      btnTitle="Sign in"
+      width="100%"
+      [isDisabled]="loginForm.invalid || (loaderService.getLoader() | async)"
+      classes="button-primary button-lg"
+      (clickHandler)="onLogin()"
+      type="submit"
+    ></app-button>
+  </div>
+</section>

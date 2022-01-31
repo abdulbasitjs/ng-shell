@@ -10,9 +10,11 @@ html {
   --color-septanry: rgba(46,121,166,0.06);
   --color-octonary: #d6d6d6;
   --color-octonary--light: rgb(214, 214, 214, 0.5);
+  --color-nonary: #979797;
 
   --color-login-text: #6E6E6E;
   --border-box-project: 2px solid #2e79a6;
+  --border-box-dropdown: 1px solid #ECECEC;
   --customer-table-columns: 5;
   --disabled: rgba(160, 160, 160, 0.5);
   --danger: #d0021b;
@@ -28,6 +30,7 @@ html[data-theme="dark"] {
 // Fonts
 $font-weights: (
   "thin": 100,
+  "thin-200": 200,
   "light": 300,
   "regular": 400,
   "medium": 500,
@@ -41,22 +44,29 @@ $font-weights: (
 
 $font-sizes: (
   "small": 1.1rem,
+  "smallFix": 1.2rem,
   "regular": calc(1.3rem + 0.1389vw),
   "regularFix": calc(1.4rem),
+  "normal": 1.6rem,
   "medium": calc(1.8rem + 0.1389vw),
   'largeFix': 2.4rem,
   "large": calc(2.5rem + 0.15vw),
+  "xl": 3rem,
+  "xxl": 4rem
 );
 
 @function font-size($font-size-style) {
   @return map-get($font-sizes, $font-size-style);
 }
 
-// $break-points: (
-//   "break-point-tablet": 800px,
-//   "break-point-desktop": 1300px
-// );
+$break-points: (
+  "break-point-small": 400px,
+  "break-point-medium": 600px,
+  "break-point-tablet": 800px,
+  "break-point-custom-tablet": 1100px,
+  "break-point-desktop": 1300px
+);
 
-// @function break-point($break-point-limit) {
-//   @return map-get($break-points, $break-point-limit);
-// }
+@function break-point($key) {
+  @return map-get($break-points, "break-point-" + $key);
+}

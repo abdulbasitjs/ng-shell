@@ -1,4 +1,13 @@
+import { endpoints } from "@configs/endpoints";
+
 export const environment = {
   production: true,
-  LOG_LEVEL: 'ERROR'
+  LOG_LEVEL: 'ERROR',
+  sso: {
+    baseUrl: 'http://18.119.133.175/',
+  },
+  local: {
+    baseUrl: 'http://localhost:3000/',
+  },
+  endpoints: [...endpoints],
 };

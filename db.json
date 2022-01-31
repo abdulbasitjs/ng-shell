@@ -7,7 +7,6 @@
       "created": "05-10-2018",
       "status": "Active"
     },
-
     {
       "customer": "Abdul Basit",
       "subscription": "Prospect",
@@ -36,7 +35,6 @@
       "created": "05-10-2018",
       "status": "Suspended"
     },
-
     {
       "customer": "Brunswick Corporation",
       "subscription": "Prospect",
@@ -44,7 +42,6 @@
       "created": "05-10-2018",
       "status": "Active"
     },
-
     {
       "customer": "Chevron Corporation",
       "subscription": "Customer",
@@ -52,7 +49,6 @@
       "created": "05-10-2018",
       "status": "Active"
     },
-
     {
       "customer": "Lifetouch Inc.",
       "subscription": "Customer",
@@ -60,7 +56,6 @@
       "created": "05-10-2018",
       "status": "Active"
     },
-
     {
       "customer": "Omni Air International",
       "subscription": "Prospect",
@@ -68,7 +63,6 @@
       "created": "05-10-2018",
       "status": "Active"
     },
-
     {
       "customer": "Sierra Nevada Corporation",
       "subscription": "Prospect",
@@ -112,14 +106,32 @@
       "status": "Active"
     }
   ],
-
-  "roles": [
-    {
-      "OTP": "Admin"
+  "roles": {
+    "code": 200,
+    "data": {
+      "oti-provisioning": "Admin",
+      "oti-dashboard": "Admin",
+      "rtpd-dashboard": "Admin",
+      "rtpd-provisioning": "Admin"
     },
-
-    {
-      "OTD": "Sale Ops"
-    }
-  ]
+    "message": "Success"
+  },
+  "login": {
+    "code": 200,
+    "data": {
+      "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xOC4xMTkuMTMzLjE3NVwvYWJ1YmFrYXJcL29uZS1wb3J0YWwtYXBpXC9wdWJsaWNcL2FwaVwvdjFcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNjQzNjMzMDAzLCJleHAiOjE2NDQwNjUwMDMsIm5iZiI6MTY0MzYzMzAwMywianRpIjoicFJUQ2lkNzdNeHhjYkpqUSIsInN1YiI6MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyIsIm5hbWUiOiJBYnViYWthciJ9.FFEQ2hc746CT500XGpSfgt1ecYI5en9xkOuvPwzopVM",
+      "id": 1,
+      "mail": "abubakar.siddique.0506@slashnext.net",
+      "name": "Abubakar",
+      "role": {
+        "oti-provisioning": "Admin",
+        "oti-dashboard": "Admin",
+        "rtpd-dashboard": "Admin",
+        "rtpd-provisioning": "Admin"
+      },
+      "access_controls": [],
+      "token_type": "bearer"
+    },
+    "message": "Success"
+  }
 }
