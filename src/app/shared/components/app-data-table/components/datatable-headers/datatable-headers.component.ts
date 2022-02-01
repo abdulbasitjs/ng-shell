@@ -11,7 +11,7 @@ export class DataTableHeadersComponent implements OnInit {
     Array<string>
   >();
   ascIcon: string = 'assets/svg/Sorting.svg';
-  // descIcon: string = 'assets/svg/clear-url-search-icon.svg';
+  defaultIcon: string = 'assets/svg/table-sorting-icon.svg';
 
   constructor() {}
 
@@ -23,10 +23,16 @@ export class DataTableHeadersComponent implements OnInit {
   }
 
   private renderCorrectIcon(header: HeaderList) {
+    header.isSortable = false;
     if (this.headers.sortBy === header.accessor) {
       this.toggleIcon();
     } else {
       this.headers.order = Order.Ascending;
+      this.headers.list.forEach((h) => {
+        if (h.accessor !== header.accessor) {
+          h.isSortable = true;
+        }
+      });
     }
     this.headers.sortBy = header.accessor;
   }

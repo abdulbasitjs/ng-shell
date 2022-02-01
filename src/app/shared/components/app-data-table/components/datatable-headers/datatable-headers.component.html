@@ -1,6 +1,13 @@
 <tr [style.--customer-table-columns]="headers.list.length">
   <th *ngFor="let header of headers.list; let i = index;" (click)="onHeaderClick(header)">
     <i
+      *ngIf="header.isSortable"
+      [shouldRemoveParent]="false"
+      appSvg
+      [src]="defaultIcon"
+    >
+    </i>
+    <i
       *ngIf="headers.sortBy === header.accessor && headers.order === 'asc' "
       [shouldRemoveParent]="false"
       appSvg
