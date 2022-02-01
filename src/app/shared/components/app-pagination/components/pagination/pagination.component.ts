@@ -6,7 +6,13 @@ import { Pagination } from '../../interfaces/pagination';
   templateUrl: './pagination.component.html',
 })
 export class PaginationComponent implements OnInit {
+  pages!: any;
   @Input() config!: Pagination;
+  paginationDirection!: 1;
+
   constructor() {}
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+    this.pages = [10, 11, '...', 25, 26];
+  }
 }

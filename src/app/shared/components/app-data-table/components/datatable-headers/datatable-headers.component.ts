@@ -7,9 +7,11 @@ import { Headers, HeaderList, Order } from '../../interfaces/datatable';
 })
 export class DataTableHeadersComponent implements OnInit {
   @Input() headers!: Headers;
-  @Output() onHeader: EventEmitter<Array<string>> = new EventEmitter<Array<string>>();
+  @Output() onHeader: EventEmitter<Array<string>> = new EventEmitter<
+    Array<string>
+  >();
   ascIcon: string = 'assets/svg/Sorting.svg';
-  // descIcon: string = 'assets/svg/clear-url-search-icon.svg';
+  defaultIcon: string = 'assets/svg/table-sorting-icon.svg';
 
   constructor() {}
 
@@ -21,10 +23,16 @@ export class DataTableHeadersComponent implements OnInit {
   }
 
   private renderCorrectIcon(header: HeaderList) {
+    header.isSortable = false;
     if (this.headers.sortBy === header.accessor) {
       this.toggleIcon();
     } else {
       this.headers.order = Order.Ascending;
+      this.headers.list.forEach((h) => {
+        if (h.accessor !== header.accessor) {
+          h.isSortable = true;
+        }
+      });
     }
     this.headers.sortBy = header.accessor;
   }
@@ -35,5 +43,4 @@ export class DataTableHeadersComponent implements OnInit {
         ? Order.Descending
         : Order.Ascending;
   }
-
 }

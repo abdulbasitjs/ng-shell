@@ -45,6 +45,15 @@
             padding-right: 0.7rem;
             vertical-align: inherit;
             margin-top: 0.1rem;
+            width: 17px;
+          }
+
+          & > span {
+            font-size: font-size(regularFix);
+            color: var(--color-secondary);
+            font-weight: font-weight(medium);
+            padding: 0;
+            line-height: 2.5;
           }
         }
       }
@@ -81,8 +90,8 @@
   }
 
   .suspended {
-    font-size: font-size(regular)!important;
+    font-size: font-size(regular) !important;
     color: var(--danger);
-    font-weight: font-weight(regular)!important;
+    font-weight: font-weight(regular) !important;
   }
 }

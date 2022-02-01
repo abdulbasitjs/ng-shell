@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs';
 export enum Order {
   Ascending = 'asc',
   Descending = 'desc',
@@ -8,6 +7,7 @@ export interface HeaderList {
   name: string;
   accessor: string;
   cell?: Object | Function;
+  isSortable?: boolean;
 }
 
 export interface Headers {

@@ -36,11 +36,11 @@ export class DataStorageService {
       },
       headers: {
         list: [
-          { name: 'Customers', accessor: 'customer' },
-          { name: 'Subscription Type', accessor: 'subscription' },
-          { name: 'Package', accessor: 'package' },
-          { name: 'Created On', accessor: 'created' },
-          { name: 'Status', accessor: 'status' }
+          { name: 'Customers', accessor: 'customer', isSortable: true },
+          { name: 'Subscription Type', accessor: 'subscription', isSortable: true },
+          { name: 'Package', accessor: 'package', isSortable: true },
+          { name: 'Created On', accessor: 'created', isSortable: true },
+          { name: 'Status', accessor: 'status', isSortable: true }
         ],
         sortBy: '',
         order: Order.Default
