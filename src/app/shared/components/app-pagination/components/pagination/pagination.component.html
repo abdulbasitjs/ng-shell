@@ -1,36 +1,41 @@
 <section class="pagination">
   <div class="pagination__records">
-    <span>Records per page:</span>
+    <span>Showing</span>
     <span
-      class="pagination--list"
+      class="pagination--button pagination-no-border pagination--list"
       appDropdown
+      dropdownDirection
+      [isOpen]="dropdown.isOpen"
       app-pagination-list
       [records]="[10, 20, 50, 100]"
+      #dropdown="dropdown"
+      #dropdownDirection="dropdownDirection"
+      [ngClass]="dropdownDirection.direction === 1 ? 'top' : 'bottom'"
     ></span>
-    <span>|</span>
-    <span>1 - 10 of 40 Records</span>
+    <span>record per page</span>
   </div>
-  <div class="pagination__pages">
-    <span>1 of 4 pages</span>
-    <div class="pagination__pages--navigation-controls">
-      <i
+  <div class="pagination--tabs">
+    <span class="pagination--button m-r-5" [style.width]="'5.5rem'">First</span>
+    <span class="pagination--button prev"
+      ><i
         [shouldRemoveParent]="false"
         appSvg
         src="assets/svg/pagination-previous-icon.svg"
-      ></i>
-      <span
-        class="pagination--list"
-        appDropdown
-        appClickOutside (clickOutside)="dropdown.close()"
-        #dropdown="dropdown"
-        app-pagination-list
-        [records]="[1, 2, 3, 4]"
-      ></span>
-      <i
+      ></i
+    ></span>
+    <span
+      class="pagination--button pages"
+      *ngFor="let page of pages; let i = index"
+      [class.active]="i === 0"
+      >{{ page }}</span
+    >
+    <span class="pagination--button next"
+      ><i
         [shouldRemoveParent]="false"
         appSvg
         src="assets/svg/pagination-next-icon.svg"
-      ></i>
-    </div>
+      ></i
+    ></span>
+    <span class="pagination--button m-l-5" [style.width]="'5.5rem'">Last</span>
   </div>
 </section>

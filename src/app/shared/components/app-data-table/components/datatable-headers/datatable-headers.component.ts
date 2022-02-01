@@ -7,7 +7,9 @@ import { Headers, HeaderList, Order } from '../../interfaces/datatable';
 })
 export class DataTableHeadersComponent implements OnInit {
   @Input() headers!: Headers;
-  @Output() onHeader: EventEmitter<Array<string>> = new EventEmitter<Array<string>>();
+  @Output() onHeader: EventEmitter<Array<string>> = new EventEmitter<
+    Array<string>
+  >();
   ascIcon: string = 'assets/svg/Sorting.svg';
   // descIcon: string = 'assets/svg/clear-url-search-icon.svg';
 
@@ -35,5 +37,4 @@ export class DataTableHeadersComponent implements OnInit {
         ? Order.Descending
         : Order.Ascending;
   }
-
 }

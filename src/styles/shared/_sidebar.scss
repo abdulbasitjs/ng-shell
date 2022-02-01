@@ -2,10 +2,10 @@
   position: sticky;
   top: 0;
   left: 0;
-  height: 100vh;
+  min-height: calc(100vh - 7rem);
+  height: 100%;
   &__content {
     height: 100%;
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -21,6 +21,8 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
+      position: fixed;
+      width: inherit;
 
       & > a {
         width: 100%;
