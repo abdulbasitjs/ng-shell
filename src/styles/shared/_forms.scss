@@ -34,12 +34,13 @@ $form-width: 85%;
     & [type="password"] {
       outline: none;
       width: $form-width;
+      min-height: 4rem;
       height: 4rem;
       padding: 1rem 1.6rem;
       border: 1px solid var(--color-primary);
       border-radius: 4px;
       margin-bottom: 1.5rem;
-      // flex: 1;
+      flex: 1;
       color: var(--color-quinary);
       font-size: font-size(smallFix);
     }
