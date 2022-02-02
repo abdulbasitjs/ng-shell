@@ -15,6 +15,8 @@ import { AppPanelModule } from '@shared/components/app-panel/app-panel.module';
 import { AppWizardModule } from '@shared/components/app-wizard/app-wizard.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppDropdownModule } from '@shared/components/app-dropdown/app-dropdown.module';
+import { AppRangeButtonModule } from '@shared/components/app-range-btn/app-range-button.module';
+import { OtiProvisioningPackageDetailComponent } from './pages/oti-provisioning-package-detail/oti-provisioning-package-detail.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { AppDropdownModule } from '@shared/components/app-dropdown/app-dropdown.
     OtiProvisioningCustomersComponent,
     OtiProvisioningCustomerDetailComponent,
     OtiProvisioningPackagesComponent,
+    OtiProvisioningPackageDetailComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +37,8 @@ import { AppDropdownModule } from '@shared/components/app-dropdown/app-dropdown.
     AppPaginationModule,
     AppPanelModule,
     AppWizardModule,
-    AppDropdownModule
+    AppDropdownModule,
+    AppRangeButtonModule
   ],
 })
 export class OtiProvisioningModule {}

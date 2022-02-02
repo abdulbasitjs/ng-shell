@@ -16,10 +16,11 @@
 
     grid-template-rows: repeat(4, min-content);
 
-    @extend %customers;
+    @extend %layout;
   }
 
-  app-oti-provisioning-customer-detail {
+  app-oti-provisioning-customer-detail,
+  app-oti-provisioning-package-detail {
     flex: 1;
     display: grid;
     gap: 1.6rem;
@@ -32,7 +33,16 @@
 
     grid-template-rows: repeat(4, min-content);
 
-   @extend %customer-detail;
+   @extend %layout-detail;
 
   }
+
+  app-oti-provisioning-customer-detail {
+   @extend %customer-detail;
+  }
+
+  app-oti-provisioning-package-detail {
+    @extend %package-detail;
+   }
+
 }

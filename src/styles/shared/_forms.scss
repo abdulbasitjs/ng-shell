@@ -163,9 +163,24 @@ $form-width: 85%;
   &__select > .dropdown-trigger > i {
     position: absolute;
     right: calc(100% - $form-width + 2%);
-    top: 1.2rem;
+    top: 1.5rem;
     align-items: center;
   }
+
+  .form-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    width: 60%;
+
+    & > label {
+      color: var(--color-primary);
+      font-size: font-size(small);
+      font-weight: font-weight(regular);
+    }
+  }
+
 }
 
 .form .error-msg:focus {
@@ -184,9 +199,11 @@ $form-width: 85%;
   margin-top: -0.2rem;
   margin-bottom: 1.3rem;
 }
+
 .error-field {
   border: 1px solid var(--danger)!important;
 }
+
 .error-align-field {
   top:6.6rem;
   right: 8.8rem;

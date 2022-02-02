@@ -85,44 +85,25 @@
           </div>
           <div class="form__input">
             <label>Quota Limit</label>
-            <input
-              type="text"
-              formControlName="quota_limit"
-              [ngClass]="{
-                'error-msg':
-                  !newPackageForm.get('package_info.quota_limit')?.valid &&
-                  newPackageForm.get('package_info.quota_limit')?.touched
-              }"
-            />
+            <app-range-btn formControlName="quota_limit"></app-range-btn>
           </div>
-          <div class="form__input">
+          <div class="form__input m-t-20">
             <label>Rate Limit / Min</label>
-            <input
-              type="text"
-              formControlName="rate_permin"
-              [ngClass]="{
-                'error-msg':
-                  !newPackageForm.get('package_info.rate_permin')?.valid &&
-                  newPackageForm.get('package_info.rate_permin')?.touched
-              }"
-            />
+            <app-range-btn formControlName="rate_permin"></app-range-btn>
           </div>
         </ng-container>
       </div>
       <div app-wizard-template *ngSwitchCase="'2'" [step]="activeStep">
-        <ng-container formGroupName="api_points">
-          <div class="form__input">
-            <label>Url Reputation</label>
-            <input
-              type="text"
-              formControlName="reputation"
-              [ngClass]="{
-                input__error:
-                  !newPackageForm.get('api_points.reputation')?.valid &&
-                  !newPackageForm.get('api_points.reputation')?.touched
-              }"
-            />
-          </div>
+        <ng-container formGroupName="api_points" >
+          <ng-container formArrayName="apiQuotaList">
+            <div
+              class="form-row"
+              *ngFor="let aq of apisQuota; let i = index"
+            >
+              <label>{{ aq.key }}</label>
+              <app-range-btn [formControlName]="i"></app-range-btn>
+            </div>
+          </ng-container>
         </ng-container>
       </div>
     </form>
