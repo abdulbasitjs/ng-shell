@@ -14,6 +14,7 @@ import { AppPaginationModule } from '@shared/components/app-pagination/app-pagin
 import { AppPanelModule } from '@shared/components/app-panel/app-panel.module';
 import { AppWizardModule } from '@shared/components/app-wizard/app-wizard.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AppDropdownModule } from '@shared/components/app-dropdown/app-dropdown.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppPaginationModule,
     AppPanelModule,
     AppWizardModule,
+    AppDropdownModule
   ],
 })
 export class OtiProvisioningModule {}

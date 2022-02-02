@@ -21,6 +21,7 @@
   </app-datatable-headers>
   <app-datatable-rows
     [rows]="customers"
+    (onRow)="handleRow($event)"
     [headers]="customerDatatable.headers.list"
   ></app-datatable-rows>
 </app-datatable>

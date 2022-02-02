@@ -15,12 +15,6 @@ export class DataTableComponent implements OnInit {
   }
 
   onHeaderSort(header: HeaderList) {
-
-    // data.sort((a, b) => {
-    //   if (a.row[header.accessor] < b.row[header.accessor]) return -1;
-    //   if (a.row[header.accessor] > b.row[header.accessor]) return 1;
-    //   return 0;
-    // });
   }
 
   ngOnInit(): void {}

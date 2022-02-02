@@ -18,7 +18,9 @@ export class DataTableHeadersComponent implements OnInit {
   ngOnInit(): void {}
 
   onHeaderClick(header: HeaderList) {
-    this.renderCorrectIcon(header);
+    if (header.renderIcon) {
+      this.renderCorrectIcon(header);
+    }
     this.onHeader.emit([this.headers.sortBy, this.headers.order]);
   }
 
@@ -29,7 +31,7 @@ export class DataTableHeadersComponent implements OnInit {
     } else {
       this.headers.order = Order.Ascending;
       this.headers.list.forEach((h) => {
-        if (h.accessor !== header.accessor) {
+        if (h.accessor !== header.accessor && h.renderIcon) {
           h.isSortable = true;
         }
       });

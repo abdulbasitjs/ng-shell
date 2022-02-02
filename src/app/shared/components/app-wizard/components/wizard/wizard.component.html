@@ -1,5 +1,5 @@
-<div class="wizard">
-  <div class="wizard__wizard-steps">
+<div class="wizard" [style.width]="'75%'">
+  <div class="wizard__wizard-steps" [style.width]="this.width">
     <span
       (click)="onStepClick(step)"
       *ngFor="let step of steps; let i = index"

@@ -36,11 +36,35 @@ export class DataStorageService {
       },
       headers: {
         list: [
-          { name: 'Customers', accessor: 'customer', isSortable: true },
-          { name: 'Subscription Type', accessor: 'subscription', isSortable: true },
-          { name: 'Package', accessor: 'package', isSortable: true },
-          { name: 'Created On', accessor: 'created', isSortable: true },
-          { name: 'Status', accessor: 'status', isSortable: true }
+          { name: 'Customers', accessor: 'customer', isSortable: true, renderIcon: true },
+          { name: 'Subscription Type', accessor: 'subscription', isSortable: true, renderIcon: true },
+          { name: 'Package', accessor: 'package', isSortable: true, renderIcon: true },
+          { name: 'Created On', accessor: 'created', isSortable: true, renderIcon: true },
+          { name: 'Status', accessor: 'status' }
+        ],
+        sortBy: '',
+        order: Order.Default
+      },
+      data: [],
+      pagination: true,
+    };
+    return configurations;
+  }
+
+  getOtiProvisioningPackagesTableConfig(): DataTable {
+    const configurations = {
+      get totalColumns() {
+        return configurations.headers.list.length;
+      },
+      headers: {
+        list: [
+          { name: 'Sr. #', accessor: 'id' },
+          { name: 'Package Name', accessor: 'package_name', isSortable: true, renderIcon: true },
+          { name: 'Quota Interval', accessor: 'quota_interval' },
+          { name: 'Quota Limit', accessor: 'quota_limit' },
+          { name: 'Quota/min (Rate)', accessor: 'quota_permin' },
+          { name: 'Status', accessor: 'status' },
+          { name: 'Created at', accessor: 'created', isSortable: true, renderIcon: true },
         ],
         sortBy: '',
         order: Order.Default
@@ -56,6 +80,13 @@ export class DataStorageService {
       { stepIndex: 1, isComplete: false, label: 'Company Profile' },
       { stepIndex: 2, isComplete: false, label: 'Subscription Info' },
       { stepIndex: 3, isComplete: false, label: 'Exclude Classifier' },
+    ];
+  }
+
+  getOtiProvisioningNewPackageSteps(): StepModel[] {
+    return [
+      { stepIndex: 1, isComplete: false, label: 'Package Information' },
+      { stepIndex: 2, isComplete: false, label: 'Api Points' },
     ];
   }
 }

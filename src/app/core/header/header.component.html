@@ -17,7 +17,9 @@
     </ng-container>
   </div>
   <div class="header__menu--list">
-    <app-dashboard-list [list]="authService.getUserRoles()"></app-dashboard-list>
+    <app-dashboard-list
+      [list]="authService.getUserRoles()"
+    ></app-dashboard-list>
   </div>
 </div>
 
@@ -27,19 +29,22 @@
     <h4 class="header__user--info__role">Administrator</h4>
   </div>
   <div class="header__user--settings">
-    <i
-      [shouldRemoveParent]="false"
-      appSvg
-      src="assets/svg/settings-icon.svg"
-      appDropdown=".setting-dropdown > .dropdown"
-      appClickOutside
-      (clickOutside)="dropdown.close()"
-      #dropdown="dropdown"
-    ></i>
-    <app-dropdown
-      class="setting-dropdown"
-      [items]="settingList"
-      (onSelect)="onSettingItemSelect($event)"
-    ></app-dropdown>
+    <div class="dropdown-trigger">
+      <i
+        [shouldRemoveParent]="false"
+        appSvg
+        src="assets/svg/settings-icon.svg"
+        appDropdown=".setting-dropdown > .dropdown"
+        appClickOutside
+        (clickOutside)="dropdown.close()"
+        #dropdown="dropdown"
+      >
+        <app-dropdown
+          class="setting-dropdown"
+          [items]="settingList"
+          (onSelect)="onSettingItemSelect($event)"
+        ></app-dropdown>
+      </i>
+    </div>
   </div>
 </div>

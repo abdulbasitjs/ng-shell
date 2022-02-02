@@ -43,3 +43,10 @@ export const settingDropdownList = [
   { label: 'User Management', value: 'user-management', active: true },
   { label: 'Logout', value: 'logout', active: false },
 ];
+
+export const quotaInterval = [
+  { label: 'Daily', value: 'daily', active: false },
+  { label: 'Weekly', value: 'weekly', active: false },
+  { label: 'Monthly', value: 'monthly', active: false },
+  { label: 'Yearly', value: 'yearly', active: false },
+];

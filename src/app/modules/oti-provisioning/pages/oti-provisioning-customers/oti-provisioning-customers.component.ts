@@ -3,15 +3,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EP } from '@configs/endpoints';
 import { DataStorageService } from '@core/services/data-storage.service';
-import { DataTable } from '@shared/components/app-data-table/interfaces/datatable';
+import {
+  DataTable,
+  Row,
+} from '@shared/components/app-data-table/interfaces/datatable';
 import { StepModel } from '@shared/components/app-wizard/interfaces/wizard';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-oti-provisioning-customers',
   templateUrl: './oti-provisioning-customers.component.html',
   styleUrls: ['./oti-provisioning-customers.component.scss'],
 })
-
 export class OtiProvisioningCustomersComponent implements OnInit {
   customerDatatable!: DataTable;
   steps!: StepModel[];
@@ -55,7 +58,9 @@ export class OtiProvisioningCustomersComponent implements OnInit {
   constructor(
     private dataStorageService: DataStorageService,
     private formBuilder: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -129,4 +134,7 @@ export class OtiProvisioningCustomersComponent implements OnInit {
       });
   }
 
+  handleRow(row: Row) {
+    this.router.navigate(['./' + row['id']], { relativeTo: this.route });
+  }
 }

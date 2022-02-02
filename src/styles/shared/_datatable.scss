@@ -85,13 +85,25 @@
         minmax(min-content, 1fr)
       );
       justify-items: start;
+    }
+
+    &--body tr {
       cursor: pointer;
     }
+
   }
 
   .suspended {
     font-size: font-size(regular) !important;
     color: var(--danger);
     font-weight: font-weight(regular) !important;
+  }
+
+  .noPointer {
+    cursor: not-allowed;
+  }
+
+  .pointer {
+    cursor: pointer;
   }
 }

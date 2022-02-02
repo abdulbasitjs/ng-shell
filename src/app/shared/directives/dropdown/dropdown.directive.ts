@@ -44,6 +44,10 @@ export class DropdownDirective implements OnInit {
       const $els = document.querySelectorAll(this.targetSelector);
       $els.forEach((el) => {
         this.renderer2.addClass(el, 'open');
+        const triggerEl = el.parentElement?.parentElement;
+        const triggerElHeight = triggerEl?.getBoundingClientRect().height || 20;
+        const top = (14 + triggerElHeight) + 'px';
+        this.renderer2.setStyle(el, 'top', top);
       });
     }
   }

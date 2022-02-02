@@ -153,6 +153,18 @@ $form-width: 85%;
       top: 3.2rem;
     }
   }
+
+  &__input input.select {
+    caret-color: transparent;
+    cursor: default;
+  }
+
+  &__select > .dropdown-trigger > i {
+    position: absolute;
+    right: calc(100% - $form-width + 2%);
+    top: 1.2rem;
+    align-items: center;
+  }
 }
 
 .form .error-msg:focus {
