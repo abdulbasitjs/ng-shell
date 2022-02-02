@@ -27,6 +27,14 @@
   animation: 1.5s linear 150ms normal infinite forwards running
     dots-circle-rotation;
 }
+// .transparent-white {
+//   background: var(--color-secondary);
+//   opacity: 0.8;
+//   width: 100vh;
+//   height: 100vh;
+//   z-index: 9999;
+//   position: absolute;
+// }
 
 @-webkit-keyframes dots-circle-rotation {
   100% {

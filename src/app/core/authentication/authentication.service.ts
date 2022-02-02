@@ -78,6 +78,7 @@ export class AuthenticationService implements OnDestroy {
   }
 
   isAuthenticated() {
+    // return true;
     return !this.isTokenExpired() && !!this.getToken();
   }
 
