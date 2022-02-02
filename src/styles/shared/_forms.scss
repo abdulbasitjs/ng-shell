@@ -34,6 +34,7 @@ $form-width: 85%;
     & [type="password"] {
       outline: none;
       width: $form-width;
+      min-height: 4rem;
       height: 4rem;
       padding: 1rem 1.6rem;
       border: 1px solid var(--color-primary);
@@ -41,7 +42,7 @@ $form-width: 85%;
       margin-bottom: 1.5rem;
       flex: 1;
       color: var(--color-quinary);
-      font-size: font-size(small);
+      font-size: font-size(smallFix);
     }
 
     & input[type="text"].fw,
@@ -182,4 +183,11 @@ $form-width: 85%;
   height: 0.1rem;
   margin-top: -0.2rem;
   margin-bottom: 1.3rem;
+}
+.error-field {
+  border: 1px solid var(--danger)!important;
+}
+.error-align-field {
+  top:6.6rem;
+  right: 8.8rem;
 }

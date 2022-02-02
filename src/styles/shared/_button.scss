@@ -40,6 +40,14 @@
     background: var(--color-primary-light);
   }
 }
+.button-tertiary {
+  background: var(--color-secondary);
+
+  &:hover {
+    background: var(--color-primary-light);
+  }
+}
+
 
 .button-full {
   width: 100%;

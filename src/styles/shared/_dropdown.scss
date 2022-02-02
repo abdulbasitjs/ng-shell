@@ -110,7 +110,7 @@ $dropdown-left-margin: 1.2rem;
 
   @include media-desktop {
     &.open {
-      // transform: translate(-8.5%) scale(1.2);
+      transform: translate(-8.5%) scale(1.2);
     }
   }
 
