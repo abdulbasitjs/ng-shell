@@ -1,0 +1,18 @@
+<div class="range-btn">
+  <app-button
+    class="button-component"
+    btnTitle="-"
+    classes="button-primary button-pd"
+    (clickHandler)="decrement()"
+  >
+  </app-button>
+  <div class="form__input">
+    <input class="fw m-0" type="text" [value]="inputValue" />
+  </div>
+  <app-button
+    class="button-component"
+    btnTitle="+"
+    classes="button-primary button-pd"
+    (clickHandler)="increment()"
+  ></app-button>
+</div>

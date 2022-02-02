@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DataTableService } from '../../app-datatable.service';
 import { HeaderList, Row } from '../../interfaces/datatable';
-
 
 @Component({
   selector: 'app-datatable-rows',
@@ -10,12 +9,13 @@ import { HeaderList, Row } from '../../interfaces/datatable';
 export class DataTableRowsComponent implements OnInit {
   @Input() rows!: Row[];
   @Input() headers!: HeaderList[];
+  @Output() onRow = new EventEmitter<Row>();
   constructor(private dataTableService: DataTableService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  onRow(row: any) {
-    this.dataTableService.setClickedRow(row);
+  onRowClick(row: Row, id: any) {
+    // this.dataTableService.setClickedRow(row);
+    this.onRow.emit({ id: id + 1, ...row });
   }
 }

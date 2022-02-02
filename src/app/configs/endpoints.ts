@@ -20,6 +20,14 @@ export const endpoints: EndpointConfig[] = [
   },
   {
     baseUrl: 'local',
+    name: 'packages',
+    api: '',
+    path: '',
+    isPollable: false,
+    runAt: 'onDemand',
+  },
+  {
+    baseUrl: 'local',
     name: 'login',
     api: '',
     path: '',
@@ -32,4 +40,5 @@ export const EP = {
   Login: 'login',
   Customers: 'customers',
   Roles: 'roles',
+  Packages: 'packages'
 };

@@ -1,11 +1,17 @@
 <tr
-  *ngFor="let row of rows"
-  (click)="onRow(row)"
-  [class.disabled]="row['status'] === 'Suspended' "
+  *ngFor="let row of rows; let i = index"
+  (click)="onRowClick(row, i)"
+  [class.disabled]="
+    row['status'] === 'Suspended' || row['status'] === 'Disabled'
+  "
 >
   <td
     *ngFor="let header of headers"
-    [ngClass]="{ suspended: row[header.accessor] === 'Suspended' }"
+    [ngClass]="{
+      suspended:
+        row[header.accessor] === 'Suspended' ||
+        row[header.accessor] === 'Disabled'
+    }"
   >
     {{ row[header.accessor] }}
   </td>

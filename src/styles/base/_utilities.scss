@@ -43,6 +43,9 @@ a:visited {
 i[appSvg] {
   display: flex;
   color: white;
+  position: relative;
+  font-style: normal;
+  cursor: pointer;
 }
 
 %sec-padding {

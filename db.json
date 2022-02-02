@@ -134,6 +134,44 @@
       "status": "Active"
     }
   ],
+  "packages": [
+    {
+      "id": 1,
+      "package_name": "Bronze",
+      "quota_interval": "Daily",
+      "quota_limit": "100k",
+      "quota_permin": "2 Calls / Min (Custom X)",
+      "status": "Active",
+      "created": "05-10-2018"
+    },
+    {
+      "id": 2,
+      "package_name": "Silver",
+      "quota_interval": "Daily",
+      "quota_limit": "1M",
+      "quota_permin": "35 Calls / Min (Custom X)",
+      "status": "Active",
+      "created": "04-10-2018"
+    },
+    {
+      "id": 3,
+      "package_name": "Gold",
+      "quota_interval": "Weekly",
+      "quota_limit": "2M",
+      "quota_permin": "2 Calls / Min (Custom X)",
+      "status": "Active",
+      "created": "04-10-2018"
+    },
+    {
+      "id": 4,
+      "package_name": "Premium",
+      "quota_interval": "Monthly",
+      "quota_limit": "10M",
+      "quota_permin": "2 Calls / Min (Custom X)",
+      "status": "Disabled",
+      "created": "04-10-2018"
+    }
+  ],
   "roles": {
     "code": 200,
     "data": {

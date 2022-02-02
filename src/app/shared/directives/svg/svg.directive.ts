@@ -15,19 +15,21 @@ export class SvgDirective implements AfterContentInit {
   @Input() public shouldRemoveParent = true;
 
   constructor(
-    private renderer2: Renderer2,
     private elementRef: ElementRef,
     private http: HttpClient
   ) {}
 
   ngAfterContentInit() {
     this.http
-      .get(this.src, { responseType: 'text', headers: { assets: 'snx-local-svg' } })
+      .get(this.src, {
+        responseType: 'text',
+        headers: { assets: 'snx-local-svg' },
+      })
       .subscribe((svg) => {
         const el = this.shouldRemoveParent
           ? this.elementRef.nativeElement.parentElement
           : this.elementRef.nativeElement;
-        this.renderer2.setProperty(el, 'innerHTML', svg);
+        el.insertAdjacentHTML('beforeend', svg);
       });
   }
 }

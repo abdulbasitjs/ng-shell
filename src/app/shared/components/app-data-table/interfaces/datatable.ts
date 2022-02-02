@@ -8,6 +8,7 @@ export interface HeaderList {
   accessor: string;
   cell?: Object | Function;
   isSortable?: boolean;
+  renderIcon?: boolean;
 }
 
 export interface Headers {

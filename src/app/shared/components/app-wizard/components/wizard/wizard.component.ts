@@ -10,10 +10,13 @@ export class WizardComponent implements OnInit {
   @Input() steps!: StepModel[];
   @Input() currentStep!: StepModel;
   @Output() onStepChange: EventEmitter<StepModel> = new EventEmitter<StepModel>();
+  width!:string
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.width = ((this.steps.length - 1 ) * 20) + 'rem';
+  }
 
   onStepClick(step: StepModel) {
     this.onStepChange.emit(step);

@@ -1,0 +1,76 @@
+<!-- Breadcrumbs Container  -->
+<div class="breadcrumb-container">
+  <div class="breadcrumbs">
+    <i
+      [shouldRemoveParent]="false"
+      appSvg
+      src="assets/svg/breadcrumb-back-icon.svg"
+      routerLink="../"
+    ></i>
+    <ul class="breadcrumbs--list">
+      <li class="breadcrumbs--list__item inactive">
+        <a href="#">Package Management</a>
+      </li>
+      <li class="breadcrumbs--list__item"><a href="#">Gold</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- Divider -->
+<div class="divider-container">
+  <div></div>
+</div>
+
+<!-- Section Title -->
+<app-section-title
+  class="section-title m-0"
+  sectionTitle="Package Information"
+></app-section-title>
+
+<!-- Action Container -->
+<div class="action-container m-0">
+  <i [shouldRemoveParent]="false" appSvg src="assets/svg/edit-icon.svg"></i>
+</div>
+
+<!-- Package Info Container -->
+<div class="section-container package-info">
+  <div class="section">
+    <p class="section--title">Package Name</p>
+    <p class="section--name">Gold</p>
+  </div>
+  <div class="section">
+    <p class="section--title">Quota Interval</p>
+    <p class="section--name">Daily</p>
+  </div>
+  <div class="section">
+    <p class="section--title">Quota Limit</p>
+    <p class="section--name">2000</p>
+  </div>
+  <div class="section">
+    <p class="section--title">Quota Limit / Min</p>
+    <p class="section--name">2 Calls / Min (Custom X)</p>
+  </div>
+</div>
+
+<!-- Divider -->
+<div class="divider-container">
+  <div></div>
+</div>
+
+<!-- Section Title -->
+<app-section-title
+  class="section-title m-0"
+  sectionTitle="API Quota"
+></app-section-title>
+
+<!-- Action Container -->
+<div class="action-container m-0">
+  <i [shouldRemoveParent]="false" appSvg src="assets/svg/edit-icon.svg"></i>
+</div>
+
+<div class="section-container api-quota">
+  <div class="section m-t-20" *ngFor="let apiQuota of apisQuota">
+    <p class="section--title">{{ apiQuota.key }}</p>
+    <p class="section--name">{{ apiQuota.value }}</p>
+  </div>
+</div>
