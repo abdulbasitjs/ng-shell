@@ -94,12 +94,9 @@
         </ng-container>
       </div>
       <div app-wizard-template *ngSwitchCase="'2'" [step]="activeStep">
-        <ng-container formGroupName="api_points" >
+        <ng-container formGroupName="api_points">
           <ng-container formArrayName="apiQuotaList">
-            <div
-              class="form-row"
-              *ngFor="let aq of apisQuota; let i = index"
-            >
+            <div class="form-row" *ngFor="let aq of apisQuota; let i = index">
               <label>{{ aq.key }}</label>
               <app-range-btn [formControlName]="i"></app-range-btn>
             </div>
@@ -112,25 +109,31 @@
   <app-panel-footer>
     <ng-container [ngSwitch]="activeStep?.stepIndex">
       <ng-container *ngSwitchCase="'1'">
-        <app-button
-          btnTitle="Next"
-          classes="button-primary button-lg"
-          [isDisabled]="newPackageForm.controls['package_info'].invalid"
-          (clickHandler)="onNextStep()"
-        ></app-button>
+        <div class="panel__footer--bg"></div>
+        <div class="panel__footer--actions">
+          <app-button
+            btnTitle="Next"
+            classes="button-primary button-lg"
+            [isDisabled]="newPackageForm.controls['package_info'].invalid"
+            (clickHandler)="onNextStep()"
+          ></app-button>
+        </div>
       </ng-container>
       <ng-container *ngSwitchCase="'2'">
-        <app-button
-          btnTitle="Back"
-          classes="button-default button-lg"
-          (clickHandler)="onPreviousStep()"
-        ></app-button>
-        <app-button
-          btnTitle="Save"
-          classes="button-primary button-lg"
-          [isDisabled]="newPackageForm.controls['api_points'].invalid"
-          (clickHandler)="onSave()"
-        ></app-button>
+        <div class="panel__footer--bg"></div>
+        <div class="panel__footer--actions">
+          <app-button
+            btnTitle="Back"
+            classes="button-default button-lg"
+            (clickHandler)="onPreviousStep()"
+          ></app-button>
+          <app-button
+            btnTitle="Save"
+            classes="button-primary button-lg"
+            [isDisabled]="newPackageForm.controls['api_points'].invalid"
+            (clickHandler)="onSave()"
+          ></app-button>
+        </div>
       </ng-container>
     </ng-container>
   </app-panel-footer>

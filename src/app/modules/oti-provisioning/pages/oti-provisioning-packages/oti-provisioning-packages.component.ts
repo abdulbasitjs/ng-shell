@@ -38,6 +38,8 @@ export class OtiProvisioningPackagesComponent implements OnInit {
     { id: 8, key: 'quotastatus', value: 1800 },
     { id: 9, key: 'scanwithid', value: 2000 },
     { id: 10, key: 'scanasyncwithid', value: 2100 },
+    { id: 10, key: 'scanasyncwithid', value: 2100 },
+    { id: 10, key: 'scanasyncwithid', value: 2100 },
   ];
 
   constructor(
