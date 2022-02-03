@@ -15,6 +15,7 @@
   position: fixed;
   bottom: 0;
   right: 0;
+  z-index: 10;
 
   &__header {
     display: flex;
@@ -29,6 +30,10 @@
 
     & > i {
       cursor: pointer;
+      & > svg {
+        width: 1.6rem;
+        height: 1.6rem;
+      }
     }
   }
 

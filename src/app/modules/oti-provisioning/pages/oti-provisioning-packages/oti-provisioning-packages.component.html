@@ -48,16 +48,25 @@
     >
       <div app-wizard-template *ngSwitchCase="'1'" [step]="activeStep">
         <ng-container formGroupName="package_info">
-          <div class="form__input">
+          <div class="form__input icon-container pos-rel error">
             <label>Package</label>
             <input
               type="text"
               formControlName="package_name"
-              [class.error-msg]="
+              [class.error-field]="
                 !newPackageForm.get('package_info.package_name')?.valid &&
                 newPackageForm.get('package_info.package_name')?.touched
               "
             />
+            <div
+            class="pos-abs error-align-field error-msg"
+            *ngIf="
+              !newPackageForm.get('package_info.package_name')?.valid &&
+              newPackageForm.get('package_info.package_name')?.touched
+            "
+          >
+            <p>No package has been added yet</p>
+          </div>
           </div>
           <div class="form__input form__select">
             <label>Quota Interval</label>
@@ -113,7 +122,7 @@
         <div class="panel__footer--actions">
           <app-button
             btnTitle="Next"
-            classes="button-primary button-lg"
+            classes="button-primary button-lg button-box-shadow"
             [isDisabled]="newPackageForm.controls['package_info'].invalid"
             (clickHandler)="onNextStep()"
           ></app-button>
@@ -129,7 +138,7 @@
           ></app-button>
           <app-button
             btnTitle="Save"
-            classes="button-primary button-lg"
+            classes="button-primary button-lg button-box-shadow"
             [isDisabled]="newPackageForm.controls['api_points'].invalid"
             (clickHandler)="onSave()"
           ></app-button>

@@ -44,6 +44,9 @@ $form-width: 85%;
       color: var(--color-quinary);
       font-size: font-size(smallFix);
     }
+    & ::placeholder {
+      font-size: font-size(smallFix);
+    }
 
     & input[type="text"].fw,
     & input[type="password"].fw {
@@ -207,4 +210,6 @@ $form-width: 85%;
 .error-align-field {
   top:6.6rem;
   right: 8.8rem;
+  width:auto;
 }
+
