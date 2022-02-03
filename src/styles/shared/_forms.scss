@@ -172,11 +172,11 @@ $form-width: 85%;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 2rem;
-    width: 60%;
+    width: 65%;
 
     & > label {
       color: var(--color-primary);
-      font-size: font-size(small);
+      font-size: font-size(smallFix);
       font-weight: font-weight(regular);
     }
   }
