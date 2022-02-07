@@ -97,3 +97,19 @@ $sides: (top, bottom, left, right);
     }
   }
 }
+
+
+//*-*-*-*-*-*-*-*-*-*-- Misc Classes! *-*-*-*-*-*-*-*-*-*-*
+.divider {
+  width: 100%;
+  background: var(--color-octonary);
+  height: 1px;
+}
+
+//*-*-*-*-*-*-*-*-*-*-- Ovverride DatePicker Styles! *-*-*-*-*-*-*-*-*-*-*
+.md-drppicker .ranges ul li button.active,
+.md-drppicker td.active,
+.md-drppicker td.active:hover,
+.md-drppicker .btn {
+  background-color: var(--color-primary)!important;
+}

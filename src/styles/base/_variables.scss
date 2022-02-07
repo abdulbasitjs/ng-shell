@@ -4,14 +4,18 @@ html {
   --color-primary-light: rgb(46, 121, 166, 0.2);
   --color-secondary: white;
   --color-tertiary: #3492c9;
+  --color-tertiary-light: rgba(52, 146, 201, 0.07);
   --color-quaternary:  #EFEFEF;
   --color-quinary: #434343;
   --color-senary: #8fc745;
   --color-septanry: rgba(46,121,166,0.06);
   --color-octonary: #d6d6d6;
-  --color-octonary--light: rgb(214, 214, 214, 0.5);
+  --color-octonary-light: rgb(214, 214, 214, 0.5);
   --color-nonary: #979797;
   --color-denary: #f9f9f9;
+  --color-duodenary: #E8E8E8;
+  --color-duodenary-light: rgba(232, 232, 232, 0.6);
+
 
   --color-login-text: #6E6E6E;
   --border-box-project: 2px solid #2e79a6;
@@ -25,6 +29,8 @@ html {
 
   --color-pagination: #333743;
   --border-color-pagination:rgb(216, 216, 216, 0.2);
+
+  --background-color-backdrop: rgba(0, 0, 0, 0.8);
 }
 
 // Dark Color Palette (Custom Properties) In Future
@@ -52,6 +58,7 @@ $font-sizes: (
   "regular": calc(1.3rem + 0.1389vw),
   "regularFix": calc(1.4rem),
   "normal": 1.6rem,
+  "normalFix": 1.8rem,
   "medium": calc(1.8rem + 0.1389vw),
   'largeFix': 2.4rem,
   "large": calc(2.5rem + 0.15vw),

@@ -1,3 +1,5 @@
+<ng-template appPlaceholder></ng-template>
+
 <div [ngClass]="authService.isAuthenticated() ? 'container' : 'auth-container'">
   <app-header class="header" *ngIf="authService.isAuthenticated()">
   </app-header>

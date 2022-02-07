@@ -59,17 +59,18 @@
               formControlName="company_name"
               [class.error-field]="
                 !newCompanyForm.get('profile.company_name')?.valid &&
-                newCompanyForm.get('profile.company_name')?.touched"
+                newCompanyForm.get('profile.company_name')?.touched
+              "
             />
             <div
-            class="pos-abs error-align-field error-msg"
-            *ngIf="
-              !newCompanyForm.get('profile.company_name')?.valid &&
-              newCompanyForm.get('profile.company_name')?.touched
-            "
-          >
-            <p>We couldn't find company name.</p>
-          </div>
+              class="pos-abs error-align-field error-msg"
+              *ngIf="
+                !newCompanyForm.get('profile.company_name')?.valid &&
+                newCompanyForm.get('profile.company_name')?.touched
+              "
+            >
+              <p>We couldn't find company name.</p>
+            </div>
           </div>
           <div class="form__input pos-rel">
             <label>Customer Name</label>
@@ -77,18 +78,19 @@
               type="text"
               formControlName="customer_name"
               [class.error-field]="
-                  !newCompanyForm.get('profile.customer_name')?.valid &&
-                  newCompanyForm.get('profile.customer_name')?.touched"
+                !newCompanyForm.get('profile.customer_name')?.valid &&
+                newCompanyForm.get('profile.customer_name')?.touched
+              "
             />
             <div
-            class="pos-abs error-align-field error-msg"
-            *ngIf="
-              !newCompanyForm.get('profile.customer_name')?.valid &&
-              newCompanyForm.get('profile.customer_name')?.touched
-            "
-          >
-            <p>We couldn't find customer name.</p>
-          </div>
+              class="pos-abs error-align-field error-msg"
+              *ngIf="
+                !newCompanyForm.get('profile.customer_name')?.valid &&
+                newCompanyForm.get('profile.customer_name')?.touched
+              "
+            >
+              <p>We couldn't find customer name.</p>
+            </div>
           </div>
           <div class="form__input pos-rel">
             <label>Email</label>
@@ -96,18 +98,19 @@
               type="text"
               formControlName="email"
               [class.error-field]="
-                  !newCompanyForm.get('profile.email')?.valid &&
-                  newCompanyForm.get('profile.email')?.touched"
+                !newCompanyForm.get('profile.email')?.valid &&
+                newCompanyForm.get('profile.email')?.touched
+              "
             />
             <div
-            class="pos-abs error-align-field error-msg"
-            *ngIf="
-              !newCompanyForm.get('profile.email')?.valid &&
-              newCompanyForm.get('profile.email')?.touched
-            "
-          >
-            <p>We couldn't find customer email address.</p>
-          </div>
+              class="pos-abs error-align-field error-msg"
+              *ngIf="
+                !newCompanyForm.get('profile.email')?.valid &&
+                newCompanyForm.get('profile.email')?.touched
+              "
+            >
+              <p>We couldn't find customer email address.</p>
+            </div>
           </div>
           <div class="form__input">
             <label>Address (Optional)</label>
@@ -164,18 +167,19 @@
               placeholder="123123123123123123132"
               formControlName="company_key"
               [class.error-field]="
-                  !newCompanyForm.get('subscription.company_key')?.valid &&
-                  newCompanyForm.get('subscription.company_key')?.touched"
+                !newCompanyForm.get('subscription.company_key')?.valid &&
+                newCompanyForm.get('subscription.company_key')?.touched
+              "
             />
             <div
-            class="pos-abs error-align-field error-msg"
-            *ngIf="
-              !newCompanyForm.get('subscription.company_key')?.valid &&
-              newCompanyForm.get('subscription.company_key')?.touched
-            "
-          >
-            <p>Unable to match key please regenerate Api Key.</p>
-          </div>
+              class="pos-abs error-align-field error-msg"
+              *ngIf="
+                !newCompanyForm.get('subscription.company_key')?.valid &&
+                newCompanyForm.get('subscription.company_key')?.touched
+              "
+            >
+              <p>Unable to match key please regenerate Api Key.</p>
+            </div>
             <a href="#"
               >| Regenerate Api Key
               <i
@@ -258,40 +262,47 @@
   <app-panel-footer>
     <ng-container [ngSwitch]="activeStep?.stepIndex">
       <ng-container *ngSwitchCase="'1'">
-        <app-button
-          btnTitle="Next"
-          classes="button-primary button-lg button-box-shadow"
-          [isDisabled]="newCompanyForm.controls['profile'].invalid"
-          (clickHandler)="onNextStep()"
-        ></app-button>
+        <div class="panel__footer--bg"></div>
+        <div class="panel__footer--actions">
+          <app-button
+            btnTitle="Next"
+            classes="button-primary button-lg button-box-shadow"
+            [isDisabled]="newCompanyForm.controls['profile'].invalid"
+            (clickHandler)="onNextStep()"
+          ></app-button>
+        </div>
       </ng-container>
       <ng-container *ngSwitchCase="'2'">
-        <app-button
-          btnTitle="Back"
-          classes="button-default button-lg"
-          (clickHandler)="onPreviousStep()"
-        ></app-button>
-        <app-button
-          btnTitle="Next"
-          classes="button-primary button-lg button-box-shadow"
-          [isDisabled]="newCompanyForm.controls['subscription'].invalid"
-          (clickHandler)="onNextStep()"
-        ></app-button>
+        <div class="panel__footer--bg"></div>
+        <div class="panel__footer--actions">
+          <app-button
+            btnTitle="Back"
+            classes="button-default button-lg"
+            (clickHandler)="onPreviousStep()"
+          ></app-button>
+          <app-button
+            btnTitle="Next"
+            classes="button-primary button-lg button-box-shadow"
+            [isDisabled]="newCompanyForm.controls['subscription'].invalid"
+            (clickHandler)="onNextStep()"
+          ></app-button>
+        </div>
       </ng-container>
       <ng-container *ngSwitchCase="'3'">
-        <app-button
-          btnTitle="Back"
-          classes="button-default button-lg"
-          (clickHandler)="onPreviousStep()"
-        ></app-button>
-        <app-button
-          btnTitle="Save"
-          [isDisabled]="
-            newCompanyForm.controls['exclude_classifier'].invalid
-          "
-          classes="button-primary button-lg button-box-shadow"
-          (clickHandler)="onSave()"
-        ></app-button>
+        <div class="panel__footer--bg"></div>
+        <div class="panel__footer--actions">
+          <app-button
+            btnTitle="Back"
+            classes="button-default button-lg"
+            (clickHandler)="onPreviousStep()"
+          ></app-button>
+          <app-button
+            btnTitle="Save"
+            [isDisabled]="newCompanyForm.controls['exclude_classifier'].invalid"
+            classes="button-primary button-lg button-box-shadow"
+            (clickHandler)="onSave()"
+          ></app-button>
+        </div>
       </ng-container>
     </ng-container>
   </app-panel-footer>
