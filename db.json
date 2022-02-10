@@ -175,10 +175,8 @@
   "roles": {
     "code": 200,
     "data": {
-      "oti-provisioning": "Admin",
-      "oti-dashboard": "Admin",
-      "rtpd-dashboard": "Admin",
-      "rtpd-provisioning": "Admin"
+      "oti-pp": {"l": "Administrator", "r": "Admin"},
+      "oti-dd": {"l": "Administrator", "r": "Admin"}
     },
     "message": "Success"
   },

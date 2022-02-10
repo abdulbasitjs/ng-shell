@@ -6,12 +6,15 @@
       var(--customer-table-columns),
       minmax(min-content, 1fr)
     );
+
     & thead {
       position: sticky;
-      top:7rem;
-      left:0px;
-      z-index: 9;
+      top: 7rem;
+      left: 0px;
+      z-index: $zindex-sticky;
     }
+
+
     &--headers,
     &--body {
       grid-column: 1 / -1;
@@ -95,7 +98,6 @@
     &--body tr {
       cursor: pointer;
     }
-
   }
 
   .suspended {

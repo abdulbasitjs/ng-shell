@@ -14,7 +14,7 @@ $dropdown-left-margin: 1.2rem;
   transform: scaleY(0);
   transform-origin: top;
   box-shadow: 0rem 0rem 0.4rem #bfbcbc;
-  z-index: 10;
+  z-index: $zindex-dropdown;
 
   &--list {
     flex: 1;
@@ -105,7 +105,7 @@ $dropdown-left-margin: 1.2rem;
 
   &.open {
     transform: scaleY(1);
-    z-index: 10;
+    z-index: $zindex-dropdown;
   }
 
   @include media-desktop {

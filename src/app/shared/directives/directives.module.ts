@@ -5,6 +5,7 @@ import { DropdownDirective } from './dropdown/dropdown.directive';
 import { ClickOutsideDirective } from './click-outside/click-outside.directive';
 import { AccessControlDirective } from './access-control/access-control.directive';
 import { ChangeColorDirective } from './change-color/change-color.directive';
+import { PlaceholderDirective } from './placeholder/placeholder.directive';
 
 @NgModule({
   declarations: [
@@ -13,14 +14,16 @@ import { ChangeColorDirective } from './change-color/change-color.directive';
     ClickOutsideDirective,
     AccessControlDirective,
     ChangeColorDirective,
+    PlaceholderDirective
   ],
   imports: [CommonModule],
-  exports: [
+exports: [
     SvgDirective,
     DropdownDirective,
     ClickOutsideDirective,
     AccessControlDirective,
     ChangeColorDirective,
+    PlaceholderDirective
   ],
 })
 export class DirectivesModule {}

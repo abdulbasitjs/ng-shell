@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UIMESSAGES } from '@configs/ui.messages';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { LoaderService } from '@core/services/loader.service';
+import { SSOResponse } from '@shared/models/http-response.model';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-forgot',
@@ -12,6 +15,8 @@ import { LoaderService } from '@core/services/loader.service';
   },
 })
 export class ForgotComponent implements OnInit {
+  error = null;
+  UIMSG = UIMESSAGES;
   forgotForm!: FormGroup;
   isEmailSent: boolean = false;
   constructor(
@@ -27,11 +32,22 @@ export class ForgotComponent implements OnInit {
     });
   }
 
-  onLogin() {
+  onReset() {
     const { email } = this.forgotForm.value;
     if (email) {
-      this.authService.forgot(email);
-      this.isEmailSent = true;
+      this.authService.forgot(email)
+      .pipe(catchError(error => {
+        this.error = error.error.message;
+        return of([]);
+      }))
+      .subscribe((res) => {
+        const response = <SSOResponse>res;
+        const { code } = response;
+        if (code === 200) {
+          this.error = null;
+          this.isEmailSent = true;
+        }
+      });
     }
   }
 

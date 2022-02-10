@@ -1,13 +1,1 @@
-<!-- <div class="loader" [class.active]="isLoading">
-  <div class="overlay" [class.active]="isLoading"></div>
-  <div class="lds-ellipsis">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-  <div class="progress" [style.width]="progressWidth$ | async"><b></b><i></i></div>
-</div> -->
-
-<span class="dots-circle-spinner loading"></span>
-
+<span class="dots-circle-spinner loading" *ngIf="isLoading"></span>

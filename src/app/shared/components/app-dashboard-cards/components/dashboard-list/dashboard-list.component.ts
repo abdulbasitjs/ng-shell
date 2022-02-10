@@ -7,6 +7,7 @@ import {
 import { DashboardService } from '@core/services/dashboard.service';
 import { deafultDashboardCards } from '../../values/dashboard.values';
 import { SSORoles } from '@shared/models/roles.model';
+import { SSORolesMappingOfServer } from '@configs/ui.config';
 
 @Component({
   selector: 'app-dashboard-list',
@@ -21,7 +22,7 @@ export class DashboardListComponent implements OnInit {
 
   ngOnInit(): void {
     this.dashboardItems = this.dashboardItems.filter(
-      (item) => !!this.list[item.route]
+      (item) => !!this.list[SSORolesMappingOfServer[item.route]]
     );
   }
 

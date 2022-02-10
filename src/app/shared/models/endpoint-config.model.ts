@@ -3,7 +3,7 @@ export interface EndpointConfig {
   name: string;
   api: string;
   path: string;
-  isPollable: boolean;
+  noToken?: boolean;
   runAt: string;
   hideLoader?: boolean;
 }

@@ -1,4 +1,4 @@
-<div app-loader class="hide"></div>
+<div app-loader [isLoading]="loaderService.getLoader() | async"></div>
 <section class="auth--form__section login">
   <p class="auth--form__section--title">Single Sign On Portal</p>
   <p class="auth--form__section--description">Enter your details below</p>
@@ -24,7 +24,7 @@
             !loginForm.get('email')?.valid && loginForm.get('email')?.touched
           "
         >
-          <p>We couldn't find an account with that email address.</p>
+          <p>{{ UIMSG.PROVIDE_EMAIL_USERNAME }}</p>
         </div>
       </div>
     </div>
@@ -59,7 +59,7 @@
             loginForm.get('password')?.touched
           "
         >
-          <p>We couldn't find an account with that email address.</p>
+          <p>{{ UIMSG.PROVIDE_PASSWORD }}</p>
         </div>
       </div>
     </div>

@@ -1,14 +1,33 @@
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HttpStatusCode,
 } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { AuthenticationService } from '@core/authentication/authentication.service';
 
 import { environment } from '@environment/environment';
-import { Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  filter,
+  Observable,
+  switchMap,
+  take,
+  throwError,
+} from 'rxjs';
 
+@Injectable({ providedIn: 'root' })
 export class ApiPrefixInterceptor implements HttpInterceptor {
+  private isRefreshing = false;
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
+    null
+  );
+
+  constructor(private auth: AuthenticationService) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
@@ -26,21 +45,75 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
 
     req = req.clone({
       url: this._buildUrl(current, req.url),
+      setHeaders: current?.noToken
+        ? {}
+        : {
+            Authorization: `Bearer ${this.auth.getToken()}`,
+          },
     });
 
-    return next.handle(req);
-  }
-
-  private _cleanUrl(url: string) {
-    return url.substr(
-      0,
-      url.includes('?') ? url.indexOf('?') : url.length
+    return next.handle(req).pipe(
+      catchError((error) => {
+        if (
+          error instanceof HttpErrorResponse &&
+          !req.url.includes('login') &&
+          error.status === HttpStatusCode.Unauthorized
+        ) {
+          return this.handleUnauthorized(req, next);
+        }
+        return throwError(error);
+      })
     );
   }
 
+  private _cleanUrl(url: string) {
+    return url.substr(0, url.includes('?') ? url.indexOf('?') : url.length);
+  }
+
   private _buildUrl(current: any, url: string): string {
-    return `${
-      environment[current?.baseUrl as keyof typeof undefined]['baseUrl']
-    }${current?.api}${current?.path}${url}`;
+    if (current) {
+      return `${
+        environment[current?.baseUrl as keyof typeof undefined]['baseUrl']
+      }${current?.api}${current?.path}${url}`;
+    }
+
+    return '';
+  }
+
+  private addTokenHeader(request: HttpRequest<any>, token: string) {
+    return request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+  private handleUnauthorized(request: HttpRequest<any>, next: HttpHandler) {
+    if (!this.isRefreshing) {
+      this.isRefreshing = true;
+      this.refreshTokenSubject.next(null);
+      const token = this.auth.getRefreshToken();
+      if (token)
+        return this.auth.refreshToken().pipe(
+          switchMap((token: any) => {
+            console.log(token);
+            this.isRefreshing = false;
+            // this.tokenService.saveToken(token.accessToken);
+            this.refreshTokenSubject.next(token.accessToken);
+
+            return next.handle(this.addTokenHeader(request, token));
+          }),
+          catchError((err) => {
+            this.isRefreshing = false;
+            this.auth.logout();
+            return throwError(err);
+          })
+        );
+    }
+    return this.refreshTokenSubject.pipe(
+      filter((token) => token !== null),
+      take(1),
+      switchMap((token) => next.handle(this.addTokenHeader(request, token)))
+    );
   }
 }

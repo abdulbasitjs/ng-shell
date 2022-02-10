@@ -55,7 +55,16 @@ export class StorageService implements OnDestroy {
   getToken() {
     const user = this.get(this.userKey);
     if (user) {
-      return user.access_token;
+      return user.token;
+    } else {
+      return null;
+    }
+  }
+
+  getRefreshToken() {
+    const user = this.get(this.userKey);
+    if (user) {
+      return user.refresh_token;
     } else {
       return null;
     }

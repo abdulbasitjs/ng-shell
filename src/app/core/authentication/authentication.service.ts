@@ -11,6 +11,7 @@ import { JwtHelperService } from '@core/services/jwt-helper.service';
 import { map, Observable, pluck, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { SSORoles } from '@shared/models/roles.model';
+import { SSORolesMappingOfServer } from '@configs/ui.config';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService implements OnDestroy {
@@ -39,36 +40,30 @@ export class AuthenticationService implements OnDestroy {
   }
 
   login(email: string, password: string, isRemeber: boolean) {
-    console.log(isRemeber);
-    if (email === 'admin@admin.com' && password === 'admin') {
-      this.http.get(EP.Login).subscribe((res) => {
+    this.http
+      .post(EP.Login, { username: email, password, isRemeber })
+      .subscribe((res) => {
         const response = <SSOResponse>res;
-        if (response && response.data) {
-          const { data: user } = response;
-          const {
-            id,
-            name,
-            email,
-            roles,
-            permissions,
-            access_token: token,
-          } = user;
-          this.storage.set(this.userKey, user);
-          this._user$.next({ id, name, email, roles, permissions, token });
-          this.router.navigateByUrl('/home');
+        const { code, data } = response;
+        if (code === 200) {
+          const { permissions, token, refreshToken } = data;
+          this.storage.set(this.userKey, data);
+          this._user$.next({ permissions, token, refreshToken });
+          this.router.navigateByUrl('/');
         }
       });
-    } else {
-      alert('Inavalid Username password');
-    }
   }
 
   forgot(email: string) {
-    alert(email);
+    return this.http.post(EP.Forgot, { email });
   }
 
-  resetPassword(password: string) {
-    alert(password);
+  resetPassword(password: string, cPassword: string, token: string) {
+    return this.http.post(EP.Reset, {
+      password,
+      passwordConfirmation: cPassword,
+      token,
+    });
   }
 
   logout() {
@@ -78,7 +73,6 @@ export class AuthenticationService implements OnDestroy {
   }
 
   isAuthenticated() {
-    // return true;
     return !this.isTokenExpired() && !!this.getToken();
   }
 
@@ -91,7 +85,21 @@ export class AuthenticationService implements OnDestroy {
   }
 
   isTokenExpired() {
+    const isTokenExpired = this.jwtHelperService.isTokenExpired(
+      this.getToken()
+    );
     return this.jwtHelperService.isTokenExpired(this.getToken());
+  }
+
+  getRefreshToken() {
+    return this.storage.getRefreshToken();
+  }
+
+  refreshToken() {
+    return this.http.post(EP.RefreshToken, {
+      token: this.getToken(),
+      refreshToken: this.getRefreshToken(),
+    });
   }
 
   getToken() {
@@ -99,7 +107,10 @@ export class AuthenticationService implements OnDestroy {
   }
 
   getUser() {
-    return this.storage.get(this.userKey);
+    const {
+      data: { name, email, password },
+    } = this.decodeToken();
+    return { name, email, password };
   }
 
   getRoles() {
@@ -112,8 +123,8 @@ export class AuthenticationService implements OnDestroy {
 
   getUserRoles(): SSORoles {
     const user = this.storage.get(this.userKey);
-    if (user && user.role) {
-      return user.role;
+    if (user && user.permissions) {
+      return user.permissions;
     }
     return {};
   }
@@ -121,11 +132,11 @@ export class AuthenticationService implements OnDestroy {
   isRoleVerified(projectKey: string): boolean | Observable<boolean> {
     const role = this.getUserRoles();
     if (Object.keys(role).length) {
-      return !!role[projectKey];
+      return !!role[SSORolesMappingOfServer[projectKey]];
     } else {
       return this.getUserRolesAsync()
         .pipe(pluck('roles', 'data'))
-        .pipe(map((el) => !!el[projectKey]));
+        .pipe(map((el) => !!el[SSORolesMappingOfServer[projectKey]]));
     }
   }
 }

@@ -1,3 +1,25 @@
+<ng-template #scanStatsModal>
+  <app-modal [showModal]="openScanModal">
+    <app-modal-header (onModalClose)="onStatModalClose()">
+      <app-download-report
+        title="Donwload Summary"
+        icon="assets/svg/PDF.svg"
+      ></app-download-report>
+      <app-download-report
+        title="Donwload Daily Breakdown"
+        icon="assets/svg/CSV.svg"
+      ></app-download-report>
+    </app-modal-header>
+    <app-modal-body>
+      <app-scan-date></app-scan-date>
+      <app-url-scanned></app-url-scanned>
+      <app-api-per-limit></app-api-per-limit>
+      <app-api-usage></app-api-usage>
+    </app-modal-body>
+  </app-modal>
+</ng-template>
+
+
 <!-- Breadcrumbs Container  -->
 <div class="breadcrumb-container">
   <div class="breadcrumbs">
@@ -33,6 +55,7 @@
     class="button-component"
     btnTitle="Scan Stats"
     classes="button-primary button-pd"
+    (clickHandler)="showScanReport()"
   >
   </app-button>
   <i [shouldRemoveParent]="false" appSvg src="assets/svg/edit-icon.svg"></i>

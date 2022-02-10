@@ -1,8 +1,5 @@
 export interface User {
-  id: number;
-  name: string;
-  email: string;
-  roles: number;
-  permissions: Array<any>;
+  permissions: { [key: string]: any };
   token: string;
+  refreshToken: string;
 }

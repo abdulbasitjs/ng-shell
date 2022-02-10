@@ -1,0 +1,14 @@
+<div class="modal__container--header">
+  <p class="modal__containter--header__title">LookingGlass Scan Stats</p>
+  <div class="space"></div>
+  <ng-container>
+    <ng-content></ng-content>
+  </ng-container>
+  <i
+    [shouldRemoveParent]="false"
+    appSvg
+    src="assets/svg/panel-close-icon.svg"
+    class="m-l-10"
+    (click)="onClose()"
+  ></i>
+</div>

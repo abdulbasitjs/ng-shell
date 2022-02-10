@@ -4,18 +4,21 @@ html {
   --color-primary-light: rgb(46, 121, 166, 0.2);
   --color-secondary: white;
   --color-tertiary: #3492c9;
-  --color-quaternary:  #EFEFEF;
+  --color-tertiary-light: rgba(52, 146, 201, 0.07);
+  --color-quaternary: #efefef;
   --color-quinary: #434343;
   --color-senary: #8fc745;
-  --color-septanry: rgba(46,121,166,0.06);
+  --color-septanry: rgba(46, 121, 166, 0.06);
   --color-octonary: #d6d6d6;
-  --color-octonary--light: rgb(214, 214, 214, 0.5);
+  --color-octonary-light: rgb(214, 214, 214, 0.5);
   --color-nonary: #979797;
   --color-denary: #f9f9f9;
+  --color-duodenary: #e8e8e8;
+  --color-duodenary-light: rgba(232, 232, 232, 0.6);
 
-  --color-login-text: #6E6E6E;
+  --color-login-text: #6e6e6e;
   --border-box-project: 2px solid #2e79a6;
-  --border-box-dropdown: 1px solid #ECECEC;
+  --border-box-dropdown: 1px solid #ececec;
   --customer-table-columns: 5;
   --disabled: rgba(160, 160, 160, 0.5);
   --danger: #d0021b;
@@ -24,7 +27,9 @@ html {
   --width-progress-loader: 0;
 
   --color-pagination: #333743;
-  --border-color-pagination:rgb(216, 216, 216, 0.2);
+  --border-color-pagination: rgb(216, 216, 216, 0.2);
+
+  --background-color-backdrop: rgba(0, 0, 0, 0.8);
 }
 
 // Dark Color Palette (Custom Properties) In Future
@@ -39,7 +44,7 @@ $font-weights: (
   "regular": 400,
   "medium": 500,
   "bold": 700,
-  "black": 900
+  "black": 900,
 );
 
 @function font-weight($font-weight-style) {
@@ -52,11 +57,12 @@ $font-sizes: (
   "regular": calc(1.3rem + 0.1389vw),
   "regularFix": calc(1.4rem),
   "normal": 1.6rem,
+  "normalFix": 1.8rem,
   "medium": calc(1.8rem + 0.1389vw),
-  'largeFix': 2.4rem,
+  "largeFix": 2.4rem,
   "large": calc(2.5rem + 0.15vw),
   "xl": 3rem,
-  "xxl": 4rem
+  "xxl": 4rem,
 );
 
 @function font-size($font-size-style) {
@@ -68,9 +74,29 @@ $break-points: (
   "break-point-medium": 600px,
   "break-point-tablet": 800px,
   "break-point-custom-tablet": 1100px,
-  "break-point-desktop": 1300px
+  "break-point-desktop": 1300px,
 );
 
 @function break-point($key) {
   @return map-get($break-points, "break-point-" + $key);
 }
+
+@mixin blur($radius) {
+  // -webkit-filter: blur($radius+px); /* Chrome, Safari */
+  // -ms-filter: blur($radius+px); /* IE12? */
+  // filter: url("data:image/svg+xml;utf8,<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\"><filter id=\"blur\"><feGaussianBlur stdDeviation=\"#{$radius}\" /></filter></svg>#blur"); /* Firefox, Safari, Chrome*/
+  // filter: progid:DXImageTransform.Microsoft.Blur(Strength=$radius); /* IE9 */
+  filter: blur($radius + px);
+  -moz-filter: blur($radius + px);
+  backdrop-filter: blur($radius + px);
+}
+
+$zindex-pagination: 990;
+$zindex-dropdown: 1000;
+$zindex-sticky: 1020;
+$zindex-fixed: 1030;
+$zindex-modal-backdrop: 1040;
+$zindex-modal: 1050;
+$zindex-popover: 1060;
+$zindex-tooltip: 1070;
+$zindex-loader: 1080;
