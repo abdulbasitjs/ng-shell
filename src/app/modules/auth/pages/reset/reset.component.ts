@@ -3,6 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { LoaderService } from '@core/services/loader.service';
+import { UIMESSAGES } from '@configs/ui.messages';
+import { catchError, of } from 'rxjs';
+import { SSOResponse } from '@shared/models/http-response.model';
 
 @Component({
   selector: 'app-reset',
@@ -12,8 +15,11 @@ import { LoaderService } from '@core/services/loader.service';
   },
 })
 export class ResetComponent implements OnInit {
-  isPasswordReset:boolean = false;
+  error = null;
+  UIMSG = UIMESSAGES;
+  isPasswordReset: boolean = false;
   resetForm!: FormGroup;
+  _verifyToken!: string;
   constructor(
     private authService: AuthenticationService,
     public loaderService: LoaderService,
@@ -26,13 +32,29 @@ export class ResetComponent implements OnInit {
       password: new FormControl('', [Validators.required]),
       cPassword: new FormControl('', [Validators.required]),
     });
+    const { key = '' } = this.route.snapshot.queryParams;
+    this._verifyToken = key;
   }
 
   onResetPassword() {
     const { password, cPassword } = this.resetForm.value;
     if (password === cPassword) {
-      this.authService.resetPassword(password);
-      this.isPasswordReset = true;
+      this.authService
+        .resetPassword(password, cPassword, this._verifyToken)
+        .pipe(
+          catchError((error) => {
+            this.error = error.error.message;
+            return of([]);
+          })
+        )
+        .subscribe((res) => {
+          const response = <SSOResponse>res;
+          const { code } = response;
+          if (code === 200) {
+            this.error = null;
+            this.isPasswordReset = true;
+          }
+        });
     } else return;
   }
 

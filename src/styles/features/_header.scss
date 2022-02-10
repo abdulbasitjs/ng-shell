@@ -4,8 +4,6 @@
   position: sticky;
   top: 0;
   height: 100%;
-  z-index: 100;
-
   &__menu {
     position: absolute;
     height: 100%;
@@ -53,11 +51,11 @@
       background: #ffffff;
       box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.32);
       & > i > svg > g > g {
-        fill: #2E79A6;
+        fill: #2e79a6;
       }
 
       i {
-          transform: rotate(-180deg);
+        transform: rotate(-180deg);
       }
     }
 
@@ -75,7 +73,7 @@
       opacity: 0;
       transition: opacity 0.3s ease;
       pointer-events: none;
-      z-index: 10;
+      z-index: $zindex-sticky;
 
       & li {
         gap: 1rem;
@@ -88,7 +86,7 @@
     &--list.open {
       opacity: 1;
       pointer-events: visible;
-      z-index: 1;
+      z-index: $zindex-sticky;
     }
   }
 
@@ -131,5 +129,9 @@
         cursor: pointer;
       }
     }
+  }
+
+  &.open {
+    z-index: $zindex-sticky;
   }
 }

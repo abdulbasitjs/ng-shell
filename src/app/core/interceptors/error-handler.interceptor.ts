@@ -18,7 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ErrorHandlerInterceptor implements HttpInterceptor {
   constructor(
     private router: Router,
-    private logger: LoggerService,
+    private _: LoggerService,
     private toaster: ToastrService
   ) {}
 
@@ -33,10 +33,13 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
 
   private handleError(response: any): Observable<HttpEvent<any>> {
     LoggerService.error('Request Error: ' + JSON.stringify(response));
-    this.toaster.error(response.message, response.statusText);
     switch (response['status']) {
+      case HttpStatusCode.BadRequest:
+        this.toaster.error(response.error.message, response.statusText);
+        break;
+
       case HttpStatusCode.Unauthorized:
-        this.router.navigateByUrl('/auth/login');
+        this.toaster.error(response.error.message, response.statusText);
         break;
 
       case HttpStatusCode.Forbidden:
@@ -46,7 +49,12 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
       case HttpStatusCode.BadRequest:
         break;
 
+      case HttpStatusCode.InternalServerError:
+        this.toaster.error(response.message, response.statusText);
+        break;
+
       default:
+        this.toaster.error(response.message, response.statusText);
         break;
     }
     throw response;

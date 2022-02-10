@@ -15,7 +15,7 @@
   position: fixed;
   bottom: 0;
   right: 0;
-  z-index: 10;
+  z-index: $zindex-popover;
 
   &__header {
     display: flex;
@@ -58,7 +58,7 @@
 
       position: fixed;
       bottom: 0;
-      z-index: 200;
+      z-index: $zindex-popover + 1;
       @include blur(8);
     }
 
@@ -67,7 +67,7 @@
       align-items: center;
       padding-bottom: 1.2rem;
       gap: 1.6rem;
-      z-index: 201;
+      z-index: $zindex-popover + 2;
     }
 
     & > app-button {

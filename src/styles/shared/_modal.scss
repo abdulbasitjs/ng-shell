@@ -1,6 +1,6 @@
 $modalColor: var(--color-tertiary);
 .modal {
-  z-index: 300;
+  z-index: $zindex-modal-backdrop;
   position: fixed;
   width: 100vw;
   height: 100vh;
@@ -67,7 +67,7 @@ $modalColor: var(--color-tertiary);
   }
 
   &.open > &__container {
-    z-index: 301;
+    z-index: $zindex-modal;
     transform: scale(1);
     // transform: translateY(0);
     opacity: 1;

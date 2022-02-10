@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '@core/authentication/authentication.service';
-import { LoaderService } from '@core/services/loader.service';
 
 @Component({
   selector: 'app-auth',
@@ -12,17 +11,13 @@ import { LoaderService } from '@core/services/loader.service';
 })
 export class AuthComponent implements OnInit {
   loginForm!: FormGroup;
-  constructor(
-    private authService: AuthenticationService,
-    public loaderService: LoaderService,
-  ) {}
+  constructor(private authService: AuthenticationService) {}
 
   ngOnInit(): void {
-
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
-      isRemember: new FormControl()
+      isRemember: new FormControl(),
     });
   }
 

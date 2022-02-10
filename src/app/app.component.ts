@@ -23,7 +23,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   showOverlay = false;
   overlaySubscription!: Subscription;
 
-  isAuthenticated: boolean = false;
   constructor(
     public overlayService: OverlayService,
     public authService: AuthenticationService,

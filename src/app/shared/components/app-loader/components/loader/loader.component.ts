@@ -1,36 +1,16 @@
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { LoaderService } from '@core/services/loader.service';
-import { Observable, Subscription } from 'rxjs';
-
+import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: '[app-loader]',
   templateUrl: './loader.component.html',
   host: {
-    class: 'app-loader'
-  }
+    class: 'app-loader',
+  },
 })
-export class LoaderComponent implements OnInit, OnDestroy {
-  @Output() onLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
-  isLoading!: boolean;
-  loaderSubscription!: Subscription;
-  progressWidth$!: Observable<number>;
-  constructor(private loader: LoaderService) {}
+export class LoaderComponent implements OnInit {
+  @Input() isLoading: Boolean | null = false;
+  constructor() {}
 
-  ngOnInit(): void {
-    this.loaderSubscription = this.loader.getLoader().subscribe((isLoading) => {
-      this.isLoading = isLoading;
-      this.progressWidth$ = this.loader.getProgressWidth();
-      this.onLoading.emit(isLoading);
-    });
-  }
+  ngOnInit(): void {}
 
-  ngOnDestroy(): void {
-    this.loaderSubscription.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 }

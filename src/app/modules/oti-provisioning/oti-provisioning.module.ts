@@ -24,6 +24,7 @@ import { UrlScannedComponent } from './components/url-scanned/url-scanned.compon
 import { ApiPerLimitComponent } from './components/api-per-limit/api-per-limit.component';
 import { ApiUsageComponent } from './components/api-usage/api-usage.component';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { AppCustomerAddEditComponent } from './components/customer-add-edit/customer-add-edit.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
     UrlScannedComponent,
     ApiPerLimitComponent,
     ApiUsageComponent,
+    AppCustomerAddEditComponent
   ],
   imports: [
     CommonModule,

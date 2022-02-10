@@ -3,6 +3,13 @@ export const OTI_DASHBOARD_KEY = 'oti-dashboard';
 export const RTPD_PROVISIONING_KEY = 'rtpd-provisioning';
 export const RTPD_DASHBOARD_KEY = 'rtpd-dashboard';
 
+export const SSORolesMappingOfServer: any = {
+  [OTI_DASHBOARD_KEY]: 'oti-db',
+  [OTI_PROVISIONING_KEY]: 'oti-pp',
+  [RTPD_DASHBOARD_KEY]: 'rtpd-db',
+  [RTPD_PROVISIONING_KEY]: 'rtpd-pp',
+};
+
 export const ProjectAccessControls: any = {
   [OTI_PROVISIONING_KEY]: {
     Admin: '*',
@@ -10,7 +17,7 @@ export const ProjectAccessControls: any = {
       access_controls: [
         {
           module_name: 'admin-management',
-          action: "disabled",
+          action: 'disabled',
           create: true,
           update: false,
           delelte: false,
@@ -18,7 +25,7 @@ export const ProjectAccessControls: any = {
         },
         {
           module_name: 'new-company',
-          action: "disabled",
+          action: 'disabled',
         },
       ],
     },
@@ -26,15 +33,15 @@ export const ProjectAccessControls: any = {
       access_controls: [
         {
           module_name: 'admin-management',
-          action: "hide", // hide
+          action: 'hide', // hide
         },
         {
           module_name: 'new-company',
-          action: "hide", // disable event
+          action: 'hide', // disable event
         },
       ],
     },
-    User: '!'
+    User: '!',
   },
 };
 
