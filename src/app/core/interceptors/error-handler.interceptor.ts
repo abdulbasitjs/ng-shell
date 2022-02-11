@@ -39,6 +39,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
         break;
 
       case HttpStatusCode.Unauthorized:
+        if (response.url.includes('login'))
         this.toaster.error(response.error.message, response.statusText);
         break;
 

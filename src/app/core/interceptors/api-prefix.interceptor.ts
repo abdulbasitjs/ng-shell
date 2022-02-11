@@ -10,6 +10,7 @@ import { Injectable } from '@angular/core';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 
 import { environment } from '@environment/environment';
+import { SSOResponse } from '@shared/models/http-response.model';
 import {
   BehaviorSubject,
   catchError,
@@ -91,17 +92,17 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
   private handleUnauthorized(request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
+      this.auth.isRefreshingToken = true;
       this.refreshTokenSubject.next(null);
       const token = this.auth.getRefreshToken();
       if (token)
         return this.auth.refreshToken().pipe(
-          switchMap((token: any) => {
-            console.log(token);
+          switchMap((res) => {
+            const newToken = this.auth.setNewToken(res);
             this.isRefreshing = false;
-            // this.tokenService.saveToken(token.accessToken);
-            this.refreshTokenSubject.next(token.accessToken);
-
-            return next.handle(this.addTokenHeader(request, token));
+            this.auth.isRefreshingToken = false;
+            this.refreshTokenSubject.next(newToken);
+            return next.handle(this.addTokenHeader(request, newToken));
           }),
           catchError((err) => {
             this.isRefreshing = false;

@@ -1,6 +1,9 @@
 <div app-loader [isLoading]="loaderService.getLoader() | async"></div>
 <ng-container *ngIf="!isEmailSent; else success">
-  <section class="auth--form__section forgot">
+  <section
+    class="auth--form__section forgot"
+    [class.loading]="loaderService.getLoader() | async"
+  >
     <a routerLink="../login" class="auth--form__section--navigation">
       <i
         [shouldRemoveParent]="false"
@@ -55,8 +58,13 @@
 </ng-container>
 
 <ng-template #success>
-  <section class="auth--form__section forgot success" *ngIf="!(loaderService.getLoader() | async)">
-    <p class="auth--form__section--title" *ngIf="!error">Email Sent Successfully!!</p>
+  <section
+    class="auth--form__section forgot success"
+    *ngIf="!(loaderService.getLoader() | async)"
+  >
+    <p class="auth--form__section--title" *ngIf="!error">
+      Email Sent Successfully!!
+    </p>
     <p class="auth--form__section--title" *ngIf="error">{{ this.error }}</p>
     <form class="center m-b-50">
       <i [shouldRemoveParent]="false" appSvg src="assets/svg/EmailSent.svg"></i>

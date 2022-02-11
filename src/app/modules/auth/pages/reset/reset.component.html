@@ -1,6 +1,9 @@
 <div app-loader [isLoading]="loaderService.getLoader() | async"></div>
 <ng-container *ngIf="!isPasswordReset; else success">
-  <section class="auth--form__section forgot">
+  <section
+    class="auth--form__section forgot"
+    [class.loading]="loaderService.getLoader() | async"
+  >
     <p class="auth--form__section--title">New Password</p>
     <p class="auth--form__section--description">Enter new password below</p>
     <form class="form" [formGroup]="resetForm">

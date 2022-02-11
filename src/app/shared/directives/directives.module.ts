@@ -6,6 +6,7 @@ import { ClickOutsideDirective } from './click-outside/click-outside.directive';
 import { AccessControlDirective } from './access-control/access-control.directive';
 import { ChangeColorDirective } from './change-color/change-color.directive';
 import { PlaceholderDirective } from './placeholder/placeholder.directive';
+import { DigitOnlyDirective } from './digit-only/digit-only.directive';
 
 @NgModule({
   declarations: [
@@ -14,16 +15,18 @@ import { PlaceholderDirective } from './placeholder/placeholder.directive';
     ClickOutsideDirective,
     AccessControlDirective,
     ChangeColorDirective,
-    PlaceholderDirective
+    PlaceholderDirective,
+    DigitOnlyDirective,
   ],
   imports: [CommonModule],
-exports: [
+  exports: [
     SvgDirective,
     DropdownDirective,
     ClickOutsideDirective,
     AccessControlDirective,
     ChangeColorDirective,
-    PlaceholderDirective
+    PlaceholderDirective,
+    DigitOnlyDirective,
   ],
 })
 export class DirectivesModule {}

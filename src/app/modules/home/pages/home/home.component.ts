@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { DashboardCard } from '@shared/components/app-dashboard-cards/interfaces/dashboard-card';
@@ -46,6 +46,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.roles = data['roles'];
       }
     });
+
+    setTimeout(() => {
+      this.userService.getUsers().subscribe((d) => {
+        console.log(d);
+      });
+    }, 1 * 60 * 1030);
   }
 
   handleDashboardSelect(item: DashboardCard) {

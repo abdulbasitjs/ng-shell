@@ -1,5 +1,8 @@
 <div app-loader [isLoading]="loaderService.getLoader() | async"></div>
-<section class="auth--form__section login">
+<section
+  class="auth--form__section login"
+  [class.loading]="loaderService.getLoader() | async"
+>
   <p class="auth--form__section--title">Single Sign On Portal</p>
   <p class="auth--form__section--description">Enter your details below</p>
   <form class="form" [formGroup]="loginForm">

@@ -7,7 +7,14 @@
   >
   </app-button>
   <div class="form__input">
-    <input class="fw m-0" type="text" [value]="inputValue" />
+    <input
+      (onValueUpdate)="onChange($event)"
+      [min]="1"
+      digitOnly
+      class="fw m-0"
+      type="text"
+      [value]="inputValue"
+    />
   </div>
   <app-button
     class="button-component"

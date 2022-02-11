@@ -8,7 +8,7 @@
   icon="assets/svg/add-button-icon.svg"
   btnTitle="Add New Package"
   classes="button-primary button-pd"
-  (clickHandler)="isPanelOpen = true"
+  (clickHandler)="onAddNewPackage()"
   appAccessControl="new-company"
 >
 </app-button>
@@ -28,86 +28,4 @@
 
 <app-pagination class="pagination-component">Pagination Table</app-pagination>
 
-<app-panel [showPanel]="isPanelOpen">
-  <app-panel-header
-    headerTitle="Add a New Package"
-    clearIcon="assets/svg/panel-close-icon.svg"
-    (onPanelClose)="isPanelOpen = false"
-  >
-  </app-panel-header>
-
-  <app-panel-body class="panel__content">
-    <!-- Add new Company Profile -->
-    <form
-      class="form m-0"
-      (ngSubmit)="onAddNewPackage()"
-      [formGroup]="newPackageForm"
-    >
-      <ng-container formGroupName="package_info">
-        <div class="form__input icon-container pos-rel error">
-          <label>Package</label>
-          <input
-            type="text"
-            formControlName="package_name"
-            [class.error-field]="
-              !newPackageForm.get('package_info.package_name')?.valid &&
-              newPackageForm.get('package_info.package_name')?.touched
-            "
-          />
-          <div
-            class="pos-abs error-align-field error-msg"
-            *ngIf="
-              !newPackageForm.get('package_info.package_name')?.valid &&
-              newPackageForm.get('package_info.package_name')?.touched
-            "
-          >
-            <p>No package has been added yet</p>
-          </div>
-        </div>
-        <div class="form__input form__select">
-          <label>Quota Interval</label>
-          <div class="dropdown-trigger">
-            <i
-              appSvg
-              [shouldRemoveParent]="false"
-              [src]="'/assets/svg/select-dropdown-field-icon.svg'"
-              appDropdown=".quota-interval-dropdown > .dropdown"
-            >
-              <app-dropdown
-                class="quota-interval-dropdown"
-                [items]="quotaIntervalList"
-                (onSelect)="handleQuotaIntervalSelect($event)"
-              ></app-dropdown>
-            </i>
-          </div>
-          <input
-            readonly
-            type="text"
-            class="select"
-            formControlName="quota_interval"
-            value="something"
-          />
-        </div>
-        <div class="form__input">
-          <label>Quota Limit</label>
-          <app-range-btn formControlName="quota_limit"></app-range-btn>
-        </div>
-        <div class="form__input m-t-20">
-          <label>Rate Limit / Min</label>
-          <app-range-btn formControlName="rate_permin"></app-range-btn>
-        </div>
-      </ng-container>
-    </form>
-  </app-panel-body>
-
-  <app-panel-footer>
-    <div class="panel__footer--bg"></div>
-    <div class="panel__footer--actions">
-      <app-button
-        btnTitle="Next"
-        classes="button-primary button-lg button-box-shadow"
-        [isDisabled]="newPackageForm.controls['package_info'].invalid"
-      ></app-button>
-    </div>
-  </app-panel-footer>
-</app-panel>
+<router-outlet></router-outlet>

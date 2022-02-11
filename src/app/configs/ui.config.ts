@@ -57,3 +57,8 @@ export const quotaInterval = [
   { label: 'Monthly', value: 'monthly', active: false },
   { label: 'Yearly', value: 'yearly', active: false },
 ];
+
+export const rateLimitOptions = [
+  { label: 'Select Rate Limit / Min', value: 'default', active: true },
+  { label: 'Custom', value: 'custom', active: false },
+];
