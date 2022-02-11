@@ -12,8 +12,10 @@
       ></i>
       Sign in
     </a>
-    <p class="auth--form__section--title">Forgot Password</p>
-    <p class="auth--form__section--description">Enter your details below</p>
+    <app-auth-section
+      title="Forgot Password"
+      description="Enter your details below"
+    ></app-auth-section>
     <form class="form" [formGroup]="forgotForm">
       <div class="form__input m-t-10">
         <label class="email-label"

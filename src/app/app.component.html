@@ -1,7 +1,7 @@
 <ng-template appPlaceholder></ng-template>
 
 <div [ngClass]="showHeader ? 'container' : 'auth-container'">
-  <app-header class="header" *ngIf="showHeader">
+  <app-header class="header" *ngIf="showHeader && !is404Page">
   </app-header>
   <router-outlet></router-outlet>
 </div>

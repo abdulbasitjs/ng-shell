@@ -21,6 +21,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(PlaceholderDirective, { static: false })
   modalHost!: PlaceholderDirective;
   showHeader = false;
+  is404Page = false;
   showOverlay = false;
   overlaySubscription!: Subscription;
 
@@ -46,10 +47,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.router.events.forEach((event: any) => {
       if (event instanceof NavigationEnd) {
-        if (event['url'] == '/auth/login') {
+        if (event['url'].indexOf('auth') > -1) {
           this.showHeader = false;
         } else {
           this.showHeader = true;
+        }
+
+        if (event['urlAfterRedirects'] === '/404') {
+          this.is404Page = true;
         }
       }
     });

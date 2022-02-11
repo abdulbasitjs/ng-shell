@@ -3,8 +3,10 @@
   class="auth--form__section login"
   [class.loading]="loaderService.getLoader() | async"
 >
-  <p class="auth--form__section--title">Single Sign On Portal</p>
-  <p class="auth--form__section--description">Enter your details below</p>
+  <app-auth-section
+    title="Single Sign On Portal"
+    description="Enter your details below"
+  ></app-auth-section>
   <form class="form" [formGroup]="loginForm">
     <div class="form__input">
       <label class="email-label">Email Address</label>

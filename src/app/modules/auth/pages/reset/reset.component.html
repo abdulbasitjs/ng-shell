@@ -4,8 +4,10 @@
     class="auth--form__section forgot"
     [class.loading]="loaderService.getLoader() | async"
   >
-    <p class="auth--form__section--title">New Password</p>
-    <p class="auth--form__section--description">Enter new password below</p>
+    <app-auth-section
+      title="New Password"
+      description="Enter new password below"
+    ></app-auth-section>
     <form class="form" [formGroup]="resetForm">
       <div class="form__input password">
         <label class="password-label">Type your new password</label>

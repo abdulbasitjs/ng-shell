@@ -29,9 +29,9 @@ export class OtiProvisioningCustomersComponent implements OnInit {
     this.customerDatatable =
       this.dataStorageService.getOtiProvisioningCustomersTableConfig();
 
-    this.http.get(EP.Customers).subscribe((customres) => {
-      this.customers = customres;
-    });
+    // this.http.get(EP.Customers).subscribe((customres) => {
+    //   this.customers = customres;
+    // });
   }
 
   onAddNewCompany() {
