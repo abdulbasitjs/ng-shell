@@ -24,6 +24,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    canActivate: [NoAuthGuard],
     path: 'auth',
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),

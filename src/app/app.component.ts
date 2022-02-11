@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { OverlayService } from '@core/services/overlay.service';
 import { ModalService } from '@shared/components/app-modal/modal.service';
@@ -19,7 +20,7 @@ import { PlaceholderDirective } from './shared/directives/placeholder/placeholde
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(PlaceholderDirective, { static: false })
   modalHost!: PlaceholderDirective;
-
+  showHeader = false;
   showOverlay = false;
   overlaySubscription!: Subscription;
 
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     public overlayService: OverlayService,
     public authService: AuthenticationService,
     public modalService: ModalService,
+    private router: Router
   ) {}
 
   ngAfterViewInit(): void {
@@ -41,7 +43,17 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.router.events.forEach((event: any) => {
+      if (event instanceof NavigationEnd) {
+        if (event['url'] == '/auth/login') {
+          this.showHeader = false;
+        } else {
+          this.showHeader = true;
+        }
+      }
+    });
+  }
 
   ngOnDestroy(): void {
     this.overlaySubscription.unsubscribe();

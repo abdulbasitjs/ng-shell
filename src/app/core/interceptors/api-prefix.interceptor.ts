@@ -92,7 +92,6 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
   private handleUnauthorized(request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
-      this.auth.isRefreshingToken = true;
       this.refreshTokenSubject.next(null);
       const token = this.auth.getRefreshToken();
       if (token)
@@ -100,7 +99,6 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
           switchMap((res) => {
             const newToken = this.auth.setNewToken(res);
             this.isRefreshing = false;
-            this.auth.isRefreshingToken = false;
             this.refreshTokenSubject.next(newToken);
             return next.handle(this.addTokenHeader(request, newToken));
           }),

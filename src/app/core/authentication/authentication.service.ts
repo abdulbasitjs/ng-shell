@@ -17,8 +17,6 @@ import { SSORolesMappingOfServer } from '@configs/ui.config';
 export class AuthenticationService implements OnDestroy {
   _user$ = new BehaviorSubject<User | null>(null);
   _roles$ = new BehaviorSubject<Array<SSORoles>>([]);
-  // _isRefreshingToken$ = new BehaviorSubject<Boolean>(false);
-  public isRefreshingToken = false;
 
   userKey = `${StoragePrefix.SSO}user`;
   userSusbscription!: Subscription;
@@ -47,7 +45,7 @@ export class AuthenticationService implements OnDestroy {
   // Login
   login(email: string, password: string, isRemeber: boolean) {
     this.http
-      .post(EP.Login, { username: email, password, isRemeber })
+      .post(EP.Login, { username: email, password, rememberme: +isRemeber })
       .subscribe((res) => {
         const response = <SSOResponse>res;
         const { code, data } = response;
@@ -96,10 +94,7 @@ export class AuthenticationService implements OnDestroy {
 
   // Helper Methods
   isAuthenticated() {
-    console.log('isAUthenticated');
-    return (
-      !this.isTokenExpired() && !!this.getToken() && !this.isRefreshingToken
-    );
+    return !this.isTokenExpired() && !!this.getToken();
   }
 
   decodeToken() {

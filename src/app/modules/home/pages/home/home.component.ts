@@ -46,12 +46,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.roles = data['roles'];
       }
     });
-
-    setTimeout(() => {
-      this.userService.getUsers().subscribe((d) => {
-        console.log(d);
-      });
-    }, 1 * 60 * 1030);
   }
 
   handleDashboardSelect(item: DashboardCard) {
