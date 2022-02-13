@@ -1,0 +1,27 @@
+<app-section-title
+  class="section-title"
+  sectionTitle="User Management"
+></app-section-title>
+<app-button
+  class="button-component"
+  icon="assets/svg/add-button-icon.svg"
+  btnTitle="Invite a User"
+  classes="button-primary button-pd"
+  (clickHandler)="onInviteUser()"
+
+>
+</app-button>
+<app-datatable class="table-component" [config]="usersDatatable">
+  <app-datatable-headers
+    [headers]="usersDatatable.headers"
+    (onHeader)="handleHeaderClick($event)"
+  >
+  </app-datatable-headers>
+  <app-datatable-rows
+    [rows]="users"
+    (onRow)="handleRow($event)"
+    [headers]="usersDatatable.headers.list"
+  ></app-datatable-rows>
+</app-datatable>
+<app-pagination class="pagination-component">Pagination Table</app-pagination>
+<router-outlet></router-outlet>

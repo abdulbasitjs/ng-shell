@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { StoragePrefix } from '@shared/models/storage-prefix.enum';
+import { StoragePrefix } from '@core/models/storage-prefix.enum';
 import { share, Subject } from 'rxjs';
 
 @Injectable({

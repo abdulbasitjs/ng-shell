@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { quotaInterval } from '@configs/ui.config';
-import { UIMESSAGES } from '@configs/ui.messages';
-import { rateLimitOptions } from '../../../../configs/ui.config';
-
+import { quotaInterval, UIMESSAGES, rateLimitOptions } from '@configs/index';
 @Component({
   selector: 'app-package-add-edit',
   templateUrl: './package-add-edit.component.html',

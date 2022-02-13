@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { IDropdown } from '@configs/index';
 
 type button = {
   icon?: string;
@@ -13,7 +14,7 @@ type button = {
 export class DropdownComponent implements OnInit {
   @Input() items!: Array<any>;
   @Input('width') width!: string;
-  @Output() onSelect = new EventEmitter<Event>();
+  @Output() onSelect = new EventEmitter<IDropdown>();
 
   constructor() {
 

@@ -8,7 +8,7 @@ import {
 import { catchError, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { HttpStatusCode } from '@shared/models/http-codes.enum';
+import { HttpStatusCode } from '@core/http/http-codes.enum';
 import { LoggerService } from '@core/services/logger.service';
 import { ToastrService } from 'ngx-toastr';
 

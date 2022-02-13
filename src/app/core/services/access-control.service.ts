@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '@core/authentication/authentication.service';
-import { ProjectAccessControls } from '../../configs/ui.config';
+import { ProjectAccessControls } from '@configs/index';
 
 @Injectable({
   providedIn: 'root',

@@ -25,10 +25,10 @@ export class RoleGuard implements CanActivate {
     if (
       route &&
       route.data &&
-      route.data['project'] &&
-      route.data['project']['key']
+      route.data['module'] &&
+      route.data['module']['key']
     ) {
-      key = route.data['project']['key'];
+      key = route.data['module']['key'];
       const isVerified = this.authService.isRoleVerified(key);
       if (!isVerified) {
         this.navigationService.back();

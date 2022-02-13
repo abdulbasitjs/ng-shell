@@ -5,7 +5,7 @@ import {
   OTI_PROVISIONING_KEY,
   RTPD_DASHBOARD_KEY,
   RTPD_PROVISIONING_KEY,
-} from '@configs/ui.config';
+} from '@configs/index';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { DashboarResolverGuard } from '@core/guards/dashboard.resolver';
 import { NoAuthGuard } from '@core/guards/no-auth.guard';
@@ -34,6 +34,20 @@ const routes: Routes = [
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
   {
+    canActivate: [AuthGuard],
+    path: 'user-management',
+    loadChildren: () =>
+      import('./modules/user-management/user-management.module').then(
+        (m) => m.UserManagementModule
+      ),
+    data: {
+      module: {
+        title: 'USER',
+        desc: 'Management',
+      },
+    },
+  },
+  {
     canActivate: [AuthGuard, RoleGuard],
     path: OTI_PROVISIONING_KEY,
     loadChildren: () =>
@@ -41,7 +55,7 @@ const routes: Routes = [
         (m) => m.OtiProvisioningModule
       ),
     data: {
-      project: {
+      module: {
         title: 'OTI',
         desc: 'Provisioning',
         key: OTI_PROVISIONING_KEY,
@@ -56,7 +70,7 @@ const routes: Routes = [
         (m) => m.OtiDashboardModule
       ),
     data: {
-      project: {
+      module: {
         title: 'OTI',
         desc: 'Dashboard',
         key: OTI_DASHBOARD_KEY,
@@ -71,7 +85,7 @@ const routes: Routes = [
         (m) => m.RtpdProvisioningModule
       ),
     data: {
-      project: {
+      module: {
         title: 'RTPD',
         desc: 'Provisioning',
         key: RTPD_PROVISIONING_KEY,
@@ -86,7 +100,7 @@ const routes: Routes = [
         (m) => m.RtpdDashboardModule
       ),
     data: {
-      project: {
+      module: {
         title: 'RTPD',
         desc: 'Dashboard',
         key: RTPD_DASHBOARD_KEY,

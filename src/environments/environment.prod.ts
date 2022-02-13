@@ -1,4 +1,4 @@
-import { endpoints } from "@configs/endpoints";
+import { endpoints } from '@configs/index';
 
 export const environment = {
   production: true,

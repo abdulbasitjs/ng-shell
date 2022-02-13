@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { EP } from '@configs/endpoints';
+import { EP } from '@configs/index';
 import { DataStorageService } from '@core/services/data-storage.service';
 import {
   DataTable,

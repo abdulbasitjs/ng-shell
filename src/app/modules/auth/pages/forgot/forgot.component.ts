@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UIMESSAGES } from '@configs/ui.messages';
+import { UIMESSAGES } from '@configs/index';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { LoaderService } from '@core/services/loader.service';
-import { SSOResponse } from '@shared/models/http-response.model';
+import { SSOResponse } from '@core/http/http-response.model';
 import { catchError, of } from 'rxjs';
 
 @Component({

@@ -12,23 +12,6 @@ export class DataStorageService {
       return this.http.get('http://localhost:3000/customers');
   }
 
-  getOtiProvisioningSidebarValues(): Sidebar[] {
-    return [
-      {
-        iconPath: 'assets/svg/navigation-toggle-icon.svg',
-        route: '/customers',
-      },
-      {
-        iconPath: 'assets/svg/customer-management-home-icon.svg',
-        route: '/customers',
-      },
-      {
-        iconPath: 'assets/svg/package-management-icon.svg',
-        route: '/packages',
-      },
-    ];
-  }
-
   getOtiProvisioningCustomersTableConfig(): DataTable {
     const configurations = {
       get totalColumns() {

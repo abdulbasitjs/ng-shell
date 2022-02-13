@@ -4,7 +4,10 @@
     *ngFor="let dItem of dashboardItems"
     [ngStyle]="setLinearBackground(dItem.gradient)"
     [style.--border-box-project]="dItem.boxBorder"
-    [class.active]="dItem.selected"
+    [class.active]="
+      (headerService.getCurrentModule() | async)?.title === dItem.title &&
+      (headerService.getCurrentModule() | async)?.desc === dItem.desc
+    "
     (click)="onDashboardSelect(dItem)"
   >
     <app-dashboard-item [item]="dItem"></app-dashboard-item>

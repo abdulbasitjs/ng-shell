@@ -1,0 +1,100 @@
+<app-panel [showPanel]="isPanelOpen">
+  <app-panel-header
+    headerTitle="Invite a User"
+    clearIcon="assets/svg/panel-close-icon.svg"
+    (onPanelClose)="onClose()"
+  >
+  </app-panel-header>
+
+  <app-panel-body class="panel__content">
+    <form
+      id="inviteForm"
+      class="form m-0"
+      (ngSubmit)="onInviteUser()"
+      [formGroup]="inviteUserForm"
+    >
+      <div class="form__input icon-container pos-rel error">
+        <label>Full Name</label>
+        <input
+          type="text"
+          formControlName="full_name"
+          [class.error-field]="
+            !inviteUserForm.get('full_name')?.valid &&
+            inviteUserForm.get('full_name')?.touched
+          "
+        />
+        <div
+          class="pos-abs error-align-field error-msg"
+          *ngIf="
+            !inviteUserForm.get('full_name')?.valid &&
+            inviteUserForm.get('full_name')?.touched
+          "
+        >
+          <p>{{ UIMSG.PROVIDE_FULL_NAME }}</p>
+        </div>
+      </div>
+      <div class="form__input icon-container pos-rel error">
+        <label>Email</label>
+        <input
+          type="text"
+          formControlName="email"
+          [class.error-field]="
+            !inviteUserForm.get('email')?.valid &&
+            inviteUserForm.get('email')?.touched
+          "
+        />
+        <div
+          class="pos-abs error-align-field error-msg"
+          *ngIf="
+            !inviteUserForm.get('email')?.valid &&
+            inviteUserForm.get('email')?.touched
+          "
+        >
+          <p>{{ UIMSG.PROVIDE_EMAIL }}</p>
+        </div>
+      </div>
+      <!-- <div class="form__input form__select">
+        <label>Quota Interval</label>
+        <div class="dropdown-trigger">
+          <i
+            appSvg
+            [shouldRemoveParent]="false"
+            [src]="'/assets/svg/select-dropdown-field-icon.svg'"
+            appDropdown=".quota-interval-dropdown > .dropdown"
+          >
+            <app-dropdown
+              class="quota-interval-dropdown"
+              [items]="quotaIntervalList"
+              (onSelect)="handleQuotaIntervalSelect($event)"
+            ></app-dropdown>
+          </i>
+        </div>
+        <input
+          readonly
+          type="text"
+          class="select"
+          formControlName="quota_interval"
+          value="something"
+        />
+      </div> -->
+    </form>
+  </app-panel-body>
+
+  <app-panel-footer>
+    <div class="panel__footer--bg"></div>
+    <div class="panel__footer--actions">
+      <app-button
+        btnTitle="Cancel"
+        classes="button-default button-lg"
+        (clickHandler)="onClose()"
+      ></app-button>
+      <app-button
+        type="submit"
+        [formName]="'inviteForm'"
+        btnTitle="Send Invite"
+        classes="button-primary button-lg button-box-shadow"
+        [isDisabled]="inviteUserForm.invalid"
+      ></app-button>
+    </div>
+  </app-panel-footer>
+</app-panel>

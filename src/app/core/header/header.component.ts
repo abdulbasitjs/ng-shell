@@ -1,8 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { settingDropdownList } from '@configs/ui.config';
+import { Router } from '@angular/router';
+import {
+  settingDropdownList,
+  IDropdown,
+  SettingDropdownEnum,
+} from '@configs/index';
 import { AuthenticationService } from '@core/authentication/authentication.service';
-import { DashboardService } from '@core/services/dashboard.service';
 import { Subscription } from 'rxjs';
+import { HeaderService, Module } from './header.service';
 
 @Component({
   selector: 'app-header',
@@ -10,47 +15,55 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  headerTitle!: string;
-  headerDesc!: string;
+  header!: Module;
+
   headerSubscription!: Subscription;
 
-  showSelectedHeader: boolean = false;
-  showHeaderSubscription!: Subscription;
   settingList: Array<any> = settingDropdownList;
 
   constructor(
-    public dashboardService: DashboardService,
-    public authService: AuthenticationService
+    public headerService: HeaderService,
+    public authService: AuthenticationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.headerSubscription = this.dashboardService
-      .getCurrentDashboard()
-      .subscribe((dashboard) => {
-        if (dashboard) {
-          this.headerTitle = dashboard.title;
-          this.headerDesc = dashboard.desc;
+    this.headerSubscription = this.headerService
+      .getCurrentModule()
+      .subscribe((module) => {
+        if (module) {
+          this.header = {
+            title: module.title,
+            desc: module.desc,
+            hideIcon: !!module.hideIcon,
+            hideHeaderMenu: !!module.hideHeaderMenu,
+          };
         }
-      });
-
-    this.showHeaderSubscription = this.dashboardService
-      .getshouldShowHeader()
-      .subscribe((state) => {
-        // Prevent from Angular Chnage detection.
-        setTimeout(() => {
-          this.showSelectedHeader = state;
-        }, 0);
       });
   }
 
   ngOnDestroy(): void {
     this.headerSubscription.unsubscribe();
-    this.showHeaderSubscription.unsubscribe();
   }
 
-  onSettingItemSelect(event: any) {
-    if (event && event.value === 'logout') {
-      this.authService.logout();
+  onSettingItemSelect(current: IDropdown) {
+    this.selectDropdownOption(current);
+    if (current) {
+      if (current.value === SettingDropdownEnum.Profile) {
+      } else if (current.value === SettingDropdownEnum.UserManagement) {
+        this.router.navigateByUrl('/user-management');
+      } else if (current.value === SettingDropdownEnum.Logout) {
+        this.authService.logout();
+      }
     }
+  }
+
+  selectDropdownOption(current: IDropdown) {
+    this.settingList = this.settingList.map((el) => {
+      if (el.value === current.value) {
+        return { ...el, active: true };
+      }
+      return { ...el, active: false };
+    });
   }
 }

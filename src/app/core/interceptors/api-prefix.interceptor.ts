@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 
 import { environment } from '@environment/environment';
-import { SSOResponse } from '@shared/models/http-response.model';
+import { SSOResponse } from '@core/http/http-response.model';
 import {
   BehaviorSubject,
   catchError,

@@ -2,17 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
-import { User } from '@shared/models/user.model';
-import { EP } from '@configs/endpoints';
+import { User } from './user.model';
 import { StorageService } from '@core/services/storage.service';
-import { StoragePrefix } from '@shared/models/storage-prefix.enum';
-import { SSOResponse } from '@shared/models/http-response.model';
+import { StoragePrefix } from '@core/models/storage-prefix.enum';
+import { SSOResponse } from '@core/http/http-response.model';
 import { JwtHelperService } from '@core/services/jwt-helper.service';
 import { map, Observable, pluck, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { SSORoles } from '@shared/models/roles.model';
-import { SSORolesMappingOfServer } from '@configs/ui.config';
-
+import { SSORolesMappingOfServer, SSORoles, EP } from '@configs/index';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService implements OnDestroy {
   _user$ = new BehaviorSubject<User | null>(null);
@@ -20,6 +17,12 @@ export class AuthenticationService implements OnDestroy {
 
   userKey = `${StoragePrefix.SSO}user`;
   userSusbscription!: Subscription;
+  fakePermissions = {
+    'oti-pp': { l: 'Admin', r: 'admin' },
+    'oti-db': { l: 'Admin', r: 'admin' },
+    'rtpd-pp': { l: 'Admin', r: 'admin' },
+    'rtpd-db': { l: 'Admin', r: 'admin' },
+  };
 
   constructor(
     private http: HttpClient,
@@ -51,8 +54,13 @@ export class AuthenticationService implements OnDestroy {
         const { code, data } = response;
         if (code === 200) {
           const { permissions, token, refreshToken } = data;
+          data.permissions = this.fakePermissions;
           this.storage.set(this.userKey, data);
-          this._user$.next({ permissions, token, refreshToken });
+          this._user$.next({
+            permissions: this.fakePermissions,
+            token,
+            refreshToken,
+          });
           this.router.navigateByUrl('/');
         }
       });
@@ -119,8 +127,8 @@ export class AuthenticationService implements OnDestroy {
 
   getUser() {
     const {
-      data: { name, email, password },
-    } = this.decodeToken();
+      data: { name = '', email = '', password = '' },
+    } = this.decodeToken() || { data: {} };
     return { name, email, password };
   }
 

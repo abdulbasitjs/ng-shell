@@ -5,7 +5,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { SSORoles } from '@shared/models/roles.model';
+import { SSORoles } from '@configs/index';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 
 type ResolveType = Observable<SSORoles> | Promise<SSORoles> | SSORoles;

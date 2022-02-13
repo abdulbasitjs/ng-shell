@@ -1,5 +1,5 @@
-import { environment } from '@environment/environment';
-import { EndpointConfig } from '@shared/models/endpoint-config.model';
+import { EndpointConfig } from './endpoint.model';
+export * from './endpoint.model';
 
 export const endpoints: EndpointConfig[] = [
   // SSO Apis
@@ -52,5 +52,5 @@ export const EP = {
   Reset: 'resetpassword',
   Forgot: 'forgotpassword',
   RefreshToken: 'tokenrefresh',
-  UserListing: 'listing'
+  UserListing: 'listing',
 };

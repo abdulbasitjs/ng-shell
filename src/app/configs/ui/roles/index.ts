@@ -1,3 +1,4 @@
+export * from './roles.model';
 export const OTI_PROVISIONING_KEY = 'oti-provisioning';
 export const OTI_DASHBOARD_KEY = 'oti-dashboard';
 export const RTPD_PROVISIONING_KEY = 'rtpd-provisioning';
@@ -44,21 +45,3 @@ export const ProjectAccessControls: any = {
     User: '!',
   },
 };
-
-export const settingDropdownList = [
-  { label: 'User Profile', value: 'profile', active: false },
-  { label: 'User Management', value: 'user-management', active: true },
-  { label: 'Logout', value: 'logout', active: false },
-];
-
-export const quotaInterval = [
-  { label: 'Daily', value: 'daily', active: false },
-  { label: 'Weekly', value: 'weekly', active: false },
-  { label: 'Monthly', value: 'monthly', active: false },
-  { label: 'Yearly', value: 'yearly', active: false },
-];
-
-export const rateLimitOptions = [
-  { label: 'Select Rate Limit / Min', value: 'default', active: true },
-  { label: 'Custom', value: 'custom', active: false },
-];
