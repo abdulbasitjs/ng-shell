@@ -6,6 +6,7 @@ import {
   SettingDropdownEnum,
 } from '@configs/index';
 import { AuthenticationService } from '@core/authentication/authentication.service';
+import { RolesService } from '@core/services/roles.service';
 import { Subscription } from 'rxjs';
 import { HeaderService, Module } from './header.service';
 
@@ -24,6 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     public headerService: HeaderService,
     public authService: AuthenticationService,
+    public rolesService: RolesService,
     private router: Router
   ) {}
 
@@ -52,6 +54,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (current.value === SettingDropdownEnum.Profile) {
       } else if (current.value === SettingDropdownEnum.UserManagement) {
         this.router.navigateByUrl('/user-management');
+        // window.open('/user-management', "_blank");
       } else if (current.value === SettingDropdownEnum.Logout) {
         this.authService.logout();
       }

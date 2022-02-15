@@ -7,10 +7,26 @@ import { PanelHeaderComponent } from './components/panel-header/panel-header.com
 import { PanelFooterComponent } from './components/panel-footer/panel-footer.component';
 import { AppButtonModule } from '../app-btn/app-button.module';
 import { PanelBodyComponent } from './components/panel-body/panel-body.component';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @NgModule({
-  declarations: [PanelComponent, PanelHeaderComponent, PanelFooterComponent, PanelBodyComponent],
-  imports: [CommonModule, DirectivesModule, AppButtonModule],
-  exports: [PanelComponent, PanelHeaderComponent, PanelFooterComponent, PanelBodyComponent],
+  declarations: [
+    PanelComponent,
+    PanelHeaderComponent,
+    PanelFooterComponent,
+    PanelBodyComponent,
+  ],
+  imports: [
+    CommonModule,
+    DirectivesModule,
+    AppButtonModule,
+    AngularSvgIconModule,
+  ],
+  exports: [
+    PanelComponent,
+    PanelHeaderComponent,
+    PanelFooterComponent,
+    PanelBodyComponent,
+  ],
 })
 export class AppPanelModule {}

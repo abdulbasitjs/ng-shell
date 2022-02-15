@@ -1,4 +1,10 @@
-import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
+import {
+  Directive,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
 import { AccessControlService } from '@core/services/access-control.service';
 
 @Directive({
@@ -10,8 +16,8 @@ export class AccessControlDirective implements OnInit {
   }
 
   constructor(
-    private elementRef: ElementRef,
-    private renderer: Renderer2,
+    private templateRef: TemplateRef<any>,
+    private vc: ViewContainerRef,
     private accessControlService: AccessControlService
   ) {}
 
@@ -21,15 +27,21 @@ export class AccessControlDirective implements OnInit {
     const currentAccessControls =
       this.accessControlService.getProjectAccessControls();
 
-    if (currentAccessControls && currentAccessControls.access_controls) {
-      const accessControls = currentAccessControls.access_controls;
-      const module = accessControls.find((access: any) => access.module_name === moduleType);
-      this.renderer.addClass(this.elementRef.nativeElement, module['action']);
-    }
-
-    if (currentAccessControls === '!') {
-      this.renderer.addClass(this.elementRef.nativeElement, 'hide');
+    if (currentAccessControls === '*') {
+      this.vc.createEmbeddedView(this.templateRef);
+    } else if (currentAccessControls === '!') {
+      this.vc.clear();
+    } else if (
+      currentAccessControls &&
+      currentAccessControls.exclude_controls
+    ) {
+      const accessControls = currentAccessControls.exclude_controls;
+      const module = accessControls.find(
+        (access: any) => access.module_name === moduleType
+      );
+      if (module) {
+        this.vc.clear();
+      } else this.vc.createEmbeddedView(this.templateRef);;
     }
   }
-
 }

@@ -11,6 +11,7 @@ import { ForgotComponent } from './pages/forgot/forgot.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { ResetComponent } from './pages/reset/reset.component';
 import { AuthSectionComponent } from './components/auth-section/auth-section.component';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { AuthSectionComponent } from './components/auth-section/auth-section.com
     CommonModule,
     AuthRoutingModule,
     ReactiveFormsModule,
+    AngularSvgIconModule,
     AppButtonModule,
     DirectivesModule,
     AppLoaderModule,

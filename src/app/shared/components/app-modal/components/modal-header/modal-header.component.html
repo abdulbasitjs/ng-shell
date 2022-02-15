@@ -4,11 +4,9 @@
   <ng-container>
     <ng-content></ng-content>
   </ng-container>
-  <i
-    [shouldRemoveParent]="false"
-    appSvg
-    src="assets/svg/panel-close-icon.svg"
+  <svg-icon
     class="m-l-10"
     (click)="onClose()"
-  ></i>
+    src="assets/svg/panel-close-icon.svg"
+  ></svg-icon>
 </div>

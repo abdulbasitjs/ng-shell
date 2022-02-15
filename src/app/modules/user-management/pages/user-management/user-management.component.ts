@@ -18,13 +18,9 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private headerService: HeaderService
+    private headerService: HeaderService,
   ) {
     this.routerIntilization();
-  }
-
-  ngOnDestroy(): void {
-    this.routerSubscription.unsubscribe();
   }
 
   ngOnInit(): void {}
@@ -40,5 +36,9 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.routerSubscription.unsubscribe();
   }
 }

@@ -1,8 +1,9 @@
 <app-side-bar>
   <!-- First Route -->
   <a [routerLink]="['./' + sidebarList[0].route]">
-    <i [shouldRemoveParent]="false" appSvg [src]="sidebarList[0].iconPath"></i
-  ></a>
+    <!-- <i [shouldRemoveParent]="false" appSvg [src]="sidebarList[0].iconPath"></i> -->
+    <svg-icon [src]="sidebarList[0].iconPath"></svg-icon>
+  </a>
 
   <!-- Others -->
   <a
@@ -10,7 +11,8 @@
     routerLinkActive="active"
     *ngFor="let sidebar of sidebarList.slice(1)"
   >
-    <i [shouldRemoveParent]="false" appSvg [src]="sidebar.iconPath"></i>
+    <!-- <i [shouldRemoveParent]="false" appSvg [src]="sidebar.iconPath"></i> -->
+    <svg-icon [src]="sidebar.iconPath"></svg-icon>
   </a>
 </app-side-bar>
 <article>

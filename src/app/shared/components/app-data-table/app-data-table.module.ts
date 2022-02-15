@@ -4,6 +4,7 @@ import { DirectivesModule } from '@shared/directives/directives.module';
 import { DataTableComponent } from './components/datatable/datatable.component';
 import { DataTableHeadersComponent } from './components/datatable-headers/datatable-headers.component';
 import { DataTableRowsComponent } from './components/datatable-rows/datatable-row.component';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,7 @@ import { DataTableRowsComponent } from './components/datatable-rows/datatable-ro
     DataTableHeadersComponent,
     DataTableRowsComponent,
   ],
-  imports: [CommonModule, DirectivesModule],
+  imports: [CommonModule, DirectivesModule, AngularSvgIconModule.forRoot()],
   exports: [
     DataTableComponent,
     DirectivesModule,

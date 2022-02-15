@@ -42,9 +42,17 @@ export const endpoints: EndpointConfig[] = [
     path: 'abubakar/one-portal-api/public/api/v1/users/',
     runAt: 'onDemand',
   },
+  {
+    baseUrl: 'sso',
+    name: 'modules',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    runAt: 'onDemand',
+  },
 ];
 
 export const EP = {
+  // Authentication Base Apis
   Login: 'login',
   Customers: 'customers',
   Roles: 'roles',
@@ -52,5 +60,8 @@ export const EP = {
   Reset: 'resetpassword',
   Forgot: 'forgotpassword',
   RefreshToken: 'tokenrefresh',
+
+  // User
   UserListing: 'listing',
+  UserModules: 'modules',
 };

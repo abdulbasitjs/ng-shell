@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class RoleGuard implements CanActivate {
+export class ModuleGuard implements CanActivate {
   constructor(
     private rolesService: RolesService,
     private navigationService: NavigationService
@@ -21,13 +21,20 @@ export class RoleGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    if (route && route.data && route.data['expectedRoles']) {
-      const expectedRoles = route.data['expectedRoles'];
-      if (this.rolesService.hasPermission(expectedRoles)) {
-        return true;
-      } else {
+    let key = '';
+    if (
+      route &&
+      route.data &&
+      route.data['module'] &&
+      route.data['module']['key']
+    ) {
+      key = route.data['module']['key'];
+      const isVerified = this.rolesService.isModuleVerified(key);
+      if (!isVerified) {
         this.navigationService.back();
         return false;
+      } else {
+        return true;
       }
     }
     return false;

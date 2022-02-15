@@ -1,7 +1,8 @@
 export interface IDropdown {
   label: string,
   value: string,
-  active: boolean
+  active: boolean;
+  [key: string]: any;
 }
 
 export enum SettingDropdownEnum {

@@ -16,26 +16,18 @@
   </div>
   <div class="pagination--tabs">
     <span class="pagination--button m-r-5" [style.width]="'5.5rem'">First</span>
-    <span class="pagination--button prev"
-      ><i
-        [shouldRemoveParent]="false"
-        appSvg
-        src="assets/svg/pagination-previous-icon.svg"
-      ></i
-    ></span>
+    <span class="pagination--button prev">
+      <svg-icon src="assets/svg/pagination-previous-icon.svg"></svg-icon>
+    </span>
     <span
       class="pagination--button pages"
       *ngFor="let page of pages; let i = index"
       [class.active]="i === 0"
-      >{{ page }}</span
-    >
-    <span class="pagination--button next"
-      ><i
-        [shouldRemoveParent]="false"
-        appSvg
-        src="assets/svg/pagination-next-icon.svg"
-      ></i
-    ></span>
+      >{{ page }}
+    </span>
+    <span class="pagination--button next">
+      <svg-icon src="assets/svg/pagination-next-icon.svg"></svg-icon>
+    </span>
     <span class="pagination--button m-l-5" [style.width]="'5.5rem'">Last</span>
   </div>
 </section>

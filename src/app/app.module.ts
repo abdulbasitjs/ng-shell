@@ -5,6 +5,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@core/core.module';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+
+
 
 import { AppLoaderModule } from '@shared/components/app-loader/loader.module';
 import { ToastrModule } from 'ngx-toastr';
@@ -28,6 +32,7 @@ import { DirectivesModule } from '@shared/directives/directives.module';
     AppLoaderModule,
     AppModalModule,
     DirectivesModule,
+    AngularSvgIconModule.forRoot(),
     NgxDaterangepickerMd.forRoot()
   ],
   providers: [AuthGuard, DashboarResolverGuard, RoleGuard],

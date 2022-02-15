@@ -1,27 +1,19 @@
 <tr [style.--customer-table-columns]="headers.list.length">
-  <th [ngClass]="header.renderIcon ? 'pointer': 'noPointer'" *ngFor="let header of headers.list; let i = index;" (click)="onHeaderClick(header)">
-    <i
-      *ngIf="header.isSortable"
-      [shouldRemoveParent]="false"
-      appSvg
-      [src]="defaultIcon"
-    >
-    </i>
-    <i
-      *ngIf="headers.sortBy === header.accessor && headers.order === 'asc' "
-      [shouldRemoveParent]="false"
-      appSvg
-      [src]="ascIcon"
+  <th
+    [ngClass]="header.renderIcon ? 'pointer' : 'noPointer'"
+    *ngFor="let header of headers.list; let i = index"
+    (click)="onHeaderClick(header)"
+  >
+    <svg-icon *ngIf="header.isSortable" [src]="defaultIcon"></svg-icon>
+    <svg-icon
       [style.transform]="'scale(1,-1)'"
-    >
-    </i>
-    <i
-      *ngIf="headers.sortBy === header.accessor && headers.order === 'desc' "
-      [shouldRemoveParent]="false"
-      appSvg
+      *ngIf="headers.sortBy === header.accessor && headers.order === 'asc'"
       [src]="ascIcon"
-    >
-    </i>
+    ></svg-icon>
+    <svg-icon
+      *ngIf="headers.sortBy === header.accessor && headers.order === 'desc'"
+      [src]="ascIcon"
+    ></svg-icon>
     <span>{{ header.name }}</span>
   </th>
 </tr>

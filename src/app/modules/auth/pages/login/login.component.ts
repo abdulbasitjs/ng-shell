@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UIMESSAGES } from '@configs/index';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { LoaderService } from '@core/services/loader.service';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

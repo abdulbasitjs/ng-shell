@@ -34,7 +34,7 @@
         }
       }
 
-      & > i {
+      & > svg-icon {
         transition: 0.2s all;
         margin-left: 8px;
         cursor: pointer;
@@ -51,11 +51,11 @@
       }
       background: #ffffff;
       box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.32);
-      & > i > svg > g > g {
+      & > svg-icon > svg > g > g {
         fill: #2e79a6;
       }
 
-      i {
+      svg-icon {
         transform: rotate(-180deg);
       }
     }
@@ -127,7 +127,7 @@
       align-items: center;
       position: relative;
 
-      & i {
+      & svg-icon {
         cursor: pointer;
       }
     }

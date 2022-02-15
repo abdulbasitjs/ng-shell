@@ -5,9 +5,11 @@ import {
   OTI_PROVISIONING_KEY,
   RTPD_DASHBOARD_KEY,
   RTPD_PROVISIONING_KEY,
+  USER_MANAGEMENT_KEY
 } from '@configs/index';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { DashboarResolverGuard } from '@core/guards/dashboard.resolver';
+import { ModuleGuard } from '@core/guards/module.guard';
 import { NoAuthGuard } from '@core/guards/no-auth.guard';
 import { RoleGuard } from '@core/guards/role.guard';
 
@@ -34,8 +36,8 @@ const routes: Routes = [
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    canActivate: [AuthGuard],
-    path: 'user-management',
+    canActivate: [AuthGuard, RoleGuard],
+    path: USER_MANAGEMENT_KEY,
     loadChildren: () =>
       import('./modules/user-management/user-management.module').then(
         (m) => m.UserManagementModule
@@ -45,10 +47,11 @@ const routes: Routes = [
         title: 'USER',
         desc: 'Management',
       },
+      expectedRoles: ['superadmin', 'admin']
     },
   },
   {
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard, ModuleGuard],
     path: OTI_PROVISIONING_KEY,
     loadChildren: () =>
       import('./modules/oti-provisioning/oti-provisioning.module').then(
@@ -63,7 +66,7 @@ const routes: Routes = [
     },
   },
   {
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard, ModuleGuard],
     path: OTI_DASHBOARD_KEY,
     loadChildren: () =>
       import('./modules/oti-dashboard/oti-dashboard.module').then(
@@ -78,7 +81,7 @@ const routes: Routes = [
     },
   },
   {
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard, ModuleGuard],
     path: RTPD_PROVISIONING_KEY,
     loadChildren: () =>
       import('./modules/rtpd-provisioning/rtpd-provisioning.module').then(
@@ -93,7 +96,7 @@ const routes: Routes = [
     },
   },
   {
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard, ModuleGuard],
     path: RTPD_DASHBOARD_KEY,
     loadChildren: () =>
       import('./modules/rtpd-dashboard/rtpd-dashboard.module').then(

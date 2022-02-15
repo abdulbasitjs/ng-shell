@@ -8,7 +8,7 @@
   btnTitle="Invite a User"
   classes="button-primary button-pd"
   (clickHandler)="onInviteUser()"
-
+  [isDisabled]="!isModuleListLoaded"
 >
 </app-button>
 <app-datatable class="table-component" [config]="usersDatatable">

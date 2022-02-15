@@ -6,6 +6,6 @@
   [style.width]="width"
   (click)="onClickHandler($event)"
 >
-  <i *ngIf="icon" [shouldRemoveParent]="false" appSvg [src]="icon"></i>
+  <svg-icon *ngIf="icon" [src]="icon"></svg-icon>
   <span>{{ btnTitle }}</span>
 </button>

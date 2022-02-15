@@ -5,11 +5,7 @@
     [class.loading]="loaderService.getLoader() | async"
   >
     <a routerLink="../login" class="auth--form__section--navigation">
-      <i
-        [shouldRemoveParent]="false"
-        appSvg
-        src="assets/svg/breadcrumb-back-icon.svg"
-      ></i>
+      <svg-icon src="assets/svg/breadcrumb-back-icon.svg"></svg-icon>
       Sign in
     </a>
     <app-auth-section
@@ -27,7 +23,7 @@
             !forgotForm.get('email')?.valid && forgotForm.get('email')?.touched
           "
         >
-          <i [shouldRemoveParent]="false" appSvg src="assets/svg/Email.svg"></i>
+          <svg-icon src="assets/svg/Email.svg"></svg-icon>
           <input
             class="fw"
             type="text"
@@ -69,7 +65,7 @@
     </p>
     <p class="auth--form__section--title" *ngIf="error">{{ this.error }}</p>
     <form class="center m-b-50">
-      <i [shouldRemoveParent]="false" appSvg src="assets/svg/EmailSent.svg"></i>
+      <svg-icon src="assets/svg/EmailSent.svg"></svg-icon>
     </form>
     <div class="form__action">
       <app-button

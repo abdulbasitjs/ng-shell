@@ -7,14 +7,12 @@ import { StorageService } from '@core/services/storage.service';
 import { StoragePrefix } from '@core/models/storage-prefix.enum';
 import { SSOResponse } from '@core/http/http-response.model';
 import { JwtHelperService } from '@core/services/jwt-helper.service';
-import { map, Observable, pluck, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { SSORolesMappingOfServer, SSORoles, EP } from '@configs/index';
+import { EP } from '@configs/index';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService implements OnDestroy {
   _user$ = new BehaviorSubject<User | null>(null);
-  _roles$ = new BehaviorSubject<Array<SSORoles>>([]);
-
   userKey = `${StoragePrefix.SSO}user`;
   userSusbscription!: Subscription;
   fakePermissions = {
@@ -57,7 +55,7 @@ export class AuthenticationService implements OnDestroy {
           data.permissions = this.fakePermissions;
           this.storage.set(this.userKey, data);
           this._user$.next({
-            permissions: this.fakePermissions,
+            permissions,
             token,
             refreshToken,
           });
@@ -95,11 +93,6 @@ export class AuthenticationService implements OnDestroy {
     });
   }
 
-  // Get Roles
-  getUserRolesAsync(): Observable<any> {
-    return this.http.get(EP.Roles);
-  }
-
   // Helper Methods
   isAuthenticated() {
     return !this.isTokenExpired() && !!this.getToken();
@@ -132,27 +125,8 @@ export class AuthenticationService implements OnDestroy {
     return { name, email, password };
   }
 
-  getRoles() {
-    return this._roles$.asObservable();
-  }
-
-  getUserRoles(): SSORoles {
-    const user = this.storage.get(this.userKey);
-    if (user && user.permissions) {
-      return user.permissions;
-    }
-    return {};
-  }
-
-  isRoleVerified(projectKey: string): boolean | Observable<boolean> {
-    const role = this.getUserRoles();
-    if (Object.keys(role).length) {
-      return !!role[SSORolesMappingOfServer[projectKey]];
-    } else {
-      return this.getUserRolesAsync()
-        .pipe(pluck('roles', 'data'))
-        .pipe(map((el) => !!el[SSORolesMappingOfServer[projectKey]]));
-    }
+  getPermissions() {
+    return this.storage.get(this.userKey).permissions
   }
 
   setNewToken(res: any) {

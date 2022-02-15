@@ -35,13 +35,6 @@ export class AppPackageAddEditComponent implements OnInit {
   onAddNewPackage() {}
 
   handleQuotaIntervalSelect(item: any) {
-    this.quotaIntervalList = this.quotaIntervalList.map((el) => {
-      return {
-        ...el,
-        active: el.value === item.value,
-      };
-    });
-
     this.newPackageForm.controls['package_info'].patchValue({
       quota_interval: item.label,
     });

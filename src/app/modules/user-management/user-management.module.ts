@@ -13,6 +13,9 @@ import { AppPaginationModule } from '@shared/components/app-pagination/app-pagin
 import { AppPanelModule } from '@shared/components/app-panel/app-panel.module';
 import { AppDropdownModule } from '@shared/components/app-dropdown/app-dropdown.module';
 import { InviteUserComponent } from './components/invite/invite.component';
+import { DirectivesModule } from '@shared/directives/directives.module';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @NgModule({
   declarations: [UserManagementComponent, UsersComponent, InviteUserComponent],
@@ -27,6 +30,9 @@ import { InviteUserComponent } from './components/invite/invite.component';
     AppPaginationModule,
     AppPanelModule,
     AppDropdownModule,
+    DirectivesModule,
+    NgxSkeletonLoaderModule,
+    AngularSvgIconModule.forRoot()
   ],
 })
 export class UserManagementModule {}

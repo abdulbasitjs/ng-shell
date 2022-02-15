@@ -5,6 +5,7 @@ import {
   DataTable,
   Row,
 } from '@shared/components/app-data-table/interfaces/datatable';
+import { Subscription } from 'rxjs';
 import { UserManagementService } from '../../services/user-management.service';
 
 @Component({
@@ -17,20 +18,24 @@ import { UserManagementService } from '../../services/user-management.service';
 export class UsersComponent implements OnInit {
   usersDatatable!: DataTable;
   users!: any;
+  moduleSubcription!: Subscription;
+  isModuleListLoaded = false;
 
   constructor(
     private umService: UserManagementService,
-    private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userMservice: UserManagementService
+
   ) {}
 
   ngOnInit(): void {
     this.usersDatatable = this.umService.getUsersTableConfig();
-
-    // this.http.get(EP.Customers).subscribe((customres) => {
-    //   this.customers = customres;
-    // });
+    this.moduleSubcription = this.userMservice.getAdminModules().subscribe(_ => {
+      if (_.length) {
+        this.isModuleListLoaded = true;
+      }
+    });
   }
 
   onAddNewCompany() {

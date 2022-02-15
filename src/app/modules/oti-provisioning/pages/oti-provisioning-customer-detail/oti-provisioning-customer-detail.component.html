@@ -19,16 +19,13 @@
   </app-modal>
 </ng-template>
 
-
 <!-- Breadcrumbs Container  -->
 <div class="breadcrumb-container">
   <div class="breadcrumbs">
-    <i
-      [shouldRemoveParent]="false"
-      appSvg
-      src="assets/svg/breadcrumb-back-icon.svg"
+    <svg-icon
       routerLink="../"
-    ></i>
+      src="assets/svg/breadcrumb-back-icon.svg"
+    ></svg-icon>
     <ul class="breadcrumbs--list">
       <li class="breadcrumbs--list__item inactive">
         <a href="#">Customer Management</a>
@@ -58,7 +55,7 @@
     (clickHandler)="showScanReport()"
   >
   </app-button>
-  <i [shouldRemoveParent]="false" appSvg src="assets/svg/edit-icon.svg"></i>
+  <svg-icon src="assets/svg/edit-icon.svg"></svg-icon>
 </div>
 
 <!-- Quota Container -->
@@ -102,8 +99,8 @@
     classes="button-default button-tertiary button-pd"
   >
   </app-button>
-  <i [shouldRemoveParent]="false" appSvg src="assets/svg/edit-icon.svg"></i>
-  <i [shouldRemoveParent]="false" appSvg src="assets/svg/delete-icon.svg"></i>
+  <svg-icon src="assets/svg/edit-icon.svg"></svg-icon>
+  <svg-icon src="assets/svg/delete-icon.svg"></svg-icon>
 </div>
 
 <!-- Profile Container -->
@@ -176,11 +173,7 @@
     <p class="section--title">Customer Key</p>
     <p class="section--name icon">
       <span>32532432332494588</span>
-      <i
-        [shouldRemoveParent]="false"
-        appSvg
-        src="assets/svg/copy-link-icon.svg"
-      ></i>
+      <svg-icon src="assets/svg/copy-link-icon.svg"></svg-icon>
     </p>
   </div>
 </div>

@@ -53,30 +53,65 @@
           <p>{{ UIMSG.PROVIDE_EMAIL }}</p>
         </div>
       </div>
-      <!-- <div class="form__input form__select">
-        <label>Quota Interval</label>
-        <div class="dropdown-trigger">
-          <i
-            appSvg
-            [shouldRemoveParent]="false"
-            [src]="'/assets/svg/select-dropdown-field-icon.svg'"
-            appDropdown=".quota-interval-dropdown > .dropdown"
-          >
-            <app-dropdown
-              class="quota-interval-dropdown"
-              [items]="quotaIntervalList"
-              (onSelect)="handleQuotaIntervalSelect($event)"
-            ></app-dropdown>
-          </i>
-        </div>
-        <input
-          readonly
-          type="text"
-          class="select"
-          formControlName="quota_interval"
-          value="something"
-        />
-      </div> -->
+      <div class="form__input">
+        <label class="m-t-10 m-b-20 permission">Permissions</label>
+      </div>
+      <ngx-skeleton-loader
+        *ngIf="loaderService.getLoader() | async; else permissionControls"
+        count="4"
+        appearance="line"
+        [theme]="{
+          width: '85%',
+          'background-color': '#3492c9',
+          opacity: '0.1'
+        }"
+      ></ngx-skeleton-loader>
+
+      <ng-template #permissionControls>
+        <ng-container formArrayName="permissions">
+          <ng-container *ngFor="let per of permissions.controls; let i = index">
+            <div class="form__input form__select inline">
+              <div class="form__input checkbox">
+                <label class="form__input--checkbox-container">
+                  <input
+                    [id]="'checkbox' + i"
+                    type="checkbox"
+                    (change)="onCheck($event, i)"
+                  />
+                </label>
+              </div>
+              <label class="role-label" [for]="'checkbox' + i">{{
+                getRoles(i).text
+              }}</label>
+              <input
+                readonly
+                type="text"
+                [class.disabled]="!checkboxList[i]"
+                class="select"
+                [value]="setRoleValue(i)"
+                appClickOutside
+                (clickOutside)="dropdown.close()"
+                [appDropdown]="'.permission-' + i + ' > .dropdown'"
+                #dropdown="dropdown"
+              />
+              <div class="dropdown-trigger" [class.disabled]="!checkboxList[i]">
+                <svg-icon
+                  src="/assets/svg/select-dropdown-field-icon.svg"
+                  [class]="dropdown.isOpen ? 'dropdown-open' : ''"
+                ></svg-icon>
+                <app-dropdown
+                  [activeIndex]="'0'"
+                  [labelKey]="'l'"
+                  [itemKey]="'roles'"
+                  [class]="'permission-' + i"
+                  [items]="getRoles(i)"
+                  (onSelect)="onRoleSelect($event, i)"
+                ></app-dropdown>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-template>
     </form>
   </app-panel-body>
 
@@ -93,8 +128,14 @@
         [formName]="'inviteForm'"
         btnTitle="Send Invite"
         classes="button-primary button-lg button-box-shadow"
-        [isDisabled]="inviteUserForm.invalid"
+        [isDisabled]="!hasSelectedAnyRole || inviteUserForm.invalid"
       ></app-button>
     </div>
   </app-panel-footer>
 </app-panel>
+
+<!-- <select [formControlName]="i" class="select">
+                <option *ngFor="let role of getRoles(i).roles" [ngValue]="role">
+                  {{ role.l }}
+                </option>
+              </select> -->
