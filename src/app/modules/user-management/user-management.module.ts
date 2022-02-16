@@ -16,9 +16,16 @@ import { InviteUserComponent } from './components/invite/invite.component';
 import { DirectivesModule } from '@shared/directives/directives.module';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { AssignedPortalComponent } from './components/assigned-portal/assigned-portal.component';
+import { AppSearchModule } from '@shared/components/app-search/app-search.module';
 
 @NgModule({
-  declarations: [UserManagementComponent, UsersComponent, InviteUserComponent],
+  declarations: [
+    UserManagementComponent,
+    UsersComponent,
+    InviteUserComponent,
+    AssignedPortalComponent,
+  ],
   imports: [
     CommonModule,
     UserManagementRoutingModule,
@@ -32,7 +39,9 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
     AppDropdownModule,
     DirectivesModule,
     NgxSkeletonLoaderModule,
-    AngularSvgIconModule.forRoot()
+    AppSearchModule,
+    AngularSvgIconModule.forRoot(),
   ],
+  exports: [AssignedPortalComponent],
 })
 export class UserManagementModule {}

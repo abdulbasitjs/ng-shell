@@ -1,18 +1,50 @@
-<tr
-  *ngFor="let row of rows; let i = index"
-  (click)="onRowClick(row, i)"
-  [class.disabled]="
-    row['status'] === 'Suspended' || row['status'] === 'Disabled'
-  "
+<ngx-skeleton-loader
+  *ngIf="isLoading; else userList"
+  [count]="pageSize ? pageSize : 10"
+  appearance="line"
 >
-  <td
-    *ngFor="let header of headers"
-    [ngClass]="{
-      suspended:
-        row[header.accessor] === 'Suspended' ||
-        row[header.accessor] === 'Disabled'
-    }"
+</ngx-skeleton-loader>
+<ng-template #userList>
+  <tr
+    *ngFor="let row of rows; let i = index"
+    (click)="onRowClick(row, i)"
+    [class.disabled]="
+      row['status'] === 'Suspended' || row['status'] === 'Disabled'
+    "
   >
-    {{ row[header.accessor] }}
-  </td>
-</tr>
+    <td
+      *ngFor="let header of headers"
+      [ngClass]="{
+        suspended:
+          row[header.accessor] === 'Suspended' ||
+          row[header.accessor] === 'Disabled'
+      }"
+    >
+      <span *ngIf="header.name === 'Sr. #'; else regularCell">{{ i + 1 }}</span>
+      <ng-template #regularCell>
+        <span *ngIf="!header.cell; else component">{{
+          row[header.accessor]
+        }}</span>
+        <ng-template #component>
+          <ng-container
+            [ngTemplateOutletContext]="{ $implicit: row[header.accessor] }"
+            [ngTemplateOutlet]="permission"
+          ></ng-container>
+        </ng-template>
+      </ng-template>
+    </td>
+  </tr>
+</ng-template>
+
+<!-- This template should be passed from consumer -->
+<!-- Need to fix this later -->
+<ng-template #permission let-permissions>
+  <div class="portal">
+    <span
+      *ngFor="let p of permissions | keyvalue | portal"
+      class="portal--icon"
+      [style.background-image]="p.bgColor"
+      >{{ p.label }}</span
+    >
+  </div>
+</ng-template>

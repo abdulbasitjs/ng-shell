@@ -13,7 +13,7 @@
       )
       [section-end] minmax(2.4rem, 1fr) [container-end];
 
-    grid-template-rows: repeat(4, min-content);
+    grid-template-rows: repeat(5, min-content);
 
     @extend %user-management-layout;
   }

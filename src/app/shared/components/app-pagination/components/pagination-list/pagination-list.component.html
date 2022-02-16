@@ -1,9 +1,12 @@
 <div class="pagination__perpage">
-  {{ records[0] }}
+  {{ records && records[selectedRecordIndex] }}
   <ul class="pagination__perpage--list">
-    <li *ngFor="let record of records">
+    <li
+      *ngFor="let record of records; let i = index"
+      (click)="selectRecord(record, i)"
+    >
       {{ record }}
     </li>
   </ul>
 </div>
-<svg-icon src="assets/svg/pagination-dropdown-icon.svg"></svg-icon>
+<svg-icon class="record-label" src="assets/svg/pagination-dropdown-icon.svg"></svg-icon>

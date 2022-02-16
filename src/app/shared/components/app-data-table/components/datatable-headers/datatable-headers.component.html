@@ -1,10 +1,16 @@
-<tr [style.--customer-table-columns]="headers.list.length">
+<tr
+  [style.--customer-table-columns]="headers.list.length"
+  [class.disabled]="isLoading"
+>
   <th
     [ngClass]="header.renderIcon ? 'pointer' : 'noPointer'"
     *ngFor="let header of headers.list; let i = index"
     (click)="onHeaderClick(header)"
   >
-    <svg-icon *ngIf="header.isSortable" [src]="defaultIcon"></svg-icon>
+    <svg-icon
+      *ngIf="header.isSortable && headers.sortBy !== header.accessor"
+      [src]="defaultIcon"
+    ></svg-icon>
     <svg-icon
       [style.transform]="'scale(1,-1)'"
       *ngIf="headers.sortBy === header.accessor && headers.order === 'asc'"

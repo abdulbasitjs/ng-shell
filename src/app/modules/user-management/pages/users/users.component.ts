@@ -1,12 +1,13 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import {
   DataTable,
   Row,
 } from '@shared/components/app-data-table/interfaces/datatable';
-import { Subscription } from 'rxjs';
+import { Pagination } from '@shared/components/app-pagination/interfaces/pagination';
 import { UserManagementService } from '../../services/user-management.service';
+import { IGetUsersPayload } from '../../user-management.model';
 
 @Component({
   selector: 'app-users',
@@ -20,34 +21,52 @@ export class UsersComponent implements OnInit {
   users!: any;
   moduleSubcription!: Subscription;
   isModuleListLoaded = false;
+  isUseristLoaded!: boolean;
+
+  userPayload: IGetUsersPayload = {};
 
   constructor(
-    private umService: UserManagementService,
+    public umService: UserManagementService,
     private router: Router,
-    private route: ActivatedRoute,
-    private userMservice: UserManagementService
-
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    const { orderBy = 'asc', sortName = 'name' } = this.umService.getSortingFromStore() || {};
+    this.userPayload = {
+      page: 1,
+      limit: this.umService.getPageSize() || 10,
+      order: orderBy,
+      sort: sortName,
+      search: '',
+    };
+
     this.usersDatatable = this.umService.getUsersTableConfig();
-    this.moduleSubcription = this.userMservice.getAdminModules().subscribe(_ => {
+    this.moduleSubcription = this.umService.getAdminModules().subscribe((_) => {
       if (_.length) {
         this.isModuleListLoaded = true;
       }
     });
+    this.getUsers();
+  }
+
+  getUsers() {
+    this.isUseristLoaded = false;
+    this.umService.getUsers(this.userPayload);
   }
 
   onAddNewCompany() {
     this.router.navigate(['./add'], { relativeTo: this.route });
   }
 
-  handleHeaderClick([sortBy, order]: Array<any>) {
-    // this.http
-    //   .get(`${EP.Customers}?_sort=${sortBy}&_order=${order}`)
-    //   .subscribe((customers) => {
-    //     this.customers = customers;
-    //   });
+  handleHeaderClick([sort, order]: Array<any>) {
+    this.umService.setSortingToStore(sort, order);
+    this.userPayload = {
+      ...this.userPayload,
+      sort,
+      order,
+    };
+    this.getUsers();
   }
 
   handleRow(row: Row) {
@@ -56,5 +75,56 @@ export class UsersComponent implements OnInit {
 
   onInviteUser() {
     this.router.navigate(['./invite'], { relativeTo: this.route });
+  }
+
+  onFirst() {
+    // this.getUsers(1, this.userPaginationConfig.pageSize);
+  }
+
+  onLast() {
+    // const lastPage = Math.ceil(
+    //   this.userPaginationConfig.totalPages / this.userPaginationConfig.pageSize
+    // );
+    // this.getUsers(lastPage, this.userPaginationConfig.pageSize);
+  }
+
+  onNext() {
+    // this.getUsers(
+    //   this.userPaginationConfig.currentPage + 1,
+    //   this.userPaginationConfig.pageSize
+    // );
+  }
+
+  onPrev() {
+    // this.getUsers(
+    //   this.userPaginationConfig.currentPage - 1,
+    //   this.userPaginationConfig.pageSize
+    // );
+  }
+
+  onPage(page: number) {
+    this.userPayload = {
+      ...this.userPayload,
+      page,
+    };
+    this.getUsers();
+  }
+
+  onPageSizeSelect(size: number) {
+    this.umService.setPageSize(size);
+    this.userPayload = {
+      ...this.userPayload,
+      page: 1,
+      limit: size,
+    };
+    this.getUsers();
+  }
+
+  onSearchTerm(term: string) {
+    this.userPayload = {
+      ...this.userPayload,
+      search: term,
+    };
+    this.getUsers();
   }
 }

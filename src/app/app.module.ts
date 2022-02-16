@@ -8,8 +8,6 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
-
-
 import { AppLoaderModule } from '@shared/components/app-loader/loader.module';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
@@ -33,7 +31,17 @@ import { DirectivesModule } from '@shared/directives/directives.module';
     AppModalModule,
     DirectivesModule,
     AngularSvgIconModule.forRoot(),
-    NgxDaterangepickerMd.forRoot()
+    NgxDaterangepickerMd.forRoot(),
+    NgxSkeletonLoaderModule.forRoot({
+      theme: {
+        'background-color': getComputedStyle(
+          document.documentElement,
+          null
+        ).getPropertyValue('--color-primary'),
+        opacity: '0.1',
+        top: "10px"
+      },
+    }),
   ],
   providers: [AuthGuard, DashboarResolverGuard, RoleGuard],
   bootstrap: [AppComponent],

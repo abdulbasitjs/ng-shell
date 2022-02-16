@@ -2,26 +2,54 @@
   class="section-title"
   sectionTitle="User Management"
 ></app-section-title>
-<app-button
-  class="button-component"
-  icon="assets/svg/add-button-icon.svg"
-  btnTitle="Invite a User"
-  classes="button-primary button-pd"
-  (clickHandler)="onInviteUser()"
-  [isDisabled]="!isModuleListLoaded"
+<article class="components">
+  <app-search
+    (onSearch)="onSearchTerm($event)"
+    placeHolder="Search with Full Name or Email"
+    class="search-component"
+  ></app-search>
+  <app-button
+    class="button-component"
+    icon="assets/svg/add-button-icon.svg"
+    btnTitle="Invite a User"
+    classes="button-primary button-pd"
+    (clickHandler)="onInviteUser()"
+    [isDisabled]="!isModuleListLoaded"
+  >
+  </app-button>
+</article>
+<app-datatable
+  class="table-component"
+  [isLoading]="umService.isUserListLoadingObservable() | async"
+  [config]="usersDatatable"
 >
-</app-button>
-<app-datatable class="table-component" [config]="usersDatatable">
   <app-datatable-headers
+    [isLoading]="umService.isUserListLoadingObservable() | async"
     [headers]="usersDatatable.headers"
     (onHeader)="handleHeaderClick($event)"
   >
   </app-datatable-headers>
   <app-datatable-rows
-    [rows]="users"
+    [isLoading]="umService.isUserListLoadingObservable() | async"
+    [pageSize]="(umService.getPaginationConfigObservable() | async)?.pageSize"
+    [rows]="(umService.getUsersObservable() | async)?.items"
     (onRow)="handleRow($event)"
     [headers]="usersDatatable.headers.list"
   ></app-datatable-rows>
 </app-datatable>
-<app-pagination class="pagination-component">Pagination Table</app-pagination>
+<app-pagination
+  [class.disabled]="umService.isUserListLoadingObservable() | async"
+  class="pagination-component"
+  [$$paginationConfigObservable]="umService.getPaginationConfigObservable()"
+  [pagiantionConfig]="umService.getPaginationConfigObservable() | async"
+  (onRecordSelect)="onPageSizeSelect($event)"
+  (onFirstPageSelect)="onFirst()"
+  (onLastPageSelect)="onLast()"
+  (onNextPageSelect)="onNext()"
+  (onPrevPageSelect)="onPrev()"
+  (onPageSelect)="onPage($event)"
+  >Pagination Table
+</app-pagination>
+
 <router-outlet></router-outlet>
+<!-- (umService.getUsersObservable() | async)?.items -->
