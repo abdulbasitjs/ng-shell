@@ -37,25 +37,27 @@
         <div class="form__input form__select">
           <label>Quota Interval</label>
           <div class="dropdown-trigger">
-            <i
-              appSvg
-              [shouldRemoveParent]="false"
-              [src]="'/assets/svg/select-dropdown-field-icon.svg'"
-              appDropdown=".quota-interval-dropdown > .dropdown"
+            <svg-icon
+              src="assets/svg/select-dropdown-field-icon.svg"
+              class="svg-dropdown-style"
+              [class]="dropdown.isOpen ? 'dropdown-open' : ''"
             >
-              <app-dropdown
-                class="quota-interval-dropdown"
-                [items]="quotaIntervalList"
-                (onSelect)="handleQuotaIntervalSelect($event)"
-              ></app-dropdown>
-            </i>
+            </svg-icon>
+            <app-dropdown
+              class="quota-interval-dropdown"
+              [items]="quotaIntervalList"
+              (onSelect)="handleQuotaIntervalSelect($event); dropdown.close()"
+            ></app-dropdown>
           </div>
           <input
+            appClickOutside
+            (clickOutside)="dropdown.close()"
+            appDropdown=".quota-interval-dropdown > .dropdown"
+            #dropdown="dropdown"
             readonly
             type="text"
             class="select"
             formControlName="quota_interval"
-            value="something"
           />
         </div>
         <div class="form__input">
@@ -68,19 +70,24 @@
         >
           <label>Rate limit / min</label>
           <div class="dropdown-trigger">
-            <i
-              appSvg
-              [shouldRemoveParent]="false"
-              [src]="'/assets/svg/select-dropdown-field-icon.svg'"
-              appDropdown=".rate-limit-dropdown > .dropdown"
+            <app-dropdown
+              class="rate-limit-dropdown"
+              [items]="rateLimitPerMinList"
+              (onSelect)="dropdown.close()"
             >
-              <app-dropdown
-                class="rate-limit-dropdown"
-                [items]="rateLimitPerMinList"
-              ></app-dropdown>
-            </i>
+            </app-dropdown>
+            <svg-icon
+              src="assets/svg/select-dropdown-field-icon.svg"
+              class="svg-dropdown-style"
+              [class]="dropdown.isOpen ? 'dropdown-open' : ''"
+            >
+            </svg-icon>
           </div>
           <input
+            appClickOutside
+            (clickOutside)="dropdown.close()"
+            appDropdown=".rate-limit-dropdown > .dropdown"
+            #dropdown="dropdown"
             readonly
             type="text"
             class="select"

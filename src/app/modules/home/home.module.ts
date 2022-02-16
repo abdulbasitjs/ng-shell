@@ -7,10 +7,6 @@ import { DashboardCardsModule } from '@shared/components/app-dashboard-cards/app
 
 @NgModule({
   declarations: [HomeComponent],
-  imports: [
-    CommonModule,
-    HomeRoutingModule,
-    DashboardCardsModule,
-  ],
+  imports: [CommonModule, HomeRoutingModule, DashboardCardsModule],
 })
 export class HomeModule {}

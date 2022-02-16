@@ -8,9 +8,8 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from '@core/authentication/authentication.service';
-
 import { environment } from '@environment/environment';
-import { SSOResponse } from '@shared/models/http-response.model';
+import { ToastrService } from 'ngx-toastr';
 import {
   BehaviorSubject,
   catchError,
@@ -28,15 +27,15 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
     null
   );
 
-  constructor(private auth: AuthenticationService) {}
+  constructor(
+    private auth: AuthenticationService,
+    private toaster: ToastrService
+  ) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (
-      req.headers.get('assets') &&
-      req.headers.get('assets') === 'snx-local-svg'
-    ) {
+    if (req.url.endsWith('.svg')) {
       return next.handle(req);
     }
 
@@ -60,7 +59,14 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
           !req.url.includes('login') &&
           error.status === HttpStatusCode.Unauthorized
         ) {
-          return this.handleUnauthorized(req, next);
+          if (this.auth.isTokenExpired()) {
+            return this.handleUnauthorized(req, next);
+          } else {
+            this.isRefreshing = false;
+            this.toaster.error(error.error.message, error.statusText);
+            this.auth.logout();
+            return throwError(error);
+          }
         }
         return throwError(error);
       })
@@ -104,6 +110,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
           }),
           catchError((err) => {
             this.isRefreshing = false;
+            this.toaster.error(err.error.message, err.statusText);
             this.auth.logout();
             return throwError(err);
           })

@@ -16,7 +16,7 @@
           !loginForm.get('email')?.valid && loginForm.get('email')?.touched
         "
       >
-        <i [shouldRemoveParent]="false" appSvg src="assets/svg/Email.svg"></i>
+        <svg-icon [src]="'assets/svg/Email.svg'"></svg-icon>
         <input
           class="fw"
           type="text"
@@ -42,11 +42,7 @@
           loginForm.get('password')?.touched
         "
       >
-        <i
-          [shouldRemoveParent]="false"
-          appSvg
-          src="assets/svg/Password.svg"
-        ></i>
+        <svg-icon src="assets/svg/Password.svg"></svg-icon>
         <input
           class="fw"
           type="password"

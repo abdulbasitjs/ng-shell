@@ -1,5 +1,5 @@
-import { environment } from '@environment/environment';
-import { EndpointConfig } from '@shared/models/endpoint-config.model';
+import { EndpointConfig } from './endpoint.model';
+export * from './endpoint.model';
 
 export const endpoints: EndpointConfig[] = [
   // SSO Apis
@@ -42,9 +42,17 @@ export const endpoints: EndpointConfig[] = [
     path: 'abubakar/one-portal-api/public/api/v1/users/',
     runAt: 'onDemand',
   },
+  {
+    baseUrl: 'sso',
+    name: 'modules',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    runAt: 'onDemand',
+  },
 ];
 
 export const EP = {
+  // Authentication Base Apis
   Login: 'login',
   Customers: 'customers',
   Roles: 'roles',
@@ -52,5 +60,8 @@ export const EP = {
   Reset: 'resetpassword',
   Forgot: 'forgotpassword',
   RefreshToken: 'tokenrefresh',
-  UserListing: 'listing'
+
+  // User
+  UserListing: 'listing',
+  UserModules: 'modules',
 };

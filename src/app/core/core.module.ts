@@ -10,6 +10,7 @@ import { ApiPrefixInterceptor } from './interceptors/api-prefix.interceptor';
 import { ErrorHandlerInterceptor } from './interceptors/error-handler.interceptor';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { AppDropdownModule } from '@shared/components/app-dropdown/app-dropdown.module';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent],
@@ -19,6 +20,7 @@ import { AppDropdownModule } from '@shared/components/app-dropdown/app-dropdown.
     DirectivesModule,
     DashboardCardsModule,
     AppDropdownModule,
+    AngularSvgIconModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },

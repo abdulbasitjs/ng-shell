@@ -5,6 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@core/core.module';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 import { AppLoaderModule } from '@shared/components/app-loader/loader.module';
 import { ToastrModule } from 'ngx-toastr';
@@ -28,7 +30,18 @@ import { DirectivesModule } from '@shared/directives/directives.module';
     AppLoaderModule,
     AppModalModule,
     DirectivesModule,
-    NgxDaterangepickerMd.forRoot()
+    AngularSvgIconModule.forRoot(),
+    NgxDaterangepickerMd.forRoot(),
+    NgxSkeletonLoaderModule.forRoot({
+      theme: {
+        'background-color': getComputedStyle(
+          document.documentElement,
+          null
+        ).getPropertyValue('--color-primary'),
+        opacity: '0.1',
+        top: "10px"
+      },
+    }),
   ],
   providers: [AuthGuard, DashboarResolverGuard, RoleGuard],
   bootstrap: [AppComponent],

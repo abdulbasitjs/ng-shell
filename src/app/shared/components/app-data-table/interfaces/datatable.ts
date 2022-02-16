@@ -6,7 +6,7 @@ export enum Order {
 export interface HeaderList {
   name: string;
   accessor: string;
-  cell?: Object | Function;
+  cell?: any;
   isSortable?: boolean;
   renderIcon?: boolean;
 }
@@ -16,9 +16,8 @@ export interface Headers {
   sortBy: string;
   order: Order
 }
-
 export interface Row {
-  [key: string]: string;
+  [key: string]: any;
 }
 
 export interface DataTable {

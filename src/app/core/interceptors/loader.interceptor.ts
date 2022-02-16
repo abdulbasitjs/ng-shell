@@ -13,18 +13,10 @@ import { finalize, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class LoaderInterceptor implements HttpInterceptor {
-  constructor(
-    private loader: LoaderService,
-  ) {}
+  constructor(private loader: LoaderService) {}
 
   private isSvgRequest(request: HttpRequest<any>): boolean {
-    if (
-      request.headers.get('assets') &&
-      request.headers.get('assets') === 'snx-local-svg'
-    ) {
-      return true;
-    }
-    return false;
+    return request.url.endsWith('.svg');
   }
 
   intercept(

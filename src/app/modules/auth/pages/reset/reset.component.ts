@@ -3,9 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { LoaderService } from '@core/services/loader.service';
-import { UIMESSAGES } from '@configs/ui.messages';
+import { UIMESSAGES } from '@configs/index';
 import { catchError, of } from 'rxjs';
-import { SSOResponse } from '@shared/models/http-response.model';
+import { SSOResponse } from '@core/http/http-response.model';
 
 @Component({
   selector: 'app-reset',

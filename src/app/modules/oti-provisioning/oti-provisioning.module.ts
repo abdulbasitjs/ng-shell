@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 import { OtiProvisioningRoutingModule } from './oti-provisioning-routing.module';
 import { OtiProvisioningComponent } from './pages/oti-provisioning/oti-provisioning.component';
@@ -13,7 +16,6 @@ import { AppDataTableModule } from '@shared/components/app-data-table/app-data-t
 import { AppPaginationModule } from '@shared/components/app-pagination/app-pagination.module';
 import { AppPanelModule } from '@shared/components/app-panel/app-panel.module';
 import { AppWizardModule } from '@shared/components/app-wizard/app-wizard.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppDropdownModule } from '@shared/components/app-dropdown/app-dropdown.module';
 import { AppRangeButtonModule } from '@shared/components/app-range-btn/app-range-button.module';
 import { OtiProvisioningPackageDetailComponent } from './pages/oti-provisioning-package-detail/oti-provisioning-package-detail.component';
@@ -23,7 +25,6 @@ import { AppScanDateComponent } from './components/scan-date/scan-date.component
 import { UrlScannedComponent } from './components/url-scanned/url-scanned.component';
 import { ApiPerLimitComponent } from './components/api-per-limit/api-per-limit.component';
 import { ApiUsageComponent } from './components/api-usage/api-usage.component';
-import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { AppCustomerAddEditComponent } from './components/customer-add-edit/customer-add-edit.component';
 import { AppPackageAddEditComponent } from './components/package-add-edit/package-add-edit.component';
 
@@ -40,7 +41,7 @@ import { AppPackageAddEditComponent } from './components/package-add-edit/packag
     ApiPerLimitComponent,
     ApiUsageComponent,
     AppCustomerAddEditComponent,
-    AppPackageAddEditComponent
+    AppPackageAddEditComponent,
   ],
   imports: [
     CommonModule,
@@ -58,6 +59,7 @@ import { AppPackageAddEditComponent } from './components/package-add-edit/packag
     AppModalModule,
     NgxDaterangepickerMd,
     FormsModule,
+    AngularSvgIconModule,
   ],
 })
 export class OtiProvisioningModule {}

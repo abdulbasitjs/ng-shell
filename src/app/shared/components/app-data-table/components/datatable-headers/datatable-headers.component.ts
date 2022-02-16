@@ -6,6 +6,7 @@ import { Headers, HeaderList, Order } from '../../interfaces/datatable';
   templateUrl: './datatable-headers.component.html',
 })
 export class DataTableHeadersComponent implements OnInit {
+  @Input() isLoading: boolean | null = true;
   @Input() headers!: Headers;
   @Output() onHeader: EventEmitter<Array<string>> = new EventEmitter<
     Array<string>

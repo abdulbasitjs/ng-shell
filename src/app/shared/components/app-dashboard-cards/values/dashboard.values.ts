@@ -4,12 +4,12 @@ import {
   OTI_PROVISIONING_KEY,
   RTPD_DASHBOARD_KEY,
   RTPD_PROVISIONING_KEY,
-} from '@configs/ui.config';
+} from '@configs/index';
 
 export const deafultDashboardCards: DashboardCard[] = [
   {
     title: 'RTPD',
-    desc: 'Dasboard',
+    desc: 'Dashboard',
     gradient: '-47deg, #00ABE3 0%, #0072C3 100%',
     boxBorder: '2px solid #0072C3',
     disable: true,
@@ -27,7 +27,7 @@ export const deafultDashboardCards: DashboardCard[] = [
   },
   {
     title: 'OTI',
-    desc: 'Dasboard',
+    desc: 'Dashboard',
     gradient: '-46deg, #AC1568 0%, #740937 100%',
     boxBorder: '2px solid #740937',
     disable: true,

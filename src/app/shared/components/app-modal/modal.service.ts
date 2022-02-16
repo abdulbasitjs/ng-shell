@@ -11,7 +11,6 @@ export class ModalService {
   constructor() {
   }
 
-
   open(template: TemplateRef<any>) {
     this.modal$.next(template);
     this.templateRendered$.next(true);

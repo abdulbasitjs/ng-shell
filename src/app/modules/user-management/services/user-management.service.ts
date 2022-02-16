@@ -1,0 +1,204 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {
+  DataTable,
+  Order,
+} from '@shared/components/app-data-table/interfaces/datatable';
+import { EP } from '@configs/endpoints';
+import { SSOResponse } from '@core/http/http-response.model';
+import { BehaviorSubject, map, Observable, of, throwError } from 'rxjs';
+import { IModulesResponse } from '../models/modules-response.model';
+import { AllRolesEnum } from '@configs/ui';
+import { AuthenticationService } from '@core/authentication/authentication.service';
+import { Pagination } from '@shared/components/app-pagination/interfaces/pagination';
+import { StorageService } from '@core/services/storage.service';
+import { StoragePrefix } from '@core/models/storage-prefix.enum';
+import { IGetUsersPayload, IUsersResponse } from '../user-management.model';
+import { HttpStatusCode } from '@core/http/http-codes.enum';
+
+const userManagementPaginationStoreKey = `${StoragePrefix.SSO}user-management.pagination.pageSize`;
+const userManagementSortStoreKey = `${StoragePrefix.SSO}user-management.sorting`;
+@Injectable({
+  providedIn: 'root',
+})
+export class UserManagementService {
+  private _modulesList: IModulesResponse[] = [];
+  private modules$: BehaviorSubject<IModulesResponse[] | null> =
+    new BehaviorSubject<IModulesResponse[] | null>(null);
+
+  private users$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
+  private paginationConfigSubject$!: BehaviorSubject<Pagination>;
+  private isUserListLoading$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+
+  constructor(
+    private http: HttpClient,
+    private auth: AuthenticationService,
+    private storageService: StorageService
+  ) {
+    this.paginationConfigSubject$ = new BehaviorSubject<Pagination>(
+      this.getUsersPaginationConfig()
+    );
+  }
+
+  getUsers(payload: IGetUsersPayload) {
+    const { page, limit = 10 } = payload;
+    this.isUserListLoading$.next(true);
+    return this.http.post(`${EP.UserListing}`, payload).subscribe((res) => {
+      const response = <SSOResponse>res;
+      this.isUserListLoading$.next(false);
+      if (response.code === HttpStatusCode.Ok) {
+        const totalPages = this.getTotalPages(
+          +response.data['totalItems'],
+          limit
+        );
+        this.paginationConfigSubject$.next(
+          this.getUsersPaginationConfig(page, limit, totalPages)
+        );
+
+        this.users$.next(response.data);
+      }
+    });
+  }
+
+  getTotalPages(items: number, limit: number) {
+    return Math.ceil(items / limit);
+  }
+
+  getModulesAsync() {
+    return this.http.post(EP.UserModules, {}).pipe(
+      map((res) => {
+        const response = <SSOResponse>res;
+        const { code, data } = response;
+        if (code === 200) {
+          this._modulesList = data;
+          return data;
+        }
+      })
+    );
+  }
+
+  getModules(): Observable<IModulesResponse[]> {
+    if (!this._modulesList.length) {
+      return this.getModulesAsync();
+    }
+    return of(this._modulesList);
+  }
+
+  private _filterAdminModules(data: IModulesResponse[]): IModulesResponse[] {
+    const permissions = this.auth.getPermissions();
+    const keys = Object.keys(permissions).filter(
+      (key) =>
+        permissions[key].r === AllRolesEnum.SuperAdmin ||
+        permissions[key].r === AllRolesEnum.Admin
+    );
+    return data.filter((el) => keys.includes(el.name));
+  }
+
+  getAdminModules(): Observable<IModulesResponse[]> {
+    if (!this._modulesList.length) {
+      return this.getModulesAsync().pipe(
+        map((el) => this._filterAdminModules(el))
+      );
+    }
+    return of(this._filterAdminModules(this._modulesList));
+  }
+
+  getModulesObservable() {
+    return this.modules$.asObservable();
+  }
+
+  getPaginationConfigObservable() {
+    return this.paginationConfigSubject$.asObservable();
+  }
+
+  isUserListLoadingObservable() {
+    return this.isUserListLoading$.asObservable();
+  }
+
+  getUsersObservable() {
+    return this.users$.asObservable();
+  }
+
+  setPageSize(size: number) {
+    this.paginationConfigSubject$.next(this.getUsersPaginationConfig(1, size));
+    this.storageService.set(userManagementPaginationStoreKey, size);
+  }
+
+  getPageSize() {
+    const limit =
+      +this.storageService.get(userManagementPaginationStoreKey) || 10;
+    this.paginationConfigSubject$.next(this.getUsersPaginationConfig(1, limit));
+    return +this.storageService.get(userManagementPaginationStoreKey);
+  }
+
+  getSortingFromStore() {
+    return this.storageService.get(userManagementSortStoreKey);
+  }
+
+  setSortingToStore(sortName: string, orderBy: string) {
+    this.storageService.set(userManagementSortStoreKey, { sortName, orderBy });
+  }
+
+  getUsersTableConfig(): DataTable {
+    const { sortName = '', orderBy = Order.Default } =
+      this.getSortingFromStore() || {};
+    const configurations = {
+      get totalColumns() {
+        return configurations.headers.list.length;
+      },
+      headers: {
+        list: [
+          { name: 'Sr. #', accessor: 'id' },
+          {
+            name: 'Full Name',
+            accessor: 'name',
+            isSortable: true,
+            renderIcon: true,
+          },
+          {
+            name: 'Email',
+            accessor: 'email',
+            isSortable: true,
+            renderIcon: true,
+          },
+          {
+            name: 'Assigned Portals',
+            accessor: 'permission',
+            cell: 'template',
+          },
+          {
+            name: 'Created on',
+            accessor: 'createdAt',
+            isSortable: true,
+            renderIcon: true,
+          },
+          { name: 'Status', accessor: 'status' },
+        ],
+        sortBy: sortName,
+        order: orderBy,
+      },
+      data: [],
+      pagination: true,
+    };
+    return configurations;
+  }
+
+  getUsersPaginationConfig(
+    cPage?: number,
+    limit?: number,
+    totalPages?: number
+  ): Pagination {
+    return {
+      label: 'Showing',
+      currentPage: cPage || 1,
+      windowRange: 3,
+      breakMargin: 2,
+      breakLabel: '...',
+      totalPages: totalPages || 1,
+      recordRanges: [10, 20, 30, 50, 100],
+      pageSize: limit || 10,
+    };
+  }
+}

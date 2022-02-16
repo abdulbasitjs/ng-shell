@@ -5,8 +5,8 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { SSORoles } from '@shared/models/roles.model';
-import { AuthenticationService } from '@core/authentication/authentication.service';
+import { SSORoles } from '@configs/index';
+import { RolesService } from '@core/services/roles.service';
 
 type ResolveType = Observable<SSORoles> | Promise<SSORoles> | SSORoles;
 
@@ -14,7 +14,7 @@ type ResolveType = Observable<SSORoles> | Promise<SSORoles> | SSORoles;
   providedIn: 'root',
 })
 export class DashboarResolverGuard implements Resolve<SSORoles> {
-  constructor(private authService: AuthenticationService) {}
+  constructor(private rolesService: RolesService) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
@@ -24,11 +24,11 @@ export class DashboarResolverGuard implements Resolve<SSORoles> {
   }
 
   getDashboardRoles(): ResolveType {
-    const userRoles = this.authService.getUserRoles();
+    const userRoles = this.rolesService.getUserRolesFromStorage();
     if (Object.keys(userRoles).length) {
-      return this.authService.getUserRoles();
+      return this.rolesService.getUserRolesFromStorage();
     } else {
-      return this.authService.getUserRolesAsync();
+      return this.rolesService.getUserRolesAsync();
     }
   }
 }

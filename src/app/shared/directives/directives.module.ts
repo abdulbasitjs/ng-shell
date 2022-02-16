@@ -7,6 +7,7 @@ import { AccessControlDirective } from './access-control/access-control.directiv
 import { ChangeColorDirective } from './change-color/change-color.directive';
 import { PlaceholderDirective } from './placeholder/placeholder.directive';
 import { DigitOnlyDirective } from './digit-only/digit-only.directive';
+import { RerenderDirective } from './app-rerender/rerender.directive';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { DigitOnlyDirective } from './digit-only/digit-only.directive';
     ChangeColorDirective,
     PlaceholderDirective,
     DigitOnlyDirective,
+    RerenderDirective
   ],
   imports: [CommonModule],
   exports: [
@@ -27,6 +29,7 @@ import { DigitOnlyDirective } from './digit-only/digit-only.directive';
     ChangeColorDirective,
     PlaceholderDirective,
     DigitOnlyDirective,
+    RerenderDirective
   ],
 })
 export class DirectivesModule {}

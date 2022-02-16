@@ -5,9 +5,11 @@ import {
   OTI_PROVISIONING_KEY,
   RTPD_DASHBOARD_KEY,
   RTPD_PROVISIONING_KEY,
-} from '@configs/ui.config';
+  USER_MANAGEMENT_KEY
+} from '@configs/index';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { DashboarResolverGuard } from '@core/guards/dashboard.resolver';
+import { ModuleGuard } from '@core/guards/module.guard';
 import { NoAuthGuard } from '@core/guards/no-auth.guard';
 import { RoleGuard } from '@core/guards/role.guard';
 
@@ -35,13 +37,28 @@ const routes: Routes = [
   },
   {
     canActivate: [AuthGuard, RoleGuard],
+    path: USER_MANAGEMENT_KEY,
+    loadChildren: () =>
+      import('./modules/user-management/user-management.module').then(
+        (m) => m.UserManagementModule
+      ),
+    data: {
+      module: {
+        title: 'USER',
+        desc: 'Management',
+      },
+      expectedRoles: ['superadmin', 'admin']
+    },
+  },
+  {
+    canActivate: [AuthGuard, ModuleGuard],
     path: OTI_PROVISIONING_KEY,
     loadChildren: () =>
       import('./modules/oti-provisioning/oti-provisioning.module').then(
         (m) => m.OtiProvisioningModule
       ),
     data: {
-      project: {
+      module: {
         title: 'OTI',
         desc: 'Provisioning',
         key: OTI_PROVISIONING_KEY,
@@ -49,14 +66,14 @@ const routes: Routes = [
     },
   },
   {
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard, ModuleGuard],
     path: OTI_DASHBOARD_KEY,
     loadChildren: () =>
       import('./modules/oti-dashboard/oti-dashboard.module').then(
         (m) => m.OtiDashboardModule
       ),
     data: {
-      project: {
+      module: {
         title: 'OTI',
         desc: 'Dashboard',
         key: OTI_DASHBOARD_KEY,
@@ -64,14 +81,14 @@ const routes: Routes = [
     },
   },
   {
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard, ModuleGuard],
     path: RTPD_PROVISIONING_KEY,
     loadChildren: () =>
       import('./modules/rtpd-provisioning/rtpd-provisioning.module').then(
         (m) => m.RtpdProvisioningModule
       ),
     data: {
-      project: {
+      module: {
         title: 'RTPD',
         desc: 'Provisioning',
         key: RTPD_PROVISIONING_KEY,
@@ -79,14 +96,14 @@ const routes: Routes = [
     },
   },
   {
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard, ModuleGuard],
     path: RTPD_DASHBOARD_KEY,
     loadChildren: () =>
       import('./modules/rtpd-dashboard/rtpd-dashboard.module').then(
         (m) => m.RtpdDashboardModule
       ),
     data: {
-      project: {
+      module: {
         title: 'RTPD',
         desc: 'Dashboard',
         key: RTPD_DASHBOARD_KEY,

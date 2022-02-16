@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { quotaInterval } from '@configs/ui.config';
-import { UIMESSAGES } from '@configs/ui.messages';
-import { rateLimitOptions } from '../../../../configs/ui.config';
-
+import { quotaInterval, UIMESSAGES, rateLimitOptions } from '@configs/index';
 @Component({
   selector: 'app-package-add-edit',
   templateUrl: './package-add-edit.component.html',
@@ -38,13 +35,6 @@ export class AppPackageAddEditComponent implements OnInit {
   onAddNewPackage() {}
 
   handleQuotaIntervalSelect(item: any) {
-    this.quotaIntervalList = this.quotaIntervalList.map((el) => {
-      return {
-        ...el,
-        active: el.value === item.value,
-      };
-    });
-
     this.newPackageForm.controls['package_info'].patchValue({
       quota_interval: item.label,
     });

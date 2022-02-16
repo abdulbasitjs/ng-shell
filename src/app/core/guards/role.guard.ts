@@ -4,8 +4,8 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
 } from '@angular/router';
-import { AuthenticationService } from '@core/authentication/authentication.service';
 import { NavigationService } from '@core/services/navigation.service';
+import { RolesService } from '@core/services/roles.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class RoleGuard implements CanActivate {
   constructor(
-    private authService: AuthenticationService,
+    private rolesService: RolesService,
     private navigationService: NavigationService
   ) {}
 
@@ -21,20 +21,13 @@ export class RoleGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    let key = '';
-    if (
-      route &&
-      route.data &&
-      route.data['project'] &&
-      route.data['project']['key']
-    ) {
-      key = route.data['project']['key'];
-      const isVerified = this.authService.isRoleVerified(key);
-      if (!isVerified) {
+    if (route && route.data && route.data['expectedRoles']) {
+      const expectedRoles = route.data['expectedRoles'];
+      if (this.rolesService.hasPermission(expectedRoles)) {
+        return true;
+      } else {
         this.navigationService.back();
         return false;
-      } else {
-        return true;
       }
     }
     return false;

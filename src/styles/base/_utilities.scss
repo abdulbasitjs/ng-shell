@@ -40,12 +40,13 @@ a:visited {
   color: var(--color-secondary);
 }
 
-i[appSvg] {
+i[appSvg], svg-icon {
   display: flex;
   color: white;
   position: relative;
   font-style: normal;
   cursor: pointer;
+  align-items: center;
 }
 
 %sec-padding {
