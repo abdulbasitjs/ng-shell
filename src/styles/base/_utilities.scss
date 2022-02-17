@@ -36,8 +36,9 @@ li {
 
 a:link,
 a:visited {
-  text-decoration: none;
-  color: var(--color-secondary);
+  // text-decoration: none;
+  color: var(--color-primary);
+  font-size: font-size(regularFix);
 }
 
 i[appSvg], svg-icon {

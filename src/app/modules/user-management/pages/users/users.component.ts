@@ -5,9 +5,7 @@ import {
   DataTable,
   Row,
 } from '@shared/components/app-data-table/interfaces/datatable';
-import { Pagination } from '@shared/components/app-pagination/interfaces/pagination';
 import { UserManagementService } from '../../services/user-management.service';
-import { IGetUsersPayload } from '../../user-management.model';
 
 @Component({
   selector: 'app-users',
@@ -23,8 +21,6 @@ export class UsersComponent implements OnInit {
   isModuleListLoaded = false;
   isUseristLoaded!: boolean;
 
-  userPayload: IGetUsersPayload = {};
-
   constructor(
     public umService: UserManagementService,
     private router: Router,
@@ -32,15 +28,6 @@ export class UsersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const { orderBy = 'asc', sortName = 'name' } = this.umService.getSortingFromStore() || {};
-    this.userPayload = {
-      page: 1,
-      limit: this.umService.getPageSize() || 10,
-      order: orderBy,
-      sort: sortName,
-      search: '',
-    };
-
     this.usersDatatable = this.umService.getUsersTableConfig();
     this.moduleSubcription = this.umService.getAdminModules().subscribe((_) => {
       if (_.length) {
@@ -52,7 +39,7 @@ export class UsersComponent implements OnInit {
 
   getUsers() {
     this.isUseristLoaded = false;
-    this.umService.getUsers(this.userPayload);
+    this.umService.getUsers();
   }
 
   onAddNewCompany() {
@@ -61,16 +48,17 @@ export class UsersComponent implements OnInit {
 
   handleHeaderClick([sort, order]: Array<any>) {
     this.umService.setSortingToStore(sort, order);
-    this.userPayload = {
-      ...this.userPayload,
+    const updated = {
+      ...this.umService.userPayload,
       sort,
       order,
     };
+    this.umService.setUserPayload(updated);
     this.getUsers();
   }
 
   handleRow(row: Row) {
-    // this.router.navigate(['./' + row['id']], { relativeTo: this.route });
+    this.router.navigate(['./' + row['id']], { relativeTo: this.route });
   }
 
   onInviteUser() {
@@ -78,53 +66,73 @@ export class UsersComponent implements OnInit {
   }
 
   onFirst() {
-    // this.getUsers(1, this.userPaginationConfig.pageSize);
+    const updated = {
+      ...this.umService.userPayload,
+      page: 1,
+    };
+    this.umService.setUserPayload(updated);
+    this.getUsers();
   }
 
   onLast() {
-    // const lastPage = Math.ceil(
-    //   this.userPaginationConfig.totalPages / this.userPaginationConfig.pageSize
-    // );
-    // this.getUsers(lastPage, this.userPaginationConfig.pageSize);
+    const updated = {
+      ...this.umService.userPayload,
+      page: this.umService.getTotalPages(),
+    };
+    this.umService.setUserPayload(updated);
+    this.getUsers();
   }
 
   onNext() {
-    // this.getUsers(
-    //   this.userPaginationConfig.currentPage + 1,
-    //   this.userPaginationConfig.pageSize
-    // );
+    const currentPage = this.umService.userPayload.page;
+    if (currentPage) {
+      const updated = {
+        ...this.umService.userPayload,
+        page: currentPage + 1,
+      };
+      this.umService.setUserPayload(updated);
+      this.getUsers();
+    }
   }
 
   onPrev() {
-    // this.getUsers(
-    //   this.userPaginationConfig.currentPage - 1,
-    //   this.userPaginationConfig.pageSize
-    // );
+    const currentPage = this.umService.userPayload.page;
+    if (currentPage) {
+      const updated = {
+        ...this.umService.userPayload,
+        page: currentPage - 1,
+      };
+      this.umService.setUserPayload(updated);
+      this.getUsers();
+    }
   }
 
   onPage(page: number) {
-    this.userPayload = {
-      ...this.userPayload,
+    const updated = {
+      ...this.umService.userPayload,
       page,
     };
+    this.umService.setUserPayload(updated);
     this.getUsers();
   }
 
   onPageSizeSelect(size: number) {
     this.umService.setPageSize(size);
-    this.userPayload = {
-      ...this.userPayload,
+    const updated = {
+      ...this.umService.userPayload,
       page: 1,
       limit: size,
     };
+    this.umService.setUserPayload(updated);
     this.getUsers();
   }
 
   onSearchTerm(term: string) {
-    this.userPayload = {
-      ...this.userPayload,
+    const updated = {
+      ...this.umService.userPayload,
       search: term,
     };
+    this.umService.setUserPayload(updated);
     this.getUsers();
   }
 }

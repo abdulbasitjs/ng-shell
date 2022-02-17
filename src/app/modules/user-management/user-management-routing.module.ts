@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { InviteUserComponent } from './components/invite/invite.component';
 import { UserManagementComponent } from './pages/user-management/user-management.component';
 import { UsersComponent } from './pages/users/users.component';
+import { UserDetailComponent } from './pages/user-detail/user-detail.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,11 @@ const routes: Routes = [
         path: 'users',
         component: UsersComponent,
         children: [{ path: 'invite', component: InviteUserComponent }],
+      },
+      {
+        path: 'users/:id',
+        component: UserDetailComponent,
+        children: [{ path: 'invite/:key', component: InviteUserComponent }],
       },
     ],
   },

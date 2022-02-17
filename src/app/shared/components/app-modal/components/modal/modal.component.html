@@ -2,9 +2,10 @@
   <div class="modal__backdrop"></div>
   <div class="modal__container">
     <ng-content select="app-modal-header"></ng-content>
-    <div class="divider m-t-25"></div>
+    <div class="divider m-t-5"></div>
     <div class="modal__container--body">
       <ng-content select="app-modal-body"></ng-content>
     </div>
+    <ng-content select="app-modal-footer"></ng-content>
   </div>
 </div>

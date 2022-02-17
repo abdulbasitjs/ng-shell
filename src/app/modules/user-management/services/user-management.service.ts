@@ -13,7 +13,7 @@ import { AuthenticationService } from '@core/authentication/authentication.servi
 import { Pagination } from '@shared/components/app-pagination/interfaces/pagination';
 import { StorageService } from '@core/services/storage.service';
 import { StoragePrefix } from '@core/models/storage-prefix.enum';
-import { IGetUsersPayload, IUsersResponse } from '../user-management.model';
+import { IGetUsersPayload, IUserItem } from '../user-management.model';
 import { HttpStatusCode } from '@core/http/http-codes.enum';
 
 const userManagementPaginationStoreKey = `${StoragePrefix.SSO}user-management.pagination.pageSize`;
@@ -22,48 +22,78 @@ const userManagementSortStoreKey = `${StoragePrefix.SSO}user-management.sorting`
   providedIn: 'root',
 })
 export class UserManagementService {
+  // Access Modules Used in Invitation Components
   private _modulesList: IModulesResponse[] = [];
   private modules$: BehaviorSubject<IModulesResponse[] | null> =
     new BehaviorSubject<IModulesResponse[] | null>(null);
 
+  // User Listing
+  private totalItems!: number;
   private users$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
   private paginationConfigSubject$!: BehaviorSubject<Pagination>;
   private isUserListLoading$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
+  private isUserCreating$: BehaviorSubject<number> =
+    new BehaviorSubject<number>(-1);
+  public userPayload: IGetUsersPayload = {};
+
+  // User Detail Page
+  private isUserDetailLoading$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  private currentUser$: BehaviorSubject<IUserItem | null> =
+    new BehaviorSubject<IUserItem | null>(null);
 
   constructor(
     private http: HttpClient,
     private auth: AuthenticationService,
     private storageService: StorageService
   ) {
+    // User Listing Configuration
     this.paginationConfigSubject$ = new BehaviorSubject<Pagination>(
       this.getUsersPaginationConfig()
     );
+    const { orderBy = 'asc', sortName = 'name' } =
+      this.getSortingFromStore() || {};
+    this.userPayload = {
+      page: 1,
+      limit: this.getPageSize() || 10,
+      order: orderBy,
+      sort: sortName,
+      search: '',
+    };
   }
 
-  getUsers(payload: IGetUsersPayload) {
-    const { page, limit = 10 } = payload;
+  // Endpoints
+  getUsers() {
+    const { page, limit = 10 } = this.userPayload;
     this.isUserListLoading$.next(true);
-    return this.http.post(`${EP.UserListing}`, payload).subscribe((res) => {
-      const response = <SSOResponse>res;
-      this.isUserListLoading$.next(false);
-      if (response.code === HttpStatusCode.Ok) {
-        const totalPages = this.getTotalPages(
-          +response.data['totalItems'],
-          limit
-        );
-        this.paginationConfigSubject$.next(
-          this.getUsersPaginationConfig(page, limit, totalPages)
-        );
+    return this.http
+      .post(`${EP.UserListing}`, this.userPayload)
+      .subscribe((res) => {
+        const response = <SSOResponse>res;
+        this.isUserListLoading$.next(false);
+        if (response.code === HttpStatusCode.Ok) {
+          this.totalItems = +response.data['totalItems'];
+          const totalPages = this.getTotalPages();
+          this.paginationConfigSubject$.next(
+            this.getUsersPaginationConfig(page, limit, totalPages)
+          );
 
-        this.users$.next(response.data);
+          this.users$.next(response.data);
+          this.isUserCreating$.next(-1);
+        }
+      });
+  }
+
+  getUser(id: string) {
+    this.isUserDetailLoading$.next(true);
+    this.http.post(EP.UserDetail, { id }).subscribe((res) => {
+      this.isUserDetailLoading$.next(false);
+      const response = <SSOResponse>res;
+      if (response.code == HttpStatusCode.Ok) {
+        this.currentUser$.next(response.data);
       }
     });
-  }
-
-  getTotalPages(items: number, limit: number) {
-    return Math.ceil(items / limit);
   }
 
   getModulesAsync() {
@@ -86,6 +116,27 @@ export class UserManagementService {
     return of(this._modulesList);
   }
 
+  getAdminModules(): Observable<IModulesResponse[]> {
+    if (!this._modulesList.length) {
+      return this.getModulesAsync().pipe(
+        map((el) => this._filterAdminModules(el))
+      );
+    }
+    return of(this._filterAdminModules(this._modulesList));
+  }
+
+  sendInvite(payload: any) {
+    this.isUserCreating$.next(1);
+    this.http.post(EP.CreateUser, payload).subscribe((res) => {
+      const response = <SSOResponse>res;
+      if (response.code === HttpStatusCode.Ok) {
+        this.isUserCreating$.next(0);
+        this.getUsers();
+      }
+    });
+  }
+
+  // Helper Methods
   private _filterAdminModules(data: IModulesResponse[]): IModulesResponse[] {
     const permissions = this.auth.getPermissions();
     const keys = Object.keys(permissions).filter(
@@ -96,29 +147,14 @@ export class UserManagementService {
     return data.filter((el) => keys.includes(el.name));
   }
 
-  getAdminModules(): Observable<IModulesResponse[]> {
-    if (!this._modulesList.length) {
-      return this.getModulesAsync().pipe(
-        map((el) => this._filterAdminModules(el))
-      );
-    }
-    return of(this._filterAdminModules(this._modulesList));
+  setUserPayload(payload: IGetUsersPayload) {
+    this.userPayload = payload;
   }
 
-  getModulesObservable() {
-    return this.modules$.asObservable();
-  }
-
-  getPaginationConfigObservable() {
-    return this.paginationConfigSubject$.asObservable();
-  }
-
-  isUserListLoadingObservable() {
-    return this.isUserListLoading$.asObservable();
-  }
-
-  getUsersObservable() {
-    return this.users$.asObservable();
+  getTotalPages() {
+    if (this.userPayload.limit)
+      return Math.ceil(this.totalItems / this.userPayload.limit);
+    return 1;
   }
 
   setPageSize(size: number) {
@@ -141,6 +177,36 @@ export class UserManagementService {
     this.storageService.set(userManagementSortStoreKey, { sortName, orderBy });
   }
 
+  // Observables
+  getModulesObservable() {
+    return this.modules$.asObservable();
+  }
+
+  getPaginationConfigObservable() {
+    return this.paginationConfigSubject$.asObservable();
+  }
+
+  isUserListLoadingObservable() {
+    return this.isUserListLoading$.asObservable();
+  }
+
+  getUsersObservable() {
+    return this.users$.asObservable();
+  }
+
+  sendingInviteObservable() {
+    return this.isUserCreating$.asObservable();
+  }
+
+  getUserDetailLoadingObservable() {
+    return this.isUserDetailLoading$.asObservable();
+  }
+
+  getUserObservable() {
+    return this.currentUser$.asObservable();
+  }
+
+  // Configs
   getUsersTableConfig(): DataTable {
     const { sortName = '', orderBy = Order.Default } =
       this.getSortingFromStore() || {};

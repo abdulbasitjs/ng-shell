@@ -18,12 +18,15 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AssignedPortalComponent } from './components/assigned-portal/assigned-portal.component';
 import { AppSearchModule } from '@shared/components/app-search/app-search.module';
+import { UserDetailComponent } from './pages/user-detail/user-detail.component';
+import { AppModalModule } from '@shared/components/app-modal/app-modal.module';
 
 @NgModule({
   declarations: [
     UserManagementComponent,
     UsersComponent,
     InviteUserComponent,
+    UserDetailComponent,
     AssignedPortalComponent,
   ],
   imports: [
@@ -41,6 +44,7 @@ import { AppSearchModule } from '@shared/components/app-search/app-search.module
     NgxSkeletonLoaderModule,
     AppSearchModule,
     AngularSvgIconModule.forRoot(),
+    AppModalModule
   ],
   exports: [AssignedPortalComponent],
 })

@@ -45,14 +45,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.renderHeader();
-  }
-
-  ngOnDestroy(): void {
-    this.overlaySubscription.unsubscribe();
-  }
-
-  renderHeader() {
     this.router.events.forEach((event: any) => {
       if (event instanceof NavigationEnd) {
         if (event['url'].indexOf('auth') > -1) {
@@ -66,5 +58,9 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.overlaySubscription.unsubscribe();
   }
 }

@@ -44,7 +44,21 @@ export const endpoints: EndpointConfig[] = [
   },
   {
     baseUrl: 'sso',
+    name: 'create',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    runAt: 'onDemand',
+  },
+  {
+    baseUrl: 'sso',
     name: 'modules',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    runAt: 'onDemand',
+  },
+  {
+    baseUrl: 'sso',
+    name: 'view',
     api: '',
     path: 'abubakar/one-portal-api/public/api/v1/users/',
     runAt: 'onDemand',
@@ -64,4 +78,6 @@ export const EP = {
   // User
   UserListing: 'listing',
   UserModules: 'modules',
+  CreateUser: 'create',
+  UserDetail: 'view',
 };

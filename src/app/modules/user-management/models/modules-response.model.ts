@@ -9,4 +9,6 @@ export interface IModulesResponse {
   text: string;
   roles: IModulesRolesResponse[];
   disabled?: boolean;
+  isInvited?: boolean;
+  currentUserPermission?: IModulesRolesResponse
 }
