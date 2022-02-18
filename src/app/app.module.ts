@@ -17,6 +17,7 @@ import { RoleGuard } from '@core/guards/role.guard';
 import { AppModalModule } from '@shared/components/app-modal/app-modal.module';
 import { AppModalComponent } from '@shared/components/app-modal/components/modal/modal.component';
 import { DirectivesModule } from '@shared/directives/directives.module';
+import { AppOverlayModule } from '@shared/components/app-overlay/app-ovarlay.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,6 +43,7 @@ import { DirectivesModule } from '@shared/directives/directives.module';
         top: "10px"
       },
     }),
+    AppOverlayModule
   ],
   providers: [AuthGuard, DashboarResolverGuard, RoleGuard],
   bootstrap: [AppComponent],

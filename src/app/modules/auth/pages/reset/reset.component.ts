@@ -15,6 +15,8 @@ import { SSOResponse } from '@core/http/http-response.model';
   },
 })
 export class ResetComponent implements OnInit {
+  public resetMode = '';
+  sectionTitle = '';
   error = null;
   UIMSG = UIMESSAGES;
   isPasswordReset: boolean = false;
@@ -33,6 +35,9 @@ export class ResetComponent implements OnInit {
       cPassword: new FormControl('', [Validators.required]),
     });
     const { key = '' } = this.route.snapshot.queryParams;
+    this.resetMode = this.route.snapshot.url[0].path;
+    this.sectionTitle =
+      this.resetMode === 'invite' ? 'Generate Password' : 'New Password';
     this._verifyToken = key;
   }
 

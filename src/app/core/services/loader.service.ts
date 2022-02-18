@@ -51,14 +51,14 @@ export class LoaderService {
       this.loadingMap.set(url, loading);
       this.loader$.next(true);
       // this.progressWidth$.next(0);
-      this.overlayService.showOverlay();
+      // this.overlayService.showOverlay();
     } else if (loading === false && this.loadingMap.has(url)) {
       this.loadingMap.delete(url);
     }
     if (this.loadingMap.size === 0) {
       this.loader$.next(false);
       // this.progressWidth$.next(100);
-      this.overlayService.hideOverlay();
+      // this.overlayService.hideOverlay();
     }
   }
 }

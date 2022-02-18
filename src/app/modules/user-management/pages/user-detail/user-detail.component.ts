@@ -90,12 +90,13 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     const payload = {
       ...this.user,
       permission: {
-        [this._newRole.key]: { r: this._newRole.role },
+        [this._newRole.key]: {
+          ...(this._newRole.role && { r: this._newRole.role }),
+        },
       },
     };
-    this.umService.updateUser(payload).subscribe((d: any) => {
+    this.umService.updateUser(payload).subscribe((_) => {
       this.onModalClose();
-      this.toaster.success(d['message'], 'Success!');
     });
   }
 

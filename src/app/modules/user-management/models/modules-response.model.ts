@@ -1,7 +1,7 @@
 export interface IModulesRolesResponse {
   c?: number;
   l?: string;
-  r: string;
+  r?: string;
 }
 
 export interface IModulesResponse {
