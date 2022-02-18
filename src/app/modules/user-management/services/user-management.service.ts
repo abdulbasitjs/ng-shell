@@ -103,6 +103,8 @@ export class UserManagementService {
       tap((res) => {
         const response = <SSOResponse>res;
         if (response.code === HttpStatusCode.Ok) {
+          this.currentUser$.next(response.data);
+          this.toasterService.success(response.message, 'Success!');
         }
         return res;
       })
@@ -140,13 +142,15 @@ export class UserManagementService {
 
   sendInvite(payload: any) {
     this.isUserCreating$.next(1);
-    this.http.post(EP.CreateUser, payload).subscribe((res) => {
+    return this.http.post(EP.CreateUser, payload)
+    .pipe(tap((res) => {
       const response = <SSOResponse>res;
       if (response.code === HttpStatusCode.Ok) {
         this.isUserCreating$.next(0);
         this.getUsers();
       }
-    });
+      return res;
+    }))
   }
 
   // Helper Methods
@@ -217,6 +221,10 @@ export class UserManagementService {
 
   getUserObservable() {
     return this.currentUser$.asObservable();
+  }
+
+  getInviteSendingObserVable() {
+    return this.isUserCreating$.asObservable();
   }
 
   // Configs

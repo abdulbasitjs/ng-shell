@@ -14,6 +14,7 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'forgot', component: ForgotComponent },
       { path: 'reset', component: ResetComponent },
+      { path: 'invite', component: ResetComponent },
     ],
   },
 ];

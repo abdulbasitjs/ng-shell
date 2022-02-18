@@ -5,12 +5,15 @@
     [class.loading]="loaderService.getLoader() | async"
   >
     <app-auth-section
-      title="New Password"
-      description="Enter new password below"
+      [title]="sectionTitle"
+      [description]="'Enter ' + (this.resetMode === 'reset' ? 'new' : '') + ' password below'"
     ></app-auth-section>
     <form class="form" [formGroup]="resetForm">
       <div class="form__input password">
-        <label class="password-label">Type your new password</label>
+        <label class="password-label"
+          >Type your
+          {{ this.resetMode === "reset" ? "new" : "" }} password</label
+        >
         <div
           class="icon-container pos-rel"
           [class.error]="
@@ -104,9 +107,10 @@
 
 <ng-template #success>
   <section class="auth--form__section forgot success">
-    <p class="auth--form__section--title">New Password</p>
+    <p class="auth--form__section--title">{{ sectionTitle }}</p>
     <p class="auth--form__section--description">
-      Your password has been successfully reset, <br />
+      Your password has been successfully
+      {{ this.resetMode === "reset" ? "reset" : "generated" }}, <br />
       Please login with your new password.
     </p>
     <form class="center m-b-50">

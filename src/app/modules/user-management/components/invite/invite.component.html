@@ -7,135 +7,153 @@
   </app-panel-header>
 
   <app-panel-body class="panel__content">
-    <form
-      id="inviteForm"
-      class="form m-0"
-      (ngSubmit)="onInviteUser()"
-      [formGroup]="inviteUserForm"
-    >
-      <div class="form__input icon-container pos-rel error">
-        <label>Full Name</label>
-        <input
-          type="text"
-          formControlName="full_name"
-          [class.error-field]="
-            !inviteUserForm.get('full_name')?.valid &&
-            inviteUserForm.get('full_name')?.touched
-          "
-        />
-        <div
-          class="pos-abs error-align-field error-msg"
-          *ngIf="
-            !inviteUserForm.get('full_name')?.valid &&
-            inviteUserForm.get('full_name')?.touched
-          "
-        >
-          <p>{{ UIMSG.PROVIDE_FULL_NAME }}</p>
+    <ng-container *ngIf="!shouldRenderSuccessScreeen; else successScreen">
+      <form
+        id="inviteForm"
+        class="form m-0"
+        (ngSubmit)="onInviteUser()"
+        [formGroup]="inviteUserForm"
+      >
+        <div class="form__input icon-container pos-rel error">
+          <label>Full Name</label>
+          <input
+            [class.disabled]="!!editMode"
+            type="text"
+            formControlName="full_name"
+            [class.error-field]="
+              !inviteUserForm.get('full_name')?.valid &&
+              inviteUserForm.get('full_name')?.touched
+            "
+          />
+          <div
+            class="pos-abs error-align-field error-msg"
+            *ngIf="
+              !inviteUserForm.get('full_name')?.valid &&
+              inviteUserForm.get('full_name')?.touched
+            "
+          >
+            <p>{{ UIMSG.PROVIDE_FULL_NAME }}</p>
+          </div>
         </div>
-      </div>
-      <div class="form__input icon-container pos-rel error">
-        <label>Email</label>
-        <input
-          type="text"
-          formControlName="email"
-          [class.error-field]="
-            !inviteUserForm.get('email')?.valid &&
-            inviteUserForm.get('email')?.touched
-          "
-        />
-        <div
-          class="pos-abs error-align-field error-msg"
-          *ngIf="
-            !inviteUserForm.get('email')?.valid &&
-            inviteUserForm.get('email')?.touched
-          "
-        >
-          <p>{{ UIMSG.PROVIDE_EMAIL }}</p>
+        <div class="form__input icon-container pos-rel error">
+          <label>Email</label>
+          <input
+            [class.disabled]="!!editMode"
+            type="text"
+            formControlName="email"
+            [class.error-field]="
+              !inviteUserForm.get('email')?.valid &&
+              inviteUserForm.get('email')?.touched
+            "
+          />
+          <div
+            class="pos-abs error-align-field error-msg"
+            *ngIf="
+              !inviteUserForm.get('email')?.valid &&
+              inviteUserForm.get('email')?.touched
+            "
+          >
+            <p>{{ UIMSG.PROVIDE_EMAIL }}</p>
+          </div>
         </div>
-      </div>
-      <div class="form__input">
-        <label class="m-t-10 m-b-20 permission">Permissions</label>
-      </div>
-      <ngx-skeleton-loader
-        *ngIf="loaderService.getLoader() | async; else permissionControls"
-        count="4"
-        appearance="line"
-        [theme]="{
-          width: '85%',
-          'background-color': '#3492c9',
-          opacity: '0.1'
-        }"
-      ></ngx-skeleton-loader>
+        <div class="form__input">
+          <label class="m-t-10 m-b-20 permission">Permissions</label>
+        </div>
+        <ngx-skeleton-loader
+          *ngIf="
+            (loaderService.getLoader() | async)
+            else permissionControls
+          "
+          count="4"
+          appearance="line"
+          [theme]="{
+            width: '85%',
+            'background-color': '#3492c9',
+            opacity: '0.1'
+          }"
+        ></ngx-skeleton-loader>
 
-      <ng-template #permissionControls>
-        <ng-container formArrayName="permissions">
-          <ng-container *ngFor="let per of permissions.controls; let i = index">
-            <div class="form__input form__select inline">
-              <div class="form__input checkbox">
-                <label class="form__input--checkbox-container">
-                  <input
-                    [id]="'checkbox' + i"
-                    type="checkbox"
-                    [checked]="!!editMode"
-                    (change)="onCheck($event, i)"
-                  />
-                </label>
+        <ng-template #permissionControls>
+          <ng-container formArrayName="permissions">
+            <ng-container
+              *ngFor="let per of permissions.controls; let i = index"
+            >
+              <div class="form__input form__select inline">
+                <div class="form__input checkbox">
+                  <label class="form__input--checkbox-container">
+                    <input
+                      [id]="'checkbox' + i"
+                      type="checkbox"
+                      [checked]="!!editMode"
+                      (change)="onCheck($event, i)"
+                    />
+                  </label>
+                </div>
+                <label class="role-label" [for]="'checkbox' + i">{{
+                  getRoles(i).text
+                }}</label>
+                <input
+                  readonly
+                  type="text"
+                  [class.disabled]="!checkboxList[i]"
+                  class="select"
+                  [value]="setRoleValue(i)"
+                  appClickOutside
+                  (clickOutside)="dropdown.close()"
+                  [appDropdown]="'.invite-permission-' + i + ' > .dropdown'"
+                  #dropdown="dropdown"
+                />
+                <div
+                  class="dropdown-trigger"
+                  [class.disabled]="!checkboxList[i]"
+                >
+                  <svg-icon
+                    src="/assets/svg/select-dropdown-field-icon.svg"
+                    [class]="dropdown.isOpen ? 'dropdown-open' : ''"
+                  ></svg-icon>
+                  <app-dropdown
+                    labelKey="l"
+                    itemKey="roles"
+                    [class]="'invite-permission-' + i"
+                    [items]="getRoles(i)"
+                    (onSelect)="onRoleSelect($event, i)"
+                  ></app-dropdown>
+                </div>
               </div>
-              <label class="role-label" [for]="'checkbox' + i">{{
-                getRoles(i).text
-              }}</label>
-              <input
-                readonly
-                type="text"
-                [class.disabled]="
-                  !!editMode ? checkboxList[i] : !checkboxList[i]
-                "
-                class="select"
-                [value]="setRoleValue(i)"
-                appClickOutside
-                (clickOutside)="dropdown.close()"
-                [appDropdown]="'.invite-permission-' + i + ' > .dropdown'"
-                #dropdown="dropdown"
-              />
-              <div
-                class="dropdown-trigger"
-                [class.disabled]="
-                  !!editMode ? checkboxList[i] : !checkboxList[i]
-                "
-              >
-                <svg-icon
-                  src="/assets/svg/select-dropdown-field-icon.svg"
-                  [class]="dropdown.isOpen ? 'dropdown-open' : ''"
-                ></svg-icon>
-                <app-dropdown
-                  labelKey="l"
-                  itemKey="roles"
-                  [class]="'invite-permission-' + i"
-                  [items]="getRoles(i)"
-                  (onSelect)="onRoleSelect($event, i)"
-                ></app-dropdown>
-              </div>
-            </div>
+            </ng-container>
           </ng-container>
-        </ng-container>
-      </ng-template>
-    </form>
+        </ng-template>
+      </form>
+    </ng-container>
+    <ng-template #successScreen>
+      <p>
+        User has been sent an invite for the assigned portal(s) successfully.
+      </p>
+    </ng-template>
   </app-panel-body>
-
   <app-panel-footer>
     <div class="panel__footer--bg"></div>
     <div class="panel__footer--actions">
       <app-button
-        btnTitle="Cancel"
-        classes="button-default button-lg"
+        [btnTitle]="shouldRenderSuccessScreeen ? 'Close' : 'Cancel'"
+        [classes]="
+          !shouldRenderSuccessScreeen
+            ? 'button-default button-lg'
+            : 'button-lg button-primary  button-box-shadow'
+        "
         (clickHandler)="onClose()"
       ></app-button>
       <app-button
+        *ngIf="!shouldRenderSuccessScreeen"
         type="submit"
         [formName]="'inviteForm'"
         btnTitle="Send Invite"
         classes="button-primary button-lg button-box-shadow"
-        [isDisabled]="!hasSelectedAnyRole || inviteUserForm.invalid"
+        [isDisabled]="
+          !hasSelectedAnyRole ||
+          inviteUserForm.invalid ||
+          (loaderService.getLoader() | async)
+        "
       ></app-button>
     </div>
   </app-panel-footer>

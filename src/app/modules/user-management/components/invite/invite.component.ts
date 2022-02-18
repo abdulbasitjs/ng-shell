@@ -7,6 +7,7 @@ import { IModulesResponse } from '../../models/modules-response.model';
 import { LoaderService } from '@core/services/loader.service';
 import { Subscription } from 'rxjs';
 import { IUserItem } from '../../user-management.model';
+import { OverlayService } from '@core/services/overlay.service';
 
 const defaultRole = 'Select Role';
 
@@ -30,18 +31,21 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   userSubscription!: Subscription;
 
   sendingInviteSubscription!: Subscription;
+  shouldRenderSuccessScreeen = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     public umService: UserManagementService,
-    public loaderService: LoaderService
+    public loaderService: LoaderService,
+    private overlayService: OverlayService
   ) {}
 
   ngOnDestroy(): void {
     this.sendingInviteSubscription.unsubscribe();
     this.routerSubscription.unsubscribe();
+    this.overlayService.hideOverlay();
   }
 
   get permissions() {
@@ -49,21 +53,21 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.overlayService.showOverlay();
     this.inviteUserForm = this.formBuilder.group({
       full_name: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
       permissions: this.formBuilder.array([]),
     });
 
-    this.sendingInviteSubscription = this.umService
-      .sendingInviteObservable()
-      .subscribe((status) => {
-        if (!status) this.onClose();
-      });
+    // this.sendingInviteSubscription = this.umService
+    //   .sendingInviteObservable()
+    //   .subscribe((status) => {
+    //     if (!status) this.onClose();
+    //   });
 
     this.routerSubscription = this.route.params.subscribe((param) => {
       this.editMode = param['key'];
-      this.getAdminModules();
       if (!!this.editMode) {
         this.userSubscription = this.umService
           .getUserObservable()
@@ -71,8 +75,11 @@ export class InviteUserComponent implements OnInit, OnDestroy {
             if (user) {
               this.currentUser = user;
               this.populateEditForm();
+              this.getAdminModules();
             }
           });
+      } else {
+        this.getAdminModules();
       }
     });
   }
@@ -84,7 +91,6 @@ export class InviteUserComponent implements OnInit, OnDestroy {
           (el) =>
             el.name === this.editMode && !this.currentUser?.permission[el.name]
         );
-        console.log(this.modulesList);
       } else this.modulesList = modules;
 
       this.selectedRoles = Array.from(
@@ -94,7 +100,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
 
       this.checkboxList = Array.from(
         { length: this.modulesList.length },
-        () => false
+        () => !!this.editMode
       );
 
       this.buildModuleFormArray(this.modulesList);
@@ -130,10 +136,12 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       this.umService
         .updateUser({ ...this.currentUser, ...payload, permission })
         .subscribe((d) => {
-          console.log(d);
+          this.shouldRenderSuccessScreeen = true;
         });
     } else {
-      this.umService.sendInvite({ ...payload, permission });
+      this.umService.sendInvite({ ...payload, permission }).subscribe((d) => {
+        this.shouldRenderSuccessScreeen = true;
+      });
     }
   }
 

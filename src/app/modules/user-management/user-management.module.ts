@@ -20,6 +20,7 @@ import { AssignedPortalComponent } from './components/assigned-portal/assigned-p
 import { AppSearchModule } from '@shared/components/app-search/app-search.module';
 import { UserDetailComponent } from './pages/user-detail/user-detail.component';
 import { AppModalModule } from '@shared/components/app-modal/app-modal.module';
+import { AppOverlayModule } from '@shared/components/app-overlay/app-ovarlay.module';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import { AppModalModule } from '@shared/components/app-modal/app-modal.module';
     NgxSkeletonLoaderModule,
     AppSearchModule,
     AngularSvgIconModule.forRoot(),
-    AppModalModule
+    AppModalModule,
   ],
   exports: [AssignedPortalComponent],
 })

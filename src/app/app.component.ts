@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthenticationService } from '@core/authentication/authentication.service';
+import { OverlayService } from '@core/services/overlay.service';
 import { ModalService } from '@shared/components/app-modal/modal.service';
 import { Subscription } from 'rxjs';
 import { LoaderService } from './core/services/loader.service';
@@ -20,7 +21,8 @@ export class AppComponent implements OnInit, OnDestroy {
     public loaderService: LoaderService,
     public authService: AuthenticationService,
     public modalService: ModalService,
-    private router: Router
+    private router: Router,
+    public overlayService: OverlayService
   ) {}
 
   ngOnInit(): void {
