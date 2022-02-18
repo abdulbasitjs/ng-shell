@@ -18,6 +18,7 @@ export class ButtonComponent implements OnInit {
   @Input() state!: boolean;
   @Input() width!: string;
   @Input()  isDisabled!: boolean | null;
+  @Input() formName!: string;
 
   @Output() clickHandler = new EventEmitter<Event>();
 

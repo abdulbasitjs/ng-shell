@@ -1,0 +1,23 @@
+<div class="scan-date">
+  <p>
+    Scan Stats Date:
+    <!-- <span class="from"> 2022-02-05 </span
+    ><span class="to"> to 2022-02-06</span
+    ><span class="separator">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span> -->
+  </p>
+  &nbsp;&nbsp;&nbsp;
+  <input
+    class="date-input"
+    type="text"
+    ngxDaterangepickerMd
+    [showCustomRangeLabel]="false"
+    (ngModel)="selected"
+    [showCustomRangeLabel]="true"
+    [ranges]="ranges"
+    [linkedCalendars]="true"
+    [closeOnAutoApply]="false"
+    placeholder="Select Date Range"
+    value="Select Date Range"
+    readonly="true"
+  />
+</div>

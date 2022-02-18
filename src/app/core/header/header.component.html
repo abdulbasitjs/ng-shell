@@ -1,50 +1,50 @@
-<div class="header__menu" *ngIf="showSelectedHeader">
+<div class="header__menu" *ngIf="!header?.hideHeaderMenu">
   <div class="header__menu--tab">
-    <ng-container *ngIf="headerTitle || headerDesc">
+    <ng-container>
       <p>
-        {{ headerTitle }} <span> {{ headerDesc }} </span>
+        {{ header?.title }} <span> {{ header?.desc }} </span>
       </p>
-      <i
-        *ngIf="headerTitle !== 'SSO'"
-        [shouldRemoveParent]="false"
-        appSvg
-        src="assets/svg/header-dropdown-icon.svg"
-        appDropdown="header__menu--tab header__menu--list"
-        appClickOutside
-        (clickOutside)="dropdown.close()"
+      <svg-icon
         #dropdown="dropdown"
-      ></i>
+        (clickOutside)="dropdown.close()"
+        appClickOutside
+        [top]="false"
+        appDropdown="header__menu--tab header__menu--list"
+        *ngIf="!header?.hideIcon"
+        src="assets/svg/header-dropdown-icon.svg"
+      ></svg-icon>
     </ng-container>
   </div>
   <div class="header__menu--list">
     <app-dashboard-list
-      [list]="authService.getUserRoles()"
+      [selected]="header"
+      [list]="rolesService.getUserRolesFromStorage()"
     ></app-dashboard-list>
   </div>
 </div>
 
 <div class="header__user">
   <div class="header__user--info">
-    <h3 class="header__user--info__title">Admin</h3>
-    <h4 class="header__user--info__role">Administrator</h4>
+    <h3 class="header__user--info__title">
+      {{ authService.getUser()?.name }}
+    </h3>
+    <!-- ({{ authService.getUser()?.email }}) -->
+    <!-- <h4 class="header__user--info__role">Administrator</h4> -->
   </div>
   <div class="header__user--settings">
     <div class="dropdown-trigger">
-      <i
-        [shouldRemoveParent]="false"
-        appSvg
-        src="assets/svg/settings-icon.svg"
-        appDropdown=".setting-dropdown > .dropdown"
-        appClickOutside
-        (clickOutside)="dropdown.close()"
+      <svg-icon
         #dropdown="dropdown"
-      >
-        <app-dropdown
-          class="setting-dropdown"
-          [items]="settingList"
-          (onSelect)="onSettingItemSelect($event)"
-        ></app-dropdown>
-      </i>
+        (clickOutside)="dropdown.close()"
+        appClickOutside
+        appDropdown=".setting-dropdown > .dropdown"
+        src="assets/svg/settings-icon.svg"
+      ></svg-icon>
+      <app-dropdown
+        class="setting-dropdown"
+        [items]="settingList"
+        (onSelect)="onSettingItemSelect($event)"
+      ></app-dropdown>
     </div>
   </div>
 </div>

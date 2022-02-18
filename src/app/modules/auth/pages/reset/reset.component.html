@@ -1,11 +1,19 @@
-<div app-loader class="hide"></div>
-<ng-container *ngIf="!isPasswordReset; else succes">
-  <section class="auth--form__section forgot">
-    <p class="auth--form__section--title">New Password</p>
-    <p class="auth--form__section--description">Enter new password below</p>
+<div app-loader [isLoading]="loaderService.getLoader() | async"></div>
+<ng-container *ngIf="!isPasswordReset; else success">
+  <section
+    class="auth--form__section forgot"
+    [class.loading]="loaderService.getLoader() | async"
+  >
+    <app-auth-section
+      [title]="sectionTitle"
+      [description]="'Enter ' + (this.resetMode === 'reset' ? 'new' : '') + ' password below'"
+    ></app-auth-section>
     <form class="form" [formGroup]="resetForm">
       <div class="form__input password">
-        <label class="password-label">Type your new password</label>
+        <label class="password-label"
+          >Type your
+          {{ this.resetMode === "reset" ? "new" : "" }} password</label
+        >
         <div
           class="icon-container pos-rel"
           [class.error]="
@@ -13,11 +21,7 @@
             resetForm.get('password')?.touched
           "
         >
-          <i
-            [shouldRemoveParent]="false"
-            appSvg
-            src="assets/svg/Password.svg"
-          ></i>
+          <svg-icon src="assets/svg/Password.svg"></svg-icon>
           <input
             class="fw"
             type="password"
@@ -35,7 +39,9 @@
               resetForm.get('password')?.touched
             "
           >
-            <p>We couldn't find an account with that email address.</p>
+            <p *ngIf="!resetForm.get('password')?.value">
+              {{ UIMSG.PROVIDE_PASSWORD }}
+            </p>
           </div>
         </div>
       </div>
@@ -48,20 +54,12 @@
             resetForm.get('cPassword')?.touched
           "
         >
-          <i
-            [shouldRemoveParent]="false"
-            appSvg
-            src="assets/svg/Password.svg"
-          ></i>
+          <svg-icon src="assets/svg/Password.svg"></svg-icon>
           <input
             class="fw"
             type="password"
-            placeholder="confirm your password"
+            placeholder="Confirm your password"
             formControlName="cPassword"
-            [class.error-msg]="
-              !resetForm.get('cPassword')?.valid &&
-              resetForm.get('cPassword')?.touched
-            "
           />
           <div
             class="pos-abs error-msg"
@@ -70,7 +68,21 @@
               resetForm.get('cPassword')?.touched
             "
           >
-            <p>We couldn't find an account with that email address.</p>
+            <p *ngIf="!resetForm.get('cPassword')?.value">
+              {{ UIMSG.PROVIDE_PASSWORD }}
+            </p>
+          </div>
+          <div
+            class="pos-abs error-msg"
+            *ngIf="
+              resetForm.get('cPassword')?.value &&
+              resetForm.get('password')?.value !==
+                resetForm.get('cPassword')?.value
+            "
+          >
+            <p>
+              {{ UIMSG.PASSWORD_NOT_MATCH }}
+            </p>
           </div>
         </div>
       </div>
@@ -79,7 +91,12 @@
       <app-button
         btnTitle="Confirm Password"
         width="100%"
-        [isDisabled]="resetForm.invalid || (loaderService.getLoader() | async)"
+        [isDisabled]="
+          resetForm.invalid ||
+          resetForm.get('password')?.value !==
+            resetForm.get('cPassword')?.value ||
+          (loaderService.getLoader() | async)
+        "
         classes="button-primary button-lg"
         (clickHandler)="onResetPassword()"
         type="submit"
@@ -88,15 +105,16 @@
   </section>
 </ng-container>
 
-<ng-template #succes>
+<ng-template #success>
   <section class="auth--form__section forgot success">
-    <p class="auth--form__section--title">New Password</p>
+    <p class="auth--form__section--title">{{ sectionTitle }}</p>
     <p class="auth--form__section--description">
-      Your password has been successfully reset, <br/>
+      Your password has been successfully
+      {{ this.resetMode === "reset" ? "reset" : "generated" }}, <br />
       Please login with your new password.
     </p>
     <form class="center m-b-50">
-      <i [shouldRemoveParent]="false" appSvg src="assets/svg/NewPasswordCreated.svg"></i>
+      <svg-icon src="assets/svg/NewPasswordCreated.svg"></svg-icon>
     </form>
     <div class="form__action">
       <app-button

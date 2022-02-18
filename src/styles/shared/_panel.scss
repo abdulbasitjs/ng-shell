@@ -15,7 +15,7 @@
   position: fixed;
   bottom: 0;
   right: 0;
-  z-index: 10;
+  z-index: $zindex-popover;
 
   &__header {
     display: flex;
@@ -28,7 +28,7 @@
       font-weight: font-weight(light);
     }
 
-    & > i {
+    & > svg-icon {
       cursor: pointer;
       & > svg {
         width: 1.6rem;
@@ -40,26 +40,55 @@
   &__content {
     margin-top: 2rem;
     flex: 1;
+    max-height: 100%;
+    overflow-y: scroll;
+    animation: fadeInOutForward 150ms cubic-bezier(0, 0, 0.2, 1);
   }
 
   &__footer {
     display: flex;
     align-items: center;
-    background: var(--color-septanry);
-    border-radius: 0 0 0 8px;
-    height: calc(6.4rem + 0.2vh);
-    width: calc(100% + 5rem);
-    margin-left: -2.5rem;
 
-    & > app-button {
-      display: inline-block;
-      margin-left: 2.5rem;
+
+    &--bg {
+      background: var(--color-septanry);
+      height: calc(6.4rem + 0.2vh);
+      width: 100%;
+      margin-left: -2.5rem;
+      border-radius: 0 0 0 8px;
+
+      position: fixed;
+      bottom: 0;
+      z-index: $zindex-popover + 1;
+      @include blur(8);
     }
 
+    &--actions {
+      display: flex;
+      align-items: center;
+      padding-bottom: 1.2rem;
+      gap: 1.6rem;
+      z-index: $zindex-popover + 2;
+    }
+
+    & > app-button {
+      // display: inline-block;
+      // margin-left: 2.5rem;
+    }
   }
 
   &.active {
     transform-origin: right;
     transform: scaleX(1);
+  }
+}
+
+@keyframes fadeInOutForward {
+  0% {
+    transform: translateX(60rem);
+  }
+
+  100% {
+    transform: translateX(0);
   }
 }

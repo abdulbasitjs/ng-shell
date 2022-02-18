@@ -156,18 +156,55 @@ $form-width: 85%;
       right: 10rem;
       top: 3.2rem;
     }
+
+    &.inline {
+      flex-direction: row;
+      align-items: center;
+      gap: 2rem;
+      margin-left: 2px;
+      width: $form-width;
+
+      & .checkbox {
+        margin-bottom: 0.7rem;
+      }
+
+      & label.role-label {
+        margin-top: -1rem;
+        flex-basis: 14rem;
+      }
+
+      & input.select + .dropdown-trigger {
+        position: absolute;
+        // width: 11.7%;
+        & > svg-icon {
+          right: 3.5rem;
+          top: -1.1rem;
+        }
+      }
+
+      & .dropdown {
+        right: 2.8rem!important;
+        top: 1rem!important;
+      }
+    }
   }
 
   &__input input.select {
     caret-color: transparent;
-    cursor: default;
+    cursor: pointer;
   }
 
-  &__select > .dropdown-trigger > i {
-    position: absolute;
-    right: calc(100% - $form-width + 2%);
-    top: 1.5rem;
-    align-items: center;
+  &__select .dropdown-trigger {
+    width: $form-width;
+    & > svg-icon {
+      position: absolute;
+      right: 1.5rem;
+      top: 1.5rem;
+    }
+
+    & .dropdown {
+      right: 0.8rem;
+    }
   }
 
   .form-row {
@@ -183,7 +220,6 @@ $form-width: 85%;
       font-weight: font-weight(regular);
     }
   }
-
 }
 
 .form .error-msg:focus {
@@ -204,12 +240,34 @@ $form-width: 85%;
 }
 
 .error-field {
-  border: 1px solid var(--danger)!important;
+  border: 1px solid var(--danger) !important;
 }
 
 .error-align-field {
-  top:6.6rem;
+  top: 6.6rem;
   right: 8.8rem;
-  width:auto;
+  width: auto;
 }
 
+input.date-input {
+  color: var(--color-tertiary);
+  padding: 0 0.5rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  grid-gap: 1rem;
+  gap: 1rem;
+  border: 1px solid var(--color-primary);
+  border-radius: 4px;
+  height: 3rem;
+  width: 20rem;
+  text-align: center;
+
+  &::placeholder {
+    font-size: calc(1.3rem + 0.1389vw);
+    color: var(--color-primary);
+    font-weight: 400;
+  }
+
+  cursor: pointer;
+}

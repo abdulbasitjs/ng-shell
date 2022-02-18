@@ -1,7 +1,7 @@
 @import './global';
 @import './overlay';
 @import './loader';
-// @import './loader1';
+@import './progress-loader';
 @import './sidebar';
 @import './title';
 @import './button';
@@ -13,3 +13,5 @@
 @import './forms';
 @import './breadcrumbs';
 @import './dropdown';
+@import './modal';
+@import './search';

@@ -1,0 +1,12 @@
+<div class="modal__container--header">
+  <p class="modal__containter--header__title">{{ title }}</p>
+  <div class="space"></div>
+  <ng-container>
+    <ng-content></ng-content>
+  </ng-container>
+  <svg-icon
+    class="m-l-10"
+    (click)="onClose()"
+    src="assets/svg/panel-close-icon.svg"
+  ></svg-icon>
+</div>

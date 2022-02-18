@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { StoragePrefix } from '@shared/models/storage-prefix.enum';
+import { StoragePrefix } from '@core/models/storage-prefix.enum';
 import { share, Subject } from 'rxjs';
 
 @Injectable({
@@ -55,7 +55,16 @@ export class StorageService implements OnDestroy {
   getToken() {
     const user = this.get(this.userKey);
     if (user) {
-      return user.access_token;
+      return user.token;
+    } else {
+      return null;
+    }
+  }
+
+  getRefreshToken() {
+    const user = this.get(this.userKey);
+    if (user) {
+      return user.refreshToken;
     } else {
       return null;
     }

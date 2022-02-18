@@ -14,13 +14,13 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class ButtonRangeComponent implements OnInit, ControlValueAccessor {
   constructor() {}
-  inputValue = 0;
+  inputValue = 1;
 
   onChange = (_: any) => {};
   onTouch = (_: any) => {};
 
   writeValue(value: any): void {
-   this.inputValue = value;
+    this.inputValue = value;
   }
 
   registerOnChange(fn: any): void {
@@ -31,8 +31,7 @@ export class ButtonRangeComponent implements OnInit, ControlValueAccessor {
     this.onTouch = fn;
   }
 
-  setDisabledState(state: any) {
-  }
+  setDisabledState(state: any) {}
 
   ngOnInit(): void {}
 
@@ -42,7 +41,9 @@ export class ButtonRangeComponent implements OnInit, ControlValueAccessor {
   }
 
   decrement() {
-    this.inputValue -= 1;
-    this.onChange(this.inputValue);
+    if (this.inputValue > 1) {
+      this.inputValue -= 1;
+      this.onChange(this.inputValue);
+    }
   }
 }

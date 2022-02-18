@@ -2,23 +2,25 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
-import { User } from '@shared/models/user.model';
-import { EP } from '@configs/endpoints';
+import { User } from './user.model';
 import { StorageService } from '@core/services/storage.service';
-import { StoragePrefix } from '@shared/models/storage-prefix.enum';
-import { SSOResponse } from '@shared/models/http-response.model';
+import { StoragePrefix } from '@core/models/storage-prefix.enum';
+import { SSOResponse } from '@core/http/http-response.model';
 import { JwtHelperService } from '@core/services/jwt-helper.service';
-import { map, Observable, pluck, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { SSORoles } from '@shared/models/roles.model';
-
+import { EP } from '@configs/index';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService implements OnDestroy {
   _user$ = new BehaviorSubject<User | null>(null);
-  _roles$ = new BehaviorSubject<Array<SSORoles>>([]);
-
   userKey = `${StoragePrefix.SSO}user`;
   userSusbscription!: Subscription;
+  fakePermissions = {
+    'oti-pp': { l: 'Admin', r: 'admin' },
+    'oti-db': { l: 'Admin', r: 'admin' },
+    'rtpd-pp': { l: 'Admin', r: 'admin' },
+    'rtpd-db': { l: 'Admin', r: 'admin' },
+  };
 
   constructor(
     private http: HttpClient,
@@ -38,47 +40,61 @@ export class AuthenticationService implements OnDestroy {
     this.userSusbscription.unsubscribe();
   }
 
+  getUserObservable() {
+    return this._user$.asObservable();
+  }
+  // Login
   login(email: string, password: string, isRemeber: boolean) {
-    console.log(isRemeber);
-    if (email === 'admin@admin.com' && password === 'admin') {
-      this.http.get(EP.Login).subscribe((res) => {
+    this.http
+      .post(EP.Login, { username: email, password, rememberme: +isRemeber })
+      .subscribe((res) => {
         const response = <SSOResponse>res;
-        if (response && response.data) {
-          const { data: user } = response;
-          const {
-            id,
-            name,
-            email,
-            roles,
+        const { code, data } = response;
+        if (code === 200) {
+          const { permissions, token, refreshToken } = data;
+          data.permissions = this.fakePermissions;
+          this.storage.set(this.userKey, data);
+          this._user$.next({
             permissions,
-            access_token: token,
-          } = user;
-          this.storage.set(this.userKey, user);
-          this._user$.next({ id, name, email, roles, permissions, token });
-          this.router.navigateByUrl('/home');
+            token,
+            refreshToken,
+          });
+          this.router.navigateByUrl('/');
         }
       });
-    } else {
-      alert('Inavalid Username password');
-    }
   }
 
+  // Forgot
   forgot(email: string) {
-    alert(email);
+    return this.http.post(EP.Forgot, { email });
   }
 
-  resetPassword(password: string) {
-    alert(password);
+  // Reset Password
+  resetPassword(password: string, cPassword: string, token: string) {
+    return this.http.post(EP.Reset, {
+      password,
+      passwordConfirmation: cPassword,
+      token,
+    });
   }
 
+  // Logout
   logout() {
     if (this.getToken()) this.storage.remove(this.userKey);
     this._user$.next(null);
     this.router.navigateByUrl('/auth/login');
   }
 
+  // Refresh Token API
+  refreshToken() {
+    return this.http.post(EP.RefreshToken, {
+      token: this.getToken(),
+      refreshToken: this.getRefreshToken(),
+    });
+  }
+
+  // Helper Methods
   isAuthenticated() {
-    // return true;
     return !this.isTokenExpired() && !!this.getToken();
   }
 
@@ -94,38 +110,34 @@ export class AuthenticationService implements OnDestroy {
     return this.jwtHelperService.isTokenExpired(this.getToken());
   }
 
+  getRefreshToken() {
+    return this.storage.getRefreshToken();
+  }
+
   getToken() {
     return this.storage.getToken();
   }
 
   getUser() {
-    return this.storage.get(this.userKey);
+    const {
+      data: { name = '', email = '', password = '' },
+    } = this.decodeToken() || { data: {} };
+    return { name, email, password };
   }
 
-  getRoles() {
-    return this._roles$.asObservable();
+  getPermissions() {
+    return this.storage.get(this.userKey).permissions
   }
 
-  getUserRolesAsync(): Observable<any> {
-    return this.http.get(EP.Roles);
-  }
-
-  getUserRoles(): SSORoles {
-    const user = this.storage.get(this.userKey);
-    if (user && user.role) {
-      return user.role;
+  setNewToken(res: any) {
+    const response = <SSOResponse>res;
+    const { code, data } = response;
+    if (code === 200) {
+      const { permissions, token, refreshToken } = data;
+      this.storage.set(this.userKey, data);
+      this._user$.next({ permissions, token, refreshToken });
+      return token;
     }
-    return {};
-  }
-
-  isRoleVerified(projectKey: string): boolean | Observable<boolean> {
-    const role = this.getUserRoles();
-    if (Object.keys(role).length) {
-      return !!role[projectKey];
-    } else {
-      return this.getUserRolesAsync()
-        .pipe(pluck('roles', 'data'))
-        .pipe(map((el) => !!el[projectKey]));
-    }
+    return '';
   }
 }

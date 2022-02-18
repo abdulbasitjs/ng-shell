@@ -1,7 +1,12 @@
-<div app-loader class="hide"></div>
-<section class="auth--form__section login">
-  <p class="auth--form__section--title">Single Sign On Portal</p>
-  <p class="auth--form__section--description">Enter your details below</p>
+<div app-loader [isLoading]="loaderService.getLoader() | async"></div>
+<section
+  class="auth--form__section login"
+  [class.loading]="loaderService.getLoader() | async"
+>
+  <app-auth-section
+    title="Single Sign On Portal"
+    description="Enter your details below"
+  ></app-auth-section>
   <form class="form" [formGroup]="loginForm">
     <div class="form__input">
       <label class="email-label">Email Address</label>
@@ -11,7 +16,7 @@
           !loginForm.get('email')?.valid && loginForm.get('email')?.touched
         "
       >
-        <i [shouldRemoveParent]="false" appSvg src="assets/svg/Email.svg"></i>
+        <svg-icon [src]="'assets/svg/Email.svg'"></svg-icon>
         <input
           class="fw"
           type="text"
@@ -24,7 +29,7 @@
             !loginForm.get('email')?.valid && loginForm.get('email')?.touched
           "
         >
-          <p>We couldn't find an account with that email address.</p>
+          <p>{{ UIMSG.PROVIDE_EMAIL_USERNAME }}</p>
         </div>
       </div>
     </div>
@@ -37,11 +42,7 @@
           loginForm.get('password')?.touched
         "
       >
-        <i
-          [shouldRemoveParent]="false"
-          appSvg
-          src="assets/svg/Password.svg"
-        ></i>
+        <svg-icon src="assets/svg/Password.svg"></svg-icon>
         <input
           class="fw"
           type="password"
@@ -59,7 +60,7 @@
             loginForm.get('password')?.touched
           "
         >
-          <p>We couldn't find an account with that email address.</p>
+          <p>{{ UIMSG.PROVIDE_PASSWORD }}</p>
         </div>
       </div>
     </div>

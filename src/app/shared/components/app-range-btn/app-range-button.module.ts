@@ -6,7 +6,7 @@ import { AppButtonModule } from '../app-btn/app-button.module';
 
 @NgModule({
   declarations: [ButtonRangeComponent],
-  imports: [CommonModule, DirectivesModule, AppButtonModule],
+  imports: [CommonModule, DirectivesModule, AppButtonModule, DirectivesModule],
   exports: [ButtonRangeComponent],
 })
 export class AppRangeButtonModule {}

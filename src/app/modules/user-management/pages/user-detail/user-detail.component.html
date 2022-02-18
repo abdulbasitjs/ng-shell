@@ -1,0 +1,200 @@
+<!-- Breadcrumbs Container  -->
+<div class="breadcrumb-container">
+  <ng-container
+    *ngIf="
+      umService.getUserDetailLoadingObservable() | async;
+      then loader;
+      else breadCrumb
+    "
+  ></ng-container>
+  <ng-template #breadCrumb>
+    <div class="breadcrumbs">
+      <svg-icon
+        routerLink="../"
+        src="assets/svg/breadcrumb-back-icon.svg"
+      ></svg-icon>
+      <ul class="breadcrumbs--list">
+        <li class="breadcrumbs--list__item inactive">
+          <a href="#">User Management</a>
+        </li>
+        <li class="breadcrumbs--list__item">
+          <a href="#">{{ user?.name }}</a>
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+</div>
+
+<!-- Divider -->
+<div class="divider-container">
+  <div></div>
+</div>
+
+<!-- Section Title -->
+<app-section-title
+  class="section-title"
+  sectionTitle="User Profile"
+></app-section-title>
+
+<!-- Action Container -->
+<div class="action-container">
+  <svg-icon src="assets/svg/delete-icon.svg"></svg-icon>
+</div>
+
+<!-- Profile Container -->
+<div class="section-container">
+  <div class="section">
+    <p class="section--title">Full Name</p>
+    <ng-container
+      *ngIf="
+        umService.getUserDetailLoadingObservable() | async;
+        then loader;
+        else name
+      "
+    ></ng-container>
+    <ng-template #name
+      ><p class="section--name">{{ user?.name }}</p></ng-template
+    >
+  </div>
+  <div class="section">
+    <p class="section--title">Email</p>
+    <ng-container
+      *ngIf="
+        umService.getUserDetailLoadingObservable() | async;
+        then loader;
+        else email
+      "
+    ></ng-container>
+    <ng-template #email
+      ><p class="section--name">{{ user?.email }}</p></ng-template
+    >
+  </div>
+</div>
+
+<!-- Divider -->
+<div class="divider-container">
+  <div></div>
+</div>
+
+<!-- Section Title -->
+<app-section-title
+  class="section-title m-0"
+  sectionTitle="Permissions"
+></app-section-title>
+
+<div class="section-container">
+  <ng-container
+    *ngIf="
+      (umService.getUserDetailLoadingObservable() | async) ||
+        !isPermissionLoaded;
+      then permissionLoader;
+      else permissions
+    "
+  >
+  </ng-container>
+  <ng-template #permissions>
+    <div class="section" *ngFor="let module of adminModules; let i = index">
+      <p class="section--title">{{ module?.text }}</p>
+      <div class="section--name">
+        <ng-container
+          *ngIf="module?.isInvited; then invited; else needToInvite"
+        ></ng-container>
+        <ng-template #invited>
+          <div class="permission-tile">
+            <label
+              appClickOutside
+              (clickOutside)="dropdown.close()"
+              [appDropdown]="'.permission-' + i + ' > .dropdown'"
+              #dropdown="dropdown"
+              >{{ module.currentUserPermission?.l }}
+            </label>
+            <div class="dropdown-trigger">
+              <svg-icon
+                src="/assets/svg/select-dropdown-field-icon.svg"
+                [class]="dropdown.isOpen ? 'dropdown-open' : ''"
+              ></svg-icon>
+              <app-dropdown
+                [disableSelection]="true"
+                [activeIndex]="'label'"
+                [selected]="module.currentUserPermission"
+                [items]="module"
+                [labelKey]="'l'"
+                [itemKey]="'roles'"
+                [class]="'permission-' + i"
+                (onSelect)="changePermission($event)"
+              ></app-dropdown>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #needToInvite>
+          <a [routerLink]="['./invite/' + module.name]">Invite user</a>
+        </ng-template>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<router-outlet></router-outlet>
+
+<!-- Templates -->
+<ng-template #loader>
+  <ngx-skeleton-loader
+    count="1"
+    appearance="line"
+    [theme]="{
+      width: '20rem',
+      top: '1rem',
+      'background-color': '#3492c9',
+      opacity: '0.1'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>
+
+<ng-template #permissionLoader>
+  <div *ngFor="let i of [1, 2, 3, 4]">
+    <ng-container [ngTemplateOutlet]="loader"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #changePermissionModalTemplate>
+  <app-modal [showModal]="true">
+    <app-modal-header
+      (onModalClose)="onModalClose()"
+      title="Permissions"
+    ></app-modal-header>
+    <app-modal-body>
+      <p class="user-modal-body">
+        Are you sure you want to change the permisson of this user?
+      </p>
+    </app-modal-body>
+    <app-modal-footer
+      (onActionHanlder)="onChangePermission()"
+      (onModalClose)="onModalClose()"
+      closeTitle="Cancel"
+      [disableAction]="(loaderService.getLoader() | async)"
+    ></app-modal-footer>
+  </app-modal>
+</ng-template>
+
+<ng-template #revokePermissionModalTemplate>
+  <app-modal [showModal]="true">
+    <app-modal-header
+      (onModalClose)="onModalClose()"
+      title="Permissions"
+    ></app-modal-header>
+    <app-modal-body>
+      <p class="user-modal-body">
+        Are you sure you want to delete this user?
+      </p>
+    </app-modal-body>
+    <app-modal-footer
+      (onActionHanlder)="onChangePermission()"
+      (onModalClose)="onModalClose()"
+      closeTitle="Cancel"
+      actionTitle="Delete"
+      [disableAction]="(loaderService.getLoader() | async)"
+    ></app-modal-footer>
+  </app-modal>
+</ng-template>
+
+

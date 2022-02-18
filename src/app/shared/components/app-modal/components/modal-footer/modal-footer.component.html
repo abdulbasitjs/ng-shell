@@ -1,0 +1,13 @@
+<footer class="modal__container--footer">
+  <app-button
+    [btnTitle]="closeTitle"
+    classes="button-default button-lg"
+    (clickHandler)="onClose()"
+  ></app-button>
+  <app-button
+    [btnTitle]="actionTitle"
+    [isDisabled]="disableAction"
+    classes="button-primary button-lg button-box-shadow"
+    (clickHandler)="onAction()"
+  ></app-button>
+</footer>

@@ -1,10 +1,11 @@
-import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { DashboardCard } from '@shared/components/app-dashboard-cards/interfaces/dashboard-card';
-import { DashboardService } from '@core/services/dashboard.service';
 import { Subscription } from 'rxjs';
-import { SSORoles } from '@shared/models/roles.model';
+import { SSORoles } from '@configs/index';
+import { UserService } from '@core/services/user.service';
+import { HeaderService } from '@core/header/header.service';
 
 @Component({
   selector: 'app-home',
@@ -21,32 +22,42 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthenticationService,
+    private headerService: HeaderService,
     private route: ActivatedRoute,
-    private dashboardService: DashboardService
-  ) {}
-
-  ngOnDestroy(): void {
-    this.routerSubscription.unsubscribe();
+    private userService: UserService
+  ) {
+    this.routerIntilization();
   }
 
   ngOnInit(): void {
     const { name = '' } = this.authService.getUser();
     this.username = name;
-      this.routerSubscription = this.route.data.subscribe((data) => {
-        if (data && data['isHomepage']) {
-          this.dashboardService.shouldShowHeader$.next(true);
-        } else {
-          this.dashboardService.shouldShowHeader$.next(false);
-        }
-
-        if (data && data['roles']) {
-          this.roles = data['roles'];
-        }
-
-      });
   }
 
   handleDashboardSelect(item: DashboardCard) {
     console.log(item);
+  }
+
+  ngOnDestroy(): void {
+    this.routerSubscription.unsubscribe();
+  }
+
+  routerIntilization() {
+    this.routerSubscription = this.route.data.subscribe((data) => {
+      if (data) {
+        if (data['isHomePage']) {
+          this.headerService.setCurrentModule({
+            title: '',
+            desc: '',
+            hideIcon: true,
+            hideHeaderMenu: true
+          });
+
+          if (data['roles']) {
+            this.roles = data['roles'];
+          }
+        }
+      }
+    });
   }
 }

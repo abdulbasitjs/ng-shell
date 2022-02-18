@@ -1,4 +1,4 @@
 <div class="panel__header">
   <h3 class="panel__header--title">{{ headerTitle }}</h3>
-  <i [shouldRemoveParent]="false" appSvg [src]="clearIcon" (click)="onClose()"></i>
+  <svg-icon (click)="onClose()" [src]="clearIcon"></svg-icon>
 </div>

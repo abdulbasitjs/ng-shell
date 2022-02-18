@@ -1,41 +1,58 @@
 <section class="pagination">
   <div class="pagination__records">
-    <span>Showing</span>
+    <span>{{ pagiantionConfig?.label }}</span>
     <span
+      appClickOutside
+      (clickOutside)="dropdown.close()"
       class="pagination--button pagination-no-border pagination--list"
       appDropdown
       dropdownDirection
       [isOpen]="dropdown.isOpen"
       app-pagination-list
-      [records]="[10, 20, 50, 100]"
+      [pageSize]="pagiantionConfig?.pageSize"
+      [records]="pagiantionConfig?.recordRanges"
+      (onRecordSelect)="onRecordSelect.emit($event)"
       #dropdown="dropdown"
       #dropdownDirection="dropdownDirection"
       [ngClass]="dropdownDirection.direction === 1 ? 'top' : 'bottom'"
     ></span>
-    <span>record per page</span>
+    <span>records per page</span>
   </div>
-  <div class="pagination--tabs">
-    <span class="pagination--button m-r-5" [style.width]="'5.5rem'">First</span>
-    <span class="pagination--button prev"
-      ><i
-        [shouldRemoveParent]="false"
-        appSvg
-        src="assets/svg/pagination-previous-icon.svg"
-      ></i
-    ></span>
+  <div class="pagination--tabs" *ngIf="_totalPages > 1">
     <span
-      class="pagination--button pages"
-      *ngFor="let page of pages; let i = index"
-      [class.active]="i === 0"
-      >{{ page }}</span
+      [class.disabled]="_currentPage === 1"
+      class="pagination--button m-r-5"
+      [style.width]="'5.5rem'"
+      (click)="onFirst()"
+      >First</span
     >
-    <span class="pagination--button next"
-      ><i
-        [shouldRemoveParent]="false"
-        appSvg
-        src="assets/svg/pagination-next-icon.svg"
-      ></i
-    ></span>
-    <span class="pagination--button m-l-5" [style.width]="'5.5rem'">Last</span>
+    <span
+      [class.disabled]="_currentPage === 1"
+      class="pagination--button prev"
+      (click)="onPrev()"
+    >
+      <svg-icon src="assets/svg/pagination-previous-icon.svg"></svg-icon>
+    </span>
+    <span
+      (click)="onPage(page)"
+      class="pagination--button pages"
+      *ngFor="let page of _pages; let i = index"
+      [class.active]="page === _currentPage"
+      >{{ page }}
+    </span>
+    <span
+      [class.disabled]="_currentPage === _totalPages"
+      class="pagination--button next"
+      (click)="onNext()"
+    >
+      <svg-icon src="assets/svg/pagination-next-icon.svg"></svg-icon>
+    </span>
+    <span
+      [class.disabled]="_currentPage === _totalPages"
+      class="pagination--button m-l-5"
+      [style.width]="'5.5rem'"
+      (click)="onLast()"
+      >Last</span
+    >
   </div>
 </section>

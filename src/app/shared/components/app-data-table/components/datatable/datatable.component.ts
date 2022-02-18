@@ -6,6 +6,7 @@ import { DataTable, HeaderList } from '../../interfaces/datatable';
   templateUrl: './datatable.component.html',
 })
 export class DataTableComponent implements OnInit {
+  @Input() isLoading: boolean | null = true;
   @Input('config') dataTableConfig!: DataTable;
 
   constructor() {}

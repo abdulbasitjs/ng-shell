@@ -1,16 +1,17 @@
-<div app-loader class="hide"></div>
-<ng-container *ngIf="!isEmailSent; else succes">
-  <section class="auth--form__section forgot">
+<div app-loader [isLoading]="loaderService.getLoader() | async"></div>
+<ng-container *ngIf="!isEmailSent; else success">
+  <section
+    class="auth--form__section forgot"
+    [class.loading]="loaderService.getLoader() | async"
+  >
     <a routerLink="../login" class="auth--form__section--navigation">
-      <i
-        [shouldRemoveParent]="false"
-        appSvg
-        src="assets/svg/breadcrumb-back-icon.svg"
-      ></i>
+      <svg-icon src="assets/svg/breadcrumb-back-icon.svg"></svg-icon>
       Sign in
     </a>
-    <p class="auth--form__section--title">Forgot Password</p>
-    <p class="auth--form__section--description">Enter your details below</p>
+    <app-auth-section
+      title="Forgot Password"
+      description="Enter your details below"
+    ></app-auth-section>
     <form class="form" [formGroup]="forgotForm">
       <div class="form__input m-t-10">
         <label class="email-label"
@@ -22,7 +23,7 @@
             !forgotForm.get('email')?.valid && forgotForm.get('email')?.touched
           "
         >
-          <i [shouldRemoveParent]="false" appSvg src="assets/svg/Email.svg"></i>
+          <svg-icon src="assets/svg/Email.svg"></svg-icon>
           <input
             class="fw"
             type="text"
@@ -36,7 +37,7 @@
               forgotForm.get('email')?.touched
             "
           >
-            <p>We couldn't find an account with that email address.</p>
+            <p>{{ UIMSG.PROVIDE_EMAIL_USERNAME }}</p>
           </div>
         </div>
       </div>
@@ -47,18 +48,24 @@
         width="100%"
         [isDisabled]="forgotForm.invalid || (loaderService.getLoader() | async)"
         classes="button-primary button-lg"
-        (clickHandler)="onLogin()"
+        (clickHandler)="onReset()"
         type="submit"
       ></app-button>
     </div>
   </section>
 </ng-container>
 
-<ng-template #succes>
-  <section class="auth--form__section forgot success">
-    <p class="auth--form__section--title">Email Sent Successfully!!</p>
+<ng-template #success>
+  <section
+    class="auth--form__section forgot success"
+    *ngIf="!(loaderService.getLoader() | async)"
+  >
+    <p class="auth--form__section--title" *ngIf="!error">
+      Email Sent Successfully!!
+    </p>
+    <p class="auth--form__section--title" *ngIf="error">{{ this.error }}</p>
     <form class="center m-b-50">
-      <i [shouldRemoveParent]="false" appSvg src="assets/svg/EmailSent.svg"></i>
+      <svg-icon src="assets/svg/EmailSent.svg"></svg-icon>
     </form>
     <div class="form__action">
       <app-button

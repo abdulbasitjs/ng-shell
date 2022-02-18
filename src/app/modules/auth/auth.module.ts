@@ -10,13 +10,22 @@ import { AppLoaderModule } from '@shared/components/app-loader/loader.module';
 import { ForgotComponent } from './pages/forgot/forgot.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { ResetComponent } from './pages/reset/reset.component';
+import { AuthSectionComponent } from './components/auth-section/auth-section.component';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @NgModule({
-  declarations: [LoginComponent, ForgotComponent, AuthComponent, ResetComponent],
+  declarations: [
+    LoginComponent,
+    ForgotComponent,
+    AuthComponent,
+    ResetComponent,
+    AuthSectionComponent,
+  ],
   imports: [
     CommonModule,
     AuthRoutingModule,
     ReactiveFormsModule,
+    AngularSvgIconModule,
     AppButtonModule,
     DirectivesModule,
     AppLoaderModule,

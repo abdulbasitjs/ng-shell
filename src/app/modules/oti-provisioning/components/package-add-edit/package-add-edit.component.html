@@ -1,0 +1,113 @@
+<app-panel [showPanel]="isPanelOpen">
+  <app-panel-header
+    headerTitle="Add a New Package"
+    clearIcon="assets/svg/panel-close-icon.svg"
+    (onPanelClose)="onClose()"
+  >
+  </app-panel-header>
+
+  <app-panel-body class="panel__content">
+    <!-- Add new Company Profile -->
+    <form
+      class="form m-0"
+      (ngSubmit)="onAddNewPackage()"
+      [formGroup]="newPackageForm"
+    >
+      <ng-container formGroupName="package_info">
+        <div class="form__input icon-container pos-rel error">
+          <label>Package</label>
+          <input
+            type="text"
+            formControlName="package_name"
+            [class.error-field]="
+              !newPackageForm.get('package_info.package_name')?.valid &&
+              newPackageForm.get('package_info.package_name')?.touched
+            "
+          />
+          <div
+            class="pos-abs error-align-field error-msg"
+            *ngIf="
+              !newPackageForm.get('package_info.package_name')?.valid &&
+              newPackageForm.get('package_info.package_name')?.touched
+            "
+          >
+            <p>{{ UIMSG.NO_PACKAGE }}</p>
+          </div>
+        </div>
+        <div class="form__input form__select">
+          <label>Quota Interval</label>
+          <div class="dropdown-trigger">
+            <svg-icon
+              src="assets/svg/select-dropdown-field-icon.svg"
+              class="svg-dropdown-style"
+              [class]="dropdown.isOpen ? 'dropdown-open' : ''"
+            >
+            </svg-icon>
+            <app-dropdown
+              class="quota-interval-dropdown"
+              [items]="quotaIntervalList"
+              (onSelect)="handleQuotaIntervalSelect($event); dropdown.close()"
+            ></app-dropdown>
+          </div>
+          <input
+            appClickOutside
+            (clickOutside)="dropdown.close()"
+            appDropdown=".quota-interval-dropdown > .dropdown"
+            #dropdown="dropdown"
+            readonly
+            type="text"
+            class="select"
+            formControlName="quota_interval"
+          />
+        </div>
+        <div class="form__input">
+          <label>Quota Limit</label>
+          <app-range-btn formControlName="quota_limit"></app-range-btn>
+        </div>
+        <div
+          class="form__input form__select m-t-20"
+          *ngIf="newPackageForm.get('package_info.quota_limit')?.value >= 1"
+        >
+          <label>Rate limit / min</label>
+          <div class="dropdown-trigger">
+            <app-dropdown
+              class="rate-limit-dropdown"
+              [items]="rateLimitPerMinList"
+              (onSelect)="dropdown.close()"
+            >
+            </app-dropdown>
+            <svg-icon
+              src="assets/svg/select-dropdown-field-icon.svg"
+              class="svg-dropdown-style"
+              [class]="dropdown.isOpen ? 'dropdown-open' : ''"
+            >
+            </svg-icon>
+          </div>
+          <input
+            appClickOutside
+            (clickOutside)="dropdown.close()"
+            appDropdown=".rate-limit-dropdown > .dropdown"
+            #dropdown="dropdown"
+            readonly
+            type="text"
+            class="select"
+            formControlName="rate_limit"
+            value="something"
+          />
+        </div>
+      </ng-container>
+    </form>
+  </app-panel-body>
+
+  <app-panel-footer>
+    <div class="panel__footer--bg"></div>
+    <div class="panel__footer--actions">
+      <app-button
+        btnTitle="Save"
+        classes="button-primary button-lg button-box-shadow"
+        [isDisabled]="newPackageForm.controls['package_info'].invalid"
+        (clickHandler)="onSave()"
+      ></app-button>
+    </div>
+  </app-panel-footer>
+</app-panel>

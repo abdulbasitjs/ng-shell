@@ -1,8 +1,18 @@
+@import './auth';
+
 @import './header';
 @import './dashboard';
+
+@import './user-management';
+@import './user-management-layout';
+@import './user-management-layout-of-detail-page';
+@import './user-management-detail-page';
+
 @import './oti-provisioning';
-@import './layout';
-@import './layout-of-detail';
-@import './customer-detail';
-@import './package-detail';
-@import './auth';
+@import './oti-provisioning-layout';
+@import './oti-provisioning-layout-of-detail-page';
+@import './oti-provisioning-customer-detail';
+@import './oti-provisioning-package-detail';
+@import './oti-provisioning-scan-stat-modal';
+
+@import './404';

@@ -175,10 +175,8 @@
   "roles": {
     "code": 200,
     "data": {
-      "oti-provisioning": "Admin",
-      "oti-dashboard": "Admin",
-      "rtpd-dashboard": "Admin",
-      "rtpd-provisioning": "Admin"
+      "oti-pp": { "l": "Administrator", "r": "Admin" },
+      "oti-dd": { "l": "Administrator", "r": "Admin" }
     },
     "message": "Success"
   },
@@ -199,5 +197,616 @@
       "token_type": "bearer"
     },
     "message": "Success"
-  }
+  },
+  "users": [
+    {
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Asif",
+      "email": "asif@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    }, {
+      "name": "Zeeshan",
+      "email": "zeeshan@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Touseef",
+      "email": "touseef@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Farid",
+      "email": "farid@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Usman Ilays",
+      "email": "usmanilyas@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    }, {
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },{
+      "name": "Abdul Basit",
+      "email": "ab@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Nasir Noor",
+      "email": "nasir@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    },
+    {
+      "name": "Sohaib",
+      "email": "sohaib@gmail.com",
+      "assigned_portal": "Test",
+      "created": "04-10-2018",
+      "status": "Active"
+    }
+  ]
 }

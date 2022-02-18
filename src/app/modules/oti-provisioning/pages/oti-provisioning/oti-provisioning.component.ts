@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DataStorageService } from '@core/services/data-storage.service';
 import { Sidebar } from '@shared/components/app-side-bar/interfaces/sidebar';
-import { DashboardService } from '@core/services/dashboard.service';
 import { Subscription } from 'rxjs';
+import { OtiProvisioningSideBarList } from '@configs/index';
+import { HeaderService } from '@core/header/header.service';
 
 @Component({
   selector: 'app-oti-provisioning',
@@ -17,17 +17,24 @@ export class OtiProvisioningComponent implements OnInit, OnDestroy {
   sidebarList!: Sidebar[];
   routerSubscription!: Subscription;
   constructor(
-    private dataStorageService: DataStorageService,
     private route: ActivatedRoute,
-    private dashboardService: DashboardService
+    private headerService: HeaderService
   ) {
-    this.sidebarList =
-      this.dataStorageService.getOtiProvisioningSidebarValues();
+    this.routerIntilization();
+    this.sidebarList = OtiProvisioningSideBarList;
+  }
 
+  ngOnDestroy(): void {
+    this.routerSubscription.unsubscribe();
+  }
+
+  ngOnInit(): void {}
+
+  routerIntilization() {
     this.routerSubscription = this.route.data.subscribe((data) => {
-      if (data && data['project']) {
-        const { title, desc } = data['project'];
-        this.dashboardService.setCurrentDashboard({
+      if (data && data['module']) {
+        const { title, desc } = data['module'];
+        this.headerService.setCurrentModule({
           title,
           desc,
           selected: true,
@@ -35,9 +42,4 @@ export class OtiProvisioningComponent implements OnInit, OnDestroy {
       }
     });
   }
-  ngOnDestroy(): void {
-    this.routerSubscription.unsubscribe();
-  }
-
-  ngOnInit(): void {}
 }
