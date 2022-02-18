@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UIMESSAGES, quotaInterval } from '@configs/index';
 import { UserManagementService } from '../../services/user-management.service';
 import { IModulesResponse } from '../../models/modules-response.model';
 import { LoaderService } from '@core/services/loader.service';
+import { Subscription } from 'rxjs';
+import { IUserItem } from '../../user-management.model';
 
 const defaultRole = 'Select Role';
 
@@ -12,7 +14,7 @@ const defaultRole = 'Select Role';
   selector: 'app-user-invite',
   templateUrl: './invite.component.html',
 })
-export class InviteUserComponent implements OnInit {
+export class InviteUserComponent implements OnInit, OnDestroy {
   UIMSG = UIMESSAGES;
   isPanelOpen: boolean = true;
   inviteUserForm!: FormGroup;
@@ -21,6 +23,13 @@ export class InviteUserComponent implements OnInit {
   selectedRoles!: Array<any>;
   hasSelectedAnyRole: boolean = false;
   checkboxList!: Array<any>;
+  currentUser!: IUserItem;
+
+  editMode!: string;
+  routerSubscription!: Subscription;
+  userSubscription!: Subscription;
+
+  sendingInviteSubscription!: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,6 +38,11 @@ export class InviteUserComponent implements OnInit {
     public umService: UserManagementService,
     public loaderService: LoaderService
   ) {}
+
+  ngOnDestroy(): void {
+    this.sendingInviteSubscription.unsubscribe();
+    this.routerSubscription.unsubscribe();
+  }
 
   get permissions() {
     return this.inviteUserForm.controls['permissions'] as FormArray;
@@ -41,8 +55,37 @@ export class InviteUserComponent implements OnInit {
       permissions: this.formBuilder.array([]),
     });
 
+    this.sendingInviteSubscription = this.umService
+      .sendingInviteObservable()
+      .subscribe((status) => {
+        if (!status) this.onClose();
+      });
+
+    this.routerSubscription = this.route.params.subscribe((param) => {
+      this.editMode = param['key'];
+      this.getAdminModules();
+      if (!!this.editMode) {
+        this.userSubscription = this.umService
+          .getUserObservable()
+          .subscribe((user) => {
+            if (user) {
+              this.currentUser = user;
+              this.populateEditForm();
+            }
+          });
+      }
+    });
+  }
+
+  getAdminModules() {
     this.umService.getAdminModules().subscribe((modules) => {
-      this.modulesList = modules;
+      if (!!this.editMode) {
+        this.modulesList = modules.filter(
+          (el) =>
+            el.name === this.editMode && !this.currentUser?.permission[el.name]
+        );
+        console.log(this.modulesList);
+      } else this.modulesList = modules;
 
       this.selectedRoles = Array.from(
         { length: this.modulesList.length },
@@ -54,19 +97,44 @@ export class InviteUserComponent implements OnInit {
         () => false
       );
 
-      this.buildModuleFormArray(modules);
+      this.buildModuleFormArray(this.modulesList);
+    });
+  }
+
+  populateEditForm() {
+    this.inviteUserForm.patchValue({
+      full_name: this.currentUser.name,
+      email: this.currentUser.email,
     });
   }
 
   onInviteUser() {
     const { full_name: name, email } = this.inviteUserForm.value;
-    const payload = {
+    let payload = {
       name,
       email,
-      permission: this.selectedRoles,
+      permission: {},
     };
-    console.log(payload);
-    this.onClose();
+    const permission = this.selectedRoles
+      .filter((el, i) => {
+        return this.selectedRoles[i][this.getRoles(i).name].l !== defaultRole;
+      })
+      .reduce((acc, cur, i) => {
+        const key = Object.keys(cur)[0];
+        const r = cur[key].r;
+        acc[key] = { r };
+        return acc;
+      }, {});
+
+    if (!!this.editMode) {
+      this.umService
+        .updateUser({ ...this.currentUser, ...payload, permission })
+        .subscribe((d) => {
+          console.log(d);
+        });
+    } else {
+      this.umService.sendInvite({ ...payload, permission });
+    }
   }
 
   onSave() {
@@ -75,7 +143,8 @@ export class InviteUserComponent implements OnInit {
 
   onClose() {
     this.isPanelOpen = false;
-    this.router.navigate(['../'], { relativeTo: this.route });
+    const backPath = !!this.editMode ? '../../' : '../';
+    this.router.navigate([backPath], { relativeTo: this.route });
   }
 
   buildModuleFormArray(modules: IModulesResponse[]) {
@@ -102,21 +171,26 @@ export class InviteUserComponent implements OnInit {
   }
 
   canSendInvite(i: number) {
-    this.hasSelectedAnyRole = [
-      this.selectedRoles[i][this.getRoles(i).name].l !== defaultRole,
-      this.checkboxList.some((el) => !!el),
-    ].every((el) => el);
+    if (this.checkboxList.some((el) => !!el)) {
+      const truthyIndex = this.checkboxList.findIndex((el) => el === true);
+      if (
+        this.selectedRoles[truthyIndex][this.getRoles(truthyIndex).name].l !==
+        defaultRole
+      ) {
+        this.hasSelectedAnyRole = true;
+        return;
+      }
+    }
+    this.hasSelectedAnyRole = false;
   }
 
   onCheck(event: any, i: number) {
-
-    // NOTE: There is bug regarding hasSelectedAnyRole
     setTimeout(() => {
+      this.checkboxList[i] = event.target.checked;
       if (!event.target.checked) {
         this.hasSelectedAnyRole = false;
       }
       this.canSendInvite(i);
     }, 0);
-    this.checkboxList[i] = event.target.checked;
   }
 }

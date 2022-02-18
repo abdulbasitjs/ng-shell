@@ -17,7 +17,7 @@ export class AuthenticationService implements OnDestroy {
   userSusbscription!: Subscription;
   fakePermissions = {
     'oti-pp': { l: 'Admin', r: 'admin' },
-    'oti-db': { l: 'Admin', r: 'admin' },
+    'oti-db': { l: 'Admin', r: 'sales' },
     'rtpd-pp': { l: 'Admin', r: 'admin' },
     'rtpd-db': { l: 'Admin', r: 'admin' },
   };

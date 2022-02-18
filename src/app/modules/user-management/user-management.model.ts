@@ -19,6 +19,7 @@ export interface IUserItem {
   name: string;
   permission: IUserPermission;
   status: number;
+  username?: string;
 }
 
 export interface IUsersResponse {

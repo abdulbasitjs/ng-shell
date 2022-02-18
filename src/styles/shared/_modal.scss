@@ -1,4 +1,4 @@
-$modalColor: var(--color-tertiary);
+$modalColor: var(--color-black);
 .modal {
   z-index: $zindex-modal-backdrop;
   position: fixed;
@@ -20,9 +20,13 @@ $modalColor: var(--color-tertiary);
   }
 
   &__container {
-    min-width: 90rem;
-    width: 90rem;
-    min-height: 30rem;
+    position: absolute;
+    top: 20rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 50rem;
+    min-height: 20rem;
+    border-radius: 4px;
     background-color: var(--color-secondary);
     transform: scale(0.7);
     // transform: translateY(-30%);
@@ -32,6 +36,7 @@ $modalColor: var(--color-tertiary);
     padding: 2rem 3rem 0 2rem;
 
     &--header {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -47,14 +52,28 @@ $modalColor: var(--color-tertiary);
         flex: 1;
       }
 
-      & > i > svg {
-        width: 1.6rem;
-        height: 1.6rem;
+      & > svg-icon {
+        position: absolute;
+        top: -0.5rem;
+        right: -1.5rem;
+
+        & > svg > g > g[fill] {
+          fill: var(--color-modal-color);
+        }
       }
     }
 
     &--body {
+      min-height: 9rem;
       margin-top: 2rem;
+      flex: 1;
+    }
+
+    &--footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-bottom: 2rem;
     }
   }
 

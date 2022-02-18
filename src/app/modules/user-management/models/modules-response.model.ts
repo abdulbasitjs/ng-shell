@@ -1,6 +1,6 @@
 export interface IModulesRolesResponse {
-  c: number;
-  l: string;
+  c?: number;
+  l?: string;
   r: string;
 }
 
@@ -9,4 +9,6 @@ export interface IModulesResponse {
   text: string;
   roles: IModulesRolesResponse[];
   disabled?: boolean;
+  isInvited?: boolean;
+  currentUserPermission?: IModulesRolesResponse
 }

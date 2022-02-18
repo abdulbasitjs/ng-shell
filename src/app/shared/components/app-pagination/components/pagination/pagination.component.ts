@@ -43,12 +43,14 @@ export class PaginationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setPaginationConfig(this.pagiantionConfig!);
     this.reCalculatePages();
-    this.paginationSubscripton = this.$$paginationConfigObservable.subscribe(
-      (paginationConfig) => {
-        this.setPaginationConfig(paginationConfig);
-        this.reCalculatePages();
-      }
-    );
+    if (this.$$paginationConfigObservable) {
+      this.paginationSubscripton = this.$$paginationConfigObservable.subscribe(
+        (paginationConfig) => {
+          this.setPaginationConfig(paginationConfig);
+          this.reCalculatePages();
+        }
+      );
+    }
   }
 
   setPaginationConfig(config: Pagination) {

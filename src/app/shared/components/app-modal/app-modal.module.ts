@@ -6,11 +6,13 @@ import { AppModalBodyComponent } from './components/modal-body/modal-body.compon
 import { DirectivesModule } from '@shared/directives/directives.module';
 import { AppButtonModule } from '../app-btn/app-button.module';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { AppModalFooterComponent } from './components/modal-footer/modal-footer.component';
 
 @NgModule({
   declarations: [
     AppModalHeaderComponent,
     AppModalBodyComponent,
+    AppModalFooterComponent,
     AppModalComponent,
   ],
   imports: [
@@ -19,7 +21,12 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
     AppButtonModule,
     AngularSvgIconModule,
   ],
-  exports: [AppModalHeaderComponent, AppModalBodyComponent, AppModalComponent],
+  exports: [
+    AppModalHeaderComponent,
+    AppModalBodyComponent,
+    AppModalComponent,
+    AppModalFooterComponent,
+  ],
   providers: [],
 })
 export class AppModalModule {}

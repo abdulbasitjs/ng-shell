@@ -76,6 +76,7 @@
                   <input
                     [id]="'checkbox' + i"
                     type="checkbox"
+                    [checked]="!!editMode"
                     (change)="onCheck($event, i)"
                   />
                 </label>
@@ -86,24 +87,30 @@
               <input
                 readonly
                 type="text"
-                [class.disabled]="!checkboxList[i]"
+                [class.disabled]="
+                  !!editMode ? checkboxList[i] : !checkboxList[i]
+                "
                 class="select"
                 [value]="setRoleValue(i)"
                 appClickOutside
                 (clickOutside)="dropdown.close()"
-                [appDropdown]="'.permission-' + i + ' > .dropdown'"
+                [appDropdown]="'.invite-permission-' + i + ' > .dropdown'"
                 #dropdown="dropdown"
               />
-              <div class="dropdown-trigger" [class.disabled]="!checkboxList[i]">
+              <div
+                class="dropdown-trigger"
+                [class.disabled]="
+                  !!editMode ? checkboxList[i] : !checkboxList[i]
+                "
+              >
                 <svg-icon
                   src="/assets/svg/select-dropdown-field-icon.svg"
                   [class]="dropdown.isOpen ? 'dropdown-open' : ''"
                 ></svg-icon>
                 <app-dropdown
-                  [activeIndex]="'0'"
-                  [labelKey]="'l'"
-                  [itemKey]="'roles'"
-                  [class]="'permission-' + i"
+                  labelKey="l"
+                  itemKey="roles"
+                  [class]="'invite-permission-' + i"
                   [items]="getRoles(i)"
                   (onSelect)="onRoleSelect($event, i)"
                 ></app-dropdown>
@@ -133,9 +140,3 @@
     </div>
   </app-panel-footer>
 </app-panel>
-
-<!-- <select [formControlName]="i" class="select">
-                <option *ngFor="let role of getRoles(i).roles" [ngValue]="role">
-                  {{ role.l }}
-                </option>
-              </select> -->
