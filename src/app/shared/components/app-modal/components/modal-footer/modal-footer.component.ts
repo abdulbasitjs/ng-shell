@@ -7,6 +7,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 export class AppModalFooterComponent implements OnInit {
   @Input() closeTitle = 'Cancel';
   @Input() actionTitle = 'Yes';
+  @Input() disableAction!: boolean | null;
   @Output() onModalClose = new EventEmitter();
   @Output() onActionHanlder = new EventEmitter();
   constructor() {}

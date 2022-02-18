@@ -20,6 +20,8 @@ $modalColor: var(--color-black);
   }
 
   &__container {
+    position: absolute;
+    top: 20rem;
     display: flex;
     flex-direction: column;
     min-width: 50rem;
@@ -50,7 +52,7 @@ $modalColor: var(--color-black);
         flex: 1;
       }
 
-      & > svg-icon  {
+      & > svg-icon {
         position: absolute;
         top: -0.5rem;
         right: -1.5rem;
@@ -64,7 +66,7 @@ $modalColor: var(--color-black);
     &--body {
       min-height: 9rem;
       margin-top: 2rem;
-      flex: 1
+      flex: 1;
     }
 
     &--footer {

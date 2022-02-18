@@ -11,7 +11,10 @@ import { Subscription } from 'rxjs';
 import { IModulesResponse } from '../../models/modules-response.model';
 import { UserManagementService } from '../../services/user-management.service';
 import { IUserItem } from '../../user-management.model';
+import { LoaderService } from '../../../../core/services/loader.service';
+import { ToastrService } from 'ngx-toastr';
 
+const REVOKE_ACCESS = 'Revoke Access';
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -21,7 +24,8 @@ import { IUserItem } from '../../user-management.model';
 })
 export class UserDetailComponent implements OnInit, OnDestroy {
   @ViewChild('changePermissionModalTemplate') cpModal!: TemplateRef<any>;
-  private _userId!: number;
+  @ViewChild('revokePermissionModalTemplate') rpModal!: TemplateRef<any>;
+  private _newRole!: { key: string; role: string };
   public adminModules!: IModulesResponse[];
   public user!: IUserItem;
   private userSubscription!: Subscription;
@@ -30,9 +34,10 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   isPermissionLoaded = false;
   constructor(
     public umService: UserManagementService,
-    private router: Router,
     private route: ActivatedRoute,
-    public modalService: ModalService
+    public modalService: ModalService,
+    public loaderService: LoaderService,
+    private toaster: ToastrService
   ) {}
 
   ngOnDestroy(): void {
@@ -43,7 +48,6 @@ export class UserDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.routerSubscription = this.route.params.subscribe((param) => {
-      this._userId = param && param['id'];
       this.umService.getUser(param['id']);
     });
 
@@ -66,7 +70,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     return adminModules.map((el) => {
       return {
         ...el,
-        roles: [...el.roles, { c: -1, r: '', l: 'Revoke Access' }],
+        roles: [...el.roles, { c: -1, r: '', l: REVOKE_ACCESS }],
         isInvited: !!this.user.permission[el.name],
         currentUserPermission: this.user.permission[el.name],
       };
@@ -74,11 +78,25 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   }
 
   changePermission(event: any) {
-    this.modalService.open(this.cpModal);
+    this._newRole = { role: event.roles[0].r, key: event.name };
+    if (this._newRole.role) {
+      this.modalService.open(this.cpModal);
+    } else {
+      this.modalService.open(this.rpModal);
+    }
   }
 
   onChangePermission() {
-    console.log('Change Permission');
+    const payload = {
+      ...this.user,
+      permission: {
+        [this._newRole.key]: { r: this._newRole.role },
+      },
+    };
+    this.umService.updateUser(payload).subscribe((d: any) => {
+      this.onModalClose();
+      this.toaster.success(d['message'], 'Success!');
+    });
   }
 
   onModalClose() {

@@ -80,8 +80,10 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   getAdminModules() {
     this.umService.getAdminModules().subscribe((modules) => {
       if (!!this.editMode) {
-        this.modulesList = modules
-        .filter((el) => el.name === this.editMode && !this.currentUser?.permission[el.name]);
+        this.modulesList = modules.filter(
+          (el) =>
+            el.name === this.editMode && !this.currentUser?.permission[el.name]
+        );
         console.log(this.modulesList);
       } else this.modulesList = modules;
 
@@ -108,12 +110,12 @@ export class InviteUserComponent implements OnInit, OnDestroy {
 
   onInviteUser() {
     const { full_name: name, email } = this.inviteUserForm.value;
-    const payload = {
+    let payload = {
       name,
       email,
       permission: {},
     };
-    payload.permission = this.selectedRoles
+    const permission = this.selectedRoles
       .filter((el, i) => {
         return this.selectedRoles[i][this.getRoles(i).name].l !== defaultRole;
       })
@@ -123,7 +125,16 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         acc[key] = { r };
         return acc;
       }, {});
-    this.umService.sendInvite(payload);
+
+    if (!!this.editMode) {
+      this.umService
+        .updateUser({ ...this.currentUser, ...payload, permission })
+        .subscribe((d) => {
+          console.log(d);
+        });
+    } else {
+      this.umService.sendInvite({ ...payload, permission });
+    }
   }
 
   onSave() {

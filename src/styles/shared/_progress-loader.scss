@@ -1,0 +1,66 @@
+.progress-loader {
+  position: fixed;
+  z-index: $zindex-fixed;
+  top: 0;
+  left: -6px;
+  width: 85%;
+  height: 4px;
+  background-color: var(--color-progress-loader);
+  opacity: 0;
+  display: none;
+
+  -moz-border-radius: 1px;
+  -webkit-border-radius: 1px;
+  border-radius: 1px;
+
+  -moz-transition: width 600ms ease-out, opacity 500ms linear;
+  -ms-transition: width 600ms ease-out, opacity 500ms linear;
+  -o-transition: width 600ms ease-out, opacity 500ms linear;
+  -webkit-transition: width 600ms ease-out, opacity 500ms linear;
+  transition: width 1000ms ease-out, opacity 500ms linear;
+  animation: progress-loader 2000ms ease-out infinite;
+
+  b,
+  i {
+    position: absolute;
+    top: 0;
+    height: 3px;
+
+    -moz-box-shadow: #777777 1px 0 6px 1px;
+    -ms-box-shadow: #777777 1px 0 6px 1px;
+    -webkit-box-shadow: #777777 1px 0 6px 1px;
+    box-shadow: #777777 1px 0 6px 1px;
+
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    border-radius: 100%;
+  }
+
+  b {
+    clip: rect(-6px, 22px, 14px, 10px);
+    opacity: 0.6;
+    width: 20px;
+    right: 0;
+  }
+
+  i {
+    clip: rect(-6px, 90px, 14px, -6px);
+    opacity: 0.6;
+    width: 180px;
+    right: -80px;
+  }
+}
+
+.progress-loader.loading {
+  display: block;
+  opacity: 1;
+}
+
+@keyframes progress-loader {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}

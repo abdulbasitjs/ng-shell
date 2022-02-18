@@ -1,4 +1,4 @@
-<ng-template appPlaceholder></ng-template>
+<div [class.loading]="loaderService.getLoader() | async" class="progress-loader"></div>
 <div [ngClass]="showHeader ? 'container' : 'auth-container'">
   <app-header class="header" *ngIf="showHeader && !is404Page"> </app-header>
   <router-outlet>

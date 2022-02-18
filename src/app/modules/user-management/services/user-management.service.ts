@@ -6,7 +6,7 @@ import {
 } from '@shared/components/app-data-table/interfaces/datatable';
 import { EP } from '@configs/endpoints';
 import { SSOResponse } from '@core/http/http-response.model';
-import { BehaviorSubject, map, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, tap, throwError } from 'rxjs';
 import { IModulesResponse } from '../models/modules-response.model';
 import { AllRolesEnum } from '@configs/ui';
 import { AuthenticationService } from '@core/authentication/authentication.service';
@@ -15,6 +15,7 @@ import { StorageService } from '@core/services/storage.service';
 import { StoragePrefix } from '@core/models/storage-prefix.enum';
 import { IGetUsersPayload, IUserItem } from '../user-management.model';
 import { HttpStatusCode } from '@core/http/http-codes.enum';
+import { ToastrService } from 'ngx-toastr';
 
 const userManagementPaginationStoreKey = `${StoragePrefix.SSO}user-management.pagination.pageSize`;
 const userManagementSortStoreKey = `${StoragePrefix.SSO}user-management.sorting`;
@@ -46,7 +47,8 @@ export class UserManagementService {
   constructor(
     private http: HttpClient,
     private auth: AuthenticationService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private toasterService: ToastrService
   ) {
     // User Listing Configuration
     this.paginationConfigSubject$ = new BehaviorSubject<Pagination>(
@@ -94,6 +96,17 @@ export class UserManagementService {
         this.currentUser$.next(response.data);
       }
     });
+  }
+
+  updateUser(payload: IUserItem) {
+    return this.http.post(EP.UpdateUser, payload).pipe(
+      tap((res) => {
+        const response = <SSOResponse>res;
+        if (response.code === HttpStatusCode.Ok) {
+        }
+        return res;
+      })
+    );
   }
 
   getModulesAsync() {

@@ -1,6 +1,6 @@
 export interface IModulesRolesResponse {
-  c: number;
-  l: string;
+  c?: number;
+  l?: string;
   r: string;
 }
 
