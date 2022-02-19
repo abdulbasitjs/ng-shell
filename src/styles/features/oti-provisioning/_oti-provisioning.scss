@@ -16,7 +16,7 @@
 
     grid-template-rows: repeat(4, min-content);
 
-    @extend %oti-provisioning-layout;
+    @extend %base-layout;
   }
 
   app-oti-provisioning-customer-detail,
@@ -33,7 +33,7 @@
 
     grid-template-rows: repeat(4, min-content);
 
-   @extend %oti-provisioning-layout-of-detail-page;
+   @extend %layout-of-detail-page;
 
   }
 

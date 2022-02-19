@@ -1,8 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterContentChecked,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { AuthenticationService } from '@core/authentication/authentication.service';
 import { OverlayService } from '@core/services/overlay.service';
-import { ModalService } from '@shared/components/app-modal/modal.service';
 import { Subscription } from 'rxjs';
 import { LoaderService } from './core/services/loader.service';
 
@@ -11,19 +15,27 @@ import { LoaderService } from './core/services/loader.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, AfterContentChecked {
+  loading = false;
+  showOverlay = false;
+
   showHeader = false;
   is404Page = false;
-  showOverlay = false;
   overlaySubscription!: Subscription;
+  loaderSubscription!: Subscription;
 
   constructor(
-    public loaderService: LoaderService,
-    public authService: AuthenticationService,
-    public modalService: ModalService,
+    private loaderService: LoaderService,
     private router: Router,
-    public overlayService: OverlayService
+    private overlayService: OverlayService,
+    private cdr: ChangeDetectorRef
   ) {}
+
+  ngAfterContentChecked(): void {
+    // Prevent from change detection
+    // TODO Can cause performance hit. Need to fix this later.
+    this.cdr.detectChanges();
+  }
 
   ngOnInit(): void {
     this.router.events.forEach((event: any) => {
@@ -39,9 +51,22 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    this.loaderSubscription = this.loaderService
+      .getLoader()
+      .subscribe((state) => {
+        this.loading = state;
+      });
+
+    this.overlaySubscription = this.overlayService
+      .getOverlay()
+      .subscribe((overlay) => {
+        this.showOverlay = overlay;
+      });
   }
 
   ngOnDestroy(): void {
-    this.overlaySubscription.unsubscribe();
+    if (this.loaderSubscription) this.loaderSubscription.unsubscribe();
+    if (this.overlaySubscription) this.overlaySubscription.unsubscribe();
   }
 }

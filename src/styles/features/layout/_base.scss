@@ -1,4 +1,4 @@
-%user-management-layout {
+%base-layout {
   & > .section-title {
     grid-column: section-start / col-end 1;
     margin-top: 2rem;
@@ -15,7 +15,6 @@
     & > .search-component {
       display: flex;
     }
-
   }
 
   & > ngx-skeleton-loader {
@@ -30,25 +29,5 @@
   & > .pagination-component {
     grid-column: section-start / section-end;
     @extend %pagination;
-  }
-}
-
-.permission {
-  font-weight: font-weight(medium) !important;
-}
-
-.portal {
-  display: flex;
-  column-gap: 1rem;
-  &--icon {
-    width: 3.5rem;
-    height: 3.5rem;
-    border-radius: 50%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--color-secondary);
-
   }
 }

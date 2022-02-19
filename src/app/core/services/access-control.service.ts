@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   AllRolesEnum,
+  AllRolesReverseEnum,
   ProjectAccessControls,
   USER_MANAGEMENT_KEY,
 } from '@configs/index';
@@ -17,7 +18,7 @@ export class AccessControlService {
     const [, projectKey]: any = /\/([a-z].+)\//.exec(this.router.url);
     const roles: any = this.rolesService.getUserRolesFromStorage();
 
-    if (projectKey === USER_MANAGEMENT_KEY) {
+    if (projectKey.includes(USER_MANAGEMENT_KEY)) {
       const isSuperAdmin = Object.keys(roles).some(
         (el) => roles[el]['r'] === AllRolesEnum.SuperAdmin
       );
@@ -26,8 +27,14 @@ export class AccessControlService {
         (el) => roles[el]['r'] === AllRolesEnum.Admin
       );
 
-      if (isSuperAdmin) return ProjectAccessControls[projectKey]['SuperAdmin'];
-      if (isAdmin) return ProjectAccessControls[projectKey]['Admin'];
+      if (isSuperAdmin)
+        return ProjectAccessControls[USER_MANAGEMENT_KEY][
+          AllRolesReverseEnum.superadmin
+        ];
+      if (isAdmin)
+        return ProjectAccessControls[USER_MANAGEMENT_KEY][
+          AllRolesReverseEnum.admin
+        ];
     }
 
     if (projectKey && Object.keys(roles).length) {

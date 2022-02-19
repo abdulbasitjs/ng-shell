@@ -5,7 +5,8 @@ import {
   OTI_PROVISIONING_KEY,
   RTPD_DASHBOARD_KEY,
   RTPD_PROVISIONING_KEY,
-  USER_MANAGEMENT_KEY
+  USER_MANAGEMENT_KEY,
+  USER_PROFILE_KEY,
 } from '@configs/index';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { DashboarResolverGuard } from '@core/guards/dashboard.resolver';
@@ -47,7 +48,21 @@ const routes: Routes = [
         title: 'USER',
         desc: 'Management',
       },
-      expectedRoles: ['superadmin', 'admin']
+      expectedRoles: ['superadmin', 'admin'],
+    },
+  },
+  {
+    canActivate: [AuthGuard],
+    path: USER_PROFILE_KEY,
+    loadChildren: () =>
+      import('./modules/user-profile/user-profile.module').then(
+        (m) => m.UserProfileModule
+      ),
+    data: {
+      module: {
+        title: 'PROFILE',
+        desc: 'Management',
+      },
     },
   },
   {

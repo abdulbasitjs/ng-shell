@@ -1,19 +1,18 @@
-<!-- <div class="transparent-white">
-  <span class="dots-circle-spinner loading"></span>
-</div> -->
-
 <app-section-title
   class="section-title"
   sectionTitle="Customer Management"
 ></app-section-title>
-<app-button
-  class="button-component"
-  icon="assets/svg/add-button-icon.svg"
-  btnTitle="Add New Company Profile"
-  classes="button-primary button-pd"
-  (clickHandler)="onAddNewCompany()"
->
-</app-button>
+<article class="components">
+  <app-button
+    class="button-component"
+    icon="assets/svg/add-button-icon.svg"
+    btnTitle="Add New Company Profile"
+    classes="button-primary button-pd"
+    (clickHandler)="onAddNewCompany()"
+  >
+  </app-button>
+</article>
+
 <app-datatable class="table-component" [config]="customerDatatable">
   <app-datatable-headers
     [headers]="customerDatatable.headers"

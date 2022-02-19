@@ -1,80 +1,88 @@
 <div app-loader [isLoading]="loaderService.getLoader() | async"></div>
-<ng-container *ngIf="!isEmailSent; else success">
-  <section
-    class="auth--form__section forgot"
-    [class.loading]="loaderService.getLoader() | async"
-  >
-    <a routerLink="../login" class="auth--form__section--navigation">
-      <svg-icon src="assets/svg/breadcrumb-back-icon.svg"></svg-icon>
-      Sign in
-    </a>
-    <app-auth-section
-      title="Forgot Password"
-      description="Enter your details below"
-    ></app-auth-section>
-    <form class="form" [formGroup]="forgotForm">
-      <div class="form__input m-t-10">
-        <label class="email-label"
-          >Please enter your email address to reset password</label
-        >
-        <div
-          class="icon-container pos-rel"
-          [class.error]="
-            !forgotForm.get('email')?.valid && forgotForm.get('email')?.touched
-          "
-        >
-          <svg-icon src="assets/svg/Email.svg"></svg-icon>
-          <input
-            class="fw"
-            type="text"
-            formControlName="email"
-            placeholder="Enter email address"
-          />
+
+<ng-container *ngIf="hasError; then error; else content"> </ng-container>
+<ng-template #content>
+  <ng-container *ngIf="!isEmailSent; else emailSent">
+    <section
+      class="auth--form__section forgot"
+      [class.loading]="loaderService.getLoader() | async"
+    >
+      <a routerLink="../login" class="auth--form__section--navigation">
+        <svg-icon src="assets/svg/breadcrumb-back-icon.svg"></svg-icon>
+        Sign in
+      </a>
+      <app-auth-section
+        title="Forgot Password"
+        description="Enter your details below"
+      ></app-auth-section>
+      <form
+        id="forgotForm"
+        class="form"
+        [formGroup]="forgotForm"
+        (ngSubmit)="onReset()"
+      >
+        <div class="form__input m-t-10">
+          <label class="email-label"
+            >Please enter your email address to reset password</label
+          >
           <div
-            class="pos-abs error-msg"
-            *ngIf="
+            class="icon-container pos-rel"
+            [class.error]="
               !forgotForm.get('email')?.valid &&
               forgotForm.get('email')?.touched
             "
           >
-            <p>{{ UIMSG.PROVIDE_EMAIL_USERNAME }}</p>
+            <svg-icon src="assets/svg/Email.svg"></svg-icon>
+            <input
+              class="fw"
+              type="text"
+              formControlName="email"
+              placeholder="Enter email address"
+            />
+            <div
+              class="pos-abs error-msg"
+              *ngIf="
+                !forgotForm.get('email')?.valid &&
+                forgotForm.get('email')?.touched
+              "
+            >
+              <p>{{ UIMSG.PROVIDE_EMAIL_USERNAME }}</p>
+            </div>
           </div>
         </div>
+      </form>
+      <div class="form__action">
+        <app-button
+          btnTitle="Send Email"
+          width="100%"
+          [isDisabled]="
+            forgotForm.invalid || (loaderService.getLoader() | async)
+          "
+          classes="button-primary button-lg"
+          type="submit"
+          formName="forgotForm"
+        ></app-button>
       </div>
-    </form>
-    <div class="form__action">
-      <app-button
-        btnTitle="Send Email"
-        width="100%"
-        [isDisabled]="forgotForm.invalid || (loaderService.getLoader() | async)"
-        classes="button-primary button-lg"
-        (clickHandler)="onReset()"
-        type="submit"
-      ></app-button>
-    </div>
-  </section>
-</ng-container>
+    </section>
+  </ng-container>
+</ng-template>
 
-<ng-template #success>
-  <section
-    class="auth--form__section forgot success"
-    *ngIf="!(loaderService.getLoader() | async)"
+<ng-template #emailSent>
+  <app-auth-action
+    icon="assets/svg/EmailSent.svg"
+    title="Email Sent Successfully!!"
   >
-    <p class="auth--form__section--title" *ngIf="!error">
-      Email Sent Successfully!!
+  </app-auth-action>
+</ng-template>
+
+<ng-template #error>
+  <app-auth-action
+    (onAction)="hasError = false"
+    icon="assets/svg/EmailSent.svg"
+    title="Sign in One Portal"
+  >
+    <p class="error">
+      Your access has been revoked. Please contact SlashNext Administrator
     </p>
-    <p class="auth--form__section--title" *ngIf="error">{{ this.error }}</p>
-    <form class="center m-b-50">
-      <svg-icon src="assets/svg/EmailSent.svg"></svg-icon>
-    </form>
-    <div class="form__action">
-      <app-button
-        btnTitle="Back to Sign in"
-        width="100%"
-        classes="button-primary button-lg"
-        (clickHandler)="gotoLogin()"
-        type="submit"
-      ></app-button>
-    </div>
-  </section>
+  </app-auth-action>
 </ng-template>

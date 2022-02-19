@@ -1,11 +1,11 @@
 <div class="pagination__perpage">
-  {{ records && records[selectedRecordIndex] }}
+  <span>{{ records && records[selectedRecordIndex] }}</span>
   <ul class="pagination__perpage--list">
     <li
       *ngFor="let record of records; let i = index"
       (click)="selectRecord(record, i)"
     >
-      {{ record }}
+      <a routerLink>{{ record }}</a>
     </li>
   </ul>
 </div>

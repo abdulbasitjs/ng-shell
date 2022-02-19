@@ -1,0 +1,19 @@
+<p class="auth--form__section--title" *ngIf="!error">
+  {{ title }}
+</p>
+<p class="auth--form__section--title" *ngIf="error">{{ error }}</p>
+<p class="auth--form__section--description">
+  <ng-content></ng-content>
+</p>
+<form class="center m-b-50">
+  <svg-icon [src]="icon"></svg-icon>
+</form>
+<div class="form__action">
+  <app-button
+    btnTitle="Back to Sign in"
+    width="100%"
+    classes="button-primary button-lg"
+    (clickHandler)="gotoLogin()"
+    type="submit"
+  ></app-button>
+</div>

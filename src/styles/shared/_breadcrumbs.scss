@@ -14,14 +14,15 @@
       padding-left: calc(0.1rem + 0.1vw);
       & > a {
         font-size: font-size(small);
-        font-weight: font-weight(regular);
+        font-weight: font-weight(medium);
         color: var(--color-primary);
+        cursor: not-allowed;
+        pointer-events: none;
       }
 
       &.inactive > a {
         color: var(--color-quinary);
-        cursor: not-allowed;
-        pointer-events: none;
+
       }
 
       &:not(:last-child) > a::after {

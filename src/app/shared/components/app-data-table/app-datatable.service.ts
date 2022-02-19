@@ -1,20 +1,26 @@
-import { Injectable } from "@angular/core";
+import { Injectable, TemplateRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DataTableService {
 
-  rowHandler$: BehaviorSubject<any> = new BehaviorSubject<any>({});
+  private _tmList = new Map();
 
-  constructor() {
+  templateList$: BehaviorSubject<TemplateRef<any> | null> =
+    new BehaviorSubject<TemplateRef<any> | null>(null);
+
+  constructor() {}
+
+  addTemplate(key: string, template: TemplateRef<any>) {
+    this._tmList.set(key, template);
   }
 
-  setClickedRow(row: any) {
-    this.rowHandler$.next(row);
+  removeTemplate(key: string) {
+    this._tmList.delete(key);
   }
 
-  getCurrentRow() {
-    return this.rowHandler$.asObservable()
+  getTemplate(key: string) {
+    return this._tmList.get(key);
   }
 
 }

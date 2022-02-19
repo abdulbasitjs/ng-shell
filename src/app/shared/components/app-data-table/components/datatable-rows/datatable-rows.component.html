@@ -8,43 +8,33 @@
   <tr
     *ngFor="let row of rows; let i = index"
     (click)="onRowClick(row, i)"
+    [style.grid-template-columns]="columnsTemplate"
     [class.disabled]="
-      row['status'] === 'Suspended' || row['status'] === 'Disabled'
+      row['status'] === Status.Suspended || row['status'] === Status.Disabled
     "
   >
     <td
       *ngFor="let header of headers"
-      [ngClass]="{
-        suspended:
-          row[header.accessor] === 'Suspended' ||
-          row[header.accessor] === 'Disabled'
-      }"
+      [class.suspended]="
+        row[header.accessor] === Status.Suspended ||
+        row[header.accessor] === Status.Disabled
+      "
+      [class.active]="row[header.accessor] === Status.Active"
     >
       <span *ngIf="header.name === 'Sr. #'; else regularCell">{{ i + 1 }}</span>
       <ng-template #regularCell>
-        <span *ngIf="!header.cell; else component">{{
-          row[header.accessor]
+        <span *ngIf="!header.cell; else customComponent">{{
+          header.name !== "Status"
+            ? row[header.accessor]
+            : (row[header.accessor] | status)
         }}</span>
-        <ng-template #component>
+        <ng-template #customComponent>
           <ng-container
             [ngTemplateOutletContext]="{ $implicit: row[header.accessor] }"
-            [ngTemplateOutlet]="permission"
+            [ngTemplateOutlet]="dtService.getTemplate(header.cell)"
           ></ng-container>
         </ng-template>
       </ng-template>
     </td>
   </tr>
-</ng-template>
-
-<!-- This template should be passed from consumer -->
-<!-- Need to fix this later -->
-<ng-template #permission let-permissions>
-  <div class="portal">
-    <span
-      *ngFor="let p of permissions | keyvalue | portal"
-      class="portal--icon"
-      [style.background-image]="p.bgColor"
-      >{{ p.label }}</span
-    >
-  </div>
 </ng-template>

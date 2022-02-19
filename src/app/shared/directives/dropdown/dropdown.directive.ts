@@ -5,6 +5,7 @@ import {
   Input,
   Renderer2,
   OnInit,
+  ElementRef,
 } from '@angular/core';
 
 @Directive({
@@ -17,7 +18,7 @@ export class DropdownDirective implements OnInit {
   @Input('top') shouldSetTopStyle = true;
   targetSelector!: string;
 
-  constructor(private renderer2: Renderer2) {}
+  constructor(private el: ElementRef, private renderer2: Renderer2) {}
 
   ngOnInit(): void {
     if (!this.appDropdown.includes(' > ')) {
@@ -39,6 +40,13 @@ export class DropdownDirective implements OnInit {
     }
   }
 
+  @HostListener('document:mousedown', ['$event'])
+  onGlobalClick(event: Event): void {
+    if (!this.el.nativeElement.contains(event.target)) {
+      this.isOpen = false;
+    }
+  }
+
   public open() {
     this.isOpen = true;
     if (this.targetSelector !== '.') {
@@ -57,6 +65,7 @@ export class DropdownDirective implements OnInit {
   }
 
   public close() {
+    this.isOpen = false;
     if (this.targetSelector !== '.') {
       this.isOpen = false;
       const $els = document.querySelectorAll(this.targetSelector);

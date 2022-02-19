@@ -1,5 +1,5 @@
-<!-- <app-overlay bgColor="transparent" [showOverlay]="overlayService.getOverlay() | async"></app-overlay> -->
-<!-- <div [class.loading]="loaderService.getLoader() | async" class="progress-loader"></div> -->
+<app-overlay bgColor="transparent" [showOverlay]="showOverlay"></app-overlay>
+<div [class.loading]="loading" class="progress-loader"></div>
 <div [ngClass]="showHeader ? 'container' : 'auth-container'">
   <app-header class="header" *ngIf="showHeader && !is404Page"> </app-header>
   <router-outlet>

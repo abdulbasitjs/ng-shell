@@ -1,3 +1,30 @@
+%user-management-layout {
+  .permission {
+    font-weight: font-weight(medium) !important;
+  }
+
+  .success-screen {
+    font-size: font-size(smallFix);
+    color: var(--col-quinary);
+    font-weight: font-weight(regular);
+  }
+
+  .portal {
+    display: flex;
+    column-gap: 1rem;
+    &--icon {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 50%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--color-secondary);
+    }
+  }
+}
+
 .user-management {
   grid-column: container-start / container-end;
   display: flex;
@@ -15,6 +42,7 @@
 
     grid-template-rows: repeat(5, min-content);
 
+    @extend %base-layout;
     @extend %user-management-layout;
   }
 
@@ -31,10 +59,7 @@
 
     grid-template-rows: repeat(4, min-content);
 
-    @extend %user-management-layout-of-detail-page;
-  }
-
-  app-user-detail {
+    @extend %layout-of-detail-page;
     @extend %user-management-detail;
   }
 }

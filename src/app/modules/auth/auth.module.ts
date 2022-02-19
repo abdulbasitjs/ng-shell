@@ -12,6 +12,7 @@ import { AuthComponent } from './pages/auth/auth.component';
 import { ResetComponent } from './pages/reset/reset.component';
 import { AuthSectionComponent } from './components/auth-section/auth-section.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { AuthActionComponent } from './components/auth-action/auth-action.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
     AuthComponent,
     ResetComponent,
     AuthSectionComponent,
+    AuthActionComponent,
   ],
   imports: [
     CommonModule,

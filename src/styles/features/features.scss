@@ -1,18 +1,19 @@
-@import './auth';
+@import "./auth/auth";
 
-@import './header';
-@import './dashboard';
+@import "./home/header";
+@import "./home/dashboard";
 
-@import './user-management';
-@import './user-management-layout';
-@import './user-management-layout-of-detail-page';
-@import './user-management-detail-page';
+@import "./layout/base";
+@import "./layout/layout-of-detail-page";
 
-@import './oti-provisioning';
-@import './oti-provisioning-layout';
-@import './oti-provisioning-layout-of-detail-page';
-@import './oti-provisioning-customer-detail';
-@import './oti-provisioning-package-detail';
-@import './oti-provisioning-scan-stat-modal';
+@import "./user-management/user-management";
+@import "./user-management/user-management-detail-page";
 
-@import './404';
+@import "./user-profile/user-profile";
+
+@import "./oti-provisioning/oti-provisioning";
+@import "./oti-provisioning/oti-provisioning-customer-detail";
+@import "./oti-provisioning/oti-provisioning-package-detail";
+@import "./oti-provisioning/oti-provisioning-scan-stat-modal";
+
+@import "./404";

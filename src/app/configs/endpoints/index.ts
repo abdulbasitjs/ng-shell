@@ -70,6 +70,34 @@ export const endpoints: EndpointConfig[] = [
     path: 'abubakar/one-portal-api/public/api/v1/users/',
     runAt: 'onDemand',
   },
+  {
+    baseUrl: 'sso',
+    name: 'delete',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    runAt: 'onDemand',
+  },
+  {
+    baseUrl: 'sso',
+    name: 'me',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    runAt: 'onDemand',
+  },
+  {
+    baseUrl: 'sso',
+    name: 'updateprofilepassword',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    runAt: 'onDemand',
+  },
+  {
+    baseUrl: 'sso',
+    name: 'updateprofile',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    runAt: 'onDemand',
+  },
 ];
 
 export const EP = {
@@ -82,10 +110,16 @@ export const EP = {
   Forgot: 'forgotpassword',
   RefreshToken: 'tokenrefresh',
 
-  // User
+  // User Management
   UserListing: 'listing',
   UserModules: 'modules',
   CreateUser: 'create',
   UserDetail: 'view',
   UpdateUser: 'update',
+  DeleteUser: 'delete',
+
+  // User Prfoile
+  Me: 'me',
+  UpdatePassword: 'updateprofilepassword',
+  UpdateProfile: 'updateprofile'
 };

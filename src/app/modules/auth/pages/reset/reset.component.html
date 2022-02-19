@@ -6,9 +6,16 @@
   >
     <app-auth-section
       [title]="sectionTitle"
-      [description]="'Enter ' + (this.resetMode === 'reset' ? 'new' : '') + ' password below'"
+      [description]="
+        'Enter ' + (this.resetMode === 'reset' ? 'new' : '') + ' password below'
+      "
     ></app-auth-section>
-    <form class="form" [formGroup]="resetForm">
+    <form
+      id="resetForm"
+      (ngSubmit)="onResetPassword()"
+      class="form"
+      [formGroup]="resetForm"
+    >
       <div class="form__input password">
         <label class="password-label"
           >Type your
@@ -98,7 +105,7 @@
           (loaderService.getLoader() | async)
         "
         classes="button-primary button-lg"
-        (clickHandler)="onResetPassword()"
+        formName="resetForm"
         type="submit"
       ></app-button>
     </div>
@@ -106,24 +113,13 @@
 </ng-container>
 
 <ng-template #success>
-  <section class="auth--form__section forgot success">
-    <p class="auth--form__section--title">{{ sectionTitle }}</p>
-    <p class="auth--form__section--description">
-      Your password has been successfully
-      {{ this.resetMode === "reset" ? "reset" : "generated" }}, <br />
-      Please login with your new password.
-    </p>
-    <form class="center m-b-50">
-      <svg-icon src="assets/svg/NewPasswordCreated.svg"></svg-icon>
-    </form>
-    <div class="form__action">
-      <app-button
-        btnTitle="Back to Sign in"
-        width="100%"
-        classes="button-primary button-lg"
-        (clickHandler)="gotoLogin()"
-        type="submit"
-      ></app-button>
-    </div>
-  </section>
+  <app-auth-action
+    icon="assets/svg/NewPasswordCreated.svg"
+    [error]="error"
+    [title]="sectionTitle"
+  >
+    Your password has been successfully
+    {{ this.resetMode === "reset" ? "reset" : "generated" }}, <br />
+    Please login with your new password.
+  </app-auth-action>
 </ng-template>

@@ -36,6 +36,15 @@
   }
 }
 
+.noPointer {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.text-decoration-default {
+  text-decoration: underline!important;
+}
+
 //*-*-*-*-*-*-*-*-*-*-- Ovverride Placeholder *-*-*-*-*-*-*-*-*-*-*
 ::placeholder {
   font-size: font-size(normal);

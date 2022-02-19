@@ -29,7 +29,7 @@
       {{ authService.getUser()?.name }}
     </h3>
     <!-- ({{ authService.getUser()?.email }}) -->
-    <!-- <h4 class="header__user--info__role">Administrator</h4> -->
+    <h4 class="header__user--info__role">{{ authService.getUser()?.email }}</h4>
   </div>
   <div class="header__user--settings">
     <div class="dropdown-trigger">
@@ -41,6 +41,7 @@
         src="assets/svg/settings-icon.svg"
       ></svg-icon>
       <app-dropdown
+        [disableSelection]="true"
         class="setting-dropdown"
         [items]="settingList"
         (onSelect)="onSettingItemSelect($event)"
