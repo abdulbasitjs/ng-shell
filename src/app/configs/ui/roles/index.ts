@@ -6,6 +6,7 @@ export const OTI_DASHBOARD_KEY = 'oti-dashboard';
 export const RTPD_PROVISIONING_KEY = 'rtpd-provisioning';
 export const RTPD_DASHBOARD_KEY = 'rtpd-dashboard';
 export const USER_MANAGEMENT_KEY = 'user-management';
+export const USER_PROFILE_KEY = 'user-profile';
 
 export const SSORolesMappingOfServer: any = {
   [OTI_DASHBOARD_KEY]: 'oti-db',

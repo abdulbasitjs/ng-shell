@@ -3,14 +3,16 @@
   sectionTitle="Package Management"
 ></app-section-title>
 
-<app-button
-  class="button-component"
-  icon="assets/svg/add-button-icon.svg"
-  btnTitle="Add New Package"
-  classes="button-primary button-pd"
-  (clickHandler)="onAddNewPackage()"
->
-</app-button>
+<article class="components">
+  <app-button
+    class="button-component"
+    icon="assets/svg/add-button-icon.svg"
+    btnTitle="Add New Package"
+    classes="button-primary button-pd"
+    (clickHandler)="onAddNewPackage()"
+  >
+  </app-button>
+</article>
 
 <app-datatable class="table-component" [config]="packagesDatatable">
   <app-datatable-headers
