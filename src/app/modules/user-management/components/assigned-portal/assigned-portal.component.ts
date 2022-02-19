@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-user-invite',
+  selector: 'app-portal',
   templateUrl: './assigned-portal.component.html',
 })
 export class AssignedPortalComponent implements OnInit {
+  @Input() permissions: any;
   constructor() {}
   ngOnInit(): void {}
 }

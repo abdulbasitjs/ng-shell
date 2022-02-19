@@ -6,13 +6,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModalService } from '@shared/components/app-modal/modal.service';
 import { Subscription } from 'rxjs';
+import { ModalService } from '@shared/components/app-modal/modal.service';
+import { LoaderService } from '@core/services/loader.service';
 import { IModulesResponse } from '../../models/modules-response.model';
 import { UserManagementService } from '../../services/user-management.service';
 import { IUserItem } from '../../user-management.model';
-import { LoaderService } from '../../../../core/services/loader.service';
-import { ToastrService } from 'ngx-toastr';
 
 const REVOKE_ACCESS = 'Revoke Access';
 @Component({
@@ -25,6 +24,7 @@ const REVOKE_ACCESS = 'Revoke Access';
 export class UserDetailComponent implements OnInit, OnDestroy {
   @ViewChild('changePermissionModalTemplate') cpModal!: TemplateRef<any>;
   @ViewChild('revokePermissionModalTemplate') rpModal!: TemplateRef<any>;
+  @ViewChild('deleteUserModalTemplate') duModal!: TemplateRef<any>;
   private _newRole!: { key: string; role: string };
   public adminModules!: IModulesResponse[];
   public user!: IUserItem;
@@ -37,13 +37,14 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public modalService: ModalService,
     public loaderService: LoaderService,
-    private toaster: ToastrService
+    private router: Router
   ) {}
 
   ngOnDestroy(): void {
     this.routerSubscription.unsubscribe();
-    this.userSubscription.unsubscribe();
-    this.adminModulesSubscription.unsubscribe();
+    if (this.userSubscription) this.userSubscription.unsubscribe();
+    if (this.adminModulesSubscription)
+      this.adminModulesSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -97,6 +98,20 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     };
     this.umService.updateUser(payload).subscribe((_) => {
       this.onModalClose();
+    });
+  }
+
+  deleteUser() {
+    this.modalService.open(this.duModal);
+  }
+
+  onDeleteUser() {
+    this.umService.deleteUser(this.user?.id).subscribe((res) => {
+      const response = res as { ok: boolean };
+      if (response && response.ok) {
+        this.onModalClose();
+        this.router.navigate(['../'], { relativeTo: this.route });
+      }
     });
   }
 

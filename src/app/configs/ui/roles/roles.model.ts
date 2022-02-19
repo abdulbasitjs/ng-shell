@@ -23,12 +23,21 @@ export enum OTIDashboardRolesEnum {
 }
 
 export enum AllRolesEnum {
-  SuperAdmin = "superadmin",
-  Admin = "admin",
-  SalesOperation = "sales-op",
-  Sales = "sales",
-  Manager = "manager",
-  User = "user"
+  SuperAdmin = 'superadmin',
+  Admin = 'admin',
+  SalesOperation = 'sales-op',
+  Sales = 'sales',
+  Manager = 'manager',
+  User = 'user',
+}
+
+export enum AllRolesReverseEnum {
+  superadmin = 'SuperAdmin',
+  admin = 'Admin',
+  'sales-op' = 'SalesOperation',
+  sales = 'Sales',
+  manager = 'Manager',
+  user = 'User',
 }
 export interface IModuleControl {
   module_name: string;
@@ -58,10 +67,11 @@ export interface IRTPDProvisioningRoles extends ISSORoles {
 
 export interface IRTPDDashboardRoles extends ISSORoles {}
 export interface IAccessControls {
-  [key: string]: IOtiProvisioningRoles |
-    IOtiDashboardRoles |
-    IRTPDProvisioningRoles |
-    IRTPDDashboardRoles;
+  [key: string]:
+    | IOtiProvisioningRoles
+    | IOtiDashboardRoles
+    | IRTPDProvisioningRoles
+    | IRTPDDashboardRoles;
 }
 export interface SSORoles {
   [key: string]: string;

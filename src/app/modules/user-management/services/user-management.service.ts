@@ -6,7 +6,15 @@ import {
 } from '@shared/components/app-data-table/interfaces/datatable';
 import { EP } from '@configs/endpoints';
 import { SSOResponse } from '@core/http/http-response.model';
-import { BehaviorSubject, map, Observable, of, tap, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  Observable,
+  of,
+  tap,
+  throwError,
+} from 'rxjs';
 import { IModulesResponse } from '../models/modules-response.model';
 import { AllRolesEnum } from '@configs/ui';
 import { AuthenticationService } from '@core/authentication/authentication.service';
@@ -66,25 +74,37 @@ export class UserManagementService {
   }
 
   // Endpoints
-  getUsers() {
-    const { page, limit = 10 } = this.userPayload;
+  getUsers(isInitial?: boolean) {
+    if (isInitial) this.reset();
     this.isUserListLoading$.next(true);
-    return this.http
+    this.http
       .post(`${EP.UserListing}`, this.userPayload)
-      .subscribe((res) => {
-        const response = <SSOResponse>res;
-        this.isUserListLoading$.next(false);
-        if (response.code === HttpStatusCode.Ok) {
-          this.totalItems = +response.data['totalItems'];
-          const totalPages = this.getTotalPages();
-          this.paginationConfigSubject$.next(
-            this.getUsersPaginationConfig(page, limit, totalPages)
-          );
-
-          this.users$.next(response.data);
-          this.isUserCreating$.next(-1);
-        }
-      });
+      .pipe(
+        map((res) => {
+          const response = <SSOResponse>res;
+          this.isUserListLoading$.next(false);
+          if (response.code === HttpStatusCode.Ok) {
+            this.totalItems = +response.data['totalItems'];
+            const totalPages = this.getTotalPages();
+            this.paginationConfigSubject$.next(
+              this.getUsersPaginationConfig(
+                this.userPayload.page,
+                this.userPayload.limit,
+                totalPages
+              )
+            );
+            this.users$.next(response.data);
+            this.isUserCreating$.next(-1);
+          }
+          return res;
+        }),
+        catchError((error) => {
+          this.isUserListLoading$.next(false);
+          this.paginationConfigSubject$.next(this.paginationConfigSubject$.value);
+          return of([]);
+        })
+      )
+      .subscribe((d) => {});
   }
 
   getUser(id: string) {
@@ -142,15 +162,30 @@ export class UserManagementService {
 
   sendInvite(payload: any) {
     this.isUserCreating$.next(1);
-    return this.http.post(EP.CreateUser, payload)
-    .pipe(tap((res) => {
-      const response = <SSOResponse>res;
-      if (response.code === HttpStatusCode.Ok) {
-        this.isUserCreating$.next(0);
-        this.getUsers();
-      }
-      return res;
-    }))
+    return this.http.post(EP.CreateUser, payload).pipe(
+      tap((res) => {
+        const response = <SSOResponse>res;
+        if (response.code === HttpStatusCode.Ok) {
+          this.isUserCreating$.next(0);
+          this.getUsers();
+        }
+        return res;
+      })
+    );
+  }
+
+  deleteUser(id: number) {
+    return this.http.post(EP.DeleteUser, { id: id.toString() }).pipe(
+      map((res) => {
+        const response = <SSOResponse>res;
+        if (response.code === HttpStatusCode.Ok) {
+          this.toasterService.success(response.message, 'Success!');
+          this.getUsers();
+          return { ok: true };
+        }
+        return res;
+      })
+    );
   }
 
   // Helper Methods
@@ -192,6 +227,15 @@ export class UserManagementService {
 
   setSortingToStore(sortName: string, orderBy: string) {
     this.storageService.set(userManagementSortStoreKey, { sortName, orderBy });
+  }
+
+  reset() {
+    this.paginationConfigSubject$.next(this.getUsersPaginationConfig(1, 10, 1));
+    const updated = {
+      ...this.userPayload,
+      page: 1,
+    };
+    this.setUserPayload(updated);
   }
 
   // Observables
@@ -236,8 +280,14 @@ export class UserManagementService {
         return configurations.headers.list.length;
       },
       headers: {
+        get columnsTemplate() {
+          return configurations.headers.list.reduce((acc: string, el: any) => {
+            acc += ` minmax(min-content, ${el.width || '1fr'}) `;
+            return acc;
+          }, '');
+        },
         list: [
-          { name: 'Sr. #', accessor: 'id' },
+          { name: 'Sr. #', accessor: 'id', width: '10rem' },
           {
             name: 'Full Name',
             accessor: 'name',
@@ -249,11 +299,13 @@ export class UserManagementService {
             accessor: 'email',
             isSortable: true,
             renderIcon: true,
+            width: '2fr',
           },
           {
             name: 'Assigned Portals',
             accessor: 'permission',
-            cell: 'template',
+            cell: 'portalTemplate',
+            width: '2fr',
           },
           {
             name: 'Created on',

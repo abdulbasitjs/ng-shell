@@ -2,17 +2,15 @@
   <div class="pagination__records">
     <span>{{ pagiantionConfig?.label }}</span>
     <span
-      appClickOutside
-      (clickOutside)="dropdown.close()"
-      class="pagination--button pagination-no-border pagination--list"
-      appDropdown
-      dropdownDirection
-      [isOpen]="dropdown.isOpen"
       app-pagination-list
+      class="pagination--button pagination-no-border pagination--list"
       [pageSize]="pagiantionConfig?.pageSize"
       [records]="pagiantionConfig?.recordRanges"
       (onRecordSelect)="onRecordSelect.emit($event)"
+      [isOpen]="dropdown.isOpen"
+      appDropdown
       #dropdown="dropdown"
+      dropdownDirection
       #dropdownDirection="dropdownDirection"
       [ngClass]="dropdownDirection.direction === 1 ? 'top' : 'bottom'"
     ></span>
@@ -37,6 +35,7 @@
       (click)="onPage(page)"
       class="pagination--button pages"
       *ngFor="let page of _pages; let i = index"
+      [ngClass]="page === _currentPage ? 'disableEvent' : ''"
       [class.active]="page === _currentPage"
       >{{ page }}
     </span>

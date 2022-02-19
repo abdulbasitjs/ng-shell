@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   settingDropdownList,
   IDropdown,
@@ -17,16 +17,17 @@ import { HeaderService, Module } from './header.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   header!: Module;
+  private exptectedRoles = ['superadmin', 'admin'];
 
   headerSubscription!: Subscription;
 
-  settingList: Array<any> = settingDropdownList;
+  settingList: Array<IDropdown> = settingDropdownList;
 
   constructor(
     public headerService: HeaderService,
     public authService: AuthenticationService,
     public rolesService: RolesService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +43,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
           };
         }
       });
+
+      if (!this.rolesService.hasPermission(this.exptectedRoles)) {
+        this.settingList = this.settingList.filter(el => el.value !== 'user-management')
+      }
   }
 
   ngOnDestroy(): void {
@@ -49,7 +54,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onSettingItemSelect(current: IDropdown) {
-    this.selectDropdownOption(current);
+    // this.selectDropdownOption(current);
     if (current) {
       if (current.value === SettingDropdownEnum.Profile) {
       } else if (current.value === SettingDropdownEnum.UserManagement) {

@@ -64,7 +64,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
           } else {
             this.isRefreshing = false;
             this.toaster.error(error.error.message, error.statusText);
-            this.auth.logout();
+            // this.auth.logout();
             return throwError(error);
           }
         }
@@ -112,7 +112,9 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
             this.isRefreshing = false;
             this.toaster.error(err.error.message, err.statusText);
             this.auth.logout();
-            return throwError(err);
+            return throwError(() => {
+              new Error(err);
+            });
           })
         );
     }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UIMESSAGES } from '@configs/index';
 import { AuthenticationService } from '@core/authentication/authentication.service';
+import { ProjectStatusCode } from '@core/http/http-codes.enum';
+import { SSOResponse } from '@core/http/http-response.model';
 import { LoaderService } from '@core/services/loader.service';
 @Component({
   selector: 'app-login',
@@ -11,6 +13,7 @@ import { LoaderService } from '@core/services/loader.service';
   },
 })
 export class LoginComponent implements OnInit {
+  hasError = false;
   UIMSG = UIMESSAGES;
   loginForm!: FormGroup;
   constructor(
@@ -29,7 +32,13 @@ export class LoginComponent implements OnInit {
   onLogin() {
     const { email, password, isRemember } = this.loginForm.value;
     if (email && password) {
-      this.authService.login(email, password, isRemember);
+      this.authService.login(email, password, isRemember).subscribe(res => {
+        const response = <SSOResponse>res;
+        if (response.code === ProjectStatusCode.AccessRevoked) {
+          this.hasError = true;
+        }
+
+      })
     }
   }
 }

@@ -18,3 +18,7 @@ export enum HttpStatusCode {
   GatewayTimeout = 504,
   HttpVersionNotSupported = 505,
 }
+
+export enum ProjectStatusCode {
+  AccessRevoked = 2504,
+}

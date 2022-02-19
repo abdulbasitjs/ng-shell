@@ -15,7 +15,6 @@
     & > .search-component {
       display: flex;
     }
-
   }
 
   & > ngx-skeleton-loader {
@@ -37,6 +36,12 @@
   font-weight: font-weight(medium) !important;
 }
 
+.success-screen {
+  font-size: font-size(smallFix);
+  color: var(--col-quinary);
+  font-weight: font-weight(regular);
+}
+
 .portal {
   display: flex;
   column-gap: 1rem;
@@ -49,6 +54,5 @@
     justify-content: center;
     align-items: center;
     color: var(--color-secondary);
-
   }
 }

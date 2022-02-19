@@ -61,6 +61,7 @@
         </div>
         <ngx-skeleton-loader
           *ngIf="
+            !isInviteClicked &&
             (loaderService.getLoader() | async)
             else permissionControls
           "
@@ -100,8 +101,8 @@
                   [value]="setRoleValue(i)"
                   appClickOutside
                   (clickOutside)="dropdown.close()"
-                  [appDropdown]="'.invite-permission-' + i + ' > .dropdown'"
                   #dropdown="dropdown"
+                  [appDropdown]="'.invite-permission-' + i + ' > .dropdown'"
                 />
                 <div
                   class="dropdown-trigger"
@@ -126,7 +127,7 @@
       </form>
     </ng-container>
     <ng-template #successScreen>
-      <p>
+      <p class="success-screen">
         User has been sent an invite for the assigned portal(s) successfully.
       </p>
     </ng-template>
@@ -146,7 +147,7 @@
       <app-button
         *ngIf="!shouldRenderSuccessScreeen"
         type="submit"
-        [formName]="'inviteForm'"
+        formName="inviteForm"
         btnTitle="Send Invite"
         classes="button-primary button-lg button-box-shadow"
         [isDisabled]="
