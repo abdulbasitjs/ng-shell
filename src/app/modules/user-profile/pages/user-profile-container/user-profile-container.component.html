@@ -1,0 +1,19 @@
+<app-side-bar>
+  <!-- First Route -->
+  <a [routerLink]="['./' + sidebarList[0].route]">
+    <svg-icon [src]="sidebarList[0].iconPath"></svg-icon>
+  </a>
+
+  <!-- Others -->
+  <a
+    [routerLink]="['./' + sidebar.route]"
+    routerLinkActive="active"
+    *ngFor="let sidebar of sidebarList.slice(1)"
+  >
+    <svg-icon [src]="sidebar.iconPath"></svg-icon>
+  </a>
+</app-side-bar>
+<ng-template appPlaceholder></ng-template>
+<article>
+  <router-outlet></router-outlet>
+</article>
