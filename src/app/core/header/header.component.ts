@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import {
   settingDropdownList,
   IDropdown,
   SettingDropdownEnum,
+  USER_MANAGEMENT_KEY,
+  USER_PROFILE_KEY,
 } from '@configs/index';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { RolesService } from '@core/services/roles.service';
@@ -45,7 +47,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
 
       if (!this.rolesService.hasPermission(this.exptectedRoles)) {
-        this.settingList = this.settingList.filter(el => el.value !== 'user-management')
+        this.settingList = this.settingList.filter(el => el.value !== USER_MANAGEMENT_KEY)
       }
   }
 
@@ -57,8 +59,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // this.selectDropdownOption(current);
     if (current) {
       if (current.value === SettingDropdownEnum.Profile) {
+        this.router.navigateByUrl(`/${USER_PROFILE_KEY}`);
       } else if (current.value === SettingDropdownEnum.UserManagement) {
-        this.router.navigateByUrl('/user-management');
+        this.router.navigateByUrl(`/${USER_MANAGEMENT_KEY}`);
         // window.open('/user-management', "_blank");
       } else if (current.value === SettingDropdownEnum.Logout) {
         this.authService.logout();

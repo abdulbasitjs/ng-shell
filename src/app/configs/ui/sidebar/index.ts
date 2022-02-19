@@ -12,6 +12,13 @@ export const UserManagementSideBarList: Sidebar[] = [
   },
 ];
 
+export const UserProfileSideBarList: Sidebar[] = [
+  {
+    iconPath: 'assets/svg/navigation-toggle-icon.svg',
+    route: '/profile',
+  },
+];
+
 export const OtiProvisioningSideBarList: Sidebar[] = [
   {
     iconPath: 'assets/svg/navigation-toggle-icon.svg',

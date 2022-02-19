@@ -6,15 +6,7 @@ import {
 } from '@shared/components/app-data-table/interfaces/datatable';
 import { EP } from '@configs/endpoints';
 import { SSOResponse } from '@core/http/http-response.model';
-import {
-  BehaviorSubject,
-  catchError,
-  map,
-  Observable,
-  of,
-  tap,
-  throwError,
-} from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import { IModulesResponse } from '../models/modules-response.model';
 import { AllRolesEnum } from '@configs/ui';
 import { AuthenticationService } from '@core/authentication/authentication.service';
@@ -100,7 +92,9 @@ export class UserManagementService {
         }),
         catchError((error) => {
           this.isUserListLoading$.next(false);
-          this.paginationConfigSubject$.next(this.paginationConfigSubject$.value);
+          this.paginationConfigSubject$.next(
+            this.paginationConfigSubject$.value
+          );
           return of([]);
         })
       )

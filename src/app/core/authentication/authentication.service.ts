@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
-import { User } from './user.model';
+import { User, UserProfile } from './user.model';
 import { StorageService } from '@core/services/storage.service';
 import { StoragePrefix } from '@core/models/storage-prefix.enum';
 import { SSOResponse } from '@core/http/http-response.model';
@@ -15,6 +15,10 @@ export class AuthenticationService implements OnDestroy {
   _user$ = new BehaviorSubject<User | null>(null);
   userKey = `${StoragePrefix.SSO}user`;
   userSusbscription!: Subscription;
+
+  private userProfile$: BehaviorSubject<UserProfile | null> =
+    new BehaviorSubject<UserProfile | null>(null);
+
   fakePermissions = {
     'oti-pp': { l: 'Admin', r: 'admin' },
     'oti-db': { l: 'Admin', r: 'admin' },
@@ -43,6 +47,11 @@ export class AuthenticationService implements OnDestroy {
   getUserObservable() {
     return this._user$.asObservable();
   }
+
+  updateUserProfile(data: UserProfile) {
+    // this.storage.set()
+  }
+
   // Login
   login(email: string, password: string, isRemeber: boolean) {
     return this.http
@@ -52,13 +61,18 @@ export class AuthenticationService implements OnDestroy {
           const response = <SSOResponse>res;
           const { code, data } = response;
           if (code === 200) {
-            const { permissions, token, refreshToken } = data;
-            // data.permissions = this.fakePermissions;
             this.storage.set(this.userKey, data);
+            // data.permissions = this.fakePermissions;
+            const { permissions, token, refreshToken } = data;
             this._user$.next({
               permissions,
               token,
               refreshToken,
+            });
+            this.userProfile$.next({
+              name: this.getUser().name,
+              email: this.getUser().email,
+              permission: permissions,
             });
             this.router.navigateByUrl('/');
           }
