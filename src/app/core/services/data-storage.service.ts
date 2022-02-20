@@ -12,27 +12,7 @@ export class DataStorageService {
       return this.http.get('http://localhost:3000/customers');
   }
 
-  getOtiProvisioningCustomersTableConfig(): DataTable {
-    const configurations = {
-      get totalColumns() {
-        return configurations.headers.list.length;
-      },
-      headers: {
-        list: [
-          { name: 'Customers', accessor: 'customer', isSortable: true, renderIcon: true },
-          { name: 'Subscription Type', accessor: 'subscription', isSortable: true, renderIcon: true },
-          { name: 'Package', accessor: 'package', isSortable: true, renderIcon: true },
-          { name: 'Created On', accessor: 'created', isSortable: true, renderIcon: true },
-          { name: 'Status', accessor: 'status' }
-        ],
-        sortBy: '',
-        order: Order.Default
-      },
-      data: [],
-      pagination: true,
-    };
-    return configurations;
-  }
+
 
   getOtiProvisioningPackagesTableConfig(): DataTable {
     const configurations = {

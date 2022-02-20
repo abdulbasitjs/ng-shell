@@ -2,11 +2,11 @@
   <div class="pagination__records">
     <span>{{ pagiantionConfig?.label }}</span>
     <span
-      app-pagination-list
-      class="pagination--button pagination-no-border pagination--list"
       [pageSize]="pagiantionConfig?.pageSize"
       [records]="pagiantionConfig?.recordRanges"
       (onRecordSelect)="onRecordSelect.emit($event)"
+      app-pagination-list
+      class="pagination--button pagination-no-border pagination--list"
       [isOpen]="dropdown.isOpen"
       appDropdown
       #dropdown="dropdown"

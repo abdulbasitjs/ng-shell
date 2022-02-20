@@ -4,7 +4,6 @@ import { AuthenticationService } from '@core/authentication/authentication.servi
 import { DashboardCard } from '@shared/components/app-dashboard-cards/interfaces/dashboard-card';
 import { Subscription } from 'rxjs';
 import { SSORoles } from '@configs/index';
-import { UserService } from '@core/services/user.service';
 import { HeaderService } from '@core/header/header.service';
 
 @Component({
@@ -23,8 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthenticationService,
     private headerService: HeaderService,
-    private route: ActivatedRoute,
-    private userService: UserService
+    private route: ActivatedRoute
   ) {
     this.routerIntilization();
   }
@@ -50,7 +48,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             title: '',
             desc: '',
             hideIcon: true,
-            hideHeaderMenu: true
+            hideHeaderMenu: true,
           });
 
           if (data['roles']) {

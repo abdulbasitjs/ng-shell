@@ -4,6 +4,14 @@
 ></app-section-title>
 
 <article class="components">
+  <app-search
+    (onSearch)="onSearchTerm($event)"
+    (onEnter)="handleEnter($event)"
+    (onEscape)="handleEsc($event)"
+    placeHolder="Search with Package Name"
+    class="search-component"
+    [class.disabled]="packageService.isPackageListLoadingObservable() | async"
+  ></app-search>
   <app-button
     class="button-component"
     icon="assets/svg/add-button-icon.svg"
@@ -14,19 +22,43 @@
   </app-button>
 </article>
 
-<app-datatable class="table-component" [config]="packagesDatatable">
+<app-datatable
+  class="table-component"
+  [isLoading]="packageService.isPackageListLoadingObservable() | async"
+  [config]="packagesDatatable"
+>
   <app-datatable-headers
+    [isLoading]="packageService.isPackageListLoadingObservable() | async"
     [headers]="packagesDatatable.headers"
     (onHeader)="handleHeaderClick($event)"
   >
   </app-datatable-headers>
+  <!-- Change Row lAter to items -->
   <app-datatable-rows
-    [rows]="packages"
+    [columnsTemplate]="packagesDatatable.headers.columnsTemplate"
+    [isLoading]="packageService.isPackageListLoadingObservable() | async"
+    [pageSize]="
+      (packageService.getPaginationConfigObservable() | async)?.pageSize
+    "
+    [rows]="packageService.getPackagesObservable() | async"
     (onRow)="handleRow($event)"
     [headers]="packagesDatatable.headers.list"
   ></app-datatable-rows>
 </app-datatable>
-
-<app-pagination class="pagination-component">Pagination Table</app-pagination>
+<app-pagination
+  [class.disabled]="packageService.isPackageListLoadingObservable() | async"
+  class="pagination-component"
+  [$$paginationConfigObservable]="
+    packageService.getPaginationConfigObservable()
+  "
+  [pagiantionConfig]="packageService.getPaginationConfigObservable() | async"
+  (onRecordSelect)="onPageSizeSelect($event)"
+  (onFirstPageSelect)="onFirst()"
+  (onLastPageSelect)="onLast()"
+  (onNextPageSelect)="onNext()"
+  (onPrevPageSelect)="onPrev()"
+  (onPageSelect)="onPage($event)"
+  >
+</app-pagination>
 
 <router-outlet></router-outlet>

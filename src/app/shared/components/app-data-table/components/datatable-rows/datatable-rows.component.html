@@ -1,10 +1,10 @@
 <ngx-skeleton-loader
-  *ngIf="isLoading; else userList"
+  *ngIf="isLoading; else list"
   [count]="pageSize ? pageSize : 10"
   appearance="line"
 >
 </ngx-skeleton-loader>
-<ng-template #userList>
+<ng-template #list>
   <tr
     *ngFor="let row of rows; let i = index"
     (click)="onRowClick(row, i)"

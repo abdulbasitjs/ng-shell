@@ -1,12 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { EP } from '@configs/endpoints';
-import { DataStorageService } from '@core/services/data-storage.service';
 import {
   DataTable,
   Row,
 } from '@shared/components/app-data-table/interfaces/datatable';
 import { Router, ActivatedRoute } from '@angular/router';
+import { CustomerService } from '../../services/customer.service';
 
 @Component({
   selector: 'app-oti-provisioning-customers',
@@ -18,35 +16,116 @@ export class OtiProvisioningCustomersComponent implements OnInit {
   customers!: any;
 
   constructor(
-    private dataStorageService: DataStorageService,
-    // private formBuilder: FormBuilder,
-    private http: HttpClient,
+    public customerService: CustomerService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.customerDatatable =
-      this.dataStorageService.getOtiProvisioningCustomersTableConfig();
+    this.customerDatatable = this.customerService.getCustomersDataTableConfig();
+    this.customerService.getCustomers(true);
+  }
 
-    // this.http.get(EP.Customers).subscribe((customres) => {
-    //   this.customers = customres;
-    // });
+  getCustomers(isIntial?: boolean) {
+    this.customerService.getCustomers(isIntial);
+  }
+
+  handleHeaderClick([sort, order]: Array<any>) {
+    this.customerService.setSortingToStore(sort, order);
+    const updated = {
+      ...this.customerService.customerPayload,
+      page: 1,
+      sort,
+      order,
+    };
+    this.customerService.setCustomerPayload(updated);
+    this.getCustomers();
+  }
+
+  handleRow(row: Row) {
+    this.router.navigate(['./' + row['id']], { relativeTo: this.route });
   }
 
   onAddNewCompany() {
     this.router.navigate(['./add'], { relativeTo: this.route });
   }
 
-  handleHeaderClick([sortBy, order]: Array<any>) {
-    this.http
-      .get(`${EP.Customers}?_sort=${sortBy}&_order=${order}`)
-      .subscribe((customers) => {
-        this.customers = customers;
-      });
+  onFirst() {
+    const updated = {
+      ...this.customerService.customerPayload,
+      page: 1,
+    };
+    this.customerService.setCustomerPayload(updated);
+    this.getCustomers();
   }
 
-  handleRow(row: Row) {
-    this.router.navigate(['./' + row['id']], { relativeTo: this.route });
+  onLast() {
+    const updated = {
+      ...this.customerService.customerPayload,
+      page: this.customerService.getTotalPages(),
+    };
+    this.customerService.setCustomerPayload(updated);
+    this.getCustomers();
+  }
+
+  onNext() {
+    const currentPage = this.customerService.customerPayload.page;
+    if (currentPage) {
+      const updated = {
+        ...this.customerService.customerPayload,
+        page: currentPage + 1,
+      };
+      this.customerService.setCustomerPayload(updated);
+      this.getCustomers();
+    }
+  }
+
+  onPrev() {
+    const currentPage = this.customerService.customerPayload.page;
+    if (currentPage) {
+      const updated = {
+        ...this.customerService.customerPayload,
+        page: currentPage - 1,
+      };
+      this.customerService.setCustomerPayload(updated);
+      this.getCustomers();
+    }
+  }
+
+  onPage(page: number) {
+    const updated = {
+      ...this.customerService.customerPayload,
+      page,
+    };
+    this.customerService.setCustomerPayload(updated);
+    this.getCustomers();
+  }
+
+  onPageSizeSelect(size: number) {
+    this.customerService.setPageSize(size);
+    const updated = {
+      ...this.customerService.customerPayload,
+      page: 1,
+      limit: size,
+    };
+    this.customerService.setCustomerPayload(updated);
+    this.getCustomers();
+  }
+
+  onSearchTerm(term: string) {
+    const updated = {
+      ...this.customerService.customerPayload,
+      search: term,
+    };
+    this.customerService.setCustomerPayload(updated);
+    this.getCustomers();
+  }
+
+  handleEnter(term: string) {
+    this.onSearchTerm(term);
+  }
+
+  handleEsc(term: string) {
+    this.onSearchTerm('');
   }
 }
