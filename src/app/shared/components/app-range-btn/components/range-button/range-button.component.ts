@@ -1,4 +1,11 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  forwardRef,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -13,6 +20,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class ButtonRangeComponent implements OnInit, ControlValueAccessor {
+  @Output() onValueChange = new EventEmitter();
   constructor() {}
   inputValue = 1;
 
@@ -38,12 +46,21 @@ export class ButtonRangeComponent implements OnInit, ControlValueAccessor {
   increment() {
     this.inputValue += 1;
     this.onChange(this.inputValue);
+    this.onValueChange.emit(this.inputValue);
   }
 
   decrement() {
     if (this.inputValue > 1) {
       this.inputValue -= 1;
       this.onChange(this.inputValue);
+      this.onValueChange.emit(this.inputValue);
     }
+  }
+
+  onKeyup(e: any) {
+    if (e.target.value) {
+      this.onValueChange.emit(+e.target.value);
+    }
+    this.inputValue = +e.target.value;
   }
 }

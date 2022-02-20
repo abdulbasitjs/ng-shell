@@ -9,8 +9,9 @@ import {
   Order,
 } from '@shared/components/app-data-table/interfaces/datatable';
 import { Pagination } from '@shared/components/app-pagination/interfaces/pagination';
+import { StepModel } from '@shared/components/app-wizard/interfaces/wizard';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, catchError, map, of } from 'rxjs';
+import { BehaviorSubject, catchError, delay, interval, map, of, timeout } from 'rxjs';
 import { IGetCustomersPayload } from '../models/customer.model';
 
 const OTICustomersPaginationStoreKey = `${StoragePrefix.OTIProvisioning}customer.pagination.pageSize`;
@@ -30,6 +31,10 @@ export class CustomerService {
     new BehaviorSubject<number>(-1);
   public customerPayload: any = {};
 
+  // Add Customer
+  private isCustomerKeyIsFetching$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+
   constructor(
     private http: HttpClient,
     private storageService: StorageService,
@@ -40,8 +45,7 @@ export class CustomerService {
       this.getUsersPaginationConfig()
     );
 
-    const { orderBy = '', sortName = '' } =
-      this.getSortingFromStore() || {};
+    const { orderBy = '', sortName = '' } = this.getSortingFromStore() || {};
 
     this.customerPayload = {
       page: 1,
@@ -95,6 +99,17 @@ export class CustomerService {
         })
       )
       .subscribe((d) => {});
+  }
+
+  getCustomerKey() {
+    this.isCustomerKeyIsFetching$.next(true)
+    return of(true).pipe(
+      delay(500),
+      map((_) => {
+        this.isCustomerKeyIsFetching$.next(false);
+        return Date.now().toString(36) + Math.random().toString(36);
+      })
+    )
   }
 
   // Helper Methods
@@ -151,6 +166,10 @@ export class CustomerService {
     return this.customers$.asObservable();
   }
 
+  getCustomerKeyFetchingObservable() {
+    return this.isCustomerKeyIsFetching$.asObservable();
+  }
+
   creatingUserObservable() {
     return this.isCustomerCreating$.asObservable();
   }
@@ -170,7 +189,7 @@ export class CustomerService {
   // Configs
   getCustomersDataTableConfig(): DataTable {
     const { sortName = '', orderBy = Order.Default } =
-    this.getSortingFromStore() || {};
+      this.getSortingFromStore() || {};
 
     const configurations = {
       get totalColumns() {
@@ -234,5 +253,13 @@ export class CustomerService {
       recordRanges: [10, 20, 30, 50, 100],
       pageSize: limit || 10,
     };
+  }
+
+  getAddNewCompanySteps(): StepModel[] {
+    return [
+      { stepIndex: 1, isComplete: false, label: 'Company Profile' },
+      { stepIndex: 2, isComplete: false, label: 'Subscription Info' },
+      { stepIndex: 3, isComplete: false, label: 'Exclude Classifier' },
+    ];
   }
 }

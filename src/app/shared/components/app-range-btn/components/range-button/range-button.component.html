@@ -8,8 +8,10 @@
   </app-button>
   <div class="form__input">
     <input
-      (onValueUpdate)="onChange($event)"
+      (keyup)="onKeyup($event)"
+      (onValueUpdate)="onChange($event);"
       [min]="1"
+      [max]="9999999"
       digitOnly
       class="fw m-0"
       type="text"

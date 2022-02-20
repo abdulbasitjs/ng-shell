@@ -27,19 +27,19 @@
   }
 
   & > .section-container {
-    grid-column: section-start / col-start 3;
+    grid-column: section-start / col-start 6;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    height: 10vh;
+    // height: 10vh;
     align-content: space-between;
     row-gap: 2rem;
-    column-gap: 10rem;
+    // column-gap: 10rem;
     .section {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      flex-basis: 20rem;
+      flex-basis: 30rem;
       &--title {
         font-size: font-size(regularFix);
         color: var(--color-primary);

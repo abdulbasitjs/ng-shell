@@ -28,6 +28,9 @@ import { ApiUsageComponent } from './components/api-usage/api-usage.component';
 import { AppCustomerAddEditComponent } from './components/customer-add-edit/customer-add-edit.component';
 import { AppPackageAddEditComponent } from './components/package-add-edit/package-add-edit.component';
 import { AppSearchModule } from '@shared/components/app-search/app-search.module';
+import { ApiTierComponent } from './components/api-tier/api-tier.component';
+import { AppPackageControlsComponent } from './components/package-controls/package-controls.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,8 @@ import { AppSearchModule } from '@shared/components/app-search/app-search.module
     ApiUsageComponent,
     AppCustomerAddEditComponent,
     AppPackageAddEditComponent,
+    ApiTierComponent,
+    AppPackageControlsComponent
   ],
   imports: [
     CommonModule,
@@ -61,7 +66,8 @@ import { AppSearchModule } from '@shared/components/app-search/app-search.module
     NgxDaterangepickerMd,
     FormsModule,
     AngularSvgIconModule,
-    AppSearchModule
+    AppSearchModule,
+    NgxSkeletonLoaderModule
   ],
 })
 export class OtiProvisioningModule {}

@@ -1,0 +1,14 @@
+<div class="form__input radio">
+  <label>Api Tier</label>
+  <hr class="line" />
+  <label *ngFor="let tier of _fitlerTiers" class="form__input--radio-container">
+    <input
+      (click)="onTierChange(tier)"
+      name="api-tier-radio"
+      type="radio"
+      [value]="tier.key"
+      [checked]="tier.key === activeTier"
+    />
+    <span>{{ tier.value }}</span>
+  </label>
+</div>

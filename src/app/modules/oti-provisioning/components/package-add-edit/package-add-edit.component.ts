@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { quotaInterval, UIMESSAGES, rateLimitOptions } from '@configs/index';
+import { UIMESSAGES, QuotaInterval, RateLimitOptions } from '@configs/index';
 @Component({
   selector: 'app-package-add-edit',
   templateUrl: './package-add-edit.component.html',
 })
 export class AppPackageAddEditComponent implements OnInit {
   UIMSG = UIMESSAGES;
-  quotaIntervalList = quotaInterval;
-  rateLimitPerMinList = rateLimitOptions;
+  quotaIntervalList = QuotaInterval;
+  rateLimitPerMinList = RateLimitOptions;
 
   isPanelOpen: boolean = true;
   newPackageForm!: FormGroup;

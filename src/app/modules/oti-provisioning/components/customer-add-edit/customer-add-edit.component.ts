@@ -1,60 +1,98 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataStorageService } from '@core/services/data-storage.service';
 import { StepModel } from '@shared/components/app-wizard/interfaces/wizard';
+import { CustomerService } from '../../services/customer.service';
+import { PackageService } from '../../services/package.service';
+import { Subscription } from 'rxjs';
+import {
+  ExpDates,
+  QuotaInterval,
+  RateLimitOptions,
+  SubscriptionTypes,
+  ClassifierList,
+  IDropdown,
+} from '@configs/index';
 
+const Active = 'Active';
+const DefaultSelction = {
+  label: '',
+  value: '',
+  active: false,
+};
 @Component({
   selector: 'app-customer-add-edit',
   templateUrl: './customer-add-edit.component.html',
 })
-export class AppCustomerAddEditComponent implements OnInit {
+export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
+  subscriptionTypes = SubscriptionTypes;
+  expDates = ExpDates;
+  classifierList = ClassifierList;
+
   steps!: StepModel[];
   isPanelOpen: boolean = true;
   activeStep!: StepModel;
+  packagesSubscription!: Subscription;
+  customerKeySubscription!: Subscription;
+  packages!: [];
+  tiers = [{ key: '', value: '' }];
 
   newCompanyForm!: FormGroup;
-  subscriptionTypes: Array<any> = [
-    { key: 'community', value: 'Community Editionnnn' },
-    { key: 'enterprise', value: 'Enterprise Edition' },
-  ];
-
-  tiers: Array<any> = [
-    {
-      key: 'default',
-      value: 'Default (Quota/day: 250 | Quota/min: 2 Call(s)/min)',
-    },
-    { key: 'custom', value: 'Custom' },
-  ];
-
-  expDates: Array<any> = [
-    { key: 'never', value: 'Never' },
-    { key: 'custom', value: 'Custom' },
-  ];
-
-  classifierList: Array<any> = [
-    { key: 'cs', value: 'cs' },
-    { key: 'csvc', value: 'csvc' },
-    { key: 'rw', value: 'rw' },
-    { key: 'sw', value: 'sw' },
-    { key: 'nlp', value: 'nlp' },
-    { key: 'scam', value: 'scam' },
-    { key: 'handler', value: 'handler' },
-    { key: 'gsb', value: 'gsb' },
-    { key: 'annotator', value: 'annotator' },
-  ];
 
   constructor(
-    private dataStorageService: DataStorageService,
+    public customerService: CustomerService,
+    public packageService: PackageService,
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
-    this.steps = this.dataStorageService.getOtiProvisioningNewCompanySteps();
-    this.activeStep = this.steps[0];
+  ngOnDestroy(): void {
+    if (this.packagesSubscription) this.packagesSubscription.unsubscribe();
+    if (this.customerKeySubscription)
+      this.customerKeySubscription.unsubscribe();
+  }
 
+  ngOnInit(): void {
+    this.steps = this.customerService.getAddNewCompanySteps();
+    this.activeStep = this.steps[1];
+    this.getPackges();
+    this.populateCompanyForm();
+    this.fetchCustomerKey();
+  }
+
+  fetchCustomerKey() {
+    this.customerKeySubscription = this.customerService
+      .getCustomerKey()
+      .subscribe((key) => {
+        this.newCompanyForm.get('subscription')?.patchValue({
+          company_key: key,
+        });
+      });
+  }
+
+  getPackges() {
+    this.packageService.getPackages();
+    this.packagesSubscription = this.packageService
+      .getPackagesObservable()
+      .subscribe((packages) => {
+        this.packages = packages;
+        this.createTiers();
+      });
+  }
+
+  createTiers() {
+    if (this.packages) {
+      this.tiers = this.packages
+        .filter((p: any) => p.status === Active)
+        .map((el: any) => ({
+          key: el.package_name.toLowerCase(),
+          value: `${el.package_name} (Quota/day: 250 | Quota/min: 2 Call(s)/min)`,
+        }));
+    }
+  }
+
+  populateCompanyForm() {
     this.newCompanyForm = this.formBuilder.group({
       profile: this.formBuilder.group({
         company_name: [null, Validators.required],
@@ -68,7 +106,13 @@ export class AppCustomerAddEditComponent implements OnInit {
         company_id: ['SNXCUST-ABC', Validators.required],
         type: [this.subscriptionTypes[0].key, Validators.required],
         company_key: [null, Validators.required],
-        tier: [this.tiers[0].key, Validators.required],
+        tier: ['', Validators.required],
+        package_info: this.formBuilder.group({
+          quota_interval: this.createGroup(DefaultSelction),
+          quota_limit: [1, Validators.required],
+          rate_limit: this.createGroup(DefaultSelction),
+          quota_permin: ['', Validators.required],
+        }),
         exp_date: [this.expDates[0].key, Validators.required],
       }),
       exclude_classifier: this.formBuilder.group({
@@ -80,10 +124,24 @@ export class AppCustomerAddEditComponent implements OnInit {
     });
   }
 
+  createGroup(item: IDropdown) {
+    return this.formBuilder.group({
+      ...item,
+      ...{
+        name: [item.label, Validators.required],
+      },
+    });
+  }
+
   onAddNewCompany() {}
 
   handleStepChange(step: StepModel) {
     this.activeStep = step;
+  }
+
+  regeneRateKey(event: Event) {
+    event.preventDefault();
+    this.fetchCustomerKey();
   }
 
   onNextStep() {
@@ -104,7 +162,7 @@ export class AppCustomerAddEditComponent implements OnInit {
 
   onSave() {
     console.log(this.newCompanyForm.value);
-    this.isPanelOpen = false;
+    // this.onClose();
   }
 
   onClose() {
