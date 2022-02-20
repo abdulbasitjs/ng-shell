@@ -27,6 +27,7 @@ import { ApiPerLimitComponent } from './components/api-per-limit/api-per-limit.c
 import { ApiUsageComponent } from './components/api-usage/api-usage.component';
 import { AppCustomerAddEditComponent } from './components/customer-add-edit/customer-add-edit.component';
 import { AppPackageAddEditComponent } from './components/package-add-edit/package-add-edit.component';
+import { AppSearchModule } from '@shared/components/app-search/app-search.module';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { AppPackageAddEditComponent } from './components/package-add-edit/packag
     NgxDaterangepickerMd,
     FormsModule,
     AngularSvgIconModule,
+    AppSearchModule
   ],
 })
 export class OtiProvisioningModule {}

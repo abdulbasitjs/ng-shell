@@ -6,16 +6,22 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class PaginationListComponent implements OnInit {
   @Input() records!: number[] | undefined;
-  @Input() pageSize!: number | undefined;
+  @Input() set pageSize(value: number | undefined) {
+    if (value) {
+      this.update(value);
+    }
+  }
 
   @Output() onRecordSelect: EventEmitter<number> = new EventEmitter<number>();
   @Output() handleOutsideClick: EventEmitter<void> = new EventEmitter<void>();
   selectedRecordIndex = 0;
   constructor() {}
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  update(pageSize: number | undefined) {
     if (this.records && this.records.length) {
       this.selectedRecordIndex = this.records.findIndex(
-        (el) => el === this.pageSize
+        (el) => el === pageSize
       );
     }
   }
@@ -26,7 +32,6 @@ export class PaginationListComponent implements OnInit {
   }
 
   onOutsideClick() {
-    console.log('Emitted');
     this.handleOutsideClick.emit();
   }
 }

@@ -37,7 +37,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
   constructor(private paginationService: PaginationService) {}
 
   ngOnDestroy(): void {
-    this.paginationSubscripton.unsubscribe();
+    if (this.paginationSubscripton) this.paginationSubscripton.unsubscribe();
   }
 
   ngOnInit(): void {

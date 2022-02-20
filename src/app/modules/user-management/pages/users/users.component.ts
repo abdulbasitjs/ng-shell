@@ -18,10 +18,8 @@ import { DataTableService } from '@shared/components/app-data-table/app-datatabl
 export class UsersComponent implements OnInit, AfterViewInit {
   @ViewChild('portalCircle') pcTemplate!: TemplateRef<any>;
   usersDatatable!: DataTable;
-  users!: any;
   moduleSubcription!: Subscription;
   isModuleListLoaded = false;
-  isUseristLoaded!: boolean;
 
   constructor(
     public umService: UserManagementService,
@@ -45,12 +43,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
   }
 
   getUsers(isIntial?: boolean) {
-    this.isUseristLoaded = false;
     this.umService.getUsers(isIntial);
-  }
-
-  onAddNewCompany() {
-    this.router.navigate(['./add'], { relativeTo: this.route });
   }
 
   handleHeaderClick([sort, order]: Array<any>) {

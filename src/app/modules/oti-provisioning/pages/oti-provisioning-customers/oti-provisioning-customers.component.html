@@ -2,7 +2,16 @@
   class="section-title"
   sectionTitle="Customer Management"
 ></app-section-title>
+
 <article class="components">
+  <app-search
+    (onSearch)="onSearchTerm($event)"
+    (onEnter)="handleEnter($event)"
+    (onEscape)="handleEsc($event)"
+    placeHolder="Search with Customer Name"
+    class="search-component"
+    [class.disabled]="customerService.isCustomerListLoadingObservable() | async"
+  ></app-search>
   <app-button
     class="button-component"
     icon="assets/svg/add-button-icon.svg"
@@ -13,17 +22,42 @@
   </app-button>
 </article>
 
-<app-datatable class="table-component" [config]="customerDatatable">
+<app-datatable
+  class="table-component"
+  [isLoading]="customerService.isCustomerListLoadingObservable() | async"
+  [config]="customerDatatable"
+>
   <app-datatable-headers
+    [isLoading]="customerService.isCustomerListLoadingObservable() | async"
     [headers]="customerDatatable.headers"
     (onHeader)="handleHeaderClick($event)"
   >
   </app-datatable-headers>
   <app-datatable-rows
-    [rows]="customers"
+    [columnsTemplate]="customerDatatable.headers.columnsTemplate"
+    [isLoading]="customerService.isCustomerListLoadingObservable() | async"
+    [pageSize]="
+      (customerService.getPaginationConfigObservable() | async)?.pageSize
+    "
+    [rows]="customerService.getCustomersObservable() | async"
     (onRow)="handleRow($event)"
     [headers]="customerDatatable.headers.list"
   ></app-datatable-rows>
 </app-datatable>
-<app-pagination class="pagination-component">Pagination Table</app-pagination>
+<app-pagination
+  [class.disabled]="customerService.isCustomerListLoadingObservable() | async"
+  class="pagination-component"
+  [$$paginationConfigObservable]="
+    customerService.getPaginationConfigObservable()
+  "
+  [pagiantionConfig]="customerService.getPaginationConfigObservable() | async"
+  (onRecordSelect)="onPageSizeSelect($event)"
+  (onFirstPageSelect)="onFirst()"
+  (onLastPageSelect)="onLast()"
+  (onNextPageSelect)="onNext()"
+  (onPrevPageSelect)="onPrev()"
+  (onPageSelect)="onPage($event)"
+  >
+</app-pagination>
+
 <router-outlet></router-outlet>
