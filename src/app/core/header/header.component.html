@@ -5,8 +5,8 @@
         {{ header?.title }} <span> {{ header?.desc }} </span>
       </p>
       <svg-icon
-        #dropdown="dropdown"
-        (clickOutside)="dropdown.close()"
+        #headerDropdown="dropdown"
+        (clickOutside)="headerDropdown.close()"
         appClickOutside
         [top]="false"
         appDropdown="header__menu--tab header__menu--list"
@@ -34,8 +34,8 @@
   <div class="header__user--settings">
     <div class="dropdown-trigger">
       <svg-icon
-        #dropdown="dropdown"
-        (clickOutside)="dropdown.close()"
+        #settingDropdown="dropdown"
+        (clickOutside)="settingDropdown.close()"
         appClickOutside
         appDropdown=".setting-dropdown > .dropdown"
         src="assets/svg/settings-icon.svg"

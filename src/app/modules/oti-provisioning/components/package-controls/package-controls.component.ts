@@ -1,34 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { ControlContainer, FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ControlContainer,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+} from '@angular/forms';
 import {
   UIMESSAGES,
   IDropdown,
   QuotaInterval,
   RateLimitOptions,
 } from '@configs/index';
-
-// Per month aprroximately result
-// Avg( 31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30 + 31 ) = 30.416666666666668
-// 1440 * 30.416666666666668 = 43800 minutes in month
+import { CustomerService } from '../../services/customer.service';
+import { Subscription } from 'rxjs';
 
 const minuteInInterval: any = {
   daily: 1440,
   weekly: 1440 * 7,
-  monthly: 43800,
-  yearly: 43800 * 12,
+  monthly: 1440 * 30,
+  yearly: 1440 * 365,
 };
+
+const DEFAULT_LABEL = 'Select Rate Limit / Min';
 
 @Component({
   selector: 'app-package-controls',
   templateUrl: './package-controls.component.html',
 })
-export class AppPackageControlsComponent implements OnInit {
-  _quotaLimit = 0;
+export class AppPackageControlsComponent implements OnInit, OnDestroy {
+  rlMinSubscription!: Subscription;
   quotaIntervals: IDropdown[] = QuotaInterval;
   rateLimitPerMinList: IDropdown[] = RateLimitOptions;
   UIMSG = UIMESSAGES;
+  quotaIntervalSelectedIndex = 0;
+  rateLimitPerMinSelectedIndex = 0;
 
-  constructor(public controlContainer: ControlContainer) {}
+  constructor(
+    public controlContainer: ControlContainer,
+    public customerService: CustomerService
+  ) {}
+
+  ngOnDestroy(): void {
+    if (this.rlMinSubscription) this.rlMinSubscription.unsubscribe();
+  }
 
   get controls() {
     return this.controlContainer.control as FormGroup;
@@ -38,12 +52,31 @@ export class AppPackageControlsComponent implements OnInit {
     return this.controls.controls['quota_interval'].value as FormGroup;
   }
 
+  get quotaLimit() {
+    return this.controls.controls['quota_limit'] as FormControl;
+  }
+
   get rateControl() {
-    return this.controls.controls['rate_limit'].value as FormGroup;
+    return this.controls.controls['rate_limit'] as FormGroup;
   }
 
   ngOnInit(): void {
     this.reset();
+    this.generateRateLimit();
+    this.initialize();
+    // this.checkValidation(this.rateControl.controls['name'].value);
+  }
+
+  initialize() {
+    this.rlMinSubscription = this.customerService
+      .getRatePerLimitMinListObservable()
+      .subscribe((rlMin) => {
+        this.rateLimitPerMinList = rlMin;
+        this.setSelectionItem(
+          this.rateLimitPerMinList[this.rateLimitPerMinSelectedIndex],
+          'rate_limit'
+        );
+      });
   }
 
   reset() {
@@ -59,39 +92,39 @@ export class AppPackageControlsComponent implements OnInit {
     });
   }
 
+  checkValidation(key: string) {
+    if (key === DEFAULT_LABEL) {
+      this.rateControl.controls['name'].setErrors({ incorrect: true });
+    } else {
+      this.rateControl.controls['name'].setErrors(null);
+    }
+  }
+
   handleQuotaIntervalSelect(item: IDropdown) {
+    this.quotaIntervalSelectedIndex = this.quotaIntervals.findIndex(
+      (el) => el.value === item.value
+    );
     this.setSelectionItem(item, 'quota_interval');
+    this.generateRateLimit();
   }
 
   handleRatesLimitSelect(item: IDropdown) {
+    this.rateLimitPerMinSelectedIndex = this.rateLimitPerMinList.findIndex(
+      (el) => el.value === item.value
+    );
     this.setSelectionItem(item, 'rate_limit');
+    // this.checkValidation(item.label);
   }
 
-  generateRateLimit() {
-    const originalRate =
-      this._quotaLimit / minuteInInterval[this.quotaIntervalControl.value];
-    // const ratePerMin = Math.ceil(originalRate);
-    const defaultSelection = {
-      label: 'Select Rate Limit / Min',
-      value: 'default',
-      active: true,
-    };
-    const customSelection = { label: 'Custom', value: 'custom', active: false };
-    const ratePerminList = [];
-    for (let i = 1; i <= 10; i++) {
-      ratePerminList.push({
-        value: `${Math.ceil(originalRate * i)} Calls / Min (${i}x)`,
-        label: `${Math.ceil(originalRate * i)} Calls / Min (${i}x)`,
-        active: false,
-      });
-    }
-
-    this.rateLimitPerMinList.length = 0;
-    this.rateLimitPerMinList.push(defaultSelection, ...ratePerminList, customSelection);
+  generateRateLimit(activeIndex?: number) {
+    this.customerService.generateRatePerMinList(
+      this.quotaLimit.value || 1,
+      minuteInInterval[this.quotaIntervalControl.value],
+      activeIndex || this.rateLimitPerMinSelectedIndex
+    );
   }
 
   changeValueHandler(limit: number) {
-    this._quotaLimit = limit;
     this.generateRateLimit();
   }
 }

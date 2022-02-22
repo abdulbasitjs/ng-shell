@@ -164,6 +164,7 @@
             </ng-template>
           </div>
           <app-api-tier
+            [loading]="isTiersLoading"
             [subType]="newCompanyForm.get('subscription.type')?.value"
             formControlName="tier"
             [tiers]="tiers"
@@ -173,7 +174,13 @@
             formGroupName="package_info"
           ></app-package-controls>
 
-          <!-- <div class="form__input radio">
+          <div
+            class="form__input radio"
+            [class.disabled]="
+              newCompanyForm.get('subscription.type')?.value === 'community' &&
+              newCompanyForm.get('subscription.tier')?.value === 'default'
+            "
+          >
             <label>Expiration Date</label>
             <label
               *ngFor="let exp of expDates"
@@ -181,18 +188,39 @@
             >
               <input
                 type="radio"
-                formControlName="exp_date"
-                class="disabled"
+                formControlName="exp_date_type"
                 [value]="exp.key"
                 [ngClass]="{
                   'error-msg':
-                    !newCompanyForm.get('subscription.exp_date')?.valid &&
-                    newCompanyForm.get('subscription.exp_date')?.touched
+                    !newCompanyForm.get('subscription.exp_date_type')?.valid &&
+                    newCompanyForm.get('subscription.exp_date_type')?.touched
                 }"
               />
               <span>{{ exp.value }}</span>
             </label>
-          </div> -->
+          </div>
+
+          <div
+            class="form__input form__select"
+            *ngIf="
+              newCompanyForm.get('subscription.exp_date_type')?.value ===
+              'custom'
+            "
+          >
+            <input
+              formControlName="expiry_date"
+              type="text"
+              placeholder="Choose date"
+              ngxDaterangepickerMd
+              [locale]="expiryDateFormat"
+              [singleDatePicker]="true"
+              [autoApply]="true"
+              drops="up"
+              opens="left"
+              (datesUpdated)="onExpiryDateChange($event)"
+              [isInvalidDate]="isInvalidDate"
+            />
+          </div>
         </ng-container>
       </div>
       <div app-wizard-template *ngSwitchCase="'3'" [step]="activeStep">
@@ -247,7 +275,11 @@
           <app-button
             btnTitle="Next"
             classes="button-primary button-lg button-box-shadow"
-            [isDisabled]="newCompanyForm.controls['subscription'].invalid"
+            [isDisabled]="
+              newCompanyForm.controls['subscription'].invalid ||
+              (rateControl.value.label === DEFAULT_LABEL &&
+                tierControl.value === 'custom')
+            "
             (clickHandler)="onNextStep()"
           ></app-button>
         </div>

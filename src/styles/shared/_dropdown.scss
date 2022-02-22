@@ -132,3 +132,24 @@ $dropdown-left-margin: 1.2rem;
     transform: scale(1, -1);
   }
 }
+
+// NOTE: Fix this later... this should be handle inside dropdrown directive.
+
+.rate-limit-dropdown > .dropdown {
+  transform-origin: bottom;
+  top: -39rem !important;
+
+  &::after {
+    top: auto;
+    bottom: -1.4rem !important;
+    border-color: var(--color-secondary) transparent transparent transparent;
+  }
+}
+
+.rate-limit-dropdown + svg-icon {
+  transform: scale(-1, -1);
+}
+
+.rate-limit-dropdown + svg-icon.dropdown-open {
+  transform: scale(-1, 1);
+}

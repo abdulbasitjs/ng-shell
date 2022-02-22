@@ -17,6 +17,7 @@ export class ApiTierComponent implements OnInit, ControlValueAccessor {
   _fitlerTiers!: Array<any>;
   _subType!: string;
   _isIntitalLoad!: boolean;
+  @Input() loading!: boolean;
   @Input() customValueLabel: string = 'Custom';
 
   @Input() set subType(type: string) {
@@ -59,16 +60,10 @@ export class ApiTierComponent implements OnInit, ControlValueAccessor {
   }
 
   reset() {
-    const customTier = { key: 'custom', value: this.customValueLabel };
-
-    if (this._subType === 'community') {
-      this._fitlerTiers = [...this._tiers.slice(0, 1), customTier];
-    } else {
-      this._fitlerTiers = [
-        ...this._tiers,
-        { key: 'custom', value: this.customValueLabel },
-      ];
-    }
+    this._fitlerTiers = [
+      ...this._tiers.filter((el) => el.type === this._subType),
+      { key: 'custom', value: this.customValueLabel },
+    ];
 
     if (!this._isIntitalLoad) this.activeTier = this._fitlerTiers[0].key;
     else this.activeTier = this.activeTier || this._fitlerTiers[0].key;

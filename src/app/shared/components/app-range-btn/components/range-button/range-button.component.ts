@@ -1,7 +1,6 @@
 import {
   Component,
   forwardRef,
-  Input,
   OnInit,
   Output,
   EventEmitter,
@@ -44,6 +43,7 @@ export class ButtonRangeComponent implements OnInit, ControlValueAccessor {
   ngOnInit(): void {}
 
   increment() {
+    this.inputValue = +this.inputValue;
     this.inputValue += 1;
     this.onChange(this.inputValue);
     this.onValueChange.emit(this.inputValue);
@@ -57,10 +57,9 @@ export class ButtonRangeComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  onKeyup(e: any) {
-    if (e.target.value) {
-      this.onValueChange.emit(+e.target.value);
-    }
-    this.inputValue = +e.target.value;
+  onKeyUP(e: any) {
+    this.onValueChange.emit(e);
+    this.onChange(e);
+    this.inputValue = e;
   }
 }

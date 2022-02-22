@@ -1,14 +1,30 @@
 <div class="form__input radio">
   <label>Api Tier</label>
   <hr class="line" />
-  <label *ngFor="let tier of _fitlerTiers" class="form__input--radio-container">
-    <input
-      (click)="onTierChange(tier)"
-      name="api-tier-radio"
-      type="radio"
-      [value]="tier.key"
-      [checked]="tier.key === activeTier"
-    />
-    <span>{{ tier.value }}</span>
-  </label>
+  <ng-container *ngIf="!loading; else loader">
+    <label *ngFor="let tier of _fitlerTiers" class="form__input--radio-container">
+      <input
+        (click)="onTierChange(tier)"
+        name="api-tier-radio"
+        type="radio"
+        [value]="tier.key"
+        [checked]="tier.key === activeTier"
+      />
+      <span>{{ tier.value }}</span>
+    </label>
+  </ng-container>
+
 </div>
+
+<ng-template #loader>
+  <ngx-skeleton-loader
+    count="1"
+    appearance="line"
+    [theme]="{
+      height: '4rem',
+      'background-color': '#3492c9',
+      opacity: '0.1'
+    }"
+    style="width: 85%"
+  ></ngx-skeleton-loader>
+</ng-template>

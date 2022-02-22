@@ -31,6 +31,7 @@ import { AppSearchModule } from '@shared/components/app-search/app-search.module
 import { ApiTierComponent } from './components/api-tier/api-tier.component';
 import { AppPackageControlsComponent } from './components/package-controls/package-controls.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { DirectivesModule } from '@shared/directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     FormsModule,
     AngularSvgIconModule,
     AppSearchModule,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
+    DirectivesModule
   ],
 })
 export class OtiProvisioningModule {}

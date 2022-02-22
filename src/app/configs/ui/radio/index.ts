@@ -9,7 +9,7 @@ export const SubscriptionTypes: IRadio[] = [
 
 export const ExpDates: IRadio[] = [
   { key: 'never', value: 'Never' },
-  { key: 'custom', value: 'Custom' },
+  { key: 'custom', value: 'Set Expiration Date' },
 ];
 
 export const ClassifierList: IRadio[] = [

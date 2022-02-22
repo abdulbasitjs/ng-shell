@@ -100,8 +100,8 @@
                   class="select"
                   [value]="setRoleValue(i)"
                   appClickOutside
-                  (clickOutside)="dropdown.close()"
-                  #dropdown="dropdown"
+                  (clickOutside)="inviteDropdown.close()"
+                  #inviteDropdown="dropdown"
                   [appDropdown]="'.invite-permission-' + i + ' > .dropdown'"
                 />
                 <div
@@ -110,7 +110,7 @@
                 >
                   <svg-icon
                     src="/assets/svg/select-dropdown-field-icon.svg"
-                    [class]="dropdown.isOpen ? 'dropdown-open' : ''"
+                    [class]="inviteDropdown.isOpen ? 'dropdown-open' : ''"
                   ></svg-icon>
                   <app-dropdown
                     labelKey="l"

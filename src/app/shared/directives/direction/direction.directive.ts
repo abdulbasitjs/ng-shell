@@ -1,15 +1,22 @@
-import { Directive, Input, ElementRef, Renderer2 } from '@angular/core';
+import {
+  Directive,
+  Input,
+  ElementRef,
+  Renderer2,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 
 @Directive({
   selector: '[dropdownDirection]',
   exportAs: 'dropdownDirection',
 })
 export class DropdownDirectionDirective {
+  @Output() onDirectionChange = new EventEmitter();
+  @Input() selector!: string;
   direction = 1;
   @Input('isOpen') set isOepn(state: boolean) {
-    const pagingList$ = <Element>(
-      document.querySelector('.pagination__perpage--list')
-    );
+    const pagingList$ = <Element>document.querySelector(this.selector);
 
     if (state) {
       this.direction =
@@ -17,6 +24,7 @@ export class DropdownDirectionDirective {
         pagingList$.scrollHeight
           ? -1
           : 1;
+      this.onDirectionChange.emit(this.direction);
     }
   }
 }

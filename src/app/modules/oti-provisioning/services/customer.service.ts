@@ -1,6 +1,6 @@
 import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EP } from '@configs/index';
+import { EP, IDropdown } from '@configs/index';
 import { SSOResponse } from '@core/http/http-response.model';
 import { StoragePrefix } from '@core/models/storage-prefix.enum';
 import { StorageService } from '@core/services/storage.service';
@@ -11,7 +11,7 @@ import {
 import { Pagination } from '@shared/components/app-pagination/interfaces/pagination';
 import { StepModel } from '@shared/components/app-wizard/interfaces/wizard';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, catchError, delay, interval, map, of, timeout } from 'rxjs';
+import { BehaviorSubject, catchError, delay, map, of } from 'rxjs';
 import { IGetCustomersPayload } from '../models/customer.model';
 
 const OTICustomersPaginationStoreKey = `${StoragePrefix.OTIProvisioning}customer.pagination.pageSize`;
@@ -30,6 +30,9 @@ export class CustomerService {
   private isCustomerCreating$: BehaviorSubject<number> =
     new BehaviorSubject<number>(-1);
   public customerPayload: any = {};
+
+  private rateLimitPerMin$: BehaviorSubject<IDropdown[] | []> =
+    new BehaviorSubject<IDropdown[] | []>([]);
 
   // Add Customer
   private isCustomerKeyIsFetching$: BehaviorSubject<boolean> =
@@ -102,14 +105,14 @@ export class CustomerService {
   }
 
   getCustomerKey() {
-    this.isCustomerKeyIsFetching$.next(true)
+    this.isCustomerKeyIsFetching$.next(true);
     return of(true).pipe(
       delay(500),
       map((_) => {
         this.isCustomerKeyIsFetching$.next(false);
         return Date.now().toString(36) + Math.random().toString(36);
       })
-    )
+    );
   }
 
   // Helper Methods
@@ -152,6 +155,39 @@ export class CustomerService {
     this.setCustomerPayload(updated);
   }
 
+  generateRatePerMinList(
+    quotaLimit: number,
+    intervalVal: number,
+    activeIndex: number = -1
+  ) {
+
+    const LEN = 10;
+    const originalRate = quotaLimit / intervalVal;
+    const defaultSelection = {
+      label: 'Select Rate Limit / Min',
+      value: 'default',
+      active: activeIndex === 0,
+    };
+    const customSelection = {
+      label: 'Custom',
+      value: 'custom',
+      active: activeIndex === LEN + 1,
+    };
+    const ratePerminList = [];
+    for (let i = 1; i <= LEN; i++) {
+      ratePerminList.push({
+        value: `${Math.ceil(originalRate * i)} Calls / Min (${i}x)`,
+        label: `${Math.ceil(originalRate * i)} Calls / Min (${i}x)`,
+        active: i === activeIndex,
+      });
+    }
+    this.rateLimitPerMin$.next([
+      defaultSelection,
+      ...ratePerminList,
+      customSelection,
+    ]);
+  }
+
   // Observables
 
   getPaginationConfigObservable() {
@@ -184,6 +220,10 @@ export class CustomerService {
 
   getInviteSendingObserVable() {
     // return this.isUserCreating$.asObservable();
+  }
+
+  getRatePerLimitMinListObservable() {
+    return this.rateLimitPerMin$.asObservable();
   }
 
   // Configs

@@ -1,4 +1,7 @@
-<div class="dropdown">
+<div
+  class="dropdown"
+  [ngClass]="direction === 1 ? 'top' : 'bottom'"
+>
   <ul class="dropdown--list">
     <li
       class="dropdown--list__item"
