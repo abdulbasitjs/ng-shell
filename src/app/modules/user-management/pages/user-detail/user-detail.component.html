@@ -107,15 +107,15 @@
           <div class="permission-tile">
             <label
               appClickOutside
-              (clickOutside)="dropdown.close()"
+              (clickOutside)="inviteUserDetailDropdown.close()"
               [appDropdown]="'.permission-' + i + ' > .dropdown'"
-              #dropdown="dropdown"
+              #inviteUserDetailDropdown="dropdown"
               >{{ module.currentUserPermission?.l }}
             </label>
             <div class="dropdown-trigger">
               <svg-icon
                 src="/assets/svg/select-dropdown-field-icon.svg"
-                [class]="dropdown.isOpen ? 'dropdown-open' : ''"
+                [class]="inviteUserDetailDropdown.isOpen ? 'dropdown-open' : ''"
               ></svg-icon>
               <app-dropdown
                 [disableSelection]="true"

@@ -7,10 +7,11 @@
       (onRecordSelect)="onRecordSelect.emit($event)"
       app-pagination-list
       class="pagination--button pagination-no-border pagination--list"
-      [isOpen]="dropdown.isOpen"
+      [isOpen]="paginationDropdown.isOpen"
       appDropdown
-      #dropdown="dropdown"
+      #paginationDropdown="dropdown"
       dropdownDirection
+      selector=".pagination__perpage--list"
       #dropdownDirection="dropdownDirection"
       [ngClass]="dropdownDirection.direction === 1 ? 'top' : 'bottom'"
     ></span>

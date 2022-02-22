@@ -16,6 +16,7 @@ export class DigitOnlyDirective {
   @Input() max = Infinity;
 
   @Output() onValueUpdate = new EventEmitter();
+  @Output() onKeyUP = new EventEmitter();
 
   inputElement: HTMLInputElement;
   private navigationKeys = [
@@ -89,6 +90,7 @@ export class DigitOnlyDirective {
   @HostListener('keyup', ['$event'])
   onKeyUp(event: any) {
     this.onValueUpdate.emit(+event.target.value);
+    this.onKeyUP.emit(event.target.value);
   }
 
   private forecastValue(key: string): string {

@@ -2383,12 +2383,23 @@
   "packages": [
     {
       "id": 1,
+      "package_name": "Default",
+      "quota_interval": "Daily",
+      "quota_limit": "100k",
+      "quota_permin": "2 Calls / Min (Custom X)",
+      "status": "Active",
+      "created": "05-10-2018",
+      "type": "community"
+    },
+    {
+      "id": 1,
       "package_name": "Bronze",
       "quota_interval": "Daily",
       "quota_limit": "100k",
       "quota_permin": "2 Calls / Min (Custom X)",
       "status": "Active",
-      "created": "05-10-2018"
+      "created": "05-10-2018",
+      "type": "enterprise"
     },
     {
       "id": 2,
@@ -2397,7 +2408,8 @@
       "quota_limit": "1M",
       "quota_permin": "35 Calls / Min (Custom X)",
       "status": "Active",
-      "created": "04-10-2018"
+      "created": "04-10-2018",
+      "type": "enterprise"
     },
     {
       "id": 3,
@@ -2406,7 +2418,8 @@
       "quota_limit": "2M",
       "quota_permin": "2 Calls / Min (Custom X)",
       "status": "Active",
-      "created": "04-10-2018"
+      "created": "04-10-2018",
+      "type": "enterprise"
     },
     {
       "id": 4,
@@ -2415,7 +2428,8 @@
       "quota_limit": "10M",
       "quota_permin": "2 Calls / Min (Custom X)",
       "status": "Disabled",
-      "created": "04-10-2018"
+      "created": "04-10-2018",
+      "type": "enterprise"
     }
   ],
   "roles": {

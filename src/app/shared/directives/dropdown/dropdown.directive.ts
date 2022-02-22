@@ -13,6 +13,7 @@ import {
   exportAs: 'dropdown',
 })
 export class DropdownDirective implements OnInit {
+  @Input() direction!: number;
   @Input('appDropdown') appDropdown!: string;
   @HostBinding('class.open') isOpen = false;
   @Input('top') shouldSetTopStyle = true;

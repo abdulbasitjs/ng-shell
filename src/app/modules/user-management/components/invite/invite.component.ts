@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UIMESSAGES, quotaInterval } from '@configs/index';
+import { UIMESSAGES } from '@configs/index';
 import { UserManagementService } from '../../services/user-management.service';
 import { IModulesResponse } from '../../models/modules-response.model';
 import { LoaderService } from '@core/services/loader.service';
@@ -19,7 +19,6 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   UIMSG = UIMESSAGES;
   isPanelOpen: boolean = true;
   inviteUserForm!: FormGroup;
-  quotaIntervalList = quotaInterval;
   modulesList!: IModulesResponse[];
   selectedRoles!: Array<any>;
   hasSelectedAnyRole: boolean = false;

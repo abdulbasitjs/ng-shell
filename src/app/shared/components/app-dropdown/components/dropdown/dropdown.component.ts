@@ -1,10 +1,19 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { IDropdown } from '@configs/index';
 @Component({
   selector: 'app-dropdown',
   templateUrl: './dropdown.component.html',
 })
-export class DropdownComponent implements OnInit {
+export class DropdownComponent implements OnInit, OnChanges {
+  @Input() direction!: number;
   @Input() disableSelection: boolean = false;
   @Input() activeIndex!: string;
   @Input() selected!: any;
@@ -17,6 +26,13 @@ export class DropdownComponent implements OnInit {
   public list!: Array<any>;
 
   constructor() {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes && changes['items'] && !changes['items'].firstChange) {
+      this.items = changes['items'].currentValue;
+      this.list = this.items;
+    }
+  }
 
   ngOnInit(): void {
     if (this.itemKey) {

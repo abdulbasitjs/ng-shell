@@ -1,8 +1,6 @@
 import {
   Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
+  OnInit
 } from '@angular/core';
 import * as moment from 'moment';
 

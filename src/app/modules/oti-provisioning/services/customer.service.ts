@@ -1,6 +1,6 @@
 import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EP } from '@configs/index';
+import { EP, IDropdown, ClassifierList } from '@configs/index';
 import { SSOResponse } from '@core/http/http-response.model';
 import { StoragePrefix } from '@core/models/storage-prefix.enum';
 import { StorageService } from '@core/services/storage.service';
@@ -9,13 +9,13 @@ import {
   Order,
 } from '@shared/components/app-data-table/interfaces/datatable';
 import { Pagination } from '@shared/components/app-pagination/interfaces/pagination';
+import { StepModel } from '@shared/components/app-wizard/interfaces/wizard';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, catchError, map, of } from 'rxjs';
+import { BehaviorSubject, catchError, delay, map, of } from 'rxjs';
 import { IGetCustomersPayload } from '../models/customer.model';
 
 const OTICustomersPaginationStoreKey = `${StoragePrefix.OTIProvisioning}customer.pagination.pageSize`;
 const OTICustomersSortStoreKey = `${StoragePrefix.OTIProvisioning}customer.sorting`;
-
 @Injectable({
   providedIn: 'root',
 })
@@ -30,6 +30,17 @@ export class CustomerService {
     new BehaviorSubject<number>(-1);
   public customerPayload: any = {};
 
+  private rateLimitPerMin$: BehaviorSubject<IDropdown[] | []> =
+    new BehaviorSubject<IDropdown[] | []>([]);
+
+  private classfierList$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  private isClassifierListIsFetching$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+
+  // Add Customer
+  private isCustomerKeyIsFetching$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+
   constructor(
     private http: HttpClient,
     private storageService: StorageService,
@@ -40,8 +51,7 @@ export class CustomerService {
       this.getUsersPaginationConfig()
     );
 
-    const { orderBy = '', sortName = '' } =
-      this.getSortingFromStore() || {};
+    const { orderBy = '', sortName = '' } = this.getSortingFromStore() || {};
 
     this.customerPayload = {
       page: 1,
@@ -97,6 +107,28 @@ export class CustomerService {
       .subscribe((d) => {});
   }
 
+  getCustomerKey() {
+    this.isCustomerKeyIsFetching$.next(true);
+    return of(true).pipe(
+      delay(500),
+      map((_) => {
+        this.isCustomerKeyIsFetching$.next(false);
+        return Date.now().toString(36) + Math.random().toString(36);
+      })
+    );
+  }
+
+  getClassifierList() {
+    this.isClassifierListIsFetching$.next(true);
+    return of(true).pipe(
+      delay(1000),
+      map((_) => {
+        this.isClassifierListIsFetching$.next(false);
+        this.classfierList$.next(ClassifierList);
+      })
+    ).subscribe(_ => {});
+  }
+
   // Helper Methods
   setCustomerPayload(payload: IGetCustomersPayload) {
     this.customerPayload = payload;
@@ -137,6 +169,38 @@ export class CustomerService {
     this.setCustomerPayload(updated);
   }
 
+  generateRatePerMinList(
+    quotaLimit: number,
+    intervalVal: number,
+    activeIndex: number = -1
+  ) {
+    const LEN = 10;
+    const originalRate = quotaLimit / intervalVal;
+    const defaultSelection = {
+      label: 'Select Rate Limit / Min',
+      value: 'default',
+      active: activeIndex === 0,
+    };
+    const customSelection = {
+      label: 'Custom',
+      value: 'custom',
+      active: activeIndex === LEN + 1,
+    };
+    const ratePerminList = [];
+    for (let i = 1; i <= LEN; i++) {
+      ratePerminList.push({
+        value: `${Math.ceil(originalRate * i)} Calls / Min (${i}x)`,
+        label: `${Math.ceil(originalRate * i)} Calls / Min (${i}x)`,
+        active: i === activeIndex,
+      });
+    }
+    this.rateLimitPerMin$.next([
+      defaultSelection,
+      ...ratePerminList,
+      customSelection,
+    ]);
+  }
+
   // Observables
 
   getPaginationConfigObservable() {
@@ -147,8 +211,20 @@ export class CustomerService {
     return this.isCustomerListIsLoading$.asObservable();
   }
 
+  isClassifierListIsFetching() {
+    return this.isClassifierListIsFetching$.asObservable();
+  }
+
   getCustomersObservable() {
     return this.customers$.asObservable();
+  }
+
+  getCustomerKeyFetchingObservable() {
+    return this.isCustomerKeyIsFetching$.asObservable();
+  }
+
+  getClassifiersObservable() {
+    return this.classfierList$.asObservable();
   }
 
   creatingUserObservable() {
@@ -167,10 +243,14 @@ export class CustomerService {
     // return this.isUserCreating$.asObservable();
   }
 
+  getRatePerLimitMinListObservable() {
+    return this.rateLimitPerMin$.asObservable();
+  }
+
   // Configs
   getCustomersDataTableConfig(): DataTable {
     const { sortName = '', orderBy = Order.Default } =
-    this.getSortingFromStore() || {};
+      this.getSortingFromStore() || {};
 
     const configurations = {
       get totalColumns() {
@@ -234,5 +314,13 @@ export class CustomerService {
       recordRanges: [10, 20, 30, 50, 100],
       pageSize: limit || 10,
     };
+  }
+
+  getAddNewCompanySteps(): StepModel[] {
+    return [
+      { stepIndex: 1, isComplete: false, label: 'Company Profile' },
+      { stepIndex: 2, isComplete: false, label: 'Subscription Info' },
+      { stepIndex: 3, isComplete: false, label: 'Exclude Classifier' },
+    ];
   }
 }

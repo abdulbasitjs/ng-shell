@@ -6,16 +6,22 @@
     (clickHandler)="decrement()"
   >
   </app-button>
-  <div class="form__input">
+  <div class="form__input pos-rel error">
     <input
+      (onKeyUP)="onKeyUP($event)"
       (onValueUpdate)="onChange($event)"
       [min]="1"
+      [max]="9999999"
       digitOnly
       class="fw m-0"
       type="text"
       [value]="inputValue"
     />
+    <div class="pos-abs error-align-field error-msg range-btn-errorr" *ngIf="!inputValue">
+      <p>Quota Limit Could't be empty.</p>
+    </div>
   </div>
+
   <app-button
     class="button-component"
     btnTitle="+"
