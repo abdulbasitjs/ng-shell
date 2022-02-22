@@ -174,8 +174,8 @@
               newCompanyForm.get('subscription.tier')?.value === CUSTOM_KEY
             "
             formGroupName="package_info"
+            [lastSlections]="getLastSelection()"
           ></app-package-controls>
-
           <div
             class="form__input radio"
             [class.disabled]="
@@ -201,7 +201,6 @@
               <span>{{ exp.value }}</span>
             </label>
           </div>
-
           <div
             class="form__input form__select pos-rel error"
             *ngIf="
@@ -238,24 +237,35 @@
         <ng-container formGroupName="exclude_classifier">
           <div class="form__input checkbox">
             <label class="m-b-10">Classifier List</label>
-            <label
-              *ngFor="let classifier of classifierList; let i = index"
-              class="form__input--checkbox-container"
-              formArrayName="classifier_list"
+            <ng-container
+              *ngIf="
+                !(customerService.isClassifierListIsFetching() | async);
+                else loader
+              "
             >
-              <input
-                type="checkbox"
-                [formControlName]="i"
-                [ngClass]="{
-                  'error-msg':
-                    !newCompanyForm.get('exclude_classifier.classifier_list')
-                      ?.valid &&
-                    newCompanyForm.get('exclude_classifier.classifier_list')
-                      ?.touched
-                }"
-              />
-              <span>{{ classifier.value }}</span>
-            </label>
+              <label
+                *ngFor="let classifier of classifiersListArray.controls; let i = index"
+                class="form__input--checkbox-container"
+                formArrayName="classifier_list"
+              >
+                <ng-container [formGroupName]="i">
+                  <input
+                    formControlName="modelKey"
+                    type="checkbox"
+                    [ngClass]="{
+                      'error-msg':
+                        !newCompanyForm.get(
+                          'exclude_classifier.classifier_list'
+                        )?.valid &&
+                        newCompanyForm.get('exclude_classifier.classifier_list')
+                          ?.touched
+                    }"
+                  />
+                  <span>{{ classifier.value.key }}</span>
+                </ng-container>
+              </label>
+            </ng-container>
+            <ng-template #elseTemplate> </ng-template>
           </div>
         </ng-container>
       </div>

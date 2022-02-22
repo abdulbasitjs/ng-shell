@@ -43,10 +43,12 @@ export class ButtonRangeComponent implements OnInit, ControlValueAccessor {
   ngOnInit(): void {}
 
   increment() {
-    this.inputValue = +this.inputValue;
-    this.inputValue += 1;
-    this.onChange(this.inputValue);
-    this.onValueChange.emit(this.inputValue);
+    if (this.inputValue < 9999999) {
+      this.inputValue = +this.inputValue;
+      this.inputValue += 1;
+      this.onChange(this.inputValue);
+      this.onValueChange.emit(this.inputValue);
+    }
   }
 
   decrement() {

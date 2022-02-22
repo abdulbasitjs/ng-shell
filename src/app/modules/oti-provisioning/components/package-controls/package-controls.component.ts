@@ -1,9 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  ControlContainer,
-  FormGroup,
-  FormControl,
-} from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ControlContainer, FormGroup, FormControl } from '@angular/forms';
 import {
   UIMESSAGES,
   IDropdown,
@@ -27,6 +23,7 @@ const DEFAULT_LABEL = 'Select Rate Limit / Min';
   templateUrl: './package-controls.component.html',
 })
 export class AppPackageControlsComponent implements OnInit, OnDestroy {
+  @Input() lastSlections!: { quota_interval: any; rate_limit: any };
   DEFAULT = 'default';
   CUSTOM_KEY = 'custom';
   rlMinSubscription!: Subscription;
@@ -35,6 +32,7 @@ export class AppPackageControlsComponent implements OnInit, OnDestroy {
   UIMSG = UIMESSAGES;
   quotaIntervalSelectedIndex = 0;
   rateLimitPerMinSelectedIndex = 0;
+  isIntialized = false;
 
   constructor(
     public controlContainer: ControlContainer,
@@ -42,6 +40,7 @@ export class AppPackageControlsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
+    this.isIntialized = false;
     if (this.rlMinSubscription) this.rlMinSubscription.unsubscribe();
   }
 
@@ -67,11 +66,38 @@ export class AppPackageControlsComponent implements OnInit, OnDestroy {
     this.initialize();
   }
 
+  resetRateLimit(rlMin: IDropdown[]) {
+    let val = this.lastSlections.rate_limit.value;
+    let idx = rlMin.findIndex((el) => el.value === val);
+    this.rateLimitPerMinSelectedIndex = idx === -1 ? 0 : idx;
+    this.setSelectionItem(
+      this.rateLimitPerMinList[this.rateLimitPerMinSelectedIndex],
+      'rate_limit'
+    );
+    this.rateLimitPerMinList = this.rateLimitPerMinList.map((el, i) => {
+      return i === this.rateLimitPerMinSelectedIndex
+        ? { ...el, active: true }
+        : { ...el, active: false };
+    });
+    this.isIntialized = true;
+  }
+
+  resetQuotaInterval() {
+    let val = this.lastSlections.quota_interval.value;
+    let idx = this.quotaIntervals.findIndex((el) => el.value === val);
+    idx = idx === -1 ? 0 : idx;
+    this.quotaIntervals = this.quotaIntervals.map((el, i) => {
+      return i === idx ? { ...el, active: true } : { ...el, active: false };
+    });
+    this.setSelectionItem(this.quotaIntervals[idx], 'quota_interval');
+  }
+
   initialize() {
     this.rlMinSubscription = this.customerService
       .getRatePerLimitMinListObservable()
       .subscribe((rlMin) => {
         this.rateLimitPerMinList = rlMin;
+        if (!this.isIntialized) this.resetRateLimit(rlMin);
         this.setSelectionItem(
           this.rateLimitPerMinList[this.rateLimitPerMinSelectedIndex],
           'rate_limit'
@@ -80,10 +106,7 @@ export class AppPackageControlsComponent implements OnInit, OnDestroy {
   }
 
   reset() {
-    this.quotaIntervals[0].active = true;
-    this.rateLimitPerMinList[0].active = true;
-    this.setSelectionItem(this.quotaIntervals[0], 'quota_interval');
-    this.setSelectionItem(this.rateLimitPerMinList[0], 'rate_limit');
+    this.resetQuotaInterval();
   }
 
   setSelectionItem(item: IDropdown, controlName: string) {

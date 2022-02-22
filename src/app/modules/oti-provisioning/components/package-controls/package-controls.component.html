@@ -70,7 +70,7 @@
         class="select"
         formControlName="name"
       />
-      <div class="pos-abs error-align-field error-msg" *ngIf="rateControl.value.value === DEFAULT && rateControl.controls['name'].touched">
+      <div class="pos-abs error-align-field error-msg" *ngIf="rateControl.value.value === DEFAULT">
         <p>Please Select Rate Limit.</p>
       </div>
     </ng-container>
@@ -83,3 +83,5 @@
     <app-range-btn formControlName="quota_permin"></app-range-btn>
   </div>
 </ng-container>
+
+<!-- rateControl.controls['name'].touched -->
