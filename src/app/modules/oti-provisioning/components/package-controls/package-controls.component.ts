@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   ControlContainer,
-  FormBuilder,
   FormGroup,
   FormControl,
 } from '@angular/forms';
@@ -28,6 +27,8 @@ const DEFAULT_LABEL = 'Select Rate Limit / Min';
   templateUrl: './package-controls.component.html',
 })
 export class AppPackageControlsComponent implements OnInit, OnDestroy {
+  DEFAULT = 'default';
+  CUSTOM_KEY = 'custom';
   rlMinSubscription!: Subscription;
   quotaIntervals: IDropdown[] = QuotaInterval;
   rateLimitPerMinList: IDropdown[] = RateLimitOptions;
@@ -64,7 +65,6 @@ export class AppPackageControlsComponent implements OnInit, OnDestroy {
     this.reset();
     this.generateRateLimit();
     this.initialize();
-    // this.checkValidation(this.rateControl.controls['name'].value);
   }
 
   initialize() {
@@ -113,7 +113,6 @@ export class AppPackageControlsComponent implements OnInit, OnDestroy {
       (el) => el.value === item.value
     );
     this.setSelectionItem(item, 'rate_limit');
-    // this.checkValidation(item.label);
   }
 
   generateRateLimit(activeIndex?: number) {

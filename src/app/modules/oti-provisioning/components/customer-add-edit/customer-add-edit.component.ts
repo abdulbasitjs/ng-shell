@@ -26,13 +26,13 @@ const DefaultSelction = {
   active: false,
 };
 const COMPANY_PREFIX = 'SNXCUST-';
-const TIER_CUSTOM_KEY = 'custom';
 
 @Component({
   selector: 'app-customer-add-edit',
   templateUrl: './customer-add-edit.component.html',
 })
 export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
+  CUSTOM_KEY = 'custom';
   DEFAULT_LABEL = 'Select Rate Limit / Min';
   subscriptionTypes = SubscriptionTypes;
   expDates = ExpDates;
@@ -48,6 +48,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   companyNameSubscription!: Subscription;
   expirydateValidationSubscription!: Subscription;
   tierSubscription!: Subscription;
+  rateLimitSubscription!: Subscription;
 
   packages!: [];
   tiers = [{ key: '', value: '', type: '' }];
@@ -67,6 +68,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
+  // Life Cycle Hooks
   ngOnDestroy(): void {
     if (this.packagesSubscription) this.packagesSubscription.unsubscribe();
     if (this.customerKeySubscription)
@@ -88,6 +90,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
     this.detectFormChanges();
   }
 
+  // Endpoints
   fetchCustomerKey() {
     this.customerKeySubscription = this.customerService
       .getCustomerKey()
@@ -96,6 +99,11 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
           company_key: key,
         });
       });
+  }
+
+  reGenerateCustomerKey(event: Event) {
+    event.preventDefault();
+    this.fetchCustomerKey();
   }
 
   getPackges() {
@@ -109,64 +117,60 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
       });
   }
 
-  setTierDefaultSelection() {
-    const filteredTiers = this.tiers.filter(
-      (el) => el.type === this.subType.value
-    );
-    let key = '';
-    if (filteredTiers.length) {
-      key = filteredTiers[0].key;
-    } else key = TIER_CUSTOM_KEY;
-
-    this.subscriptionGroup.patchValue({
-      tier: key,
-    });
-  }
-
-  createTiers() {
-    if (this.packages) {
-      this.tiers = this.packages
-        .filter((p: any) => p.status === Active)
-        .map((el: any) => ({
-          key: el.package_name.toLowerCase(),
-          value: `${el.package_name} (Quota/day: 250 | Quota/min: 2 Call(s)/min)`,
-          type: el.type,
-        }));
-      this.setTierDefaultSelection();
-    }
-    this.isTiersLoading = false;
-  }
-
+  // Controls
   get subscriptionGroup() {
-    return this.newCompanyForm.controls['subscription'] as FormGroup;
+    if (this.newCompanyForm) {
+      return this.newCompanyForm.controls['subscription'] as FormGroup;
+    }
+    return null;
   }
 
   get expiryDateControl() {
-    return this.subscriptionGroup.controls['expiry_date'] as FormControl;
+    if (this.subscriptionGroup) {
+      return this.subscriptionGroup.controls['expiry_date'] as FormControl;
+    }
+    return null;
   }
 
   get subType() {
-    return this.subscriptionGroup.controls['type'] as FormControl;
+    if (this.subscriptionGroup) {
+      return this.subscriptionGroup.controls['type'] as FormControl;
+    }
+    return null;
   }
 
   get tierControl() {
-    return this.subscriptionGroup.controls['tier'] as FormControl;
+    if (this.subscriptionGroup) {
+      return this.subscriptionGroup.controls['tier'] as FormControl;
+    }
+    return null;
   }
 
   get quotaLimitControl() {
-    return (this.subscriptionGroup.controls['package_info'] as FormGroup)
-      .controls['quota_limit'] as FormControl;
+    if (this.subscriptionGroup) {
+      return (this.subscriptionGroup.controls['package_info'] as FormGroup)
+        .controls['quota_limit'] as FormControl;
+    }
+    return null;
   }
 
   get rateControl() {
-    return (this.subscriptionGroup.controls['package_info'] as FormGroup)
-      .controls['rate_limit'] as FormControl;
+    if (this.subscriptionGroup) {
+      return (this.subscriptionGroup.controls['package_info'] as FormGroup)
+        .controls['rate_limit'] as FormControl;
+    }
+    return null;
   }
 
   get quotaPerMinControl() {
-    return (this.subscriptionGroup.controls['package_info'] as FormGroup)
-    .controls['quota_permin'] as FormControl;
+    if (this.subscriptionGroup) {
+      return (this.subscriptionGroup.controls['package_info'] as FormGroup)
+        .controls['quota_permin'] as FormControl;
+    }
+    return null;
   }
+
+  // Form Helpers
 
   populateCompanyForm() {
     this.newCompanyForm = this.formBuilder.group({
@@ -201,16 +205,35 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  createGroup(item: IDropdown) {
-    return this.formBuilder.group({
-      ...item,
-      ...{
-        name: [item.label],
-      },
+  setTierDefaultSelection() {
+    const filteredTiers = this.tiers.filter(
+      (el) => el.type === this.subType?.value
+    );
+    let key = '';
+    if (filteredTiers.length) {
+      key = filteredTiers[0].key;
+    } else key = this.CUSTOM_KEY;
+
+    this.subscriptionGroup?.patchValue({
+      tier: key,
     });
   }
 
-  detectFormChanges() {
+  createTiers() {
+    if (this.packages) {
+      this.tiers = this.packages
+        .filter((p: any) => p.status === Active)
+        .map((el: any) => ({
+          key: el.package_name.toLowerCase(),
+          value: `${el.package_name} (Quota/day: 250 | Quota/min: 2 Call(s)/min)`,
+          type: el.type,
+        }));
+      this.setTierDefaultSelection();
+    }
+    this.isTiersLoading = false;
+  }
+
+  setCustomerId() {
     this.companyNameSubscription = <Subscription>(
       this.newCompanyForm
         .get('profile.company_name')
@@ -220,7 +243,18 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
           });
         })
     );
+  }
 
+  createGroup(item: IDropdown) {
+    return this.formBuilder.group({
+      ...item,
+      ...{
+        name: [item.label],
+      },
+    });
+  }
+
+  monitorSubscriptionTypeChanges() {
     this.subTypeSubscription = <Subscription>(
       this.newCompanyForm
         .get('subscription.type')
@@ -233,59 +267,79 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
           }
         })
     );
+  }
 
-    this.expirydateValidationSubscription = <Subscription>(
-      this.newCompanyForm
-        .get('subscription.exp_date_type')
-        ?.valueChanges.subscribe((type) => {
-          if (type === 'custom') {
-            this.expiryDateControl.setValidators([Validators.required]);
-          } else {
-            this.expiryDateControl.clearValidators();
-            this.subscriptionGroup.patchValue({
-              expiry_date: '',
-            });
-          }
-          this.expiryDateControl.updateValueAndValidity();
-        })
-    );
-
+  monitorTierChanges() {
     this.tierSubscription = <Subscription>(
-      this.subscriptionGroup.get('tier')?.valueChanges.subscribe((tierType) => {
-        if (tierType !== 'custom' && this.subType.value === 'community') {
-          this.subscriptionGroup.patchValue({
+      this.subscriptionGroup?.get('tier')?.valueChanges.subscribe((tierType) => {
+        if (
+          tierType !== this.CUSTOM_KEY &&
+          this.subType?.value === 'community'
+        ) {
+          this.subscriptionGroup?.patchValue({
             exp_date_type: this.expDates[0].key,
           });
         }
 
-        if (tierType === 'custom') {
-          this.quotaLimitControl.setValidators([Validators.required]);
+        if (tierType === this.CUSTOM_KEY) {
+          this.quotaLimitControl?.setValidators([Validators.required]);
         } else {
-          this.quotaLimitControl.clearValidators();
-          this.subscriptionGroup.get('package_info')?.patchValue({
-            quota_limit: 1
-          })
+          this.quotaLimitControl?.clearValidators();
+          this.subscriptionGroup?.get('package_info')?.patchValue({
+            quota_limit: 1,
+          });
         }
-        this.quotaLimitControl.updateValueAndValidity();
+        this.quotaLimitControl?.updateValueAndValidity();
       })
     );
+  }
 
-    this.subscriptionGroup.get('package_info.rate_limit')?.valueChanges.subscribe(ratePerMin => {
-      if (ratePerMin.value === 'custom') {
-        this.quotaPerMinControl.setValidators([Validators.required]);
-      } else {
-        this.quotaPerMinControl.clearValidators();
-        this.subscriptionGroup.get('package_info')?.patchValue({
-          quota_permin: ''
+  monitorRateLimitChanges() {
+    this.rateLimitSubscription = <Subscription>(
+      this.subscriptionGroup?.get('package_info.rate_limit')
+        ?.valueChanges.subscribe((ratePerMin: any) => {
+          if (ratePerMin.value === this.CUSTOM_KEY) {
+            this.quotaPerMinControl?.setValidators([Validators.required]);
+          } else {
+            this.quotaPerMinControl?.clearValidators();
+            this.subscriptionGroup?.get('package_info')?.patchValue({
+              quota_permin: '',
+            });
+          }
+          this.quotaPerMinControl?.updateValueAndValidity();
         })
-      }
-      this.quotaPerMinControl.updateValueAndValidity();
-    })
+    );
+  }
 
+  toggleExpiryDateValidation() {
+    this.expirydateValidationSubscription = <Subscription>(
+      this.newCompanyForm
+        .get('subscription.exp_date_type')
+        ?.valueChanges.subscribe((type) => {
+          if (type === this.CUSTOM_KEY) {
+            this.expiryDateControl?.setValidators([Validators.required]);
+          } else {
+            this.expiryDateControl?.clearValidators();
+            this.subscriptionGroup?.patchValue({
+              expiry_date: '',
+            });
+          }
+          this.expiryDateControl?.updateValueAndValidity();
+        })
+    );
+  }
+
+  detectFormChanges() {
+    this.setCustomerId();
+    this.monitorSubscriptionTypeChanges();
+    this.toggleExpiryDateValidation();
+    this.monitorTierChanges();
+    this.monitorRateLimitChanges();
   }
 
   isInvalidDate(d: any) {
-    return d.isBefore(moment().subtract(1, 'day'))
+    // Disable All previous dates
+    return d.isBefore(moment().subtract(1, 'day'));
   }
 
   onExpiryDateChange(event: any) {
@@ -296,13 +350,9 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
 
   onAddNewCompany() {}
 
+  // Step Change
   handleStepChange(step: StepModel) {
     this.activeStep = step;
-  }
-
-  regeneRateKey(event: Event) {
-    event.preventDefault();
-    this.fetchCustomerKey();
   }
 
   onNextStep() {

@@ -157,7 +157,7 @@
               >
                 <p>Unable to match key please regenerate Api Key.</p>
               </div>
-              <a href="#" (click)="regeneRateKey($event)"
+              <a href="#" (click)="reGenerateCustomerKey($event)"
                 >| Regenerate Api Key
                 <svg-icon src="assets/svg/regenerate-key-icon.svg"></svg-icon>
               </a>
@@ -170,7 +170,9 @@
             [tiers]="tiers"
           ></app-api-tier>
           <app-package-controls
-            *ngIf="newCompanyForm.get('subscription.tier')?.value === 'custom'"
+            *ngIf="
+              newCompanyForm.get('subscription.tier')?.value === CUSTOM_KEY
+            "
             formGroupName="package_info"
           ></app-package-controls>
 
@@ -201,10 +203,10 @@
           </div>
 
           <div
-            class="form__input form__select"
+            class="form__input form__select pos-rel error"
             *ngIf="
               newCompanyForm.get('subscription.exp_date_type')?.value ===
-              'custom'
+              CUSTOM_KEY
             "
           >
             <input
@@ -220,6 +222,15 @@
               (datesUpdated)="onExpiryDateChange($event)"
               [isInvalidDate]="isInvalidDate"
             />
+            <div
+              class="pos-abs error-align-field error-msg"
+              *ngIf="
+                !newCompanyForm.get('subscription.expiry_date')?.valid &&
+                newCompanyForm.get('subscription.expiry_date')?.touched
+              "
+            >
+              <p>Please choose expiry date.</p>
+            </div>
           </div>
         </ng-container>
       </div>
@@ -277,8 +288,8 @@
             classes="button-primary button-lg button-box-shadow"
             [isDisabled]="
               newCompanyForm.controls['subscription'].invalid ||
-              (rateControl.value.label === DEFAULT_LABEL &&
-                tierControl.value === 'custom')
+              (rateControl?.value.label === DEFAULT_LABEL &&
+                tierControl?.value === CUSTOM_KEY)
             "
             (clickHandler)="onNextStep()"
           ></app-button>

@@ -15,8 +15,8 @@
       ></app-dropdown>
     </div>
     <ng-container formGroupName="quota_interval">
-        <input
-         appClickOutside
+      <input
+        appClickOutside
         (clickOutside)="quotaDropdown.close()"
         #quotaDropdown="dropdown"
         appDropdown=".quota-interval-dropdown > .dropdown"
@@ -37,7 +37,7 @@
 
   <div
     [class.disabled]="!controls.get('quota_limit')?.value"
-    class="form__input form__select m-t-20"
+    class="form__input form__select m-t-20 pos-rel error"
   >
     <label>Rate limit / min</label>
     <div class="dropdown-trigger">
@@ -70,9 +70,15 @@
         class="select"
         formControlName="name"
       />
+      <div class="pos-abs error-align-field error-msg" *ngIf="rateControl.value.value === DEFAULT && rateControl.controls['name'].touched">
+        <p>Please Select Rate Limit.</p>
+      </div>
     </ng-container>
   </div>
-  <div class="form__input m-b-20" *ngIf="rateControl.value.value === 'custom'">
+  <div
+    class="form__input m-b-20"
+    *ngIf="rateControl.value.value === CUSTOM_KEY"
+  >
     <label>API quota / min</label>
     <app-range-btn formControlName="quota_permin"></app-range-btn>
   </div>
