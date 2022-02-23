@@ -11,6 +11,7 @@
   overflow-y: auto;
   transition: transform 150ms cubic-bezier(0, 0, 0.2, 1);
   transform-origin: right;
+  overflow: hidden;
 
   position: fixed;
   bottom: 0;
@@ -39,9 +40,10 @@
 
   &__content {
     margin-top: 2rem;
+    padding-bottom: 2rem;
     flex: 1;
     max-height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
     animation: fadeInOutForward 150ms cubic-bezier(0, 0, 0.2, 1);
   }
 

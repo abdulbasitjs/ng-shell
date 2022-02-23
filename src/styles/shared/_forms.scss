@@ -15,7 +15,7 @@ $form-width: 85%;
 }
 
 .form {
-  margin-top: 5rem;
+  margin-top: 8rem;
 
   &__input {
     display: flex;
@@ -163,6 +163,7 @@ $form-width: 85%;
       gap: 2rem;
       margin-left: 2px;
       width: $form-width;
+      position: relative;
 
       & .checkbox {
         margin-bottom: 0.7rem;
@@ -177,13 +178,13 @@ $form-width: 85%;
         position: absolute;
         // width: 11.7%;
         & > svg-icon {
-          right: 3.5rem;
+          right: -2.5rem;
           top: -1.1rem;
         }
       }
 
       & .dropdown {
-        right: 2.8rem!important;
+        right: -3.35rem!important;
         top: 1rem!important;
       }
     }
@@ -270,4 +271,16 @@ input.date-input {
   }
 
   cursor: pointer;
+}
+app-wizard {
+  position: fixed;
+  background: #fff;
+  width: 100%!important;
+  z-index: 1100;
+  padding-bottom: 4rem;
+}
+.form__select {
+  .error-align-field {
+    top: 3.8rem;
+  }
 }

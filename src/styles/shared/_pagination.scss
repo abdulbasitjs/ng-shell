@@ -48,13 +48,13 @@
           transition: transform 0.1s ease-in-out;
 
           & > li {
-            width: 100%;
+            //width: 100%;
             display: flex;
             justify-content: center;
             font-size: font-size(small);
             color: var(--color-quinary);
             font-weight: font-weight(regular);
-            padding: 0.5rem;
+            padding: 0.55rem;
             position: relative;
           }
 
