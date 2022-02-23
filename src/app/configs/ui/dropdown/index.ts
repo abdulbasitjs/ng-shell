@@ -8,14 +8,14 @@ export const settingDropdownList: IDropdown[] = [
   { label: 'Logout', value: 'logout', active: false },
 ];
 
-export const quotaInterval: IDropdown[] = [
+export const QuotaInterval: IDropdown[] = [
   { label: 'Daily', value: 'daily', active: false },
   { label: 'Weekly', value: 'weekly', active: false },
   { label: 'Monthly', value: 'monthly', active: false },
   { label: 'Yearly', value: 'yearly', active: false },
 ];
 
-export const rateLimitOptions: IDropdown[] = [
+export const RateLimitOptions: IDropdown[] = [
   { label: 'Select Rate Limit / Min', value: 'default', active: true },
   { label: 'Custom', value: 'custom', active: false },
 ];

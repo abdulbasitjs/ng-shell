@@ -128,50 +128,61 @@
           </div>
           <div class="form__input custom__input icon-container pos-rel error">
             <label>Company Key</label>
-            <input
-              type="text"
-              placeholder="123123123123123123132"
-              formControlName="company_key"
-              [class.error-field]="
-                !newCompanyForm.get('subscription.company_key')?.valid &&
-                newCompanyForm.get('subscription.company_key')?.touched
-              "
-            />
-            <div
-              class="pos-abs error-align-field error-msg"
+            <ng-template #loading>
+              <ng-container [ngTemplateOutlet]="loader"></ng-container>
+            </ng-template>
+            <ng-container
               *ngIf="
-                !newCompanyForm.get('subscription.company_key')?.valid &&
-                newCompanyForm.get('subscription.company_key')?.touched
+                !(customerService.getCustomerKeyFetchingObservable() | async);
+                then customerKey;
+                else loading
               "
-            >
-              <p>Unable to match key please regenerate Api Key.</p>
-            </div>
-            <a href="#"
-              >| Regenerate Api Key
-              <svg-icon src="assets/svg/regenerate-key-icon.svg"></svg-icon>
-            </a>
-          </div>
-          <div class="form__input radio">
-            <label>Api Tier</label>
-            <hr class="line" />
-            <label
-              *ngFor="let tier of tiers"
-              class="form__input--radio-container"
-            >
+            ></ng-container>
+            <ng-template #customerKey>
               <input
-                type="radio"
-                formControlName="tier"
-                [value]="tier.key"
-                [ngClass]="{
-                  '':
-                    !newCompanyForm.get('subscription.tier')?.valid &&
-                    newCompanyForm.get('subscription.tier')?.touched
-                }"
+                class="disabled"
+                type="text"
+                formControlName="company_key"
+                [class.error-field]="
+                  !newCompanyForm.get('subscription.company_key')?.valid &&
+                  newCompanyForm.get('subscription.company_key')?.touched
+                "
               />
-              <span>{{ tier.value }}</span>
-            </label>
+              <div
+                class="pos-abs error-align-field error-msg"
+                *ngIf="
+                  !newCompanyForm.get('subscription.company_key')?.valid &&
+                  newCompanyForm.get('subscription.company_key')?.touched
+                "
+              >
+                <p>Unable to match key please regenerate Api Key.</p>
+              </div>
+              <a href="#" (click)="reGenerateCustomerKey($event)"
+                >| Regenerate Api Key
+                <svg-icon src="assets/svg/regenerate-key-icon.svg"></svg-icon>
+              </a>
+            </ng-template>
           </div>
-          <div class="form__input radio">
+          <app-api-tier
+            [loading]="isTiersLoading"
+            [subType]="newCompanyForm.get('subscription.type')?.value"
+            formControlName="tier"
+            [tiers]="tiers"
+          ></app-api-tier>
+          <app-package-controls
+            *ngIf="
+              newCompanyForm.get('subscription.tier')?.value === CUSTOM_KEY
+            "
+            formGroupName="package_info"
+            [lastSlections]="getLastSelection()"
+          ></app-package-controls>
+          <div
+            class="form__input radio"
+            [class.disabled]="
+              newCompanyForm.get('subscription.type')?.value === 'community' &&
+              newCompanyForm.get('subscription.tier')?.value === 'default'
+            "
+          >
             <label>Expiration Date</label>
             <label
               *ngFor="let exp of expDates"
@@ -179,17 +190,46 @@
             >
               <input
                 type="radio"
-                formControlName="exp_date"
-                class="disabled"
+                formControlName="exp_date_type"
                 [value]="exp.key"
                 [ngClass]="{
                   'error-msg':
-                    !newCompanyForm.get('subscription.exp_date')?.valid &&
-                    newCompanyForm.get('subscription.exp_date')?.touched
+                    !newCompanyForm.get('subscription.exp_date_type')?.valid &&
+                    newCompanyForm.get('subscription.exp_date_type')?.touched
                 }"
               />
               <span>{{ exp.value }}</span>
             </label>
+          </div>
+          <div
+            class="form__input form__select pos-rel error"
+            *ngIf="
+              newCompanyForm.get('subscription.exp_date_type')?.value ===
+              CUSTOM_KEY
+            "
+          >
+            <input
+              formControlName="expiry_date"
+              type="text"
+              placeholder="Choose date"
+              ngxDaterangepickerMd
+              [locale]="expiryDateFormat"
+              [singleDatePicker]="true"
+              [autoApply]="true"
+              drops="up"
+              opens="left"
+              (datesUpdated)="onExpiryDateChange($event)"
+              [isInvalidDate]="isInvalidDate"
+            />
+            <div
+              class="pos-abs error-align-field error-msg"
+              *ngIf="
+                !newCompanyForm.get('subscription.expiry_date')?.valid &&
+                newCompanyForm.get('subscription.expiry_date')?.touched
+              "
+            >
+              <p>Please choose expiry date.</p>
+            </div>
           </div>
         </ng-container>
       </div>
@@ -197,24 +237,35 @@
         <ng-container formGroupName="exclude_classifier">
           <div class="form__input checkbox">
             <label class="m-b-10">Classifier List</label>
-            <label
-              *ngFor="let classifier of classifierList; let i = index"
-              class="form__input--checkbox-container"
-              formArrayName="classifier_list"
+            <ng-container
+              *ngIf="
+                !(customerService.isClassifierListIsFetching() | async);
+                else loader
+              "
             >
-              <input
-                type="checkbox"
-                [formControlName]="i"
-                [ngClass]="{
-                  'error-msg':
-                    !newCompanyForm.get('exclude_classifier.classifier_list')
-                      ?.valid &&
-                    newCompanyForm.get('exclude_classifier.classifier_list')
-                      ?.touched
-                }"
-              />
-              <span>{{ classifier.value }}</span>
-            </label>
+              <label
+                *ngFor="let classifier of classifiersListArray.controls; let i = index"
+                class="form__input--checkbox-container"
+                formArrayName="classifier_list"
+              >
+                <ng-container [formGroupName]="i">
+                  <input
+                    formControlName="modelKey"
+                    type="checkbox"
+                    [ngClass]="{
+                      'error-msg':
+                        !newCompanyForm.get(
+                          'exclude_classifier.classifier_list'
+                        )?.valid &&
+                        newCompanyForm.get('exclude_classifier.classifier_list')
+                          ?.touched
+                    }"
+                  />
+                  <span>{{ classifier.value.key }}</span>
+                </ng-container>
+              </label>
+            </ng-container>
+            <ng-template #elseTemplate> </ng-template>
           </div>
         </ng-container>
       </div>
@@ -245,7 +296,11 @@
           <app-button
             btnTitle="Next"
             classes="button-primary button-lg button-box-shadow"
-            [isDisabled]="newCompanyForm.controls['subscription'].invalid"
+            [isDisabled]="
+              newCompanyForm.controls['subscription'].invalid ||
+              (rateControl?.value.label === DEFAULT_LABEL &&
+                tierControl?.value === CUSTOM_KEY)
+            "
             (clickHandler)="onNextStep()"
           ></app-button>
         </div>
@@ -269,3 +324,16 @@
     </ng-container>
   </app-panel-footer>
 </app-panel>
+
+<ng-template #loader>
+  <ngx-skeleton-loader
+    count="1"
+    appearance="line"
+    [theme]="{
+      height: '4rem',
+      'background-color': '#3492c9',
+      opacity: '0.1'
+    }"
+    style="width: 85%"
+  ></ngx-skeleton-loader>
+</ng-template>

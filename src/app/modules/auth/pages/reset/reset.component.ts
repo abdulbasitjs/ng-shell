@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { LoaderService } from '@core/services/loader.service';
 import { UIMESSAGES } from '@configs/index';
@@ -25,7 +25,6 @@ export class ResetComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     public loaderService: LoaderService,
-    private router: Router,
     private route: ActivatedRoute
   ) {}
 
@@ -61,9 +60,5 @@ export class ResetComponent implements OnInit {
           }
         });
     } else return;
-  }
-
-  gotoLogin() {
-    this.router.navigate(['..', 'login'], { relativeTo: this.route });
   }
 }

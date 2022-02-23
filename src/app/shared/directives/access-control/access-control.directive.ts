@@ -36,10 +36,10 @@ export class AccessControlDirective implements OnInit {
       currentAccessControls.exclude_controls
     ) {
       const accessControls = currentAccessControls.exclude_controls;
-      const module = accessControls.find(
+      const excludedModule = accessControls.find(
         (access: any) => access.module_name === moduleType
       );
-      if (module) {
+      if (excludedModule) {
         this.vc.clear();
       } else this.vc.createEmbeddedView(this.templateRef);;
     }

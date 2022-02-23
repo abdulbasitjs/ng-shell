@@ -14,7 +14,6 @@
       z-index: $zindex-sticky;
     }
 
-
     &--headers,
     &--body {
       grid-column: 1 / -1;
@@ -88,10 +87,10 @@
     // Generic Style Applied on each tr
     & tr {
       display: grid;
-      grid-template-columns: repeat(
-        var(--customer-table-columns),
-        minmax(min-content, 1fr)
-      );
+      // grid-template-columns: repeat(
+      //   var(--customer-table-columns),
+      //   minmax(min-content, 1fr)
+      // );
       justify-items: start;
     }
 
@@ -106,8 +105,8 @@
     font-weight: font-weight(regular) !important;
   }
 
-  .noPointer {
-    cursor: not-allowed;
+  .active {
+    color: var(--color-primary);
   }
 
   .pointer {

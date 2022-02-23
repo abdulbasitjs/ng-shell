@@ -1,1 +1,8 @@
-<h1>hello portal</h1>
+<div class="portal">
+  <span
+    *ngFor="let p of permissions | keyvalue | portal"
+    class="portal--icon"
+    [style.background-image]="p.bgColor"
+    >{{ p.label }}</span
+  >
+</div>

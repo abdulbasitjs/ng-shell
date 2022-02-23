@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {
@@ -6,6 +6,7 @@ import {
   Row,
 } from '@shared/components/app-data-table/interfaces/datatable';
 import { UserManagementService } from '../../services/user-management.service';
+import { DataTableService } from '@shared/components/app-data-table/app-datatable.service';
 
 @Component({
   selector: 'app-users',
@@ -14,18 +15,22 @@ import { UserManagementService } from '../../services/user-management.service';
     class: 'user-management',
   },
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, AfterViewInit {
+  @ViewChild('portalCircle') pcTemplate!: TemplateRef<any>;
   usersDatatable!: DataTable;
-  users!: any;
   moduleSubcription!: Subscription;
   isModuleListLoaded = false;
-  isUseristLoaded!: boolean;
 
   constructor(
     public umService: UserManagementService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dtService: DataTableService
   ) {}
+
+  ngAfterViewInit(): void {
+    this.dtService.addTemplate('portalTemplate', this.pcTemplate);
+  }
 
   ngOnInit(): void {
     this.usersDatatable = this.umService.getUsersTableConfig();
@@ -34,22 +39,18 @@ export class UsersComponent implements OnInit {
         this.isModuleListLoaded = true;
       }
     });
-    this.getUsers();
+    this.getUsers(true);
   }
 
-  getUsers() {
-    this.isUseristLoaded = false;
-    this.umService.getUsers();
-  }
-
-  onAddNewCompany() {
-    this.router.navigate(['./add'], { relativeTo: this.route });
+  getUsers(isIntial?: boolean) {
+    this.umService.getUsers(isIntial);
   }
 
   handleHeaderClick([sort, order]: Array<any>) {
     this.umService.setSortingToStore(sort, order);
     const updated = {
       ...this.umService.userPayload,
+      page: 1,
       sort,
       order,
     };
@@ -134,5 +135,13 @@ export class UsersComponent implements OnInit {
     };
     this.umService.setUserPayload(updated);
     this.getUsers();
+  }
+
+  handleEnter(term: string) {
+    this.onSearchTerm(term);
+  }
+
+  handleEsc(term: string) {
+    this.onSearchTerm('');
   }
 }

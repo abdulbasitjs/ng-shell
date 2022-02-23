@@ -1,0 +1,112 @@
+<!-- Breadcrumbs Container  -->
+<div class="breadcrumb-container">
+  <div class="breadcrumbs">
+    <svg-icon
+      (click)="navigationService.back()"
+      src="assets/svg/breadcrumb-back-icon.svg"
+    ></svg-icon>
+    <ul class="breadcrumbs--list">
+      <li class="breadcrumbs--list__item">
+        <a href="#">My Profile</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Divider -->
+<div class="divider-container">
+  <div></div>
+</div>
+
+<!-- Section Title -->
+<app-section-title
+  class="section-title"
+  sectionTitle="Personal Information"
+></app-section-title>
+
+<!-- Action Container -->
+<div class="action-container">
+  <svg-icon routerLink="./edit" src="assets/svg/edit-icon.svg"></svg-icon>
+</div>
+
+<!-- Profile Container -->
+<div class="section-container">
+  <div class="section">
+    <p class="section--title">Full Name</p>
+    <ng-container
+      *ngIf="
+        profileService.isUserLoadingObservable() | async;
+        then loader;
+        else name
+      "
+    ></ng-container>
+    <ng-template #name>
+      <p class="section--name">{{ user?.name }}</p>
+    </ng-template>
+  </div>
+  <div class="section">
+    <p class="section--title">Email</p>
+    <ng-container
+      *ngIf="
+        profileService.isUserLoadingObservable() | async;
+        then loader;
+        else email
+      "
+    ></ng-container>
+    <ng-template #email>
+      <p class="section--name">{{ user?.email }}</p>
+    </ng-template>
+  </div>
+</div>
+
+<!-- Divider -->
+<div class="divider-container">
+  <div></div>
+</div>
+
+<!-- Section Title -->
+<app-section-title
+  class="section-title m-0"
+  sectionTitle="Permissions"
+></app-section-title>
+
+<div class="section-container">
+  <ng-container
+    *ngIf="
+      profileService.isUserLoadingObservable() | async;
+      then permissionLoader;
+      else permissions
+    "
+  >
+  </ng-container>
+  <ng-template #permissions>
+    <div class="section" *ngFor="let module of modules">
+      <p class="section--title">{{ module.text }}</p>
+      <div class="section--name">
+        <span>{{ module.label }}</span>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<router-outlet></router-outlet>
+
+<!-- Templates -->
+<ng-template #loader>
+  <ngx-skeleton-loader
+    count="1"
+    appearance="line"
+    [theme]="{
+      width: '20rem',
+      top: '1rem',
+      'background-color': '#3492c9',
+      opacity: '0.1'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>
+
+<ng-template #permissionLoader>
+  <div *ngFor="let i of [1, 2, 3, 4]">
+    <ng-container [ngTemplateOutlet]="loader"></ng-container>
+  </div>
+</ng-template>

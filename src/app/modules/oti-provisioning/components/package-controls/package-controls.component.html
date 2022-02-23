@@ -1,0 +1,87 @@
+<ng-container [formGroup]="controls">
+  <div class="form__input form__select">
+    <label>Quota Interval</label>
+    <div class="dropdown-trigger">
+      <svg-icon
+        src="assets/svg/select-dropdown-field-icon.svg"
+        class="svg-dropdown-style"
+        [class]="quotaDropdown.isOpen ? 'dropdown-open' : ''"
+      >
+      </svg-icon>
+      <app-dropdown
+        class="quota-interval-dropdown"
+        [items]="quotaIntervals"
+        (onSelect)="handleQuotaIntervalSelect($event); quotaDropdown.close()"
+      ></app-dropdown>
+    </div>
+    <ng-container formGroupName="quota_interval">
+      <input
+        appClickOutside
+        (clickOutside)="quotaDropdown.close()"
+        #quotaDropdown="dropdown"
+        appDropdown=".quota-interval-dropdown > .dropdown"
+        readonly
+        type="text"
+        class="select"
+        formControlName="name"
+      />
+    </ng-container>
+  </div>
+  <div class="form__input">
+    <label>Quota Limit</label>
+    <app-range-btn
+      (onValueChange)="changeValueHandler($event)"
+      formControlName="quota_limit"
+    ></app-range-btn>
+  </div>
+
+  <div
+    [class.disabled]="!controls.get('quota_limit')?.value"
+    class="form__input form__select m-t-20 pos-rel error"
+  >
+    <label>Rate limit / min</label>
+    <div class="dropdown-trigger">
+      <app-dropdown
+        [direction]="dropdownDirection.direction"
+        class="rate-limit-dropdown"
+        [items]="rateLimitPerMinList"
+        (onSelect)="handleRatesLimitSelect($event); intervalDropdown.close()"
+      >
+      </app-dropdown>
+      <svg-icon
+        src="assets/svg/select-dropdown-field-icon.svg"
+        class="svg-dropdown-style"
+        [class]="intervalDropdown.isOpen ? 'dropdown-open' : ''"
+      >
+      </svg-icon>
+    </div>
+    <ng-container formGroupName="rate_limit">
+      <input
+        dropdownDirection
+        selector=".rate-limit-dropdown > .dropdown"
+        [isOpen]="intervalDropdown.isOpen"
+        #dropdownDirection="dropdownDirection"
+        appClickOutside
+        (clickOutside)="intervalDropdown.close()"
+        appDropdown=".rate-limit-dropdown > .dropdown"
+        #intervalDropdown="dropdown"
+        readonly
+        type="text"
+        class="select"
+        formControlName="name"
+      />
+      <div class="pos-abs error-align-field error-msg" *ngIf="rateControl.value.value === DEFAULT">
+        <p>Please Select Rate Limit.</p>
+      </div>
+    </ng-container>
+  </div>
+  <div
+    class="form__input m-b-20"
+    *ngIf="rateControl.value.value === CUSTOM_KEY"
+  >
+    <label>API quota / min</label>
+    <app-range-btn formControlName="quota_permin"></app-range-btn>
+  </div>
+</ng-container>
+
+<!-- rateControl.controls['name'].touched -->

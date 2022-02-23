@@ -1,86 +1,104 @@
 <div app-loader [isLoading]="loaderService.getLoader() | async"></div>
-<section
-  class="auth--form__section login"
-  [class.loading]="loaderService.getLoader() | async"
->
-  <app-auth-section
-    title="Single Sign On Portal"
-    description="Enter your details below"
-  ></app-auth-section>
-  <form class="form" [formGroup]="loginForm">
-    <div class="form__input">
-      <label class="email-label">Email Address</label>
-      <div
-        class="icon-container pos-rel"
-        [class.error]="
-          !loginForm.get('email')?.valid && loginForm.get('email')?.touched
-        "
-      >
-        <svg-icon [src]="'assets/svg/Email.svg'"></svg-icon>
-        <input
-          class="fw"
-          type="text"
-          formControlName="email"
-          placeholder="Enter email address"
-        />
+
+<ng-container *ngIf="!hasError; else error">
+  <section
+    class="auth--form__section login"
+    [class.loading]="loaderService.getLoader() | async"
+  >
+    <app-auth-section
+      title="Single Sign On Portal"
+      description="Enter your details below"
+    ></app-auth-section>
+    <form
+      (ngSubmit)="onLogin()"
+      id="loginForm"
+      class="form"
+      [formGroup]="loginForm"
+    >
+      <div class="form__input">
+        <label class="email-label">Email Address</label>
         <div
-          class="pos-abs error-msg"
-          *ngIf="
+          class="icon-container pos-rel"
+          [class.error]="
             !loginForm.get('email')?.valid && loginForm.get('email')?.touched
           "
         >
-          <p>{{ UIMSG.PROVIDE_EMAIL_USERNAME }}</p>
+          <svg-icon [src]="'assets/svg/Email.svg'"></svg-icon>
+          <input
+            class="fw"
+            type="text"
+            formControlName="email"
+            placeholder="Enter email address"
+          />
+          <div
+            class="pos-abs error-msg"
+            *ngIf="
+              !loginForm.get('email')?.valid && loginForm.get('email')?.touched
+            "
+          >
+            <p>{{ UIMSG.PROVIDE_EMAIL_USERNAME }}</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="form__input password">
-      <label class="password-label">Password</label>
-      <div
-        class="icon-container pos-rel"
-        [class.error]="
-          !loginForm.get('password')?.valid &&
-          loginForm.get('password')?.touched
-        "
-      >
-        <svg-icon src="assets/svg/Password.svg"></svg-icon>
-        <input
-          class="fw"
-          type="password"
-          placeholder="Enter your password"
-          formControlName="password"
-          [class.error-msg]="
-            !loginForm.get('password')?.valid &&
-            loginForm.get('password')?.touched
-          "
-        />
+      <div class="form__input password">
+        <label class="password-label">Password</label>
         <div
-          class="pos-abs error-msg"
-          *ngIf="
+          class="icon-container pos-rel"
+          [class.error]="
             !loginForm.get('password')?.valid &&
             loginForm.get('password')?.touched
           "
         >
-          <p>{{ UIMSG.PROVIDE_PASSWORD }}</p>
+          <svg-icon src="assets/svg/Password.svg"></svg-icon>
+          <input
+            class="fw"
+            type="password"
+            placeholder="Enter your password"
+            formControlName="password"
+            [class.error-msg]="
+              !loginForm.get('password')?.valid &&
+              loginForm.get('password')?.touched
+            "
+          />
+          <div
+            class="pos-abs error-msg"
+            *ngIf="
+              !loginForm.get('password')?.valid &&
+              loginForm.get('password')?.touched
+            "
+          >
+            <p>{{ UIMSG.PROVIDE_PASSWORD }}</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="checkbox-container">
-      <div class="form__input--checkbox-container auth--form__checkbox">
-        <input type="checkbox" id="remember-me" formControlName="isRemember" />
-        <label for="remember-me">Remember me</label>
-        <span></span>
-        <a routerLink="../forgot">Forgot password?</a>
+      <div class="checkbox-container">
+        <div class="form__input--checkbox-container auth--form__checkbox">
+          <input
+            type="checkbox"
+            id="remember-me"
+            formControlName="isRemember"
+          />
+          <label for="remember-me">Remember me</label>
+          <span></span>
+          <a routerLink="../forgot">Forgot password?</a>
+        </div>
       </div>
+    </form>
+    <div class="form__action">
+      <app-button
+        formName="loginForm"
+        btnTitle="Sign in"
+        width="100%"
+        [isDisabled]="loginForm.invalid || (loaderService.getLoader() | async)"
+        classes="button-primary button-lg"
+        type="submit"
+      ></app-button>
     </div>
-  </form>
-  <div class="form__action">
-    <app-button
-      btnTitle="Sign in"
-      width="100%"
-      [isDisabled]="loginForm.invalid || (loaderService.getLoader() | async)"
-      classes="button-primary button-lg"
-      (clickHandler)="onLogin()"
-      type="submit"
-    ></app-button>
-  </div>
-</section>
+  </section>
+</ng-container>
+
+<ng-template #error>
+  <app-auth-action (onAction)="hasError = false;" icon="assets/svg/EmailSent.svg" title="Sign in One Portal">
+    <p class="error">Your access has been revoked. Please contact SlashNext Administrator</p>
+  </app-auth-action>
+</ng-template>

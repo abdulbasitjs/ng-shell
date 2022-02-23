@@ -6,12 +6,20 @@ export const OTI_DASHBOARD_KEY = 'oti-dashboard';
 export const RTPD_PROVISIONING_KEY = 'rtpd-provisioning';
 export const RTPD_DASHBOARD_KEY = 'rtpd-dashboard';
 export const USER_MANAGEMENT_KEY = 'user-management';
+export const USER_PROFILE_KEY = 'user-profile';
 
 export const SSORolesMappingOfServer: any = {
   [OTI_DASHBOARD_KEY]: 'oti-db',
   [OTI_PROVISIONING_KEY]: 'oti-pp',
   [RTPD_DASHBOARD_KEY]: 'rtpd-db',
   [RTPD_PROVISIONING_KEY]: 'rtpd-pp',
+};
+
+export const SSORolesReverseMappingOfServer: any = {
+  'oti-pp': 'OTI Provisioning',
+  'oti-db': 'OTI Dashboard',
+  'rtpd-pp': 'RTPD Provisioning',
+  'rtpd-db': 'RTPD Dashboard'
 };
 
 export const ProjectAccessControls: IAccessControls = {

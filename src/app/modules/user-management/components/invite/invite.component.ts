@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UIMESSAGES, quotaInterval } from '@configs/index';
+import { UIMESSAGES } from '@configs/index';
 import { UserManagementService } from '../../services/user-management.service';
 import { IModulesResponse } from '../../models/modules-response.model';
 import { LoaderService } from '@core/services/loader.service';
@@ -19,7 +19,6 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   UIMSG = UIMESSAGES;
   isPanelOpen: boolean = true;
   inviteUserForm!: FormGroup;
-  quotaIntervalList = quotaInterval;
   modulesList!: IModulesResponse[];
   selectedRoles!: Array<any>;
   hasSelectedAnyRole: boolean = false;
@@ -31,6 +30,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   userSubscription!: Subscription;
 
   sendingInviteSubscription!: Subscription;
+  isInviteClicked = false;
   shouldRenderSuccessScreeen = false;
 
   constructor(
@@ -43,7 +43,6 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    this.sendingInviteSubscription.unsubscribe();
     this.routerSubscription.unsubscribe();
     this.overlayService.hideOverlay();
   }
@@ -59,12 +58,6 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       email: [null, [Validators.required, Validators.email]],
       permissions: this.formBuilder.array([]),
     });
-
-    // this.sendingInviteSubscription = this.umService
-    //   .sendingInviteObservable()
-    //   .subscribe((status) => {
-    //     if (!status) this.onClose();
-    //   });
 
     this.routerSubscription = this.route.params.subscribe((param) => {
       this.editMode = param['key'];
@@ -115,6 +108,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   }
 
   onInviteUser() {
+    this.isInviteClicked = true;
     const { full_name: name, email } = this.inviteUserForm.value;
     let payload = {
       name,
@@ -137,10 +131,12 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         .updateUser({ ...this.currentUser, ...payload, permission })
         .subscribe((d) => {
           this.shouldRenderSuccessScreeen = true;
+          this.isInviteClicked = false;
         });
     } else {
       this.umService.sendInvite({ ...payload, permission }).subscribe((d) => {
         this.shouldRenderSuccessScreeen = true;
+        this.isInviteClicked = false;
       });
     }
   }

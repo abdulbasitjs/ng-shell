@@ -8,6 +8,7 @@ import { ChangeColorDirective } from './change-color/change-color.directive';
 import { PlaceholderDirective } from './placeholder/placeholder.directive';
 import { DigitOnlyDirective } from './digit-only/digit-only.directive';
 import { RerenderDirective } from './app-rerender/rerender.directive';
+import { DropdownDirectionDirective } from './direction/direction.directive';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { RerenderDirective } from './app-rerender/rerender.directive';
     ChangeColorDirective,
     PlaceholderDirective,
     DigitOnlyDirective,
-    RerenderDirective
+    RerenderDirective,
+    DropdownDirectionDirective
   ],
   imports: [CommonModule],
   exports: [
@@ -29,7 +31,8 @@ import { RerenderDirective } from './app-rerender/rerender.directive';
     ChangeColorDirective,
     PlaceholderDirective,
     DigitOnlyDirective,
-    RerenderDirective
+    RerenderDirective,
+    DropdownDirectionDirective
   ],
 })
 export class DirectivesModule {}

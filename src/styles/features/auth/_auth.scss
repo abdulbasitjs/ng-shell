@@ -91,6 +91,13 @@
           // margin-bottom: 1rem;
         }
 
+        &--description > .error {
+          font-size: font-size(normal);
+          color: var(--danger);
+          font-weight: font-weight(light);
+          line-height: 1;
+        }
+
         & > form {
           margin-top: 3rem;
           flex-grow: 1;
@@ -128,8 +135,6 @@
       @extend %sec-form-email-password;
       @extend %sec-icon-container;
       @extend %sec-form-action;
-
-
     }
   }
 

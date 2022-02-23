@@ -44,6 +44,7 @@
     background: var(--color-primary-light);
   }
 }
+
 .button-tertiary {
   background: var(--color-secondary);
 
@@ -51,7 +52,6 @@
     background: var(--color-primary-light);
   }
 }
-
 
 .button-full {
   width: 100%;
@@ -65,6 +65,7 @@
 }
 
 .button-default {
+  background-color: transparent;
   & > span {
     font-size: font-size(regular);
     color: var(--color-primary);
@@ -76,5 +77,5 @@
   }
 }
 .button-box-shadow {
-  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.20);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }

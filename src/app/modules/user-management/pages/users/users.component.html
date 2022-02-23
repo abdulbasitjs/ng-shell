@@ -1,3 +1,7 @@
+<ng-template #portalCircle let-permissions>
+  <app-portal [permissions]="permissions"></app-portal>
+</ng-template>
+
 <app-section-title
   class="section-title"
   sectionTitle="User Management"
@@ -5,8 +9,11 @@
 <article class="components">
   <app-search
     (onSearch)="onSearchTerm($event)"
+    (onEnter)="handleEnter($event)"
+    (onEscape)="handleEsc($event)"
     placeHolder="Search with Full Name or Email"
     class="search-component"
+    [class.disabled]="umService.isUserListLoadingObservable() | async"
   ></app-search>
   <app-button
     class="button-component"
@@ -30,6 +37,7 @@
   >
   </app-datatable-headers>
   <app-datatable-rows
+    [columnsTemplate]="usersDatatable.headers.columnsTemplate"
     [isLoading]="umService.isUserListLoadingObservable() | async"
     [pageSize]="(umService.getPaginationConfigObservable() | async)?.pageSize"
     [rows]="(umService.getUsersObservable() | async)?.items"
@@ -52,4 +60,3 @@
 </app-pagination>
 
 <router-outlet></router-outlet>
-<!-- (umService.getUsersObservable() | async)?.items -->
