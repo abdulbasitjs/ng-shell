@@ -33,7 +33,7 @@ $modalColor: var(--color-black);
     opacity: 0;
     transition: all 0.3s;
 
-    padding: 2rem 3rem 0 2rem;
+    padding: 2rem 2rem 0 2rem;
 
     &--header {
       position: relative;
@@ -43,7 +43,7 @@ $modalColor: var(--color-black);
       gap: 0.8rem;
 
       & > p {
-        font-size: font-size(normalFix);
+        font-size: font-size(regularFix);
         color: $modalColor;
         font-weight: font-weight(medium);
       }
@@ -55,7 +55,7 @@ $modalColor: var(--color-black);
       & > svg-icon {
         position: absolute;
         top: -0.5rem;
-        right: -1.5rem;
+        right: -0.5rem;
 
         & > svg > g > g[fill] {
           fill: var(--color-modal-color);
