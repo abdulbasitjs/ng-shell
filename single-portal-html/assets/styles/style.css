@@ -1,0 +1,217 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    font-size: 62.5%;
+  }
+  
+  body {
+    font-family: "Roboto", sans-serif;
+    line-height: 1.9;
+    background-color: var(--color-secondary);
+  }
+  
+  li {
+    list-style: none;
+  }
+  
+  a:link,
+  a:visited {
+    text-decoration: none;
+    color: var(--color-secondary);
+  }
+  
+  i[appSvg] {
+    display: flex;
+    color: white;
+    position: relative;
+    font-style: normal;
+    cursor: pointer;
+  }
+
+
+
+  /*--background colors css--*/
+  .primary-bg-color {background-color: #2E79A6;}
+  .secondary-bg-color {background-color:rgba(74, 124, 255, .10)}
+  .tertiary-bg-color {background-color:rgba(36, 161, 72, .10)}
+  .quaternary-bg-color {background-color: rgba(255, 131, 43, .10)}
+  .quinary-bg-color {background-color: rgba(238, 83, 150, .10a)}
+  .senary-bg-color {background-color: #3492C9;}
+
+
+
+  /*--border left css--*/
+  .primary-bdr-left-color {border-left: #4A7CFF 5px solid;}
+  .secondary-bdr-left-color {border-left: #24A148 5px solid;}
+  .tertiary-bdr-left-color {border-left: #FF832B 5px solid;}
+  .quaternary-bdr-left-color {border-left: #EE5396 5px solid;}
+
+
+
+  /*--font colors css--*/
+  .primary-font-color {color: #3492C9;}
+  .secondary-font-color {color: #434343;}
+  .tertiary-font-color {color: #FFFFFF;}
+  .quaternary-font-color {color: #000000;}
+  .quinary-font-color {color: #4A7CFF;}
+  .senary-font-color {color: #24A148;}
+  .senary-font-color-light {color: #98D686;}
+  .septanry-font-color {color: #FF832B;}
+  .octonary-font-color {color: #4589FF;}
+  .nonary-font-color {color: #EE5396;}
+  .nonary-font-color-light {color: #FF7E82;}
+
+
+  
+
+
+  .container {                           /*--grid area dashbord--*/
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 7rem 11.1rem 29rem auto;
+      height: 100%;;
+      
+  }
+  .set-container {
+      margin-right: 1.5rem;
+      box-shadow: 1px 0px 8px 0px rgba(0,0,0,0.1);
+        -webkit-box-shadow: 1px 0px 8px 0px rgba(0,0,0,0.1);
+        -moz-box-shadow: 1px 0px 8px 0px rgba(0,0,0,0.1);
+
+  }
+
+  
+
+
+  /*-- utilities Classes --*/
+
+  .flex {display: flex;}
+  .grid {display: grid;}
+  .inline-block {display: inline-block;}
+  .block {display: block;}
+  .table {display: table;}
+  .table-cell {display: table-cell;}
+  .space-inbetween {justify-content: space-between;}
+  .space-around {justify-content: space-around;}
+  .space-stretch {justify-content: stretch;}
+  .flex-wrap {flex-wrap: wrap;}
+  .flex-column {flex-direction:column;}
+  .flex-row {flex-direction:row;}
+  .flex-grow-default {flex-grow: 1;}
+    
+
+
+
+  /*--feature classes --*/
+
+  .header {
+      grid-column: 1 / -1;
+  }
+  .action-bar {
+      grid-column: 1 / -1;
+  }
+  .graph-stats {
+      grid-column: 1 / -1;
+  }
+  .bars-graph {
+      grid-column: 1 / -1;
+  }
+
+
+
+  .logo-dashboard {
+    font-size: 2rem;
+    color:#fff;
+    line-height: 7rem;
+  }
+  .logo-dashboard span {
+    font-weight: 400;
+  }
+
+  .action-space {padding: 1.6rem 0 6rem 0;}
+
+  .tabs-menu {
+    align-items: flex-start;
+  }
+  .tabs-menu ul {
+    list-style: none;
+    border-radius: 4px;
+    border-width: 1px;
+    border: #3492C9 1px solid;
+  }
+  .tabs-menu ul li {
+      border-right: #3492C9 1px solid;
+  }
+  .tabs-menu ul li a {
+    color: #3492C9;
+    font-size: 1.4rem;
+    font-weight: 500;
+    display: inline-block;
+    padding: 1rem 1.5rem;
+  }
+  .tabs-menu ul li a:hover {
+    background-color: #3492C9;
+    color: #fff;
+  }
+  .tabs-menu ul li a.active {
+    background-color: #3492C9;
+    color: #fff;
+  }
+  .tabs-menu ul li:last-child {
+      border-right: none;
+  }
+  .update-dashboard {
+    font-size: 1.4rem;
+    line-height: 3rem;
+    justify-content: end;
+    padding-bottom:2.7rem;
+  }
+  .update-dashboard p {
+    padding-right:1.4rem;
+  }
+  .dashboard-action-icons i {
+      padding-right: .8rem;
+  }
+  .dashboard-action-icons i:last-child {
+      padding-right: 0px;
+  }
+  .action-label label {
+      font-size: 1.2rem;
+      font-weight: 500;
+  }
+  .action-label label span {
+      background: #3492C9;
+      border-radius: 1rem;
+      font-size: 1.1rem;
+      line-height: 2rem;
+      color: #fff;
+      font-weight: 300;
+      padding: .5rem 1rem;
+  }
+  .title-header-block h3 {
+      color: #000000;
+      font-size: 1.4rem;
+      font-weight: 500;
+      line-height: 4.5rem;
+      margin: 0 1rem;
+  }
+  .stats-block {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 2rem 1.5rem;
+  }
+  .title-content-block h5 {
+      font-size: 1.4rem;
+      font-weight: 500;
+      line-height: 1.6rem;
+  }
+  .title-content-block h4 {
+      font-size: 1.8rem;
+      font-weight: 500;
+      line-height: 2.2rem;
+  }
