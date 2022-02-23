@@ -15,7 +15,7 @@ $form-width: 85%;
 }
 
 .form {
-  margin-top: 5rem;
+  margin-top: 8rem;
 
   &__input {
     display: flex;
@@ -271,4 +271,16 @@ input.date-input {
   }
 
   cursor: pointer;
+}
+app-wizard {
+  position: fixed;
+  background: #fff;
+  width: 100%!important;
+  z-index: 1100;
+  padding-bottom: 4rem;
+}
+.form__select {
+  .error-align-field {
+    top: 3.8rem;
+  }
 }
