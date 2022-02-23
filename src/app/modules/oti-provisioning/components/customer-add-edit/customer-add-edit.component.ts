@@ -358,7 +358,6 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
       this.activeStep = this.steps[index - 1];
       this.activeStep.isComplete = false;
     }
-    console.log(this.newCompanyForm.value);
   }
 
   onSave() {

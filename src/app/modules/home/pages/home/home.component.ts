@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthenticationService } from '@core/authentication/authentication.service';
 import { DashboardCard } from '@shared/components/app-dashboard-cards/interfaces/dashboard-card';
 import { Subscription } from 'rxjs';
 import { SSORoles } from '@configs/index';
 import { HeaderService } from '@core/header/header.service';
+import { ProfileService } from 'src/app/modules/user-profile/services/profile-management.service';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   roles!: SSORoles;
 
   constructor(
-    private authService: AuthenticationService,
+    public pmService : ProfileService,
     private headerService: HeaderService,
     private route: ActivatedRoute
   ) {
@@ -28,12 +28,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const { name = '' } = this.authService.getUser();
-    this.username = name;
   }
 
   handleDashboardSelect(item: DashboardCard) {
-    console.log(item);
+    // console.log(item);
   }
 
   ngOnDestroy(): void {

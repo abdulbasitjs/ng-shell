@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
-import { User, UserProfile } from './user.model';
+import { User } from './user.model';
 import { StorageService } from '@core/services/storage.service';
 import { StoragePrefix } from '@core/models/storage-prefix.enum';
 import { SSOResponse } from '@core/http/http-response.model';
@@ -10,14 +10,14 @@ import { JwtHelperService } from '@core/services/jwt-helper.service';
 import { catchError, of, Subscription, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { EP } from '@configs/index';
+import { ProfileService } from '../../modules/user-profile/services/profile-management.service';
+
+const USER_PROFILE_STORAGE_KEY = `${StoragePrefix.SSO}user-profile`;
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService implements OnDestroy {
   _user$ = new BehaviorSubject<User | null>(null);
   userKey = `${StoragePrefix.SSO}user`;
   userSusbscription!: Subscription;
-
-  private userProfile$: BehaviorSubject<UserProfile | null> =
-    new BehaviorSubject<UserProfile | null>(null);
 
   fakePermissions = {
     'oti-pp': { l: 'Admin', r: 'admin' },
@@ -30,7 +30,8 @@ export class AuthenticationService implements OnDestroy {
     private http: HttpClient,
     private storage: StorageService,
     private jwtHelperService: JwtHelperService,
-    private router: Router
+    private router: Router,
+    private pmService: ProfileService
   ) {
     this.userSusbscription = this.storage.changes.subscribe((status) => {
       if (status.value === -1) {
@@ -48,10 +49,6 @@ export class AuthenticationService implements OnDestroy {
     return this._user$.asObservable();
   }
 
-  updateUserProfile(data: UserProfile) {
-    // this.storage.set()
-  }
-
   // Login
   login(email: string, password: string, isRemeber: boolean) {
     return this.http
@@ -62,19 +59,15 @@ export class AuthenticationService implements OnDestroy {
           const { code, data } = response;
           if (code === 200) {
             this.storage.set(this.userKey, data);
-            // data.permissions = this.fakePermissions;
             const { permissions, token, refreshToken } = data;
             this._user$.next({
               permissions,
               token,
               refreshToken,
             });
-            this.userProfile$.next({
-              name: this.getUser().name,
-              email: this.getUser().email,
-              permission: permissions,
+            this.pmService.getMe().subscribe(d => {
+              this.router.navigateByUrl('/');
             });
-            this.router.navigateByUrl('/');
           }
         }),
         catchError((err) => {
@@ -101,6 +94,7 @@ export class AuthenticationService implements OnDestroy {
   logout() {
     if (this.getToken()) this.storage.remove(this.userKey);
     this._user$.next(null);
+    this.storage.remove(USER_PROFILE_STORAGE_KEY);
     this.router.navigateByUrl('/auth/login');
   }
 

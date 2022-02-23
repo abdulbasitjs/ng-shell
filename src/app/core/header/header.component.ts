@@ -10,6 +10,7 @@ import {
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { RolesService } from '@core/services/roles.service';
 import { Subscription } from 'rxjs';
+import { ProfileService } from 'src/app/modules/user-profile/services/profile-management.service';
 import { HeaderService, Module } from './header.service';
 
 @Component({
@@ -24,12 +25,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   headerSubscription!: Subscription;
 
   settingList: Array<IDropdown> = settingDropdownList;
+  user: { name: string, email: string } = { name: '', email: '' };
 
   constructor(
     public headerService: HeaderService,
     public authService: AuthenticationService,
     public rolesService: RolesService,
     private router: Router,
+    public pmService: ProfileService
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +52,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (!this.rolesService.hasPermission(this.exptectedRoles)) {
         this.settingList = this.settingList.filter(el => el.value !== USER_MANAGEMENT_KEY)
       }
+
+      this.pmService.getUserProfile();
   }
 
   ngOnDestroy(): void {

@@ -1,19 +1,20 @@
 import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EP, SSORolesReverseMappingOfServer } from '@configs/index';
-import { AuthenticationService } from '@core/authentication/authentication.service';
 import { SSOResponse } from '@core/http/http-response.model';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, of, tap } from 'rxjs';
-import { IUserItem } from '../../user-management/user-management.model';
+import { IUserItem, UserProfile } from '../../user-management/user-management.model';
 import { IModulesRolesResponse } from '../../user-management/models/modules-response.model';
+import { StorageService } from '@core/services/storage.service';
+import { StoragePrefix } from '@core/models/storage-prefix.enum';
 
 type ChangePassword = {
   currentPassword: string;
   password: string;
   passwordConfirmation: string;
 };
-
+const USER_PROFILE_STORAGE_KEY = `${StoragePrefix.SSO}user-profile`;
 @Injectable({
   providedIn: 'root',
 })
@@ -22,23 +23,45 @@ export class ProfileService {
     new BehaviorSubject<boolean>(false);
   private currentUser$: BehaviorSubject<IUserItem | null> =
     new BehaviorSubject<IUserItem | null>(null);
+  // private userProfile$: BehaviorSubject<UserProfile | null> =
+  //   new BehaviorSubject<UserProfile | null>(null);
 
   constructor(
     private http: HttpClient,
-    private auth: AuthenticationService,
-    private toasterService: ToastrService
+    private toasterService: ToastrService,
+    private storageService: StorageService
   ) {}
 
   // Endpoints
   getMe() {
     this.isUserDetailLoading$.next(true);
-    this.http.post(EP.Me, {}).subscribe((res) => {
-      this.isUserDetailLoading$.next(false);
-      const response = <SSOResponse>res;
-      if (response.code == HttpStatusCode.Ok) {
-        this.currentUser$.next(response.data);
-      }
-    });
+    return this.http.post(EP.Me, {}).pipe(
+      tap((res) => {
+        this.isUserDetailLoading$.next(false);
+        const response = <SSOResponse>res;
+        if (response.code == HttpStatusCode.Ok) {
+          this.currentUser$.next(response.data);
+          this.storageService.set(USER_PROFILE_STORAGE_KEY, response.data);
+        }
+      })
+    );
+  }
+
+  getUserProfileObservable() {
+    return this.currentUser$.asObservable();
+  }
+
+  getUserProfile() {
+    const userProfile = this.storageService.get(USER_PROFILE_STORAGE_KEY);
+    if (userProfile && userProfile.name) {
+      this.currentUser$.next(userProfile);
+    }
+    else {
+      this.getMe().subscribe((d: any) => {
+        console.log(d);
+        this.currentUser$.next(d);
+      })
+    }
   }
 
   updateProfile(name: string) {
@@ -54,7 +77,7 @@ export class ProfileService {
         const response = <SSOResponse>res;
         if (response.code === HttpStatusCode.Ok) {
           this.currentUser$.next(response.data);
-          // this.auth._user$.n
+          this.storageService.set(USER_PROFILE_STORAGE_KEY, response.data);
         }
         return res;
       })
@@ -66,7 +89,6 @@ export class ProfileService {
       tap((res) => {
         const response = <SSOResponse>res;
         if (response.code === HttpStatusCode.Ok) {
-          console.log(response);
           this.currentUser$.next(response.data);
         }
         return res;

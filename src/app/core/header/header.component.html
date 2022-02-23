@@ -26,10 +26,9 @@
 <div class="header__user">
   <div class="header__user--info">
     <h3 class="header__user--info__title">
-      {{ authService.getUser()?.name }}
+      {{ (pmService.getCurrentUserObservable()| async)?.name }}
     </h3>
-    <!-- ({{ authService.getUser()?.email }}) -->
-    <h4 class="header__user--info__role">{{ authService.getUser()?.email }}</h4>
+    <h4 class="header__user--info__role">{{ (pmService.getCurrentUserObservable()| async)?.email }}</h4>
   </div>
   <div class="header__user--settings">
     <div class="dropdown-trigger">
