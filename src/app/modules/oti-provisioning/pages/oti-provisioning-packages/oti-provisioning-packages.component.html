@@ -4,14 +4,14 @@
 ></app-section-title>
 
 <article class="components">
-  <app-search
+  <!-- <app-search
     (onSearch)="onSearchTerm($event)"
     (onEnter)="handleEnter($event)"
     (onEscape)="handleEsc($event)"
     placeHolder="Search with Package Name"
     class="search-component"
     [class.disabled]="packageService.isPackageListLoadingObservable() | async"
-  ></app-search>
+  ></app-search> -->
   <app-button
     class="button-component"
     icon="assets/svg/add-button-icon.svg"
@@ -40,7 +40,7 @@
     [pageSize]="
       (packageService.getPaginationConfigObservable() | async)?.pageSize
     "
-    [rows]="packageService.getPackagesObservable() | async"
+    [rows]="(packageService.getPackagesObservable() | async)?.items"
     (onRow)="handleRow($event)"
     [headers]="packagesDatatable.headers.list"
   ></app-datatable-rows>

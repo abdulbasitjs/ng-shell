@@ -1,6 +1,7 @@
 import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EP } from '@configs/index';
+import { ProjectStatusCode } from '@core/http/http-codes.enum';
 import { SSOResponse } from '@core/http/http-response.model';
 import { StoragePrefix } from '@core/models/storage-prefix.enum';
 import { StorageService } from '@core/services/storage.service';
@@ -10,8 +11,8 @@ import {
 } from '@shared/components/app-data-table/interfaces/datatable';
 import { Pagination } from '@shared/components/app-pagination/interfaces/pagination';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, catchError, map, of } from 'rxjs';
-import { IGetPackagesPayload } from '../models/package.model';
+import { BehaviorSubject, catchError, map, of, tap } from 'rxjs';
+import { IGetPackagesPayload, IPackageItem } from '../models/package.model';
 
 const OTIPackagePaginationStoreKey = `${StoragePrefix.OTIProvisioning}package.pagination.pageSize`;
 const OTIPackageSortStoreKey = `${StoragePrefix.OTIProvisioning}package.sorting`;
@@ -29,6 +30,18 @@ export class PackageService {
   private isPackageCreating$: BehaviorSubject<number> =
     new BehaviorSubject<number>(-1);
   public packagePayload: any = {};
+  private isPackageDetailLoading$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+
+  private currentPackage$: BehaviorSubject<any> = new BehaviorSubject<any>(
+    null
+  );
+
+  public isInEditMode$: BehaviorSubject<string> = new BehaviorSubject<string>(
+    ''
+  );
+
+  private package$: BehaviorSubject<any> = new BehaviorSubject<any>({});
 
   constructor(
     private http: HttpClient,
@@ -40,8 +53,7 @@ export class PackageService {
       this.getPackagesPaginationConfig()
     );
 
-    const { orderBy = '', sortName = '' } =
-      this.getSortingFromStore() || {};
+    const { orderBy = '', sortName = '' } = this.getSortingFromStore() || {};
 
     this.packagePayload = {
       page: 1,
@@ -57,33 +69,25 @@ export class PackageService {
     if (isInitial) this.reset();
     this.isPackageListIsLoading$.next(true);
     this.http
-      .get(EP.Packages, {
-        params: {
-          _page: this.packagePayload.page,
-          _limit: this.packagePayload.limit,
-          _sort: this.packagePayload.sort,
-          _order: this.packagePayload.order,
-          q: this.packagePayload.search,
-        },
-        observe: 'response',
-      })
+      .post(EP.Packages, this.packagePayload)
       .pipe(
         map((res) => {
+          const response = <SSOResponse>res;
           this.isPackageListIsLoading$.next(false);
-          // if (response.code === HttpStatusCode.Ok) {
-          // this.totalItems = +response.data['totalItems'];
-          this.totalItems = +res.headers.get('X-Total-Count')!;
-          const totalPages = this.getTotalPages();
-          this.paginationConfigSubject$.next(
-            this.getPackagesPaginationConfig(
-              this.packagePayload.page,
-              this.packagePayload.limit,
-              totalPages
-            )
-          );
-          this.packages$.next(res.body);
-          this.isPackageCreating$.next(-1);
-          // }
+          if (response.code === HttpStatusCode.Ok) {
+            this.totalItems = +response.data['totalItems'];
+            const totalPages = this.getTotalPages();
+            this.paginationConfigSubject$.next(
+              this.getPackagesPaginationConfig(
+                this.packagePayload.page,
+                this.packagePayload.limit,
+                totalPages
+              )
+            );
+            response.data.items = this.mapPackages(response.data.items);
+            this.packages$.next(response.data);
+            this.isPackageCreating$.next(-1);
+          }
           return res;
         }),
         catchError((error) => {
@@ -95,6 +99,89 @@ export class PackageService {
         })
       )
       .subscribe((d) => {});
+  }
+
+  mapPackages(items: IPackageItem[]) {
+    return items.map((el: IPackageItem) => ({
+      ...el,
+      quotaPermin: this.createQuotaPerMinRate(el.perMinLimit, el.threshold),
+    }));
+  }
+
+  createPackage(payload: any) {
+    this.isPackageCreating$.next(1);
+    return this.http.post(EP.CreatePackage, payload).pipe(
+      tap((res) => {
+        const response = <SSOResponse>res;
+        this.isPackageCreating$.next(0);
+        if (response.code === HttpStatusCode.Ok) {
+          this.toasterService.success(
+            'Package Created Successfully!🚀🚀🚀',
+            'Success!'
+          );
+          this.getPackages();
+        } else if (response.code === ProjectStatusCode.ValidationFailed) {
+          const errors = Object.keys(response.message)
+            .map((el: any) => response.message[el])
+            .flat();
+          errors.forEach((e) => {
+            this.toasterService.error(e, 'Validation Failed', {
+              disableTimeOut: true,
+            });
+          });
+          return of({ error: true });
+        } else {
+          console.log(res);
+        }
+        return res;
+      })
+    );
+  }
+
+  updatePackage(payload: any) {
+    this.isPackageCreating$.next(1);
+    return this.http.post(EP.UpdatePackage, payload).pipe(
+      tap((res) => {
+        const response = <SSOResponse>res;
+        this.isPackageCreating$.next(0);
+        if (response.code === HttpStatusCode.Ok) {
+          this.toasterService.success(
+            'Package Update Successfully!🚀🚀🚀',
+            'Success!'
+          );
+          console.log(response);
+        } else if (response.code === ProjectStatusCode.ValidationFailed) {
+          const errors = Object.keys(response.message)
+            .map((el: any) => response.message[el])
+            .flat();
+          errors.forEach((e) => {
+            this.toasterService.error(e, 'Validation Failed', {
+              disableTimeOut: true,
+            });
+          });
+          return of({ error: true });
+        }
+        return res;
+      })
+    );
+  }
+
+  getPackage(id: string) {
+    this.isPackageDetailLoading$.next(true);
+    this.http.post(EP.PackageDetail, { id }).subscribe((res) => {
+      this.isPackageDetailLoading$.next(false);
+      const response = <SSOResponse>res;
+      if (response.code == HttpStatusCode.Ok) {
+        response.data = {
+          ...response.data,
+          quotaPermin: this.createQuotaPerMinRate(
+            response.data.perMinLimit,
+            response.data.threshold
+          ),
+        };
+        this.currentPackage$.next(response.data);
+      }
+    });
   }
 
   // Helper Methods
@@ -109,14 +196,17 @@ export class PackageService {
   }
 
   setPageSize(size: number) {
-    this.paginationConfigSubject$.next(this.getPackagesPaginationConfig(1, size));
+    this.paginationConfigSubject$.next(
+      this.getPackagesPaginationConfig(1, size)
+    );
     this.storageService.set(OTIPackagePaginationStoreKey, size);
   }
 
   getPageSize() {
-    const limit =
-      +this.storageService.get(OTIPackagePaginationStoreKey) || 10;
-    this.paginationConfigSubject$.next(this.getPackagesPaginationConfig(1, limit));
+    const limit = +this.storageService.get(OTIPackagePaginationStoreKey) || 10;
+    this.paginationConfigSubject$.next(
+      this.getPackagesPaginationConfig(1, limit)
+    );
     return +this.storageService.get(OTIPackagePaginationStoreKey);
   }
 
@@ -129,12 +219,18 @@ export class PackageService {
   }
 
   reset() {
-    this.paginationConfigSubject$.next(this.getPackagesPaginationConfig(1, 10, 1));
+    this.paginationConfigSubject$.next(
+      this.getPackagesPaginationConfig(1, 10, 1)
+    );
     const updated = {
       ...this.packagePayload,
       page: 1,
     };
     this.setPackagePayload(updated);
+  }
+
+  createQuotaPerMinRate(ratePerMinLimit: number, threshold: number) {
+    return `${ratePerMinLimit} Calls / Min (${threshold || 'Custom'}X)`;
   }
 
   // Observables
@@ -155,12 +251,16 @@ export class PackageService {
     return this.isPackageCreating$.asObservable();
   }
 
-  getUserDetailLoadingObservable() {
-    // return this.isUserDetailLoading$.asObservable();
+  getPackageDetailLoadingObservable() {
+    return this.isPackageDetailLoading$.asObservable();
   }
 
-  getUserObservable() {
-    // return this.currentUser$.asObservable();
+  getPackageObservable() {
+    return this.currentPackage$.asObservable();
+  }
+
+  getEditModeObservable() {
+    return this.isInEditMode$.asObservable();
   }
 
   getInviteSendingObserVable() {
@@ -170,8 +270,7 @@ export class PackageService {
   // Configs
   getPackagesDataTableConfig(): DataTable {
     const { sortName = '', orderBy = Order.Default } =
-    this.getSortingFromStore() || {};
-
+      this.getSortingFromStore() || {};
     const configurations = {
       get totalColumns() {
         return configurations.headers.list.length;
@@ -184,13 +283,44 @@ export class PackageService {
           }, '');
         },
         list: [
-          { name: 'Sr. #', accessor: 'id' },
-          { name: 'Package Name', accessor: 'package_name', isSortable: true, renderIcon: true },
-          { name: 'Quota Interval', accessor: 'quota_interval' },
-          { name: 'Quota Limit', accessor: 'quota_limit' },
-          { name: 'Quota/min (Rate)', accessor: 'quota_permin' },
-          { name: 'Status', accessor: 'status' },
-          { name: 'Created at', accessor: 'created', isSortable: true, renderIcon: true },
+          { name: 'Sr. #', accessor: 'id', width: '10rem' },
+          {
+            name: 'Package Name',
+            accessor: 'name',
+            isSortable: true,
+            renderIcon: true,
+          },
+          {
+            name: 'Quota Interval',
+            accessor: 'quotaType',
+            isSortable: true,
+            renderIcon: true,
+          },
+          {
+            name: 'Quota Limit',
+            accessor: 'quotaLimit',
+            isSortable: true,
+            renderIcon: true,
+          },
+          {
+            name: 'Quota/min (Rate)',
+            accessor: 'quotaPermin',
+            isSortable: true,
+            renderIcon: true,
+            width: '2fr',
+          },
+          {
+            name: 'Status',
+            accessor: 'status',
+            isSortable: true,
+            renderIcon: true,
+          },
+          {
+            name: 'Created at',
+            accessor: 'createdAt',
+            isSortable: true,
+            renderIcon: true,
+          },
         ],
         sortBy: sortName,
         order: orderBy,

@@ -10,29 +10,52 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StepModel } from '@shared/components/app-wizard/interfaces/wizard';
 import { CustomerService } from '../../services/customer.service';
 import { PackageService } from '../../services/package.service';
-import { Subscription, map } from 'rxjs';
+import { Subscription, map, BehaviorSubject } from 'rxjs';
 import * as moment from 'moment';
 
-import { ExpDates, SubscriptionTypes, IDropdown, IRadio } from '@configs/index';
+import {
+  ExpDates,
+  SubscriptionTypes,
+  IDropdown,
+  IRadio,
+  QuotaType,
+} from '@configs/index';
+import { IPackageItem } from '../../models/package.model';
+import { LoaderService } from '@core/services/loader.service';
+import { ProjectStatusCode } from '@core/http/http-codes.enum';
+import { SSOResponse } from '@core/http/http-response.model';
+import { OverlayService } from '@core/services/overlay.service';
 
 const Active = 'Active';
 const DefaultSelction = {
   label: '',
-  value: 'custom',
+  value: 'default',
   active: false,
+  index: 0,
 };
 const COMPANY_PREFIX = 'SNXCUST-';
+const RATE_LIMIT_LEN = 12;
 
 @Component({
   selector: 'app-customer-add-edit',
   templateUrl: './customer-add-edit.component.html',
 })
 export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
+  attempts = 0;
+  editMode = false;
   CUSTOM_KEY = 'custom';
   DEFAULT_LABEL = 'Select Rate Limit / Min';
+  intervalMapping: any = {
+    day: 'daily',
+    week: 'weekly',
+    month: 'monthly',
+    year: 'yearly',
+  };
+
   subscriptionTypes = SubscriptionTypes;
   expDates = ExpDates;
-  classifierList = [{ key: '', value: '' }];
+  classifierList = [];
+  errors: Array<string> = [];
 
   steps!: StepModel[];
   isPanelOpen: boolean = true;
@@ -46,23 +69,30 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   tierSubscription!: Subscription;
   rateLimitSubscription!: Subscription;
   classifierListSubscription!: Subscription;
+  routerSubscription!: Subscription;
+  customerSubscription!: Subscription;
 
-  packages!: [];
-  tiers = [{ key: '', value: '', type: '' }];
+  packages!: IPackageItem[];
+  tiers = [{ key: '', value: '', type: '', id: '', enablexpdate: -1 }];
   expiryDateFormat = {
     format: 'YYYY-MM-DD',
     displayFormat: 'YYYY-MM-DD',
   };
   isTiersLoading = false;
+  shouldEnableExpiryDate = false;
 
   newCompanyForm!: FormGroup;
+  customer: any;
+  public lastSelection$: BehaviorSubject<any> = new BehaviorSubject<any>({});
 
   constructor(
     public customerService: CustomerService,
     public packageService: PackageService,
+    public loaderService: LoaderService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private overlayService: OverlayService
   ) {}
 
   // Life Cycle Hooks
@@ -78,16 +108,27 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
     if (this.tierSubscription) this.tierSubscription.unsubscribe();
     if (this.classifierListSubscription)
       this.classifierListSubscription.unsubscribe();
+    this.overlayService.hideOverlay();
+    if (this.routerSubscription) this.routerSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
+    this.overlayService.showOverlay();
     this.steps = this.customerService.getAddNewCompanySteps();
     this.activeStep = this.steps[0];
     this.getPackges();
     this.populateCompanyForm();
-    this.fetchCustomerKey();
     this.detectFormChanges();
     this.getClassifiers();
+    this.getLastSelection();
+    this.routerSubscription = this.route.params.subscribe((param) => {
+      this.editMode = param['mode'] === 'edit';
+      if (this.editMode) {
+        this.initializeEditMode();
+      } else {
+        this.fetchCustomerKey();
+      }
+    });
   }
 
   // Endpoints
@@ -112,22 +153,132 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
     this.packagesSubscription = this.packageService
       .getPackagesObservable()
       .subscribe((packages) => {
-        this.packages = packages;
-        this.createTiers();
+        if (packages) {
+          this.packages = packages.items;
+          this.createTiers();
+        }
       });
   }
 
   getClassifiers() {
     this.customerService.getClassifierList();
     this.customerService.getClassifiersObservable().subscribe((list) => {
-      this.classifierList = list;
-      list.map((el: any, i: number) => {
-        this.classifiersListArray.push(this.createGroupForCheckBox(el, i));
-      });
+      if (!this.classifierList.length) {
+        this.classifierList = list;
+        list.map((el: any, i: number) => {
+          this.classifiersListArray.push(this.createGroupForCheckBox(el, i));
+        });
+      }
     });
   }
 
   // Form Helpers
+
+  initializeEditMode() {
+    this.customerSubscription = this.customerService
+      .getCustomerObservable()
+      .subscribe((customer) => {
+        if (customer) {
+          this.customer = customer;
+          this.populateEditForm();
+        }
+      });
+  }
+
+  populateEditForm() {
+    this.populateProfileSection();
+    this.populateSubscriptionSection();
+    this.populatePackageSection();
+    this.populateClassifierSection();
+  }
+
+  populateProfileSection() {
+    this.newCompanyForm.get('profile')?.patchValue({
+      company_name: this.customer?.companyName,
+      customer_name: this.customer?.customerName,
+      email: this.customer?.recipients,
+      address: this.customer?.address,
+      contact_no: this.customer?.contactNo,
+      salesforce_id: this.customer?.salesforceId,
+    });
+  }
+
+  populateSubscriptionSection() {
+    const expTypeIdx = this.customer?.expiryDate === '2090-12-12' ? 0 : 1;
+    this.newCompanyForm.get('subscription')?.patchValue({
+      company_id: this.customer?.custId,
+      type: this.customer?.subscriptionType,
+      company_key: this.customer?.key,
+      exp_date_type: this.expDates[expTypeIdx].key,
+      expiry_date: {
+        startDate: moment(this.customer?.expiryDate),
+        endDate: moment(this.customer?.expiryDate),
+      },
+    });
+
+    // Need to fix later, we should merge the observables.
+    setTimeout(() => {
+      this.setTierDefaultSelection(this.customer?.packageInformation?.id);
+    }, 0);
+  }
+
+  populatePackageSection() {
+    const { name, quotaType, perMinLimit, threshold, quotaLimit, quotaPermin } =
+      this.customer?.packageInformation;
+
+    let payload: any = {
+      quota_limit: quotaLimit,
+    };
+
+    const rate_limit = {
+      label: '',
+      active: true,
+      value: '',
+      index: threshold,
+    };
+
+    if (threshold === 0) {
+      payload.quota_permin = perMinLimit;
+      rate_limit.index = RATE_LIMIT_LEN - 1;
+    }
+
+    if (this.packageGroup) {
+      this.packageGroup?.patchValue(payload);
+    }
+
+    this.lastSelection$.next({
+      quota_interval: {
+        label: '',
+        value: this.intervalMapping[quotaType],
+        active: true,
+      },
+      rate_limit,
+    });
+
+    console.log(
+      {
+        label: '',
+        value: this.intervalMapping[quotaType],
+        active: true,
+      },
+      rate_limit
+    );
+  }
+
+  populateClassifierSection() {
+    const cf = (this.customer?.custExculClassifiers).split(',');
+    if (cf.length) {
+      cf.forEach((el: string) => {
+        this.classifiersListArray.controls.forEach((ctrl) => {
+          if (ctrl.value.key === el) {
+            ctrl.patchValue({
+              modelKey: true,
+            });
+          }
+        });
+      });
+    }
+  }
 
   populateCompanyForm() {
     this.newCompanyForm = this.formBuilder.group({
@@ -136,8 +287,8 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
         customer_name: [null, Validators.required],
         email: [null, [Validators.required, Validators.email]],
         address: [null],
-        contact_no: [null],
-        salesforce_id: [null],
+        contact_no: [''],
+        salesforce_id: [''],
       }),
       subscription: this.formBuilder.group({
         company_id: ['', Validators.required],
@@ -159,13 +310,17 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  setTierDefaultSelection() {
+  setTierDefaultSelection(tierId = '') {
     const filteredTiers = this.tiers.filter(
       (el) => el.type === this.subType?.value
     );
     let key = '';
     if (filteredTiers.length) {
-      key = filteredTiers[0].key;
+      key = tierId || filteredTiers[0].id;
+    } else key = this.CUSTOM_KEY;
+
+    if (tierId && filteredTiers.some((el) => el.id === tierId)) {
+      key = tierId;
     } else key = this.CUSTOM_KEY;
 
     this.subscriptionGroup?.patchValue({
@@ -176,11 +331,13 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   createTiers() {
     if (this.packages) {
       this.tiers = this.packages
-        .filter((p: any) => p.status === Active)
-        .map((el: any) => ({
-          key: el.package_name.toLowerCase(),
-          value: `${el.package_name} (Quota/day: 250 | Quota/min: 2 Call(s)/min)`,
+        .filter((p: IPackageItem) => p.status === Active)
+        .map((el: IPackageItem) => ({
+          key: el.name.toLowerCase(),
+          value: `${el.name} ${el.quotaPermin}`,
           type: el.type,
+          id: el.id,
+          enablexpdate: el.enablexpdate,
         }));
       this.setTierDefaultSelection();
     }
@@ -209,7 +366,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   createGroupForCheckBox(item: IRadio, index: number) {
     return this.formBuilder.group({
       ...item,
-      modelKey: index === 5,
+      modelKey: false,
     });
   }
 
@@ -263,8 +420,11 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
           }
 
           if (tierType === this.CUSTOM_KEY) {
+            this.shouldEnableExpiryDate = true;
             this.quotaLimitControl?.setValidators([Validators.required]);
           } else {
+            const tier = this.tiers.find((el) => el.id === tierType);
+            this.shouldEnableExpiryDate = !!tier?.enablexpdate;
             this.quotaLimitControl?.clearValidators();
             if (!this.tierControl?.pristine) this.resetPackInfoGroup();
           }
@@ -282,8 +442,12 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
             this.quotaPerMinControl?.setValidators([Validators.required]);
           } else {
             this.quotaPerMinControl?.clearValidators();
+            this.attempts += 1;
             this.subscriptionGroup?.get('package_info')?.patchValue({
-              quota_permin: '',
+              quota_permin:
+                this.editMode && this.attempts === 1
+                  ? this.customer?.packageInformation?.perMinLimit
+                  : '',
             });
           }
           this.quotaPerMinControl?.updateValueAndValidity();
@@ -329,12 +493,12 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   }
 
   getLastSelection() {
-    const { quota_interval, rate_limit } =
-      this.newCompanyForm.value.subscription.package_info;
-    return {
+    const { quota_interval = '', rate_limit = '' } =
+      this.packageGroup?.value || {};
+    this.lastSelection$.next({
       quota_interval,
       rate_limit,
-    };
+    });
   }
 
   onAddNewCompany() {}
@@ -345,29 +509,119 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   }
 
   onNextStep() {
+    this.attempts += 1;
     const index = this.activeStep.stepIndex;
     this.activeStep.isComplete = true;
     if (index < this.steps.length) {
       this.activeStep = this.steps[index];
     }
+    if (this.editMode && this.attempts > 1) this.getLastSelection();
   }
 
   onPreviousStep() {
+    this.attempts += 1;
     const index = this.activeStep.stepIndex - 1;
     if (index > 0) {
       this.activeStep = this.steps[index - 1];
       this.activeStep.isComplete = false;
     }
+    if (this.editMode && this.attempts > 1) this.getLastSelection();
   }
 
   onSave() {
-    console.log(this.newCompanyForm.value);
-    // this.onClose();
+    const payload = this.createPayload();
+    if (this.editMode) {
+      payload.id = this.customer?.id;
+      payload.sendDailyStats = "no";
+      this.customerService.updateCompany(payload).subscribe((d) => {
+        const res = <SSOResponse>d;
+        if (res.code !== ProjectStatusCode.ValidationFailed) {
+          this.onClose();
+        }
+      });
+    } else {
+      this.customerService.createCompany(payload).subscribe((d) => {
+        const res = <SSOResponse>d;
+        if (res.code !== ProjectStatusCode.ValidationFailed) {
+          this.onClose();
+        }
+      });
+    }
   }
 
   onClose() {
     this.isPanelOpen = false;
-    this.router.navigate(['../'], { relativeTo: this.route });
+    if (this.editMode) {
+      this.router.navigate(['../../'], { relativeTo: this.route });
+    } else {
+      this.router.navigate(['../'], { relativeTo: this.route });
+    }
+  }
+
+  createPayload() {
+    const {
+      profile: {
+        company_name: companyName,
+        customer_name: customerName,
+        email: recipients,
+        address,
+        contact_no: contactNo,
+        salesforce_id: salesforceId,
+      },
+      subscription: {
+        company_id: custId,
+        type: subscriptionType,
+        company_key: key,
+        expiry_date,
+        exp_date_type,
+        tier: packageId,
+        package_info,
+      },
+      exclude_classifier: { classifier_list },
+    } = this.newCompanyForm.value;
+
+    let payload: any = {
+      companyName,
+      customerName,
+      recipients,
+      address,
+      contactNo,
+      salesforceId,
+      custId,
+      subscriptionType,
+      key,
+    };
+    payload.expiryDate =
+      exp_date_type === 'never'
+        ? '2090-12-12'
+        : expiry_date.endDate.format('YYYY-MM-DD');
+    payload.packageId = packageId === this.CUSTOM_KEY ? 0 : packageId;
+    if (packageId === this.CUSTOM_KEY) {
+      let threashold = 0;
+      let {
+        quota_limit: quotaLimit,
+        quota_interval: { name: quotaType },
+        rate_limit: { value: rName },
+        quota_permin: perMinLimit,
+      } = package_info;
+
+      if (rName !== this.CUSTOM_KEY) {
+        [perMinLimit, threashold] = rName.match(/\d+/g);
+      }
+
+      payload = {
+        ...payload,
+        quotaLimit,
+        quotaType: QuotaType[quotaType],
+        perMinLimit,
+        threshold: threashold,
+      };
+    }
+    payload.custExculClassifiers = classifier_list
+      .filter((el: any) => !!el.modelKey)
+      .map((el: any) => el.value)
+      .join(',');
+    return payload;
   }
 
   // Controls
@@ -395,6 +649,13 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   get tierControl() {
     if (this.subscriptionGroup) {
       return this.subscriptionGroup.controls['tier'] as FormControl;
+    }
+    return null;
+  }
+
+  get packageGroup() {
+    if (this.subscriptionGroup) {
+      return this.subscriptionGroup.controls['package_info'] as FormGroup;
     }
     return null;
   }

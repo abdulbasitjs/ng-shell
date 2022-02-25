@@ -1,21 +1,107 @@
 export const OTIPPEndpoints = [
   {
-    baseUrl: 'local',
+    baseUrl: 'sso',
     name: 'customers',
+    alias: 'customers',
     api: '',
-    path: '',
+    path: 'abubakar/one-portal-api/public/api/v1/oti/',
     runAt: 'onDemand',
   },
   {
-    baseUrl: 'local',
-    name: 'packages',
+    baseUrl: 'sso',
+    name: 'generatekey',
+    alias: 'generatekey',
     api: '',
-    path: '',
+    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    runAt: 'onDemand',
+  },
+  {
+    baseUrl: 'sso',
+    name: 'create',
+    alias: 'createCompany',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    runAt: 'onDemand',
+  },
+  {
+    baseUrl: 'sso',
+    name: 'update',
+    alias: 'updateCompany',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    runAt: 'onDemand',
+  },
+  {
+    baseUrl: 'sso',
+    name: 'enabledisable',
+    alias: 'changeStatus',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    runAt: 'onDemand',
+  },
+  {
+    baseUrl: 'sso',
+    name: 'view',
+    alias: 'customerDetail',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    runAt: 'onDemand',
+  },
+  {
+    baseUrl: 'sso',
+    name: 'delete',
+    alias: 'deleteCompany',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    runAt: 'onDemand',
+  },
+
+
+  {
+    baseUrl: 'sso',
+    name: 'packages',
+    alias: 'packages',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/oti/',
+    runAt: 'onDemand',
+  },
+  {
+    baseUrl: 'sso',
+    name: 'create',
+    alias: 'createPackage',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/oti/packages/',
+    runAt: 'onDemand',
+  },
+  {
+    baseUrl: 'sso',
+    name: 'view',
+    alias: 'packageDetail',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/oti/packages/',
+    runAt: 'onDemand',
+  },
+  {
+    baseUrl: 'sso',
+    name: 'update',
+    alias: 'updatePackage',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/oti/packages/',
     runAt: 'onDemand',
   },
 ];
 
 export const OTIPPEndpointMapping = {
   Customers: 'customers',
-  Packages: 'packages'
+  GenerateKey: 'generatekey',
+  CreateCustomer: 'createCompany',
+  UpdateCopmany: 'updateCompany',
+  CustomerDetail: 'customerDetail',
+  CustomerChangeStatus: 'changeStatus',
+  DeleteCompany: 'deleteCompany',
+
+  Packages: 'packages',
+  CreatePackage: 'createPackage',
+  PackageDetail: 'packageDetail',
+  UpdatePackage: 'updatePackage'
 };

@@ -4,23 +4,25 @@ export interface IGetCustomersPayload {
   order?: string;
   sort?: string;
   search?: string;
-  q?: string;
+}
+
+export enum SubscriptionType {
+  Enterprise = 'enterprise',
+  Community = 'community',
+}
+
+export enum Status {
+  Active = 'active',
+  Suspended = 'suspended',
+  Expired = 'expired',
 }
 
 export interface ICustomer {
-  _id: {
-    $oid: '61e538370dcd1627ea423cea';
-  };
-  customerName: 'RTPD_OTI_BCKEND_SCANNING';
-  companyName: 'RTPD_OTI_BCKEND_SCANNING';
-  subscriptionType: 'enterprise';
-  isEnable: 'Y';
-  createdAt: '2021-09-28';
-  custOrders: {
-    currentOrder: {
-      packageName: 'Custom';
-    };
-  };
-  status: 'Suspended';
-  packageName: 'Custom';
+  id: string;
+  customerName: string;
+  companyName: string;
+  subscriptionType: SubscriptionType;
+  status: Status;
+  createdAt: string;
+  packageName: string;
 }

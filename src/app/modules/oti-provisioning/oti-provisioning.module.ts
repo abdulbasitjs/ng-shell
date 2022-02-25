@@ -32,6 +32,7 @@ import { ApiTierComponent } from './components/api-tier/api-tier.component';
 import { AppPackageControlsComponent } from './components/package-controls/package-controls.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { DirectivesModule } from '@shared/directives/directives.module';
+import { PipesModule } from '@shared/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { DirectivesModule } from '@shared/directives/directives.module';
     AngularSvgIconModule,
     AppSearchModule,
     NgxSkeletonLoaderModule,
-    DirectivesModule
+    DirectivesModule,
+    PipesModule
   ],
 })
 export class OtiProvisioningModule {}

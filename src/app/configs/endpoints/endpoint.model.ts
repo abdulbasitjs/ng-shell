@@ -6,4 +6,5 @@ export interface EndpointConfig {
   noToken?: boolean;
   runAt: string;
   hideLoader?: boolean;
+  alias: string;
 }

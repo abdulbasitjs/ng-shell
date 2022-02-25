@@ -20,8 +20,11 @@ const routes: Routes = [
         children: [{ path: 'add', component: AppCustomerAddEditComponent }],
       },
       {
-        path: 'customers/:name',
+        path: 'customers/:id',
         component: OtiProvisioningCustomerDetailComponent,
+        children: [
+          { path: 'company/:mode', component: AppCustomerAddEditComponent },
+        ],
       },
       {
         path: 'packages',
@@ -29,8 +32,11 @@ const routes: Routes = [
         children: [{ path: 'add', component: AppPackageAddEditComponent }],
       },
       {
-        path: 'packages/:name',
+        path: 'packages/:id',
         component: OtiProvisioningPackageDetailComponent,
+        children: [
+          { path: 'package/:mode', component: AppPackageAddEditComponent },
+        ],
       },
     ],
   },

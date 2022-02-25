@@ -170,18 +170,17 @@
             [tiers]="tiers"
           ></app-api-tier>
           <app-package-controls
+            direction="up"
             *ngIf="
               newCompanyForm.get('subscription.tier')?.value === CUSTOM_KEY
             "
             formGroupName="package_info"
-            [lastSlections]="getLastSelection()"
+            [lastSlections]="lastSelection$ | async"
+            [isLoading]="(loaderService.getLoader() | async)"
           ></app-package-controls>
           <div
             class="form__input radio"
-            [class.disabled]="
-              newCompanyForm.get('subscription.type')?.value === 'community' &&
-              newCompanyForm.get('subscription.tier')?.value === 'default'
-            "
+            [class.disabled]="!shouldEnableExpiryDate"
           >
             <label>Expiration Date</label>
             <label
@@ -234,7 +233,9 @@
         </ng-container>
       </div>
       <div app-wizard-template *ngSwitchCase="'3'" [step]="activeStep">
-        <ng-container formGroupName="exclude_classifier">
+        <ng-container
+          formGroupName="exclude_classifier"
+        >
           <div class="form__input checkbox">
             <label class="m-b-10">Classifier List</label>
             <ng-container
@@ -244,7 +245,10 @@
               "
             >
               <label
-                *ngFor="let classifier of classifiersListArray.controls; let i = index"
+                *ngFor="
+                  let classifier of classifiersListArray.controls;
+                  let i = index
+                "
                 class="form__input--checkbox-container"
                 formArrayName="classifier_list"
               >
@@ -265,7 +269,6 @@
                 </ng-container>
               </label>
             </ng-container>
-            <ng-template #elseTemplate> </ng-template>
           </div>
         </ng-container>
       </div>
@@ -315,7 +318,10 @@
           ></app-button>
           <app-button
             btnTitle="Save"
-            [isDisabled]="newCompanyForm.controls['exclude_classifier'].invalid"
+            [isDisabled]="
+              newCompanyForm.controls['exclude_classifier'].invalid ||
+              (loaderService.getLoader() | async)
+            "
             classes="button-primary button-lg button-box-shadow"
             (clickHandler)="onSave()"
           ></app-button>
@@ -336,4 +342,15 @@
     }"
     style="width: 85%"
   ></ngx-skeleton-loader>
+</ng-template>
+
+<ng-template #successScreen>
+  <p class="success-screen">Company Profile has been created successfully.</p>
+</ng-template>
+
+<ng-template #errorScreen>
+  <div class="alert danger-alert" *ngFor="let error of errors">
+    <h3>{{ error }}</h3>
+    <a class="close">&times;</a>
+  </div>
 </ng-template>

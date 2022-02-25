@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { User } from '@core/authentication/user.model';
 import { StorageService } from '@core/services/storage.service';
 import { StoragePrefix } from '@core/models/storage-prefix.enum';
-import { map, Observable, pluck } from 'rxjs';
+import { map, Observable, of, pluck } from 'rxjs';
 import { SSORolesMappingOfServer, SSORoles, EP } from '@configs/index';
 @Injectable({ providedIn: 'root' })
 export class RolesService {
@@ -36,9 +36,10 @@ export class RolesService {
     if (Object.keys(role).length) {
       return !!role[SSORolesMappingOfServer[projectKey]];
     } else {
-      return this.getUserRolesAsync()
-        .pipe(pluck('roles', 'data'))
-        .pipe(map((el) => !!el[SSORolesMappingOfServer[projectKey]]));
+      return of(true);
+      // return this.getUserRolesAsync()
+      //   .pipe(pluck('roles', 'data'))
+      //   .pipe(map((el) => !!el[SSORolesMappingOfServer[projectKey]]));
     }
   }
 
