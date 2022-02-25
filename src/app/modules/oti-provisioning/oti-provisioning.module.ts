@@ -33,6 +33,7 @@ import { AppPackageControlsComponent } from './components/package-controls/packa
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { DirectivesModule } from '@shared/directives/directives.module';
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { AppCustomerQuotaEditComponent } from './components/quota-edit/quota-edit.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { PipesModule } from '@shared/pipes/pipes.module';
     AppCustomerAddEditComponent,
     AppPackageAddEditComponent,
     ApiTierComponent,
-    AppPackageControlsComponent
+    AppPackageControlsComponent,
+    AppCustomerQuotaEditComponent,
   ],
   imports: [
     CommonModule,

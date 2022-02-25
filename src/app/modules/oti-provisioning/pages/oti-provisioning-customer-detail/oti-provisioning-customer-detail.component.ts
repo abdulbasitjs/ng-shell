@@ -63,7 +63,6 @@ export class OtiProvisioningCustomerDetailComponent
 
   showScanReport() {
     this.modalService.open(this.scanStatsModal);
-    this.openScanModal = true;
   }
 
   onStatModalClose() {

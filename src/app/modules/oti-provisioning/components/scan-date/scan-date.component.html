@@ -10,8 +10,9 @@
     class="date-input"
     type="text"
     ngxDaterangepickerMd
+    [locale]="format"
     [showCustomRangeLabel]="false"
-    (ngModel)="selected"
+    [(ngModel)]="selected"
     [showCustomRangeLabel]="true"
     [ranges]="ranges"
     [linkedCalendars]="true"

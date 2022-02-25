@@ -1,15 +1,22 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { CustomerService } from '../../services/customer.service';
 
 @Component({
   selector: 'app-scan-date',
   templateUrl: './scan-date.component.html',
 })
 export class AppScanDateComponent implements OnInit {
-  selected: any;
+  customer!: any;
+  stats!: any;
+  format = {
+    format: 'YYYY-MM-DD',
+    displayFormat: 'YYYY-MM-DD',
+  };
+  selected = {
+    startDate: moment().format('YYYY-MM-DD'),
+    endDate: moment().format('YYYY-MM-DD'),
+  };
   alwaysShowCalendars: boolean;
 
   ranges: any = {
@@ -32,9 +39,24 @@ export class AppScanDateComponent implements OnInit {
   //   return this.invalidDates.some((d) => d.isSame(m, 'day'));
   // };
 
-  constructor() {
+  constructor(private customerService: CustomerService) {
     this.alwaysShowCalendars = true;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.customerService.getCustomerObservable().subscribe((customer) => {
+      this.customer = customer;
+      this.customerService.getCustomerStats({
+        customer: customer.companyName,
+        ...this.selected,
+      });
+    });
+
+    this.customerService.getCustomerStatsObservable().subscribe((stats) => {
+      if (stats) {
+        this.stats = stats;
+        console.log(this.stats);
+      }
+    });
+  }
 }

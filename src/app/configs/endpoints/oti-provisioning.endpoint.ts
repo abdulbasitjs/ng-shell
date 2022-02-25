@@ -55,6 +55,14 @@ export const OTIPPEndpoints = [
     path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
     runAt: 'onDemand',
   },
+  {
+    baseUrl: 'sso',
+    name: 'stats',
+    alias: 'companyStats',
+    api: '',
+    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    runAt: 'onDemand',
+  },
 
 
   {
@@ -99,6 +107,7 @@ export const OTIPPEndpointMapping = {
   CustomerDetail: 'customerDetail',
   CustomerChangeStatus: 'changeStatus',
   DeleteCompany: 'deleteCompany',
+  CompanyStats: 'companyStats',
 
   Packages: 'packages',
   CreatePackage: 'createPackage',

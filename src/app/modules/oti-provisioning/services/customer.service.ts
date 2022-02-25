@@ -51,7 +51,10 @@ export class CustomerService {
     null
   );
 
-  private customerStatus$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  private customerStatus$: BehaviorSubject<string> =
+    new BehaviorSubject<string>('');
+
+  private customerStats$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(
     private http: HttpClient,
@@ -134,6 +137,15 @@ export class CustomerService {
     });
   }
 
+  getCustomerStats(payload: any) {
+    this.http.post(EP.CompanyStats, payload).subscribe((res) => {
+      const response = <SSOResponse>res;
+      if (response.code == HttpStatusCode.Ok) {
+        this.customerStats$.next(response.data);
+      }
+    });
+  }
+
   getCustomerKey() {
     this.isCustomerKeyIsFetching$.next(true);
     return this.http.post(EP.GenerateKey, {}).pipe(
@@ -210,6 +222,8 @@ export class CustomerService {
             });
           });
           return of({ error: true });
+        } else if (response.code === ProjectStatusCode.ScriptBroken) {
+          this.toasterService.error(response.message, 'Script Failed🐛🐛');
         }
         return res;
       })
@@ -235,7 +249,9 @@ export class CustomerService {
       tap((res) => {
         const response = <SSOResponse>res;
         if (response.code === HttpStatusCode.Ok) {
-          this.customerStatus$.next(payload.status === 0 ? 'Reactive': 'Active');
+          this.customerStatus$.next(
+            payload.status === 0 ? 'Reactive' : 'Active'
+          );
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
           const errors = Object.keys(response.message)
             .map((el: any) => response.message[el])
@@ -367,6 +383,10 @@ export class CustomerService {
 
   getCustomerObservable() {
     return this.currentCustomer$.asObservable();
+  }
+
+  getCustomerStatsObservable() {
+    return this.customerStats$.asObservable();
   }
 
   getInviteSendingObserVable() {
