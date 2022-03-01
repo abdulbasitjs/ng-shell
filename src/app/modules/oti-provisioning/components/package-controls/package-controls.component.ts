@@ -84,6 +84,10 @@ export class AppPackageControlsComponent implements OnInit, OnDestroy {
     return this.controls.controls['rate_limit'] as FormGroup;
   }
 
+  get quotaPerMin() {
+    return this.controls.controls['quota_permin'] as FormControl;
+  }
+
   ngOnInit(): void {}
 
   resetQuotaInterval() {

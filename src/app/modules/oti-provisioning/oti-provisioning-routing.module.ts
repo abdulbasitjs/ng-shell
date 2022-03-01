@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { RoleGuard } from '@core/guards/role.guard';
 import { AppCustomerAddEditComponent } from './components/customer-add-edit/customer-add-edit.component';
 import { AppPackageAddEditComponent } from './components/package-add-edit/package-add-edit.component';
 import { AppCustomerQuotaEditComponent } from './components/quota-edit/quota-edit.component';
@@ -18,22 +19,53 @@ const routes: Routes = [
       {
         path: 'customers',
         component: OtiProvisioningCustomersComponent,
-        children: [{ path: 'add', component: AppCustomerAddEditComponent }],
+        children: [
+          {
+            canActivate: [RoleGuard],
+            data: {
+              expectedRoles: ['superadmin', 'admin', 'sales-op'],
+            },
+            path: 'add',
+            component: AppCustomerAddEditComponent,
+          },
+        ],
       },
       {
         path: 'customers/:id',
         component: OtiProvisioningCustomerDetailComponent,
         children: [
-          { path: 'company/:mode', component: AppCustomerAddEditComponent },
-          { path: 'company-quota/:mode', component: AppCustomerQuotaEditComponent },
+          {
+            canActivate: [RoleGuard],
+            data: {
+              expectedRoles: ['superadmin', 'admin', 'sales-op'],
+            },
+            path: 'company/:mode',
+            component: AppCustomerAddEditComponent,
+          },
+          {
+            canActivate: [RoleGuard],
+            data: {
+              expectedRoles: ['superadmin', 'admin', 'sales-op'],
+            },
+            path: 'company-quota/:mode',
+            component: AppCustomerQuotaEditComponent,
+          },
         ],
       },
       {
         path: 'packages',
+        canActivate: [RoleGuard],
+        data: {
+          expectedRoles: ['superadmin'],
+        },
         component: OtiProvisioningPackagesComponent,
         children: [{ path: 'add', component: AppPackageAddEditComponent }],
       },
       {
+        canActivate: [RoleGuard],
+        data: {
+          expectedRoles: ['superadmin'],
+        },
         path: 'packages/:id',
         component: OtiProvisioningPackageDetailComponent,
         children: [

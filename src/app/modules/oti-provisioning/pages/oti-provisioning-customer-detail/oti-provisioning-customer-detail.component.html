@@ -36,8 +36,10 @@
   sectionTitle="OTI API QUOTA"
 ></app-section-title>
 
-<article>
-  <span class="suspended">⚠ API Quota Limit is expired. Please renew the package</span>
+<article *ngIf="">
+  <span class="suspended"
+    >⚠ API Quota Limit is expired. Please renew the package</span
+  >
   <a routerLink="./company/edit">Please renew the package</a>
 </article>
 
@@ -54,6 +56,7 @@
   >
   </app-button>
   <svg-icon
+    *appAccessControl="''"
     routerLink="./company-quota/edit"
     [class.disabled]="
       customerService.getCustomerDetailLoadingObservable() | async
@@ -149,6 +152,7 @@
 <!-- Action Container -->
 <div class="action-container m-0">
   <app-button
+    *appAccessControl="''"
     class="button-component"
     (clickHandler)="suspend()"
     [class.disabled]="
@@ -159,6 +163,7 @@
   >
   </app-button>
   <svg-icon
+    *appAccessControl="''"
     [class.disabled]="
       customerService.getCustomerDetailLoadingObservable() | async
     "
@@ -166,6 +171,7 @@
     routerLink="./company/edit"
   ></svg-icon>
   <svg-icon
+    *appAccessControl="'delete-company'"
     [class.disabled]="
       customerService.getCustomerDetailLoadingObservable() | async
     "
@@ -262,7 +268,7 @@
 ></app-section-title>
 
 <!-- Action Container -->
-<div class="action-container m-0">
+<div class="action-container m-0" *appAccessControl="'send-invitation'">
   <app-button
     class="button-component"
     btnTitle="Send Invitation"
@@ -338,6 +344,35 @@
     </p>
   </div>
 </div>
+
+<ng-container *appAccessControl="'read-exclude-classifiers'">
+  <!-- Divider -->
+  <div class="divider-container">
+    <div></div>
+  </div>
+
+  <!-- Section Title -->
+  <app-section-title
+    class="section-title m-0"
+    sectionTitle="Exclude Classifier"
+  ></app-section-title>
+
+  <div class="section-container">
+    <div class="section">
+      <p class="section--title"></p>
+      <p *ngIf="customer?.custExculClassifiers !== ''" class="section--name">
+        {{ customer?.custExculClassifiers }}
+      </p>
+      <p *ngIf="customer?.custExculClassifiers === ''" class="section--name">
+        n/a
+      </p>
+    </div>
+  </div>
+
+  <div class="divider-container">
+    <div></div>
+  </div>
+</ng-container>
 
 <router-outlet></router-outlet>
 

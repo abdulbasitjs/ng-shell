@@ -84,7 +84,7 @@
       />
       <div
         class="pos-abs error-align-field error-msg"
-        *ngIf="rateControl.value.value === DEFAULT"
+        *ngIf="rateControl.value.value === DEFAULT && rateControl.touched"
       >
         <p>Please Select Rate Limit.</p>
       </div>

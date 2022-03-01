@@ -4,15 +4,38 @@
     <svg-icon [src]="sidebarList[0].iconPath"></svg-icon>
   </a>
   <!-- Others -->
-  <a
-    [routerLink]="['./' + sidebar.route]"
-    routerLinkActive="active"
-    *ngFor="let sidebar of sidebarList.slice(1)"
-  >
-    <svg-icon [src]="sidebar.iconPath"></svg-icon>
-  </a>
+  <ng-container *ngFor="let sidebar of sidebarList.slice(1)">
+    <ng-container *ngIf="sidebar.route !== '/packages'; else accesControlModule">
+      <ng-container
+        [ngTemplateOutlet]="normal"
+        [ngTemplateOutletContext]="{ $implicit: sidebar }"
+      ></ng-container>
+    </ng-container>
+    <ng-template #accesControlModule>
+      <ng-container
+        [ngTemplateOutlet]="accessControl"
+        [ngTemplateOutletContext]="{ $implicit: sidebar }"
+      ></ng-container>
+    </ng-template>
+  </ng-container>
 </app-side-bar>
 <ng-template appPlaceholder></ng-template>
 <article>
   <router-outlet></router-outlet>
 </article>
+
+<ng-template #normal let-sidebar>
+  <a [routerLink]="['./' + sidebar.route]" routerLinkActive="active">
+    <svg-icon [src]="sidebar.iconPath"></svg-icon>
+  </a>
+</ng-template>
+
+<ng-template #accessControl let-sidebar>
+  <a
+    [routerLink]="['./' + sidebar.route]"
+    routerLinkActive="active"
+    *appAccessControl="'package-management'"
+  >
+    <svg-icon [src]="sidebar.iconPath"></svg-icon>
+  </a>
+</ng-template>
