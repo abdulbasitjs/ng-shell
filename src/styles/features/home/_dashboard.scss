@@ -5,15 +5,16 @@
   @extend %sec-padding;
 
   &__para {
-    font-size: font-size(small);
+    font-size: font-size(smallFix);
     color: var(--color-quinary);
     font-weight: font-weight(regular);
     margin-bottom: 1.5rem;
   }
 
   &__list {
-    display: flex;
+    display: grid;
     flex-wrap: wrap;
+    grid-template-columns: repeat(auto-fit, minmax(194px, 1fr));
 
     &--item {
       flex-basis: 29rem;
@@ -62,4 +63,10 @@
       }
     }
   }
+
+  // @include media-custom-tablet {
+  //   .dashboard__list--item {
+  //     max-width:29.0rem;
+  //   }
+  // }
 }
