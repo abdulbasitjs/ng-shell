@@ -41,12 +41,7 @@
   <app-button
     class="button-component"
     (clickHandler)="disable()"
-    [btnTitle]="
-      (packageService.getPackageStatus() | async) === 'Enable' ||
-      (packageService.getPackageStatus() | async) === ''
-        ? 'Disable'
-        : 'Enable'
-    "
+    [btnTitle]="package?.status === 1 ? 'Disable' : 'Enable'"
     classes="button-default button-tertiary button-pd"
   >
   </app-button>
@@ -160,23 +155,12 @@
   <app-modal [showModal]="true">
     <app-modal-header
       (onModalClose)="onModalClose()"
-      [title]="
-        (packageService.getPackageStatus() | async) === 'Enable' ||
-        (packageService.getPackageStatus() | async) === ''
-          ? 'Disable Package'
-          : 'Enable Package'
-      "
+      [title]="package?.status === 1 ? 'Disable Package' : 'Enable Package'"
     ></app-modal-header>
     <app-modal-body>
       <p class="user-modal-body">
         Are you sure you want to
-        {{
-          (packageService.getPackageStatus() | async) === "Enable" ||
-          (packageService.getPackageStatus() | async) === ""
-            ? "Disable Package"
-            : "Enable Package"
-        }}
-        ?
+        {{ package?.status === 1 ? "Disable Package" : "Enable Package" }}
       </p>
     </app-modal-body>
     <app-modal-footer
@@ -184,10 +168,7 @@
       (onModalClose)="onModalClose()"
       closeTitle="Cancel"
       [actionTitle]="
-        (packageService.getPackageStatus() | async) === 'Enable' ||
-        (packageService.getPackageStatus() | async) === ''
-          ? 'Disable'
-          : 'Enable'
+        package?.status === 1 ? 'Disable' : 'Enable'
       "
       [disableAction]="loaderService.getLoader() | async"
     ></app-modal-footer>

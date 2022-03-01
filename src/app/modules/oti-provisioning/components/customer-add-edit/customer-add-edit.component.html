@@ -132,11 +132,7 @@
               <ng-container [ngTemplateOutlet]="loader"></ng-container>
             </ng-template>
             <ng-container
-              *ngIf="
-                !(customerService.getCustomerKeyFetchingObservable() | async);
-                then customerKey;
-                else loading
-              "
+              *ngIf="!isRegenKey; then customerKey; else loading"
             ></ng-container>
             <ng-template #customerKey>
               <input
@@ -176,7 +172,7 @@
             "
             formGroupName="package_info"
             [lastSlections]="lastSelection$ | async"
-            [isLoading]="(loaderService.getLoader() | async)"
+            [isLoading]="(loaderService.getLoader() | async) && !isRegenKey"
           ></app-package-controls>
           <div
             class="form__input radio"
@@ -233,9 +229,7 @@
         </ng-container>
       </div>
       <div app-wizard-template *ngSwitchCase="'3'" [step]="activeStep">
-        <ng-container
-          formGroupName="exclude_classifier"
-        >
+        <ng-container formGroupName="exclude_classifier">
           <div class="form__input checkbox">
             <label class="m-b-10">Classifier List</label>
             <ng-container

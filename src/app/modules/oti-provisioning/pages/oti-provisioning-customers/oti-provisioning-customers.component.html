@@ -1,3 +1,8 @@
+<ng-template #companyStatus let-row let-status="status">
+  <span>{{ status }}</span>
+  <span *ngIf="row.isExpired" class="suspended"> | Package Expired</span>
+</ng-template>
+
 <app-section-title
   class="section-title"
   sectionTitle="Company Management"
@@ -59,7 +64,7 @@
   (onNextPageSelect)="onNext()"
   (onPrevPageSelect)="onPrev()"
   (onPageSelect)="onPage($event)"
-  >
+>
 </app-pagination>
 
 <router-outlet></router-outlet>

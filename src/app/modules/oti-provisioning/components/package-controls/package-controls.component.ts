@@ -42,7 +42,6 @@ export class AppPackageControlsComponent implements OnInit, OnDestroy {
   }) {
     this._lastSlections = selection;
     if (selection) {
-      console.log(selection);
       this.rateLimitPerMinSelectedIndex = selection.rate_limit.index;
     }
     this.reset();
@@ -67,7 +66,6 @@ export class AppPackageControlsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.isIntialized = false;
     if (this.rlMinSubscription) this.rlMinSubscription.unsubscribe();
-    console.log('Destryoyed');
   }
 
   get controls() {
