@@ -290,7 +290,7 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
         tier: ['', Validators.required],
         package_info: this.formBuilder.group({
           quota_interval: this.createGroup(DefaultSelction),
-          quota_limit: [1440],
+          quota_limit: [1],
           rate_limit: this.createGroup(DefaultSelction),
           quota_permin: [''],
         }),

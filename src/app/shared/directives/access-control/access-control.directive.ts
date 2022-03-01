@@ -1,7 +1,9 @@
 import {
   Directive,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
@@ -11,6 +13,7 @@ import { AccessControlService } from '@core/services/access-control.service';
   selector: '[appAccessControl]',
 })
 export class AccessControlDirective implements OnInit {
+  @Output() isAccessAllowed = new EventEmitter();
   @Input('appAccessControl') set appAccessControl(moduleType: string) {
     this.renderAuthorization(moduleType);
   }
@@ -29,8 +32,10 @@ export class AccessControlDirective implements OnInit {
 
     if (currentAccessControls === '*') {
       this.vc.createEmbeddedView(this.templateRef);
+      this.isAccessAllowed.emit(true);
     } else if (currentAccessControls === '!') {
       this.vc.clear();
+      this.isAccessAllowed.emit(false);
     } else if (
       currentAccessControls &&
       currentAccessControls.exclude_controls
@@ -41,7 +46,11 @@ export class AccessControlDirective implements OnInit {
       );
       if (excludedModule) {
         this.vc.clear();
-      } else this.vc.createEmbeddedView(this.templateRef);;
+        this.isAccessAllowed.emit(false);
+      } else {
+        this.vc.createEmbeddedView(this.templateRef);
+        this.isAccessAllowed.emit(true);
+      }
     }
   }
 }

@@ -228,44 +228,47 @@
           </div>
         </ng-container>
       </div>
-      <div app-wizard-template *ngSwitchCase="'3'" [step]="activeStep">
-        <ng-container formGroupName="exclude_classifier">
-          <div class="form__input checkbox">
-            <label class="m-b-10">Classifier List</label>
-            <ng-container
-              *ngIf="
-                !(customerService.isClassifierListIsFetching() | async);
-                else loader
-              "
-            >
-              <label
-                *ngFor="
-                  let classifier of classifiersListArray.controls;
-                  let i = index
+      <ng-container *appAccessControl="'create-exclude-classifiers'">
+        <div app-wizard-template *ngSwitchCase="'3'" [step]="activeStep">
+          <ng-container formGroupName="exclude_classifier">
+            <div class="form__input checkbox">
+              <label class="m-b-10">Classifier List</label>
+              <ng-container
+                *ngIf="
+                  !(customerService.isClassifierListIsFetching() | async);
+                  else loader
                 "
-                class="form__input--checkbox-container"
-                formArrayName="classifier_list"
               >
-                <ng-container [formGroupName]="i">
-                  <input
-                    formControlName="modelKey"
-                    type="checkbox"
-                    [ngClass]="{
-                      'error-msg':
-                        !newCompanyForm.get(
-                          'exclude_classifier.classifier_list'
-                        )?.valid &&
-                        newCompanyForm.get('exclude_classifier.classifier_list')
-                          ?.touched
-                    }"
-                  />
-                  <span>{{ classifier.value.key }}</span>
-                </ng-container>
-              </label>
-            </ng-container>
-          </div>
-        </ng-container>
-      </div>
+                <label
+                  *ngFor="
+                    let classifier of classifiersListArray.controls;
+                    let i = index
+                  "
+                  class="form__input--checkbox-container"
+                  formArrayName="classifier_list"
+                >
+                  <ng-container [formGroupName]="i">
+                    <input
+                      formControlName="modelKey"
+                      type="checkbox"
+                      [ngClass]="{
+                        'error-msg':
+                          !newCompanyForm.get(
+                            'exclude_classifier.classifier_list'
+                          )?.valid &&
+                          newCompanyForm.get(
+                            'exclude_classifier.classifier_list'
+                          )?.touched
+                      }"
+                    />
+                    <span>{{ classifier.value.key }}</span>
+                  </ng-container>
+                </label>
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
     </form>
   </app-panel-body>
 
@@ -291,6 +294,17 @@
             (clickHandler)="onPreviousStep()"
           ></app-button>
           <app-button
+            *ngIf="!isExcludeClassifierAllowed"
+            btnTitle="Save"
+            [isDisabled]="
+              newCompanyForm.controls['exclude_classifier'].invalid ||
+              (loaderService.getLoader() | async)
+            "
+            classes="button-primary button-lg button-box-shadow"
+            (clickHandler)="onSave()"
+          ></app-button>
+          <app-button
+            *ngIf="isExcludeClassifierAllowed"
             btnTitle="Next"
             classes="button-primary button-lg button-box-shadow"
             [isDisabled]="
@@ -302,24 +316,26 @@
           ></app-button>
         </div>
       </ng-container>
-      <ng-container *ngSwitchCase="'3'">
-        <div class="panel__footer--bg"></div>
-        <div class="panel__footer--actions">
-          <app-button
-            btnTitle="Back"
-            classes="button-default button-lg"
-            (clickHandler)="onPreviousStep()"
-          ></app-button>
-          <app-button
-            btnTitle="Save"
-            [isDisabled]="
-              newCompanyForm.controls['exclude_classifier'].invalid ||
-              (loaderService.getLoader() | async)
-            "
-            classes="button-primary button-lg button-box-shadow"
-            (clickHandler)="onSave()"
-          ></app-button>
-        </div>
+      <ng-container *appAccessControl="'create-exclude-classifiers'">
+        <ng-container *ngSwitchCase="'3'">
+          <div class="panel__footer--bg"></div>
+          <div class="panel__footer--actions">
+            <app-button
+              btnTitle="Back"
+              classes="button-default button-lg"
+              (clickHandler)="onPreviousStep()"
+            ></app-button>
+            <app-button
+              btnTitle="Save"
+              [isDisabled]="
+                newCompanyForm.controls['exclude_classifier'].invalid ||
+                (loaderService.getLoader() | async)
+              "
+              classes="button-primary button-lg button-box-shadow"
+              (clickHandler)="onSave()"
+            ></app-button>
+          </div>
+        </ng-container>
       </ng-container>
     </ng-container>
   </app-panel-footer>

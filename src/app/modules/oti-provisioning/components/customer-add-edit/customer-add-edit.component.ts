@@ -25,6 +25,7 @@ import { LoaderService } from '@core/services/loader.service';
 import { ProjectStatusCode } from '@core/http/http-codes.enum';
 import { SSOResponse } from '@core/http/http-response.model';
 import { OverlayService } from '@core/services/overlay.service';
+import { AccessControlService } from '@core/services/access-control.service';
 
 const Active = 'Active';
 const DefaultSelction = {
@@ -81,6 +82,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   isTiersLoading = false;
   shouldEnableExpiryDate = false;
   isRegenKey = false;
+  isExcludeClassifierAllowed = true;
 
   newCompanyForm!: FormGroup;
   customer: any;
@@ -93,7 +95,8 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private overlayService: OverlayService
+    private overlayService: OverlayService,
+    private accessControlService: AccessControlService
   ) {}
 
   // Life Cycle Hooks
@@ -116,6 +119,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.overlayService.showOverlay();
     this.steps = this.customerService.getAddNewCompanySteps();
+    this.checkExcludeClassifierAccess();
     this.activeStep = this.steps[0];
     this.getPackges();
     this.populateCompanyForm();
@@ -130,6 +134,14 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
         this.fetchCustomerKey();
       }
     });
+  }
+
+  checkExcludeClassifierAccess() {
+    // Need to improve this logic later.
+    this.isExcludeClassifierAllowed = this.accessControlService.hasAccess('create-exclude-classifiers');
+    if (!this.isExcludeClassifierAllowed) {
+      this.steps = this.steps.slice(0,2);
+    }
   }
 
   // Endpoints
@@ -152,6 +164,12 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
 
   getPackges() {
     this.isTiersLoading = true;
+    const { limit } = this.packageService.packagePayload;
+    const updatedPayload = {
+      ...this.packageService.packagePayload,
+      limit: 1000
+    }
+    this.packageService.setPackagePayload(updatedPayload);
     this.packageService.getPackages();
     this.packagesSubscription = this.packageService
       .getPackagesObservable()
@@ -295,7 +313,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
         tier: ['', Validators.required],
         package_info: this.formBuilder.group({
           quota_interval: this.createGroup(DefaultSelction),
-          quota_limit: [1440],
+          quota_limit: [1],
           rate_limit: this.createGroup(DefaultSelction),
           quota_permin: [''],
         }),

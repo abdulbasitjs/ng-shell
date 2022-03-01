@@ -39,6 +39,15 @@ export enum AllRolesReverseEnum {
   manager = 'Manager',
   user = 'User',
 }
+
+export const AllReverseRolls: any = {
+  superadmin: 'SuperAdmin',
+  admin: 'Admin',
+  'sales-op': 'SalesOperation',
+  sales: 'Sales',
+  manager: 'Manager',
+  user: 'User',
+};
 export interface IModuleControl {
   module_name: string;
   action: string;

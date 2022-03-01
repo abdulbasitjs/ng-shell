@@ -19,41 +19,52 @@ export const SSORolesReverseMappingOfServer: any = {
   'oti-pp': 'OTI Provisioning',
   'oti-db': 'OTI Dashboard',
   'rtpd-pp': 'RTPD Provisioning',
-  'rtpd-db': 'RTPD Dashboard'
+  'rtpd-db': 'RTPD Dashboard',
 };
+
+// export const AccessControlMapping: any  = {
+//   oti-dashboard: "oti-db"
+// oti-provisioning: "oti-pp"
+// rtpd-dashboard: "rtpd-db"
+// rtpd-provisioning: "rtpd-pp"
+// }
 
 export const ProjectAccessControls: IAccessControls = {
   [OTI_PROVISIONING_KEY]: {
     SuperAdmin: '*',
-    Admin: '*',
+    Admin: {
+      exclude_controls: [
+        {
+          module_name: 'package-management',
+          action: 'hide',
+        }
+      ],
+    },
     SalesOperation: {
       exclude_controls: [
         {
-          module_name: 'admin-management',
-          action: 'disabled',
-          create: true,
-          update: false,
-          delelte: false,
-          read: true,
+          module_name: 'package-management',
+          action: 'hide',
         },
         {
-          module_name: 'new-company',
-          action: 'disabled',
+          module_name: 'delete-company',
+          action: 'hide',
+        },
+        {
+          module_name: 'send-invitation',
+          action: 'hide',
+        },
+        {
+          module_name: 'read-exclude-classifiers',
+          action: 'hide',
+        },
+        {
+          module_name: 'create-exclude-classifiers',
+          action: 'hide',
         },
       ],
     },
-    Sales: {
-      exclude_controls: [
-        {
-          module_name: 'admin-management',
-          action: 'hide', // hide
-        },
-        {
-          module_name: 'new-company',
-          action: 'hide', // disable event
-        },
-      ],
-    },
+    Sales: '!',
     User: '!',
   },
   [USER_MANAGEMENT_KEY]: {
