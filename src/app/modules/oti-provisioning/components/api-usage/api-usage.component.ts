@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CustomerService } from '../../services/customer.service';
 
 @Component({
@@ -7,6 +7,7 @@ import { CustomerService } from '../../services/customer.service';
   styleUrls: ['./api-usage.component.scss'],
 })
 export class ApiUsageComponent implements OnInit {
+  @Input() isLoading : boolean | null = false;
   list!: Array<{ title: string; count: number }>;
   totalApiCallUsed: number = 1300000;
   stats: any;

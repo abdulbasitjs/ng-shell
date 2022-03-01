@@ -9,6 +9,7 @@ import { PlaceholderDirective } from './placeholder/placeholder.directive';
 import { DigitOnlyDirective } from './digit-only/digit-only.directive';
 import { RerenderDirective } from './app-rerender/rerender.directive';
 import { DropdownDirectionDirective } from './direction/direction.directive';
+import { ClipboardDirective } from './copy-clipboard/copy-clipboard.directive';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DropdownDirectionDirective } from './direction/direction.directive';
     PlaceholderDirective,
     DigitOnlyDirective,
     RerenderDirective,
-    DropdownDirectionDirective
+    DropdownDirectionDirective,
+    ClipboardDirective
   ],
   imports: [CommonModule],
   exports: [
@@ -32,7 +34,8 @@ import { DropdownDirectionDirective } from './direction/direction.directive';
     PlaceholderDirective,
     DigitOnlyDirective,
     RerenderDirective,
-    DropdownDirectionDirective
+    DropdownDirectionDirective,
+    ClipboardDirective
   ],
 })
 export class DirectivesModule {}

@@ -71,6 +71,7 @@ export class OtiProvisioningPackageDetailComponent
   }
 
   onDisable() {
+    console.log(this.package);
     const status = this.package.status === 0 ? 1 : 0;
     this.packageService
       .changePackageStatus({
