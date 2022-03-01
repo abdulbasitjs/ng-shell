@@ -22,13 +22,6 @@ export const SSORolesReverseMappingOfServer: any = {
   'rtpd-db': 'RTPD Dashboard',
 };
 
-// export const AccessControlMapping: any  = {
-//   oti-dashboard: "oti-db"
-// oti-provisioning: "oti-pp"
-// rtpd-dashboard: "rtpd-db"
-// rtpd-provisioning: "rtpd-pp"
-// }
-
 export const ProjectAccessControls: IAccessControls = {
   [OTI_PROVISIONING_KEY]: {
     SuperAdmin: '*',

@@ -38,7 +38,8 @@ export class ButtonRangeComponent implements OnInit, ControlValueAccessor {
     this.onTouch = fn;
   }
 
-  setDisabledState(state: any) {}
+  setDisabledState(state: any) {
+  }
 
   ngOnInit(): void {}
 

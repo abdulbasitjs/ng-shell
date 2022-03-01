@@ -56,6 +56,7 @@
   >
   </app-button>
   <svg-icon
+    *appAccessControl="''"
     routerLink="./company-quota/edit"
     [class.disabled]="
       customerService.getCustomerDetailLoadingObservable() | async
@@ -151,6 +152,7 @@
 <!-- Action Container -->
 <div class="action-container m-0">
   <app-button
+    *appAccessControl="''"
     class="button-component"
     (clickHandler)="suspend()"
     [class.disabled]="
@@ -161,6 +163,7 @@
   >
   </app-button>
   <svg-icon
+    *appAccessControl="''"
     [class.disabled]="
       customerService.getCustomerDetailLoadingObservable() | async
     "
@@ -359,6 +362,9 @@
       <p class="section--title"></p>
       <p *ngIf="customer?.custExculClassifiers !== ''" class="section--name">
         {{ customer?.custExculClassifiers }}
+      </p>
+      <p *ngIf="customer?.custExculClassifiers === ''" class="section--name">
+        n/a
       </p>
     </div>
   </div>
