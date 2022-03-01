@@ -1,38 +1,28 @@
-<ng-template #scanStatsModal>
-  <app-modal [showModal]="openScanModal">
-    <app-modal-header (onModalClose)="onStatModalClose()">
-      <app-download-report
-        title="Donwload Summary"
-        icon="assets/svg/PDF.svg"
-      ></app-download-report>
-      <app-download-report
-        title="Donwload Daily Breakdown"
-        icon="assets/svg/CSV.svg"
-      ></app-download-report>
-    </app-modal-header>
-    <app-modal-body>
-      <app-scan-date></app-scan-date>
-      <app-url-scanned></app-url-scanned>
-      <app-api-per-limit></app-api-per-limit>
-      <app-api-usage></app-api-usage>
-    </app-modal-body>
-  </app-modal>
-</ng-template>
-
 <!-- Breadcrumbs Container  -->
 <div class="breadcrumb-container">
-  <div class="breadcrumbs">
-    <svg-icon
-      routerLink="../"
-      src="assets/svg/breadcrumb-back-icon.svg"
-    ></svg-icon>
-    <ul class="breadcrumbs--list">
-      <li class="breadcrumbs--list__item inactive">
-        <a href="#">Customer Management</a>
-      </li>
-      <li class="breadcrumbs--list__item"><a href="#">JP Moragn</a></li>
-    </ul>
-  </div>
+  <ng-container
+    *ngIf="
+      customerService.getCustomerDetailLoadingObservable() | async;
+      then loader;
+      else breadCrumb
+    "
+  ></ng-container>
+  <ng-template #breadCrumb>
+    <div class="breadcrumbs">
+      <svg-icon
+        routerLink="../"
+        src="assets/svg/breadcrumb-back-icon.svg"
+      ></svg-icon>
+      <ul class="breadcrumbs--list">
+        <li class="breadcrumbs--list__item inactive">
+          <a href="#">Customer Management</a>
+        </li>
+        <li class="breadcrumbs--list__item">
+          <a href="#">{{ customer?.companyName }}</a>
+        </li>
+      </ul>
+    </div>
+  </ng-template>
 </div>
 
 <!-- Divider -->
@@ -55,7 +45,10 @@
     (clickHandler)="showScanReport()"
   >
   </app-button>
-  <svg-icon src="assets/svg/edit-icon.svg"></svg-icon>
+  <svg-icon
+    routerLink="./company-quota/edit"
+    src="assets/svg/edit-icon.svg"
+  ></svg-icon>
 </div>
 
 <!-- Quota Container -->
@@ -63,19 +56,61 @@
   <div class="quota">
     <div class="quota--info">
       <p class="quota--info__title">Package</p>
-      <p class="quota--info__name">Silver</p>
+      <p
+        *ngIf="
+          !(customerService.getCustomerDetailLoadingObservable() | async);
+          else loader
+        "
+        class="quota--info__name"
+      >
+        {{
+          customer?.packageInformation?.packageId === "0"
+            ? "Custom"
+            : customer?.packageInformation?.name
+        }}
+      </p>
     </div>
     <div class="quota--info">
-      <p class="quota--info__title">Daily Licensed Quota</p>
-      <p class="quota--info__name">1M</p>
+      <p class="quota--info__title">
+        {{ intervalMapping[customer?.packageInformation?.quotaType] }} Licensed
+        Quota
+      </p>
+      <p
+        *ngIf="
+          !(customerService.getCustomerDetailLoadingObservable() | async);
+          else loader
+        "
+        class="quota--info__name"
+      >
+        {{ customer?.packageInformation?.quotaLimit | nFormat }}
+      </p>
     </div>
     <div class="quota--info">
-      <p class="quota--info__title">Daily Remaining Quota</p>
-      <p class="quota--info__name">120390</p>
+      <p class="quota--info__title">
+        {{ intervalMapping[customer?.packageInformation?.quotaType] }} Remaining
+        Quota
+      </p>
+      <p
+        *ngIf="
+          !(customerService.getCustomerDetailLoadingObservable() | async);
+          else loader
+        "
+        class="quota--info__name"
+      >
+        120390
+      </p>
     </div>
     <div class="quota--info">
       <p class="quota--info__title">Expiration Date</p>
-      <p class="quota--info__name">01-01-2019</p>
+      <p
+        *ngIf="
+          !(customerService.getCustomerDetailLoadingObservable() | async);
+          else loader
+        "
+        class="quota--info__name"
+      >
+        {{ customer?.expiryDate }}
+      </p>
     </div>
   </div>
 </div>
@@ -95,39 +130,108 @@
 <div class="action-container m-0">
   <app-button
     class="button-component"
-    btnTitle="Suspend"
+    (clickHandler)="suspend()"
+    [class.disabled]="
+      customerService.getCustomerDetailLoadingObservable() | async
+    "
+    [btnTitle]="
+      (customerService.getCompanyStatus() | async) === 'Active' ||
+      (customerService.getCompanyStatus() | async) === ''
+        ? 'Suspend'
+        : 'Reactivate'
+    "
     classes="button-default button-tertiary button-pd"
   >
   </app-button>
-  <svg-icon src="assets/svg/edit-icon.svg"></svg-icon>
-  <svg-icon src="assets/svg/delete-icon.svg"></svg-icon>
+  <svg-icon
+    [class.disabled]="
+      customerService.getCustomerDetailLoadingObservable() | async
+    "
+    src="assets/svg/edit-icon.svg"
+    routerLink="./company/edit"
+  ></svg-icon>
+  <svg-icon
+    [class.disabled]="
+      customerService.getCustomerDetailLoadingObservable() | async
+    "
+    src="assets/svg/delete-icon.svg"
+    (click)="deleteCompany()"
+  ></svg-icon>
 </div>
 
 <!-- Profile Container -->
 <div class="section-container">
   <div class="section">
     <p class="section--title">Company Name</p>
-    <p class="section--name">JP Morgan</p>
+    <p
+      *ngIf="
+        !(customerService.getCustomerDetailLoadingObservable() | async);
+        else loader
+      "
+      class="section--name"
+    >
+      {{ customer?.companyName }}
+    </p>
   </div>
   <div class="section">
     <p class="section--title">Customer Name</p>
-    <p class="section--name">Jim Markel</p>
+    <p
+      *ngIf="
+        !(customerService.getCustomerDetailLoadingObservable() | async);
+        else loader
+      "
+      class="section--name"
+    >
+      {{ customer?.customerName }}
+    </p>
   </div>
   <div class="section">
     <p class="section--title">Contact No.</p>
-    <p class="section--name">+1 910 123 4567</p>
+    <p
+      *ngIf="
+        !(customerService.getCustomerDetailLoadingObservable() | async);
+        else loader
+      "
+      class="section--name"
+    >
+      {{ customer?.contactNo }}
+    </p>
   </div>
   <div class="section">
     <p class="section--title">Created</p>
-    <p class="section--name">08-07-2020</p>
+    <p
+      *ngIf="
+        !(customerService.getCustomerDetailLoadingObservable() | async);
+        else loader
+      "
+      class="section--name"
+    >
+      {{ customer?.expiryDate }}
+    </p>
   </div>
   <div class="section">
     <p class="section--title">Email</p>
-    <p class="section--name">customer@email.com</p>
+    <p
+      *ngIf="
+        !(customerService.getCustomerDetailLoadingObservable() | async);
+        else loader
+      "
+      class="section--name"
+    >
+      {{ customer?.recipients }}
+    </p>
   </div>
   <div class="section">
     <p class="section--title">Address</p>
-    <p class="section--name">67 West STE 334, Pleasanton, Ca 94588</p>
+    <p
+      *ngIf="
+        !(customerService.getCustomerDetailLoadingObservable() | async);
+        else loader
+      "
+      class="section--name"
+    >
+      {{ customer?.address }}
+    </p>
   </div>
 </div>
 
@@ -155,25 +259,160 @@
 <div class="section-container">
   <div class="section">
     <p class="section--title">Customer ID</p>
-    <p class="section--name">JP Morgan</p>
+    <p
+      *ngIf="
+        !(customerService.getCustomerDetailLoadingObservable() | async);
+        else loader
+      "
+      class="section--name"
+    >
+      {{ customer?.custId }}
+    </p>
   </div>
   <div class="section">
     <p class="section--title">Subscription Type</p>
-    <p class="section--name">Customer</p>
+    <p
+      *ngIf="
+        !(customerService.getCustomerDetailLoadingObservable() | async);
+        else loader
+      "
+      class="section--name"
+    >
+      {{ customer?.subscriptionType }}
+    </p>
   </div>
   <div class="section">
     <p class="section--title">Salesforce ID</p>
-    <p class="section--name">abc-123-xyz</p>
+    <p
+      *ngIf="
+        !(customerService.getCustomerDetailLoadingObservable() | async);
+        else loader
+      "
+      class="section--name"
+    >
+      {{ customer?.salesforceId }}
+    </p>
   </div>
   <div class="section">
     <p class="section--title">Status</p>
-    <p class="section--name">Active</p>
+    <p
+      *ngIf="
+        !(customerService.getCustomerDetailLoadingObservable() | async);
+        else loader
+      "
+      class="section--name"
+    >
+      {{ customer?.status }}
+    </p>
   </div>
   <div class="section">
     <p class="section--title">Customer Key</p>
-    <p class="section--name icon">
-      <span>32532432332494588</span>
+    <p
+      *ngIf="
+        !(customerService.getCustomerDetailLoadingObservable() | async);
+        else loader
+      "
+      class="section--name icon"
+    >
+      <span>{{ customer?.key }}</span>
       <svg-icon src="assets/svg/copy-link-icon.svg"></svg-icon>
     </p>
   </div>
 </div>
+
+<router-outlet></router-outlet>
+
+<ng-template #loader>
+  <ngx-skeleton-loader
+    count="1"
+    appearance="line"
+    [theme]="{
+      width: '20rem',
+      top: '1rem',
+      'background-color': '#3492c9',
+      opacity: '0.1'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>
+
+<ng-template #suspendCompanyModalTemplate>
+  <app-modal [showModal]="true">
+    <app-modal-header
+      (onModalClose)="onModalClose()"
+      [title]="
+        (customerService.getCompanyStatus() | async) === 'Active' ||
+        (customerService.getCompanyStatus() | async) === ''
+          ? 'Suspend Copmany'
+          : 'Reactivate Company'
+      "
+    ></app-modal-header>
+    <app-modal-body>
+      <p class="user-modal-body">
+        Are you sure you want to
+        {{
+          (customerService.getCompanyStatus() | async) === "Active" ||
+          (customerService.getCompanyStatus() | async) === ""
+            ? "Suspend"
+            : "Reactivate"
+        }}
+        this company?
+      </p>
+    </app-modal-body>
+    <app-modal-footer
+      (onActionHanlder)="onSuspend()"
+      (onModalClose)="onModalClose()"
+      closeTitle="Cancel"
+      [actionTitle]="
+        (customerService.getCompanyStatus() | async) === 'Active' ||
+        (customerService.getCompanyStatus() | async) === ''
+          ? 'Suspend'
+          : 'Reactivate'
+      "
+      [disableAction]="loaderService.getLoader() | async"
+    ></app-modal-footer>
+  </app-modal>
+</ng-template>
+
+<ng-template #deleteCompanyModalTemplate>
+  <app-modal [showModal]="true">
+    <app-modal-header
+      (onModalClose)="onModalClose()"
+      title="Delete Company"
+    ></app-modal-header>
+    <app-modal-body>
+      <p class="user-modal-body">
+        Are you sure you want to delete this company?
+      </p>
+    </app-modal-body>
+    <app-modal-footer
+      (onActionHanlder)="onDeleteCompany()"
+      (onModalClose)="onModalClose()"
+      closeTitle="Cancel"
+      actionTitle="Delete"
+      [disableAction]="loaderService.getLoader() | async"
+    ></app-modal-footer>
+  </app-modal>
+</ng-template>
+
+<ng-template #scanStatsModal>
+  <app-modal [showModal]="true">
+    <app-modal-header (onModalClose)="onStatModalClose()" [title]="customer?.companyName + ' Scan Stat'">
+      <app-download-report
+        title="Donwload Summary"
+        icon="assets/svg/PDF.svg"
+        (onDownloadReport)="handleReport('pdf')"
+      ></app-download-report>
+      <app-download-report
+        title="Donwload Daily Breakdown"
+        icon="assets/svg/CSV.svg"
+        (onDownloadReport)="handleReport('csv')"
+      ></app-download-report>
+    </app-modal-header>
+    <app-modal-body>
+      <app-scan-date (dateSelected)="date = $event;"></app-scan-date>
+      <app-url-scanned></app-url-scanned>
+      <app-api-per-limit></app-api-per-limit>
+      <app-api-usage></app-api-usage>
+    </app-modal-body>
+  </app-modal>
+</ng-template>

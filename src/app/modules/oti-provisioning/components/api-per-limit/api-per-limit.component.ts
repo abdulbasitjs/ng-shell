@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CustomerService } from '../../services/customer.service';
 
 @Component({
   selector: 'app-api-per-limit',
@@ -7,8 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ApiPerLimitComponent implements OnInit {
   list!: Array<{ title: string; count: number }>;
+  stats: any;
 
-  constructor() {}
+  constructor(private customerService: CustomerService) {}
 
   ngOnInit(): void {
     this.list = [
@@ -25,5 +27,10 @@ export class ApiPerLimitComponent implements OnInit {
         count: 1,
       },
     ];
+    this.customerService.getCustomerStatsObservable().subscribe((stats) => {
+      if (stats) {
+        this.stats = stats;
+      }
+    });
   }
 }

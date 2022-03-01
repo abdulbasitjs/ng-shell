@@ -1,6 +1,14 @@
 <div class="max-per-limit m-t-20">
-  <div *ngFor="let item of list">
-    <p>{{ item.title }}</p>
-    <span>{{ item.count }}</span>
+  <div>
+    <p>Max API Calls Per Day</p>
+    <span>{{ stats?.maxAPICallsPerDay }}</span>
+  </div>
+  <div>
+    <p>Max API Calls Per Minute</p>
+    <span>{{ stats?.maxAPICallsPerMinute }}</span>
+  </div>
+  <div>
+    <p>Max API Calls Per Second</p>
+    <span>{{ stats?.maxAPICallsPerSecond }}</span>
   </div>
 </div>

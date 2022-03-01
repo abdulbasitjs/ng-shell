@@ -78,8 +78,9 @@
           margin-bottom: 0.1rem;
         }
 
-        &.disabled {
+        &.disable__row {
           background: var(--disabled);
+          opacity: 0.6;;
         }
       }
     }

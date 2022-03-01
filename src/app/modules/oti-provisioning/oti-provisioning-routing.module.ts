@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppCustomerAddEditComponent } from './components/customer-add-edit/customer-add-edit.component';
 import { AppPackageAddEditComponent } from './components/package-add-edit/package-add-edit.component';
+import { AppCustomerQuotaEditComponent } from './components/quota-edit/quota-edit.component';
 import { OtiProvisioningCustomerDetailComponent } from './pages/oti-provisioning-customer-detail/oti-provisioning-customer-detail.component';
 import { OtiProvisioningCustomersComponent } from './pages/oti-provisioning-customers/oti-provisioning-customers.component';
 import { OtiProvisioningPackageDetailComponent } from './pages/oti-provisioning-package-detail/oti-provisioning-package-detail.component';
@@ -20,8 +21,12 @@ const routes: Routes = [
         children: [{ path: 'add', component: AppCustomerAddEditComponent }],
       },
       {
-        path: 'customers/:name',
+        path: 'customers/:id',
         component: OtiProvisioningCustomerDetailComponent,
+        children: [
+          { path: 'company/:mode', component: AppCustomerAddEditComponent },
+          { path: 'company-quota/:mode', component: AppCustomerQuotaEditComponent },
+        ],
       },
       {
         path: 'packages',
@@ -29,8 +34,11 @@ const routes: Routes = [
         children: [{ path: 'add', component: AppPackageAddEditComponent }],
       },
       {
-        path: 'packages/:name',
+        path: 'packages/:id',
         component: OtiProvisioningPackageDetailComponent,
+        children: [
+          { path: 'package/:mode', component: AppPackageAddEditComponent },
+        ],
       },
     ],
   },

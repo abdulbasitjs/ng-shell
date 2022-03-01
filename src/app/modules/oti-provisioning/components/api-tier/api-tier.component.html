@@ -2,13 +2,13 @@
   <label>Api Tier</label>
   <hr class="line" />
   <ng-container *ngIf="!loading; else loader">
-    <label *ngFor="let tier of _fitlerTiers" class="form__input--radio-container">
+    <label *ngFor="let tier of _fitlerTiers; index as i;" class="form__input--radio-container">
       <input
         (click)="onTierChange(tier)"
         name="api-tier-radio"
         type="radio"
-        [value]="tier.key"
-        [checked]="tier.key === activeTier"
+        [value]="tier.id"
+        [checked]="selectTier(tier, i)"
       />
       <span>{{ tier.value }}</span>
     </label>

@@ -21,4 +21,6 @@ export enum HttpStatusCode {
 
 export enum ProjectStatusCode {
   AccessRevoked = 2504,
+  ValidationFailed = 2600,
+  ScriptBroken = 500
 }

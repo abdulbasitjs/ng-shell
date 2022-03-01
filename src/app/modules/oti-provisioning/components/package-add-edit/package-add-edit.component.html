@@ -11,91 +11,35 @@
     <form
       class="form m-0"
       (ngSubmit)="onAddNewPackage()"
-      [formGroup]="newPackageForm"
+      [formGroup]="packageForm"
     >
-      <ng-container formGroupName="package_info">
-        <div class="form__input icon-container pos-rel error">
-          <label>Package</label>
-          <input
-            type="text"
-            formControlName="package_name"
-            [class.error-field]="
-              !newPackageForm.get('package_info.package_name')?.valid &&
-              newPackageForm.get('package_info.package_name')?.touched
-            "
-          />
-          <div
-            class="pos-abs error-align-field error-msg"
-            *ngIf="
-              !newPackageForm.get('package_info.package_name')?.valid &&
-              newPackageForm.get('package_info.package_name')?.touched
-            "
-          >
-            <p>{{ UIMSG.NO_PACKAGE }}</p>
-          </div>
-        </div>
-        <div class="form__input form__select">
-          <label>Quota Interval</label>
-          <div class="dropdown-trigger">
-            <svg-icon
-              src="assets/svg/select-dropdown-field-icon.svg"
-              class="svg-dropdown-style"
-              [class]="dropdown.isOpen ? 'dropdown-open' : ''"
-            >
-            </svg-icon>
-            <app-dropdown
-              class="quota-interval-dropdown"
-              [items]="quotaIntervalList"
-              (onSelect)="handleQuotaIntervalSelect($event); dropdown.close()"
-            ></app-dropdown>
-          </div>
-          <input
-            appClickOutside
-            (clickOutside)="dropdown.close()"
-            #dropdown="dropdown"
-            appDropdown=".quota-interval-dropdown > .dropdown"
-            readonly
-            type="text"
-            class="select"
-            formControlName="quota_interval"
-          />
-        </div>
-        <div class="form__input">
-          <label>Quota Limit</label>
-          <app-range-btn formControlName="quota_limit"></app-range-btn>
-        </div>
+      <div class="form__input icon-container pos-rel error">
+        <label>Package</label>
+        <input
+          *ngIf="!(loaderService.getLoader() | async); else loader"
+          type="text"
+          formControlName="packageName"
+          [class.error-field]="
+            !packageForm.get('packageName')?.valid &&
+            packageForm.get('packageName')?.touched
+          "
+        />
         <div
-          class="form__input form__select m-t-20"
-          *ngIf="newPackageForm.get('package_info.quota_limit')?.value >= 1"
+          class="pos-abs error-align-field error-msg"
+          *ngIf="
+            !packageForm.get('packageName')?.valid &&
+            packageForm.get('packageName')?.touched
+          "
         >
-          <label>Rate limit / min</label>
-          <div class="dropdown-trigger">
-            <app-dropdown
-              class="rate-limit-dropdown"
-              [items]="rateLimitPerMinList"
-              (onSelect)="dropdown.close()"
-            >
-            </app-dropdown>
-            <svg-icon
-              src="assets/svg/select-dropdown-field-icon.svg"
-              class="svg-dropdown-style"
-              [class]="dropdown.isOpen ? 'dropdown-open' : ''"
-            >
-            </svg-icon>
-          </div>
-          <input
-            appClickOutside
-            (clickOutside)="dropdown.close()"
-            appDropdown=".rate-limit-dropdown > .dropdown"
-            #dropdown="dropdown"
-            readonly
-            type="text"
-            class="select"
-            formControlName="rate_limit"
-            value="something"
-          />
+          <p>Package name could't be empty.</p>
         </div>
-      </ng-container>
+      </div>
+      <app-package-controls
+        [isLoading]="(loaderService.getLoader() | async)"
+        direction="down"
+        formGroupName="package_info"
+        [lastSlections]="lastSelection$ | async"
+      ></app-package-controls>
     </form>
   </app-panel-body>
 
@@ -105,9 +49,26 @@
       <app-button
         btnTitle="Save"
         classes="button-primary button-lg button-box-shadow"
-        [isDisabled]="newPackageForm.controls['package_info'].invalid"
+        [isDisabled]="
+          packageForm.invalid ||
+          rateControl?.value.label === DEFAULT_LABEL ||
+          (loaderService.getLoader() | async)
+        "
         (clickHandler)="onSave()"
       ></app-button>
     </div>
   </app-panel-footer>
 </app-panel>
+
+<ng-template #loader>
+  <ngx-skeleton-loader
+    count="1"
+    appearance="line"
+    [theme]="{
+      height: '4rem',
+      'background-color': '#3492c9',
+      opacity: '0.1'
+    }"
+    style="width: 85%"
+  ></ngx-skeleton-loader>
+</ng-template>

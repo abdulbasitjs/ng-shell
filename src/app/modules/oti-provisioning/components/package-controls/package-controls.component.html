@@ -1,5 +1,6 @@
 <ng-container [formGroup]="controls">
-  <div class="form__input form__select">
+
+  <div class="form__input form__select" *ngIf="!isLoading; else customLoader">
     <label>Quota Interval</label>
     <div class="dropdown-trigger">
       <svg-icon
@@ -27,9 +28,18 @@
       />
     </ng-container>
   </div>
+
+  <ng-template #customLoader>
+    <div class="form__input form__select">
+      <label>Quota Interval</label>
+      <ng-template [ngTemplateOutlet]="loader"></ng-template>
+    </div>
+  </ng-template>
+
   <div class="form__input">
     <label>Quota Limit</label>
     <app-range-btn
+      *ngIf="!isLoading; else loader"
       (onValueChange)="changeValueHandler($event)"
       formControlName="quota_limit"
     ></app-range-btn>
@@ -38,12 +48,14 @@
   <div
     [class.disabled]="!controls.get('quota_limit')?.value"
     class="form__input form__select m-t-20 pos-rel error"
+    *ngIf="!isLoading; else customLoader"
   >
     <label>Rate limit / min</label>
     <div class="dropdown-trigger">
       <app-dropdown
         [direction]="dropdownDirection.direction"
         class="rate-limit-dropdown"
+        [class]="direction"
         [items]="rateLimitPerMinList"
         (onSelect)="handleRatesLimitSelect($event); intervalDropdown.close()"
       >
@@ -70,18 +82,45 @@
         class="select"
         formControlName="name"
       />
-      <div class="pos-abs error-align-field error-msg" *ngIf="rateControl.value.value === DEFAULT">
+      <div
+        class="pos-abs error-align-field error-msg"
+        *ngIf="rateControl.value.value === DEFAULT"
+      >
         <p>Please Select Rate Limit.</p>
       </div>
     </ng-container>
   </div>
+
+  <ng-template #customLoader>
+    <div class="form__input form__select">
+      <label>Rate limit / Interval</label>
+      <ng-template [ngTemplateOutlet]="loader"></ng-template>
+    </div>
+  </ng-template>
+
   <div
     class="form__input m-b-20"
     *ngIf="rateControl.value.value === CUSTOM_KEY"
   >
     <label>API quota / min</label>
-    <app-range-btn formControlName="quota_permin"></app-range-btn>
+    <app-range-btn
+      formControlName="quota_permin"
+      *ngIf="!isLoading; else loader"
+    ></app-range-btn>
   </div>
 </ng-container>
 
 <!-- rateControl.controls['name'].touched -->
+
+<ng-template #loader>
+  <ngx-skeleton-loader
+    count="1"
+    appearance="line"
+    [theme]="{
+      height: '4rem',
+      'background-color': '#3492c9',
+      opacity: '0.1'
+    }"
+    style="width: 85%"
+  ></ngx-skeleton-loader>
+</ng-template>

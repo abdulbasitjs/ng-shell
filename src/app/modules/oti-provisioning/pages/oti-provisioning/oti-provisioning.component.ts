@@ -1,9 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Sidebar } from '@shared/components/app-side-bar/interfaces/sidebar';
 import { Subscription } from 'rxjs';
 import { OtiProvisioningSideBarList } from '@configs/index';
 import { HeaderService } from '@core/header/header.service';
+import { ModalService } from '@shared/components/app-modal/modal.service';
+import { PlaceholderDirective } from '@shared/directives/placeholder/placeholder.directive';
 
 @Component({
   selector: 'app-oti-provisioning',
@@ -13,15 +15,31 @@ import { HeaderService } from '@core/header/header.service';
     class: 'oti-provisioning',
   },
 })
-export class OtiProvisioningComponent implements OnInit, OnDestroy {
+export class OtiProvisioningComponent implements OnInit, OnDestroy, AfterViewInit {
   sidebarList!: Sidebar[];
   routerSubscription!: Subscription;
+  @ViewChild(PlaceholderDirective, { static: false })
+  modalHost!: PlaceholderDirective;
+
   constructor(
     private route: ActivatedRoute,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private modalService: ModalService
   ) {
     this.routerIntilization();
     this.sidebarList = OtiProvisioningSideBarList;
+  }
+
+  ngAfterViewInit(): void {
+    this.modalService.getModal().subscribe((template) => {
+      if (template) {
+        const modalHostVCR = this.modalHost.vcr;
+        modalHostVCR.clear();
+        modalHostVCR.createEmbeddedView(template);
+      } else {
+        this.modalHost.vcr.clear();
+      }
+    });
   }
 
   ngOnDestroy(): void {

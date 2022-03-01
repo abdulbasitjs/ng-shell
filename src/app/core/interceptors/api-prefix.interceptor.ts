@@ -40,11 +40,11 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
     }
 
     const current = environment.endpoints.find(
-      (endpoint) => endpoint.name === this._cleanUrl(req.url)
+      (endpoint) => endpoint.alias === this._cleanUrl(req.url)
     );
 
     req = req.clone({
-      url: this._buildUrl(current, req.url),
+      url: this._buildUrl(current, current?.name),
       setHeaders: current?.noToken
         ? {}
         : {
@@ -77,7 +77,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
     return url.substr(0, url.includes('?') ? url.indexOf('?') : url.length);
   }
 
-  private _buildUrl(current: any, url: string): string {
+  private _buildUrl(current: any, url: string|undefined): string {
     if (current) {
       return `${
         environment[current?.baseUrl as keyof typeof undefined]['baseUrl']

@@ -1,6 +1,13 @@
 import { IDropdown } from '../dropdown/dropdown.model';
 export * from './dropdown.model';
 
+export const QuotaType: any = {
+  Daily: 'day',
+  Weekly: 'week',
+  Monthly: 'month',
+  Yearly: 'year',
+};
+
 // Dropdowns
 export const settingDropdownList: IDropdown[] = [
   { label: 'User Profile', value: 'profile', active: false },
