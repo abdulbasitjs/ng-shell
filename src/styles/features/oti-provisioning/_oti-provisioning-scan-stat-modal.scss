@@ -6,7 +6,7 @@ app-download-report {
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
-    margin-right: 1.6rem;
+    margin-right: 2rem;
     & > a {
       color: $modalColor !important;
       font-size: font-size(regularFix) !important;
@@ -17,6 +17,11 @@ app-download-report {
     }
   }
 }
+.modal__container--header > p {
+  color:var(--color-primary)!important;
+  font-size: font-size(normalFix)!important;
+}
+
 
 app-scan-date {
   & > .scan-date {
