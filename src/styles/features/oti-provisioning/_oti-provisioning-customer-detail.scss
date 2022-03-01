@@ -24,6 +24,9 @@
           font-size: font-size(largeFix);
           color: var(--color-quinary);
           font-weight: font-weight(bold);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
 
@@ -34,7 +37,10 @@
       }
 
       &--info:first-child {
-        flex: 0 1 20rem;
+        flex: 3;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       &--info:last-child {
