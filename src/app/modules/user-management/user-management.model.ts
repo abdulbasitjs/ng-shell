@@ -27,3 +27,8 @@ export interface IUsersResponse {
   items: Array<IUserItem>;
   to: number;
 }
+export interface UserProfile {
+  email: string;
+  name: string;
+  permission: { [key: string]: IModulesRolesResponse };
+}

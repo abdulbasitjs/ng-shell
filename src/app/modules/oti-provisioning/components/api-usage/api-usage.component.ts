@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CustomerService } from '../../services/customer.service';
 
 @Component({
   selector: 'app-api-usage',
@@ -8,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class ApiUsageComponent implements OnInit {
   list!: Array<{ title: string; count: number }>;
   totalApiCallUsed: number = 1300000;
+  stats: any;
 
-  constructor() {}
+  constructor(private customerService: CustomerService) {}
 
   ngOnInit(): void {
     this.list = [
@@ -54,5 +56,13 @@ export class ApiUsageComponent implements OnInit {
         count: 3,
       },
     ];
+    this.customerService.getCustomerStatsObservable().subscribe((stats) => {
+      if (stats) {
+        this.stats = stats.apiUses;
+        this.totalApiCallUsed = <number>(
+          Object.values(this.stats).reduce((acc: any, cur: any) => acc + cur, 0)
+        );
+      }
+    });
   }
 }

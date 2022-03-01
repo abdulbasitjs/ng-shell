@@ -35,6 +35,6 @@ export class ProfileDetailComponent implements OnInit, OnDestroy {
           this.modules = this.profileService.getModules(user.permission);
         }
       });
-    this.profileService.getMe();
+    this.profileService.getMe().subscribe((_d) => {});
   }
 }

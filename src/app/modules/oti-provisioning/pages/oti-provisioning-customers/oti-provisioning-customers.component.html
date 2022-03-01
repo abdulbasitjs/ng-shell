@@ -1,21 +1,23 @@
 <app-section-title
   class="section-title"
-  sectionTitle="Customer Management"
+  sectionTitle="Company Management"
 ></app-section-title>
+
+<!-- <pre>{{ (customerService.getCustomersObservable() | async)?.items | json }}</pre> -->
 
 <article class="components">
   <app-search
     (onSearch)="onSearchTerm($event)"
     (onEnter)="handleEnter($event)"
     (onEscape)="handleEsc($event)"
-    placeHolder="Search with Customer Name"
+    placeHolder="Search with Company Name"
     class="search-component"
     [class.disabled]="customerService.isCustomerListLoadingObservable() | async"
   ></app-search>
   <app-button
     class="button-component"
     icon="assets/svg/add-button-icon.svg"
-    btnTitle="Add New Company Profile"
+    btnTitle="Add a New Company Profile"
     classes="button-primary button-pd"
     (clickHandler)="onAddNewCompany()"
   >
@@ -39,7 +41,7 @@
     [pageSize]="
       (customerService.getPaginationConfigObservable() | async)?.pageSize
     "
-    [rows]="customerService.getCustomersObservable() | async"
+    [rows]="(customerService.getCustomersObservable() | async)?.items"
     (onRow)="handleRow($event)"
     [headers]="customerDatatable.headers.list"
   ></app-datatable-rows>

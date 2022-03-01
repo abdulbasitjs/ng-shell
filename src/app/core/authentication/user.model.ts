@@ -5,9 +5,3 @@ export interface User {
   token: string;
   refreshToken: string;
 }
-
-export interface UserProfile {
-  email: string;
-  name: string;
-  permission: string;
-}

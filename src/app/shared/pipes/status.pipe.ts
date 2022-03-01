@@ -11,7 +11,6 @@ const status: any = {
 @Pipe({ name: 'status' })
 export class StatusPipe implements PipeTransform {
   transform(row: any): any {
-
     return status[row];
   }
 }

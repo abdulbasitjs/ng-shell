@@ -37,10 +37,10 @@ const COMPANY_PREFIX = 'SNXCUST-';
 const RATE_LIMIT_LEN = 12;
 
 @Component({
-  selector: 'app-customer-add-edit',
-  templateUrl: './customer-add-edit.component.html',
+  selector: 'app-customer-quota-edit',
+  templateUrl: './quota-edit.component.html',
 })
-export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
+export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
   attempts = 0;
   editMode = false;
   CUSTOM_KEY = 'custom';
@@ -254,15 +254,6 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
       },
       rate_limit,
     });
-
-    console.log(
-      {
-        label: '',
-        value: this.intervalMapping[quotaType],
-        active: true,
-      },
-      rate_limit
-    );
   }
 
   populateClassifierSection() {
@@ -426,7 +417,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
             const tier = this.tiers.find((el) => el.id === tierType);
             this.shouldEnableExpiryDate = !!tier?.enablexpdate;
             this.quotaLimitControl?.clearValidators();
-            if (!this.tierControl?.pristine) this.resetPackInfoGroup();
+            // if (!this.tierControl?.pristine) this.resetPackInfoGroup();
           }
           this.quotaLimitControl?.updateValueAndValidity();
         })
@@ -538,13 +529,6 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
           this.onClose();
         }
       });
-    } else {
-      this.customerService.createCompany(payload).subscribe((d) => {
-        const res = <SSOResponse>d;
-        if (res.code !== ProjectStatusCode.ValidationFailed) {
-          this.onClose();
-        }
-      });
     }
   }
 
@@ -552,8 +536,6 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
     this.isPanelOpen = false;
     if (this.editMode) {
       this.router.navigate(['../../'], { relativeTo: this.route });
-    } else {
-      this.router.navigate(['../'], { relativeTo: this.route });
     }
   }
 

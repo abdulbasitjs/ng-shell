@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CustomerService } from '../../services/customer.service';
 
 @Component({
   selector: 'app-url-scanned',
@@ -6,8 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UrlScannedComponent implements OnInit {
   list!: Array<{ title: string; count: number }>;
+  stats: any;
 
-  constructor() {}
+  constructor(private customerService: CustomerService) {}
 
   ngOnInit(): void {
     this.list = [
@@ -24,5 +26,11 @@ export class UrlScannedComponent implements OnInit {
         count: 0,
       },
     ];
+    this.customerService.getCustomerStatsObservable().subscribe((stats) => {
+      if (stats) {
+        this.stats = stats;
+        console.log(this.stats);
+      }
+    });
   }
 }

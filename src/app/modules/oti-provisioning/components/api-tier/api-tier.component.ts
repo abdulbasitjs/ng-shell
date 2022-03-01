@@ -55,18 +55,26 @@ export class ApiTierComponent implements OnInit, ControlValueAccessor {
   }
 
   onTierChange(tier: any) {
-    this.activeTier = tier.key;
-    this.onChange(tier.key);
+    this.activeTier = tier.id;
+    this.onChange(tier.id);
+  }
+
+  selectTier(tier: any, index: number) {
+    if (this.activeTier === 'default') {
+      return index === 0;
+    } else {
+      return this.activeTier === tier.id;
+    }
   }
 
   reset() {
     this._fitlerTiers = [
       ...this._tiers.filter((el) => el.type === this._subType),
-      { key: 'custom', value: this.customValueLabel },
+      { id: 'custom', value: this.customValueLabel },
     ];
 
-    if (!this._isIntitalLoad) this.activeTier = this._fitlerTiers[0].key;
-    else this.activeTier = this.activeTier || this._fitlerTiers[0].key;
+    if (!this._isIntitalLoad) this.activeTier = this._fitlerTiers[0].id;
+    else this.activeTier = this.activeTier || this._fitlerTiers[0].id;
   }
 
   generateTiers() {

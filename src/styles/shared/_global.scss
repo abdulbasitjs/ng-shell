@@ -12,6 +12,10 @@
   pointer-events: none;
 }
 
+.disabled__no-pointer {
+  opacity: 0.6;
+}
+
 .error-msg {
   width: calc(29.7rem);
   height: calc(2rem);

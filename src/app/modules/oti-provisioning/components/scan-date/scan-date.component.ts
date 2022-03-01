@@ -1,15 +1,24 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
+import { CustomerService } from '../../services/customer.service';
 
 @Component({
   selector: 'app-scan-date',
   templateUrl: './scan-date.component.html',
 })
 export class AppScanDateComponent implements OnInit {
-  selected: any;
+  @Output() dateSelected: EventEmitter<{ startDate: string; endDate: string }> =
+    new EventEmitter<{ startDate: string; endDate: string }>();
+  customer!: any;
+  stats!: any;
+  format = {
+    format: 'YYYY-MM-DD',
+    displayFormat: 'YYYY-MM-DD',
+  };
+  selected = {
+    startDate: moment().format('YYYY-MM-DD'),
+    endDate: moment().format('YYYY-MM-DD'),
+  };
   alwaysShowCalendars: boolean;
 
   ranges: any = {
@@ -32,9 +41,31 @@ export class AppScanDateComponent implements OnInit {
   //   return this.invalidDates.some((d) => d.isSame(m, 'day'));
   // };
 
-  constructor() {
+  constructor(private customerService: CustomerService) {
     this.alwaysShowCalendars = true;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dateSelected.emit(this.selected);
+    this.customerService.getCustomerObservable().subscribe((customer) => {
+      this.customer = customer;
+      this.customerService.getCustomerStats({
+        customer: customer.companyName,
+        ...this.selected,
+      });
+    });
+  }
+
+  onDateSelect(event: any) {
+    if (event && event.startDate && event.endDate) {
+      const startDate = event.startDate.format('YYYY-MM-DD');
+      const endDate = event.endDate.format('YYYY-MM-DD');
+      this.customerService.getCustomerStats({
+        customer: this.customer.companyName,
+        startDate,
+        endDate,
+      });
+      this.dateSelected.emit({ startDate, endDate });
+    }
+  }
 }
