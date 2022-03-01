@@ -27,7 +27,7 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-        }
+        }        
       }
 
       &--info:not(:first-child):not(:last-child) {
@@ -46,6 +46,23 @@
       &--info:last-child {
         flex-grow: 1;
       }
+    }
+  }
+  & article a {
+    font-size: font-size(smallFix);
+    white-space: nowrap;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  & article{
+    position: absolute;
+    left: 26rem;
+    top: 16rem;
+    & span {
+      white-space: nowrap;
+      margin-right: .5rem;
     }
   }
 }

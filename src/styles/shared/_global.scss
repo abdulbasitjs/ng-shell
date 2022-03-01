@@ -133,3 +133,9 @@ $sides: (top, bottom, left, right);
 //   top: 1.5rem;
 //   right: 1.5rem;
 // }
+
+//*-*-*-*-*-*-*-*-*-*-- suspended! *-*-*-*-*-*-*-*-*-*-*
+.suspended {
+  color: var(--danger);
+  font-size: font-size(smallFix);
+}

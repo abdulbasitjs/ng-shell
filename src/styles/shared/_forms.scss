@@ -249,6 +249,10 @@ $form-width: 85%;
   right: 8.8rem;
   width: auto;
 }
+.error-msg-date {
+  right: 8.8rem;
+  width: auto;
+}
 
 input.date-input {
   color: var(--color-tertiary);
@@ -281,6 +285,6 @@ app-wizard {
 }
 .form__select {
   .error-align-field {
-    top: 3.8rem;
+    top: 6.5rem;
   }
 }
