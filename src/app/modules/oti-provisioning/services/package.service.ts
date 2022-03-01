@@ -212,7 +212,8 @@ export class PackageService {
       tap((res) => {
         const response = <SSOResponse>res;
         if (response.code === HttpStatusCode.Ok) {
-          this.packageStatus$.next(payload.status === 0 ? 'Disable' : 'Enable');
+          this.currentPackage$.next(response.data);
+          // this.packageStatus$.next(payload.status === 0 ? 'Disable' : 'Enable');
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
           const errors = Object.keys(response.message)
             .map((el: any) => response.message[el])

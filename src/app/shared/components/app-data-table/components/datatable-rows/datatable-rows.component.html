@@ -32,10 +32,17 @@
             : (row[header.accessor] | status)
         }}</span>
         <ng-template #customComponent>
+
           <ng-container
+            *ngIf="header.cell ==='portalTemplate'"
             [ngTemplateOutletContext]="{ $implicit: row[header.accessor] }"
             [ngTemplateOutlet]="dtService.getTemplate(header.cell)"
           ></ng-container>
+          <ng-container
+          *ngIf="header.cell ==='companyStatus'"
+          [ngTemplateOutletContext]="{ $implicit: row, status: row[header.accessor] }"
+          [ngTemplateOutlet]="dtService.getTemplate(header.cell)"
+        ></ng-container>
         </ng-template>
       </ng-template>
     </td>

@@ -1,25 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, TemplateRef } from '@angular/core';
 import {
   DataTable,
   Row,
 } from '@shared/components/app-data-table/interfaces/datatable';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CustomerService } from '../../services/customer.service';
+import { DataTableService } from '@shared/components/app-data-table/app-datatable.service';
 
 @Component({
   selector: 'app-oti-provisioning-customers',
   templateUrl: './oti-provisioning-customers.component.html',
   styleUrls: ['./oti-provisioning-customers.component.scss'],
 })
-export class OtiProvisioningCustomersComponent implements OnInit {
+export class OtiProvisioningCustomersComponent
+  implements OnInit, AfterViewInit
+{
+  @ViewChild('companyStatus') csTemplate!: TemplateRef<any>;
   customerDatatable!: DataTable;
   customers!: any;
 
   constructor(
     public customerService: CustomerService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dtService: DataTableService
   ) {}
+
+  ngAfterViewInit(): void {
+    this.dtService.addTemplate('companyStatus', this.csTemplate);
+  }
 
   ngOnInit(): void {
     this.customerDatatable = this.customerService.getCustomersDataTableConfig();

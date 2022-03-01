@@ -218,18 +218,15 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
         endDate: moment(this.customer?.expiryDate),
       },
     });
-    // this.setTierDefaultSelection(
-    //   this.customer?.packageInformation?.id,
-    //   this.subType?.value
-    // );
+    this.setTierDefaultSelection(
+      this.customer?.packageInformation?.packageId,
+      this.subType?.value
+    );
 
     // Need to fix later, we should merge the observables.
-    setTimeout(() => {
-      this.setTierDefaultSelection(
-        this.customer?.packageInformation?.id,
-        this.subType?.value
-      );
-    }, 0);
+    // setTimeout(() => {
+    //   this.setTierDefaultSelection(this.customer?.packageInformation?.id);
+    // }, 0);
   }
 
   populatePackageSection() {
@@ -312,7 +309,9 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   }
 
   setTierDefaultSelection(tierId = '', type = 'community') {
-    const filteredTiers = this.tiers.filter((el) => el.type === type);
+    const id = this.customer?.packageInformation?.packageId;
+    const subType = this.subType?.value || 'community';
+    const filteredTiers = this.tiers.filter((el) => el.type === subType);
 
     let key = '';
     if (filteredTiers.length) {
@@ -320,8 +319,8 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
     } else key = this.CUSTOM_KEY;
 
     if (this.editMode) {
-      if (tierId && filteredTiers.some((el) => el.id === tierId)) {
-        key = tierId;
+      if (id && filteredTiers.some((el) => el.id === id)) {
+        key = id;
       } else key = this.CUSTOM_KEY;
     }
 
@@ -490,7 +489,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
 
   isInvalidDate(d: any) {
     // Disable All previous dates
-    return d.isBefore(moment().subtract(1, 'day'));
+    return d.isBefore(moment().subtract(2, 'day'));
   }
 
   onExpiryDateChange(event: any) {

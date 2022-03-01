@@ -123,7 +123,7 @@ export class CustomerService {
         this.customerStatus$.next(response.data.status);
         const { packageId } = response.data.packageInformation;
         // if (packageId === '0') {
-          this.currentCustomer$.next(response.data);
+        this.currentCustomer$.next(response.data);
         // } else {
         //   this.packageService.getPackage(packageId);
         //   this.packageService.getPackageObservable().subscribe((data) => {
@@ -230,7 +230,7 @@ export class CustomerService {
           this.customerStatus$.next(response.data.status);
           const { packageId } = response.data.packageInformation;
           // if (packageId === '0') {
-            this.currentCustomer$.next(response.data);
+          this.currentCustomer$.next(response.data);
           // } else {
           //   this.packageService.getPackage(packageId);
           //   this.packageService.getPackageObservable().subscribe((data) => {
@@ -283,9 +283,10 @@ export class CustomerService {
       tap((res) => {
         const response = <SSOResponse>res;
         if (response.code === HttpStatusCode.Ok) {
-          this.customerStatus$.next(
-            payload.status === 0 ? 'Reactive' : 'Active'
-          );
+          // this.customerStatus$.next(
+          //   payload.status === 0 ? 'Reactive' : 'Active'
+          // );
+          this.currentCustomer$.next(response.data);
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
           const errors = Object.keys(response.message)
             .map((el: any) => response.message[el])
@@ -448,6 +449,7 @@ export class CustomerService {
           }, '');
         },
         list: [
+          { name: 'Sr. #', accessor: 'id', width: '10rem' },
           {
             name: 'Company',
             accessor: 'companyName',
@@ -472,7 +474,13 @@ export class CustomerService {
             isSortable: true,
             renderIcon: true,
           },
-          { name: 'Status', accessor: 'status' },
+          {
+            name: 'Status',
+            accessor: 'status',
+            isSortable: true,
+            renderIcon: true,
+            cell: "companyStatus"
+          },
         ],
         sortBy: sortName,
         order: orderBy,

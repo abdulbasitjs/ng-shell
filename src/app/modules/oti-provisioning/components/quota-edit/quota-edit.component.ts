@@ -217,9 +217,8 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
     });
 
     if (this.customer) {
-      console.log(this.customer.packageInformation);
       this.setTierDefaultSelection(
-        this.customer?.packageInformation?.id,
+        this.customer?.packageInformation?.packageId,
         this.subType?.value
       );
     }
@@ -305,7 +304,9 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
   }
 
   setTierDefaultSelection(tierId: any, type = 'community') {
-    const filteredTiers = this.tiers.filter((el) => el.type === type);
+    const id = this.customer?.packageInformation?.packageId;
+    const subType = this.subType?.value || 'community';
+    const filteredTiers = this.tiers.filter((el) => el.type === subType);
 
     let key = '';
     if (filteredTiers.length) {
@@ -313,8 +314,8 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
     } else key = this.CUSTOM_KEY;
 
     if (this.editMode) {
-      if (tierId && filteredTiers.some((el) => el.id === tierId)) {
-        key = tierId;
+      if (id && filteredTiers.some((el) => el.id === id)) {
+        key = id;
       } else key = this.CUSTOM_KEY;
     }
 

@@ -66,8 +66,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (current.value === SettingDropdownEnum.Profile) {
         this.router.navigateByUrl(`/${USER_PROFILE_KEY}`);
       } else if (current.value === SettingDropdownEnum.UserManagement) {
-        this.router.navigateByUrl(`/${USER_MANAGEMENT_KEY}`);
-        // window.open('/user-management', "_blank");
+        // this.router.navigateByUrl(`/${USER_MANAGEMENT_KEY}`);
+        window.open('/user-management', "_blank");
       } else if (current.value === SettingDropdownEnum.Logout) {
         this.authService.logout();
       }

@@ -36,6 +36,11 @@
   sectionTitle="OTI API QUOTA"
 ></app-section-title>
 
+<article>
+  <span class="suspended">⚠ API Quota Limit is expired. Please renew the package</span>
+  <a href="#">Please renew the package</a>
+</article>
+
 <!-- Action Container -->
 <div class="action-container">
   <app-button
@@ -149,12 +154,7 @@
     [class.disabled]="
       customerService.getCustomerDetailLoadingObservable() | async
     "
-    [btnTitle]="
-      (customerService.getCompanyStatus() | async) === 'Active' ||
-      (customerService.getCompanyStatus() | async) === ''
-        ? 'Suspend'
-        : 'Reactivate'
-    "
+    [btnTitle]="customer?.status === 'Active' ? 'Suspend' : 'Reactivate'"
     classes="button-default button-tertiary button-pd"
   >
   </app-button>
@@ -359,21 +359,13 @@
     <app-modal-header
       (onModalClose)="onModalClose()"
       [title]="
-        (customerService.getCompanyStatus() | async) === 'Active' ||
-        (customerService.getCompanyStatus() | async) === ''
-          ? 'Suspend Copmany'
-          : 'Reactivate Company'
+        customer?.status === 'Active' ? 'Suspend Copmany' : 'Reactivate Company'
       "
     ></app-modal-header>
     <app-modal-body>
       <p class="user-modal-body">
         Are you sure you want to
-        {{
-          (customerService.getCompanyStatus() | async) === "Active" ||
-          (customerService.getCompanyStatus() | async) === ""
-            ? "Suspend"
-            : "Reactivate"
-        }}
+        {{ customer?.status === "Active" ? "Suspend" : "Reactivate" }}
         this company?
       </p>
     </app-modal-body>
@@ -381,12 +373,7 @@
       (onActionHanlder)="onSuspend()"
       (onModalClose)="onModalClose()"
       closeTitle="Cancel"
-      [actionTitle]="
-        (customerService.getCompanyStatus() | async) === 'Active' ||
-        (customerService.getCompanyStatus() | async) === ''
-          ? 'Suspend'
-          : 'Reactivate'
-      "
+      [actionTitle]="customer?.status === 'Active' ? 'Suspend' : 'Reactivate'"
       [disableAction]="loaderService.getLoader() | async"
     ></app-modal-footer>
   </app-modal>
@@ -420,6 +407,7 @@
       [title]="customer?.companyName + ' Scan Stat'"
     >
       <app-download-report
+        [class.disabled]="loaderService.getLoader() | async"
         title="Donwload Summary"
         icon="assets/svg/PDF.svg"
         (onDownloadReport)="handleReport('pdf')"
@@ -432,9 +420,56 @@
     </app-modal-header>
     <app-modal-body>
       <app-scan-date (dateSelected)="date = $event"></app-scan-date>
-      <app-url-scanned></app-url-scanned>
-      <app-api-per-limit></app-api-per-limit>
-      <app-api-usage></app-api-usage>
+      <ng-container
+        *ngIf="
+          loaderService.getLoader() | async;
+          then customLoader;
+          else urlScanned
+        "
+      ></ng-container>
+      <ng-template #urlScanned>
+        <app-url-scanned></app-url-scanned>
+        <app-api-per-limit></app-api-per-limit>
+      </ng-template>
+      <app-api-usage
+        [isLoading]="loaderService.getLoader() | async"
+      ></app-api-usage>
     </app-modal-body>
   </app-modal>
+</ng-template>
+
+<ng-template #customLoader>
+  <ngx-skeleton-loader
+    count="1"
+    appearance="line"
+    [theme]="{
+      width: '80%',
+      height: '15px',
+      top: '1rem',
+      'background-color': '#3492c9',
+      opacity: '0.1'
+    }"
+  ></ngx-skeleton-loader>
+  <ngx-skeleton-loader
+    count="1"
+    appearance="line"
+    [theme]="{
+      width: '90%',
+      height: '15px',
+      top: '1rem',
+      'background-color': '#3492c9',
+      opacity: '0.1'
+    }"
+  ></ngx-skeleton-loader>
+  <ngx-skeleton-loader
+    count="1"
+    appearance="line"
+    [theme]="{
+      width: '60%',
+      height: '15px',
+      top: '1rem',
+      'background-color': '#3492c9',
+      opacity: '0.1'
+    }"
+  ></ngx-skeleton-loader>
 </ng-template>

@@ -1,13 +1,73 @@
 <div class="api-usage m-t-10">
-  <p>Total Api Usage</p>
-  <div class="api-usage--list">
-    <div *ngFor="let item of stats | keyvalue">
-      <p>{{ item.key }}</p>
-      <span>{{ item.value }}</span>
+  <ng-container *ngIf="!isLoading; else apiUsageLoader">
+    <p>Total Api Usage</p>
+    <div class="api-usage--list">
+      <div *ngFor="let item of stats | keyvalue">
+        <p>{{ item.key }}</p>
+        <span>{{ item.value }}</span>
+      </div>
+    </div>
+    <div class="m-t-20">
+      <p>Total API Calls Used</p>
+      <span>{{ totalApiCallUsed }}</span>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #apiUsageLoader>
+  <div class="api-usage">
+    <div>
+      <p></p>
+      <span>
+        <ngx-skeleton-loader
+          count="1"
+          appearance="line"
+          [theme]="{
+            width: '80%',
+            height: '15px',
+            top: '1rem',
+            'background-color': '#3492c9',
+            opacity: '0.1'
+          }"
+        ></ngx-skeleton-loader
+      ></span>
     </div>
   </div>
-  <div class="m-t-20">
-    <p>Total API Calls Used</p>
-    <span>{{ totalApiCallUsed }}</span>
+
+  <div class="api-usage">
+    <div>
+      <p></p>
+      <span>
+        <ngx-skeleton-loader
+          count="1"
+          appearance="line"
+          [theme]="{
+            width: '90%',
+            height: '15px',
+            top: '1rem',
+            'background-color': '#3492c9',
+            opacity: '0.1'
+          }"
+        ></ngx-skeleton-loader
+      ></span>
+    </div>
   </div>
-</div>
+  <div class="api-usage">
+    <div>
+      <p></p>
+      <span>
+        <ngx-skeleton-loader
+          count="1"
+          appearance="line"
+          [theme]="{
+            width: '60%',
+            height: '15px',
+            top: '1rem',
+            'background-color': '#3492c9',
+            opacity: '0.1'
+          }"
+        ></ngx-skeleton-loader
+      ></span>
+    </div>
+  </div>
+</ng-template>
