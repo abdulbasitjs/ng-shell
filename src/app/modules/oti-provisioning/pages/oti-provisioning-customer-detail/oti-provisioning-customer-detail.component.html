@@ -42,11 +42,17 @@
     class="button-component"
     btnTitle="Scan Stats"
     classes="button-primary button-pd"
+    [class.disabled]="
+      customerService.getCustomerDetailLoadingObservable() | async
+    "
     (clickHandler)="showScanReport()"
   >
   </app-button>
   <svg-icon
     routerLink="./company-quota/edit"
+    [class.disabled]="
+      customerService.getCustomerDetailLoadingObservable() | async
+    "
     src="assets/svg/edit-icon.svg"
   ></svg-icon>
 </div>
@@ -66,7 +72,14 @@
         {{
           customer?.packageInformation?.packageId === "0"
             ? "Custom"
-            : customer?.packageInformation?.name
+            : customer?.packageInformation?.packageName
+        }}
+
+        {{
+          customer?.packageInformation?.packageId !== "0" &&
+          customer?.isCustomPackage === 1
+            ? " { Custom }"
+            : ""
         }}
       </p>
     </div>
@@ -97,7 +110,7 @@
         "
         class="quota--info__name"
       >
-        120390
+        {{ customer?.remainingQuota | nFormat }}
       </p>
     </div>
     <div class="quota--info">
@@ -109,7 +122,9 @@
         "
         class="quota--info__name"
       >
-        {{ customer?.expiryDate }}
+        {{
+          customer?.expiryDate === "2090-12-12" ? "Never" : customer?.expiryDate
+        }}
       </p>
     </div>
   </div>
@@ -252,6 +267,7 @@
     class="button-component"
     btnTitle="Send Invitation"
     classes="button-primary button-pd"
+    [class.disabled]="true"
   >
   </app-button>
 </div>
@@ -315,7 +331,10 @@
       class="section--name icon"
     >
       <span>{{ customer?.key }}</span>
-      <svg-icon src="assets/svg/copy-link-icon.svg"></svg-icon>
+      <svg-icon
+        [copyClipboard]="customer?.key"
+        src="assets/svg/copy-link-icon.svg"
+      ></svg-icon>
     </p>
   </div>
 </div>
@@ -396,7 +415,10 @@
 
 <ng-template #scanStatsModal>
   <app-modal [showModal]="true">
-    <app-modal-header (onModalClose)="onStatModalClose()" [title]="customer?.companyName + ' Scan Stat'">
+    <app-modal-header
+      (onModalClose)="onStatModalClose()"
+      [title]="customer?.companyName + ' Scan Stat'"
+    >
       <app-download-report
         title="Donwload Summary"
         icon="assets/svg/PDF.svg"
@@ -409,7 +431,7 @@
       ></app-download-report>
     </app-modal-header>
     <app-modal-body>
-      <app-scan-date (dateSelected)="date = $event;"></app-scan-date>
+      <app-scan-date (dateSelected)="date = $event"></app-scan-date>
       <app-url-scanned></app-url-scanned>
       <app-api-per-limit></app-api-per-limit>
       <app-api-usage></app-api-usage>

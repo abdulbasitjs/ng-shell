@@ -80,6 +80,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   };
   isTiersLoading = false;
   shouldEnableExpiryDate = false;
+  isRegenKey = false;
 
   newCompanyForm!: FormGroup;
   customer: any;
@@ -133,12 +134,14 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
 
   // Endpoints
   fetchCustomerKey() {
+    this.isRegenKey = true;
     this.customerKeySubscription = this.customerService
       .getCustomerKey()
       .subscribe((key) => {
         this.newCompanyForm.get('subscription')?.patchValue({
           company_key: key,
         });
+        this.isRegenKey = false;
       });
   }
 
@@ -215,10 +218,17 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
         endDate: moment(this.customer?.expiryDate),
       },
     });
+    // this.setTierDefaultSelection(
+    //   this.customer?.packageInformation?.id,
+    //   this.subType?.value
+    // );
 
     // Need to fix later, we should merge the observables.
     setTimeout(() => {
-      this.setTierDefaultSelection(this.customer?.packageInformation?.id);
+      this.setTierDefaultSelection(
+        this.customer?.packageInformation?.id,
+        this.subType?.value
+      );
     }, 0);
   }
 
@@ -254,15 +264,6 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
       },
       rate_limit,
     });
-
-    console.log(
-      {
-        label: '',
-        value: this.intervalMapping[quotaType],
-        active: true,
-      },
-      rate_limit
-    );
   }
 
   populateClassifierSection() {
@@ -310,18 +311,19 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  setTierDefaultSelection(tierId = '') {
-    const filteredTiers = this.tiers.filter(
-      (el) => el.type === this.subType?.value
-    );
+  setTierDefaultSelection(tierId = '', type = 'community') {
+    const filteredTiers = this.tiers.filter((el) => el.type === type);
+
     let key = '';
     if (filteredTiers.length) {
-      key = tierId || filteredTiers[0].id;
+      key = filteredTiers[0].id;
     } else key = this.CUSTOM_KEY;
 
-    if (tierId && filteredTiers.some((el) => el.id === tierId)) {
-      key = tierId;
-    } else key = this.CUSTOM_KEY;
+    if (this.editMode) {
+      if (tierId && filteredTiers.some((el) => el.id === tierId)) {
+        key = tierId;
+      } else key = this.CUSTOM_KEY;
+    }
 
     this.subscriptionGroup?.patchValue({
       tier: key,
@@ -339,7 +341,12 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
           id: el.id,
           enablexpdate: el.enablexpdate,
         }));
-      this.setTierDefaultSelection();
+      if (!this.editMode) this.setTierDefaultSelection('', 'community');
+      else
+        this.setTierDefaultSelection(
+          this.customer?.packageInformation?.id,
+          this.subType?.value
+        );
     }
     this.isTiersLoading = false;
   }

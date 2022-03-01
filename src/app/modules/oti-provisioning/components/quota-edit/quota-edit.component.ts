@@ -216,10 +216,13 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
       },
     });
 
-    // Need to fix later, we should merge the observables.
-    setTimeout(() => {
-      this.setTierDefaultSelection(this.customer?.packageInformation?.id);
-    }, 0);
+    if (this.customer) {
+      console.log(this.customer.packageInformation);
+      this.setTierDefaultSelection(
+        this.customer?.packageInformation?.id,
+        this.subType?.value
+      );
+    }
   }
 
   populatePackageSection() {
@@ -301,22 +304,25 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  setTierDefaultSelection(tierId = '') {
-    const filteredTiers = this.tiers.filter(
-      (el) => el.type === this.subType?.value
-    );
+  setTierDefaultSelection(tierId: any, type = 'community') {
+    const filteredTiers = this.tiers.filter((el) => el.type === type);
+
     let key = '';
     if (filteredTiers.length) {
-      key = tierId || filteredTiers[0].id;
+      key = filteredTiers[0].id;
     } else key = this.CUSTOM_KEY;
 
-    if (tierId && filteredTiers.some((el) => el.id === tierId)) {
-      key = tierId;
-    } else key = this.CUSTOM_KEY;
+    if (this.editMode) {
+      if (tierId && filteredTiers.some((el) => el.id === tierId)) {
+        key = tierId;
+      } else key = this.CUSTOM_KEY;
+    }
 
-    this.subscriptionGroup?.patchValue({
-      tier: key,
-    });
+    setTimeout(() => {
+      this.subscriptionGroup?.patchValue({
+        tier: key,
+      });
+    }, 0);
   }
 
   createTiers() {
@@ -330,7 +336,12 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
           id: el.id,
           enablexpdate: el.enablexpdate,
         }));
-      this.setTierDefaultSelection();
+      if (!this.editMode) this.setTierDefaultSelection('', 'community');
+      else
+        this.setTierDefaultSelection(
+          this.customer?.packageInformation?.id,
+          this.subType?.value
+        );
     }
     this.isTiersLoading = false;
   }

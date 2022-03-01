@@ -122,19 +122,19 @@ export class CustomerService {
       if (response.code == HttpStatusCode.Ok) {
         this.customerStatus$.next(response.data.status);
         const { packageId } = response.data.packageInformation;
-        if (packageId === '0') {
+        // if (packageId === '0') {
           this.currentCustomer$.next(response.data);
-        } else {
-          this.packageService.getPackage(packageId);
-          this.packageService.getPackageObservable().subscribe((data) => {
-            if (data) {
-              response.data.packageInformation = data;
-              this.currentCustomer$.next(response.data);
-            } else {
-              this.currentCustomer$.next(response.data);
-            }
-          });
-        }
+        // } else {
+        //   this.packageService.getPackage(packageId);
+        //   this.packageService.getPackageObservable().subscribe((data) => {
+        //     if (data) {
+        //       response.data.packageInformation = data;
+        //       this.currentCustomer$.next(response.data);
+        //     } else {
+        //       this.currentCustomer$.next(response.data);
+        //     }
+        //   });
+        // }
       }
     });
   }
@@ -227,11 +227,25 @@ export class CustomerService {
         const response = <SSOResponse>res;
         this.isCustomerCreating$.next(0);
         if (response.code === HttpStatusCode.Ok) {
+          this.customerStatus$.next(response.data.status);
+          const { packageId } = response.data.packageInformation;
+          // if (packageId === '0') {
+            this.currentCustomer$.next(response.data);
+          // } else {
+          //   this.packageService.getPackage(packageId);
+          //   this.packageService.getPackageObservable().subscribe((data) => {
+          //     if (data) {
+          //       response.data.packageInformation = data;
+          //       this.currentCustomer$.next(response.data);
+          //     } else {
+          //       this.currentCustomer$.next(response.data);
+          //     }
+          //   });
+          // }
           this.toasterService.success(
             'Company Update Successfully!🚀🚀🚀',
             'Success!'
           );
-          console.log(response);
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
           const errors = Object.keys(response.message)
             .map((el: any) => response.message[el])
