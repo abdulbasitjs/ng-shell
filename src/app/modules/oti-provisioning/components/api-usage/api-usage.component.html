@@ -1,9 +1,9 @@
 <div class="api-usage m-t-10">
   <p>Total Api Usage</p>
   <div class="api-usage--list">
-    <div *ngFor="let item of list">
-      <p>{{ item.title }}</p>
-      <span>{{ item.count }}</span>
+    <div *ngFor="let item of stats | keyvalue">
+      <p>{{ item.key }}</p>
+      <span>{{ item.value }}</span>
     </div>
   </div>
   <div class="m-t-20">

@@ -40,8 +40,7 @@ export class PackageService {
   public isInEditMode$: BehaviorSubject<string> = new BehaviorSubject<string>(
     ''
   );
-
-  private package$: BehaviorSubject<any> = new BehaviorSubject<any>({});
+  private packageStatus$: BehaviorSubject<any> = new BehaviorSubject<any>('');
 
   constructor(
     private http: HttpClient,
@@ -145,11 +144,18 @@ export class PackageService {
         const response = <SSOResponse>res;
         this.isPackageCreating$.next(0);
         if (response.code === HttpStatusCode.Ok) {
+          response.data = {
+            ...response.data,
+            quotaPermin: this.createQuotaPerMinRate(
+              response.data.perMinLimit,
+              response.data.threshold
+            ),
+          };
+          this.currentPackage$.next(response.data);
           this.toasterService.success(
             'Package Update Successfully!🚀🚀🚀',
             'Success!'
           );
-          console.log(response);
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
           const errors = Object.keys(response.message)
             .map((el: any) => response.message[el])
@@ -180,8 +186,47 @@ export class PackageService {
           ),
         };
         this.currentPackage$.next(response.data);
+        this.packageStatus$.next(
+          response.data.status === 0 ? 'Disable' : 'Enable'
+        );
       }
     });
+  }
+
+  deletePackage(id: string) {
+    return this.http.post(EP.DeletePackage, { id }).pipe(
+      map((res) => {
+        const response = <SSOResponse>res;
+        if (response.code === HttpStatusCode.Ok) {
+          this.toasterService.success(response.message, 'Success!');
+          this.getPackages();
+          return { ok: true };
+        }
+        return res;
+      })
+    );
+  }
+
+  changePackageStatus(payload: any) {
+    return this.http.post(EP.ChangePackageStatus, payload).pipe(
+      tap((res) => {
+        const response = <SSOResponse>res;
+        if (response.code === HttpStatusCode.Ok) {
+          this.packageStatus$.next(payload.status === 0 ? 'Disable' : 'Enable');
+        } else if (response.code === ProjectStatusCode.ValidationFailed) {
+          const errors = Object.keys(response.message)
+            .map((el: any) => response.message[el])
+            .flat();
+          errors.forEach((e) => {
+            this.toasterService.error(e, 'Validation Failed', {
+              disableTimeOut: true,
+            });
+          });
+          return of({ error: true });
+        }
+        return res;
+      })
+    );
   }
 
   // Helper Methods
@@ -263,8 +308,8 @@ export class PackageService {
     return this.isInEditMode$.asObservable();
   }
 
-  getInviteSendingObserVable() {
-    // return this.isUserCreating$.asObservable();
+  getPackageStatus() {
+    return this.packageStatus$.asObservable();
   }
 
   // Configs

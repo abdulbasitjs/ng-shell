@@ -1,5 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoaderService } from '@core/services/loader.service';
 import { ModalService } from '@shared/components/app-modal/modal.service';
 import { Subscription } from 'rxjs';
 import { PackageService } from '../../services/package.service';
@@ -12,12 +19,15 @@ import { PackageService } from '../../services/package.service';
 export class OtiProvisioningPackageDetailComponent
   implements OnInit, OnDestroy
 {
+  @ViewChild('deletePackageModalTemplate') dcModal!: TemplateRef<any>;
+  @ViewChild('suspendPackageModalTemplate') scModal!: TemplateRef<any>;
+
   intervalMapping: any = {
-    "day": "Daily",
-    "week": "Weekly",
-    "month": "Monthly",
-    "year": "Yearly"
-  }
+    day: 'Daily',
+    week: 'Weekly',
+    month: 'Monthly',
+    year: 'Yearly',
+  };
   routerSubscription!: Subscription;
   packageSubscription!: Subscription;
   package: any;
@@ -26,7 +36,9 @@ export class OtiProvisioningPackageDetailComponent
   constructor(
     public modalService: ModalService,
     private route: ActivatedRoute,
-    public packageService: PackageService
+    private router: Router,
+    public packageService: PackageService,
+    public loaderService: LoaderService
   ) {}
 
   ngOnDestroy(): void {
@@ -44,5 +56,39 @@ export class OtiProvisioningPackageDetailComponent
       .subscribe((packageInfo) => {
         this.package = packageInfo;
       });
+  }
+
+  onModalClose() {
+    this.modalService.close();
+  }
+
+  deletePackage() {
+    this.modalService.open(this.dcModal);
+  }
+
+  disable() {
+    this.modalService.open(this.scModal);
+  }
+
+  onDisable() {
+    const status = this.package.status === 0 ? 1 : 0;
+    this.packageService
+      .changePackageStatus({
+        status,
+        id: this.package.id,
+      })
+      .subscribe((d) => {
+        this.onModalClose();
+      });
+  }
+
+  onDeleteCompany() {
+    this.packageService.deletePackage(this.package.id).subscribe((res) => {
+      const response = res as { ok: boolean };
+      if (response && response.ok) {
+        this.onModalClose();
+        this.router.navigate(['../'], { relativeTo: this.route });
+      }
+    });
   }
 }

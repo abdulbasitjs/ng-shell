@@ -1,4 +1,4 @@
-import { HttpClient, HttpStatusCode } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EP, IDropdown, ClassifierList } from '@configs/index';
 import { ProjectStatusCode } from '@core/http/http-codes.enum';
@@ -130,6 +130,8 @@ export class CustomerService {
             if (data) {
               response.data.packageInformation = data;
               this.currentCustomer$.next(response.data);
+            } else {
+              this.currentCustomer$.next(response.data);
             }
           });
         }
@@ -144,6 +146,24 @@ export class CustomerService {
         this.customerStats$.next(response.data);
       }
     });
+  }
+
+  downloadStats(payload: any) {
+    this.http
+      .post(EP.DownloadStats, payload, { responseType: 'blob' })
+      .pipe(catchError((err) => of(err)))
+      .subscribe((blob: Blob) => {
+        const type =
+          payload.format === 'pdf'
+            ? 'application/pdf'
+            : 'text/csv;charset=utf-8;';
+        const file = new Blob([blob], { type });
+        const fileURL = URL.createObjectURL(file);
+        const a = document.createElement('a');
+        a.href = fileURL;
+        a.download = `scan-stats`;
+        a.click();
+      });
   }
 
   getCustomerKey() {

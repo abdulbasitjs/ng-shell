@@ -1,6 +1,14 @@
 <div class="url-scanned m-t-30">
-  <div *ngFor="let item of list">
-    <p>{{ item.title }}</p>
-    <span>{{ item.count }}</span>
+  <div>
+    <p>Total URLs Scanned</p>
+    <span>{{ stats?.TotaUrlsScanned }}</span>
+  </div>
+  <div>
+    <p>Malicious URLs Found</p>
+    <span>{{ stats?.totalUlrsMalicious }}</span>
+  </div>
+  <div>
+    <p>Benign URLs Found</p>
+    <span>{{ stats?.totalUlrsBenign }}</span>
   </div>
 </div>

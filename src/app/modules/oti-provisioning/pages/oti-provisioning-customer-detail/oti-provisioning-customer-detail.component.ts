@@ -20,6 +20,7 @@ import { CustomerService } from '../../services/customer.service';
 export class OtiProvisioningCustomerDetailComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  date: { startDate: string, endDate: string } = { startDate: "", endDate: "" };
   intervalMapping: any = {
     day: 'Daily',
     week: 'Weekly',
@@ -106,5 +107,17 @@ export class OtiProvisioningCustomerDetailComponent
 
   onModalClose() {
     this.modalService.close();
+  }
+
+
+
+  handleReport(type: string) {
+    const payload = {
+      customer: this.customer.companyName,
+      ...this.date,
+      format: type
+    }
+    console.log(payload);
+    this.customerService.downloadStats(payload);
   }
 }

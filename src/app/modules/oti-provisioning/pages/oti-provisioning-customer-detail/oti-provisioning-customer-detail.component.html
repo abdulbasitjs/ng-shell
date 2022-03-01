@@ -400,14 +400,16 @@
       <app-download-report
         title="Donwload Summary"
         icon="assets/svg/PDF.svg"
+        (onDownloadReport)="handleReport('pdf')"
       ></app-download-report>
       <app-download-report
         title="Donwload Daily Breakdown"
         icon="assets/svg/CSV.svg"
+        (onDownloadReport)="handleReport('csv')"
       ></app-download-report>
     </app-modal-header>
     <app-modal-body>
-      <app-scan-date></app-scan-date>
+      <app-scan-date (dateSelected)="date = $event;"></app-scan-date>
       <app-url-scanned></app-url-scanned>
       <app-api-per-limit></app-api-per-limit>
       <app-api-usage></app-api-usage>

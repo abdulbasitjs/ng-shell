@@ -7,13 +7,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class AppDownloadReportComponent implements OnInit {
   @Input() title!: string;
   @Input() icon!: string;
-  @Output() onDownloadReport: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onDownloadReport: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() { }
 
   ngOnInit(): void { }
 
-  downloadReportHandler(name: string) {
-    this.onDownloadReport.emit(name);
+  downloadReportHandler(e: Event) {
+    e.preventDefault();
+    this.onDownloadReport.emit();
   }
 }
