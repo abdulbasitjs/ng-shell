@@ -6,6 +6,7 @@ app-download-report {
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
+    margin-right: 1.3rem;
     & > a {
       color: $modalColor !important;
       font-size: font-size(regularFix) !important;
@@ -131,6 +132,9 @@ app-api-usage {
       flex-wrap: wrap;
       column-gap: 10rem;
       row-gap: 1.6rem;
+      overflow: hidden;
+      max-height: 170px;
+      overflow-y: auto;
       & div {
         flex-basis: 20rem;
         display: flex;

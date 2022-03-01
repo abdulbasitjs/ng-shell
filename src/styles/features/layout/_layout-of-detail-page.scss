@@ -27,7 +27,7 @@
   }
 
   & > .section-container {
-    grid-column: section-start / col-start 6;
+    grid-column: section-start / col-start 5;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -60,6 +60,16 @@
         align-items: center;
         gap: 1rem;
       }
+    }
+  }
+  @include media-desktop {
+    .section-container {
+      grid-column: section-start / col-start 4;
+    }
+  }
+  @include media-custom-tablet {
+    .section-container {
+      grid-column: section-start / col-start 6;
     }
   }
 }

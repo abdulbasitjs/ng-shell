@@ -31,7 +31,7 @@
             placeholder="Enter email address"
           />
           <div
-            class="pos-abs error-msg"
+            class="pos-abs error-msg-auth error-msg"
             *ngIf="
               !loginForm.get('email')?.valid && loginForm.get('email')?.touched
             "
@@ -61,7 +61,7 @@
             "
           />
           <div
-            class="pos-abs error-msg"
+            class="pos-abs error-msg-auth error-msg"
             *ngIf="
               !loginForm.get('password')?.valid &&
               loginForm.get('password')?.touched
