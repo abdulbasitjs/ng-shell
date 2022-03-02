@@ -2,7 +2,7 @@
   width: 100vw;
   height: 100vh;
   background: left 101% / 102% no-repeat url("/assets/svg/bg-waves.svg"),
-    linear-gradient(207deg, #2e79a6 6%, #2e79a7 6%, #3492c9 100%);
+    var(--auth-bg-linear-gradient);
 
   .auth {
     grid-column: 1 / -1;

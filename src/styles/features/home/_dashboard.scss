@@ -22,8 +22,8 @@
       height: 13.6rem;
       margin: 0 2.4rem 2.4rem 0;
       padding: 1.8rem 0 0 2.7rem;
-      border: 1px solid #dddddd;
-      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--color-dashboard-item-border);
+      box-shadow: 0 0 8px 0 var(--color-black-light);
       border-radius: 8px;
       max-width: 42.2rem;
       cursor: pointer;
@@ -53,7 +53,7 @@
         top: -8px;
         left: -8px;
         border: var(--border-box-project);
-        box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 8px 0  var(--color-black-light);
         border-radius: 8.32px;
         opacity: 0;
         transition: opacity 0.5s ease-in-out;

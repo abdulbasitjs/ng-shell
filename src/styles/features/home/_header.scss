@@ -28,7 +28,7 @@
         font-size: font-size(medium);
         line-height: 2.4rem;
         font-weight: font-weight(black);
-        color: white;
+        color: var(--color-secondary);
         & > span {
           font-weight: font-weight(thin);
         }
@@ -40,7 +40,7 @@
         cursor: pointer;
         // Need to change as currently we don't have white icon
         & > svg > g > g {
-          fill: white;
+          fill: var(--color-secondary);
         }
       }
     }
@@ -49,10 +49,10 @@
       & > p {
         color: var(--color-primary);
       }
-      background: #ffffff;
-      box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.32);
+      background: var(--color-secondary);
+      box-shadow: 5px 4px 8px 0 var(--color-black-light-32);
       & > svg-icon > svg > g > g {
-        fill: #2e79a6;
+        fill: var(--color-primary);
       }
 
       svg-icon {
@@ -65,7 +65,7 @@
       top: 7rem;
       left: 0.8rem;
       background: var(--color-secondary);
-      box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.32);
+      box-shadow: 5px 4px 8px 0 var(--color-black-light-32);
       padding: 1rem 0.8rem;
       width: 96vw;
       border-bottom-right-radius: 1rem;
@@ -116,8 +116,14 @@
         font-size: font-size("small");
         line-height: 0.7;
         font-weight: font-weight(regular);
-        color: white;
+        color: var(--color-secondary);
       }
+    }
+
+    &--theme {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     &--settings {

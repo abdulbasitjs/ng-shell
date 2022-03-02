@@ -5,7 +5,7 @@
   width: 61.2rem;
   height: calc(100vh - 8rem);
   background: var(--color-secondary);
-  box-shadow: -3px -3px 8px 2px #becbe1;
+  box-shadow: -3px -3px 8px 2px var(--color-panel-box-shadow);
   border-radius: 8px 0 0 8px;
   padding: 1.3rem 2.5rem 0 2.5rem;
   overflow-y: auto;

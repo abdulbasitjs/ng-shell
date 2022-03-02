@@ -58,7 +58,6 @@ export class ProfileService {
     }
     else {
       this.getMe().subscribe((d: any) => {
-        console.log(d);
         this.currentUser$.next(d);
       })
     }

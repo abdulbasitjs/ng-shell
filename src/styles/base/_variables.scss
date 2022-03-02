@@ -16,6 +16,14 @@ html {
   --color-duodenary: #e8e8e8;
   --color-duodenary-light: rgba(232, 232, 232, 0.6);
   --color-black: #000000;
+  --color-black-light: rgba(0, 0, 0, 0.1);
+  --color-black-light-2: rgba(0, 0, 0, 0.2);
+  --color-black-light-19: rgba(0, 0, 0, 0.19);
+  --color-black-light-32: rgba(0, 0, 0, 0.32);
+
+  --color-dashboard-item-border: #dddddd;
+  --color-dropdown-box-shadow: #bfbcbc;
+  --color-panel-box-shadow: #becbe1;
 
   --color-login-text: #6e6e6e;
   --color-placeholder-text: hsl(0, 0%, 40%);
@@ -26,17 +34,90 @@ html {
   --disabled: rgba(160, 160, 160, 0.5);
   --danger: #d0021b;
   --wizard-template-animation-direction: 1;
-  --color-progress-loader: linear-gradient(-45deg, rgb(136, 21, 230) 0%, rgb(252, 61, 35) 25%, rgb(230, 169, 21) 50%, rgb(130, 254, 23) 100%);
+  --color-progress-loader: linear-gradient(
+    -45deg,
+    rgb(136, 21, 230) 0%,
+    rgb(252, 61, 35) 25%,
+    rgb(230, 169, 21) 50%,
+    rgb(130, 254, 23) 100%
+  );
   --width-progress-loader: 0;
+  --color-box-shadow-progress-loader: #777777;
 
   --color-pagination: #333743;
   --border-color-pagination: rgb(216, 216, 216, 0.2);
 
   --background-color-backdrop: rgba(0, 0, 0, 0.8);
+  --form-error-message-focus: #ffbaba;
+
+  --auth-bg-linear-gradient: linear-gradient(
+    207deg,
+    #2e79a6 6%,
+    #2e79a7 6%,
+    #3492c9 100%
+  );
+  --color-quota-border-right: rgb(151, 151, 151, 0.29);
 }
 
 // Dark Color Palette (Custom Properties) In Future
 html[data-theme="dark"] {
+  --color-primary: #173B52;
+  --color-primary-light: rgba(29, 74, 102, 0.2);
+  --color-secondary: white;
+  --color-tertiary: #1E5575;
+  --color-tertiary-light: rgba(57, 62, 70, 0.07);
+  --color-quaternary: #efefef;
+  --color-quinary: #434343;
+  --color-senary: #8fc745;
+  --color-septanry: rgba(46, 121, 166, 0.06);
+  --color-octonary: #d6d6d6;
+  --color-octonary-light: rgb(214, 214, 214, 0.5);
+  --color-nonary: #979797;
+  --color-denary: #f9f9f9;
+  --color-duodenary: #e8e8e8;
+  --color-duodenary-light: rgba(232, 232, 232, 0.6);
+  --color-black: #000000;
+  --color-black-light: rgba(0, 0, 0, 0.1);
+  --color-black-light-2: rgba(0, 0, 0, 0.2);
+  --color-black-light-19: rgba(0, 0, 0, 0.19);
+  --color-black-light-32: rgba(0, 0, 0, 0.32);
+
+  --color-dashboard-item-border: #dddddd;
+  --color-dropdown-box-shadow: #bfbcbc;
+  --color-panel-box-shadow: #becbe1;
+
+  --color-login-text: #6e6e6e;
+  --color-placeholder-text: hsl(0, 0%, 40%);
+  --color-modal-color: #999999;
+  --border-box-project: 2px solid #2e79a6;
+  --border-box-dropdown: 1px solid #ececec;
+  --customer-table-columns: 5;
+  --disabled: rgba(160, 160, 160, 0.5);
+  --danger: #d0021b;
+  --wizard-template-animation-direction: 1;
+  --color-progress-loader: linear-gradient(
+    -45deg,
+    rgb(136, 21, 230) 0%,
+    rgb(252, 61, 35) 25%,
+    rgb(230, 169, 21) 50%,
+    rgb(130, 254, 23) 100%
+  );
+  --width-progress-loader: 0;
+  --color-box-shadow-progress-loader: #777777;
+
+  --color-pagination: #333743;
+  --border-color-pagination: rgb(216, 216, 216, 0.2);
+
+  --background-color-backdrop: rgba(0, 0, 0, 0.8);
+  --form-error-message-focus: #ffbaba;
+
+  --auth-bg-linear-gradient: linear-gradient(
+    207deg,
+    #2e79a6 6%,
+    #2e79a7 6%,
+    #3492c9 100%
+  );
+  --color-quota-border-right: rgb(151, 151, 151, 0.29);
 }
 
 // Fonts

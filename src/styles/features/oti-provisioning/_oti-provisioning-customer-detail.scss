@@ -27,12 +27,12 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-        }        
+        }
       }
 
       &--info:not(:first-child):not(:last-child) {
         flex: 3;
-        border-right: 1px solid rgb(151, 151, 151, 0.29);
+        border-right: 1px solid var(--color-quota-border-right);
         height: 6.9rem;
       }
 

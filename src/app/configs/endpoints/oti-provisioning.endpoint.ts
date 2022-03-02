@@ -4,7 +4,7 @@ export const OTIPPEndpoints = [
     name: 'customers',
     alias: 'customers',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/',
+    path: 'oti/',
     runAt: 'onDemand',
   },
   {
@@ -12,7 +12,7 @@ export const OTIPPEndpoints = [
     name: 'generatekey',
     alias: 'generatekey',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    path: 'oti/customers/',
     runAt: 'onDemand',
   },
   {
@@ -20,7 +20,7 @@ export const OTIPPEndpoints = [
     name: 'create',
     alias: 'createCompany',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    path: 'oti/customers/',
     runAt: 'onDemand',
   },
   {
@@ -28,7 +28,7 @@ export const OTIPPEndpoints = [
     name: 'update',
     alias: 'updateCompany',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    path: 'oti/customers/',
     runAt: 'onDemand',
   },
   {
@@ -36,7 +36,7 @@ export const OTIPPEndpoints = [
     name: 'enabledisable',
     alias: 'changeStatus',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    path: 'oti/customers/',
     runAt: 'onDemand',
   },
   {
@@ -44,7 +44,7 @@ export const OTIPPEndpoints = [
     name: 'view',
     alias: 'customerDetail',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    path: 'oti/customers/',
     runAt: 'onDemand',
   },
   {
@@ -52,7 +52,7 @@ export const OTIPPEndpoints = [
     name: 'delete',
     alias: 'deleteCompany',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    path: 'oti/customers/',
     runAt: 'onDemand',
   },
   {
@@ -60,7 +60,7 @@ export const OTIPPEndpoints = [
     name: 'stats',
     alias: 'companyStats',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    path: 'oti/customers/',
     runAt: 'onDemand',
   },
   {
@@ -68,7 +68,7 @@ export const OTIPPEndpoints = [
     name: 'statsdownload',
     alias: 'downloadStats',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/customers/',
+    path: 'oti/customers/',
     runAt: 'onDemand',
   },
 
@@ -78,7 +78,7 @@ export const OTIPPEndpoints = [
     name: 'packages',
     alias: 'packages',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/',
+    path: 'oti/',
     runAt: 'onDemand',
   },
   {
@@ -86,7 +86,7 @@ export const OTIPPEndpoints = [
     name: 'create',
     alias: 'createPackage',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/packages/',
+    path: 'oti/packages/',
     runAt: 'onDemand',
   },
   {
@@ -94,7 +94,7 @@ export const OTIPPEndpoints = [
     name: 'view',
     alias: 'packageDetail',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/packages/',
+    path: 'oti/packages/',
     runAt: 'onDemand',
   },
   {
@@ -102,7 +102,7 @@ export const OTIPPEndpoints = [
     name: 'update',
     alias: 'updatePackage',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/packages/',
+    path: 'oti/packages/',
     runAt: 'onDemand',
   },
   {
@@ -110,7 +110,7 @@ export const OTIPPEndpoints = [
     name: 'delete',
     alias: 'deletePackage',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/packages/',
+    path: 'oti/packages/',
     runAt: 'onDemand',
   },
   {
@@ -118,7 +118,7 @@ export const OTIPPEndpoints = [
     name: 'enabledisable',
     alias: 'changePackageStatus',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/oti/packages/',
+    path: 'oti/packages/',
     runAt: 'onDemand',
   },
 ];

@@ -138,9 +138,11 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
 
   checkExcludeClassifierAccess() {
     // Need to improve this logic later.
-    this.isExcludeClassifierAllowed = this.accessControlService.hasAccess('create-exclude-classifiers');
+    this.isExcludeClassifierAllowed = this.accessControlService.hasAccess(
+      'create-exclude-classifiers'
+    );
     if (!this.isExcludeClassifierAllowed) {
-      this.steps = this.steps.slice(0,2);
+      this.steps = this.steps.slice(0, 2);
     }
   }
 
@@ -167,8 +169,8 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
     const { limit } = this.packageService.packagePayload;
     const updatedPayload = {
       ...this.packageService.packagePayload,
-      limit: 1000
-    }
+      limit: 1000,
+    };
     this.packageService.setPackagePayload(updatedPayload);
     this.packageService.getPackages();
     this.packagesSubscription = this.packageService
@@ -226,15 +228,19 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
 
   populateSubscriptionSection() {
     const expTypeIdx = this.customer?.expiryDate === '2090-12-12' ? 0 : 1;
+    const expiryDate =
+      this.customer?.expiryDate === '2090-12-12'
+        ? ''
+        : {
+            startDate: moment(this.customer?.expiryDate),
+            endDate: moment(this.customer?.expiryDate),
+          };
     this.newCompanyForm.get('subscription')?.patchValue({
       company_id: this.customer?.custId,
       type: this.customer?.subscriptionType,
       company_key: this.customer?.key,
       exp_date_type: this.expDates[expTypeIdx].key,
-      expiry_date: {
-        startDate: moment(this.customer?.expiryDate),
-        endDate: moment(this.customer?.expiryDate),
-      },
+      expiry_date: expiryDate,
     });
     this.setTierDefaultSelection(
       this.customer?.packageInformation?.packageId,
@@ -712,8 +718,3 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
       .controls['classifier_list'] as FormArray;
   }
 }
-
-// {
-//   startDate: moment('2020-10-02'),
-//   endDate: moment('2020-10-02'),
-// },
