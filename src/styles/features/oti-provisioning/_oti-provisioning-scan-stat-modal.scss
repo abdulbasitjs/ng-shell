@@ -120,7 +120,7 @@ app-api-per-limit {
 app-api-usage {
   & > .api-usage {
     width: 90rem;
-    padding: 2rem 3rem 3rem 2rem;
+    padding: 2rem 3rem 3rem 3rem;
     margin-left: -2rem;
     background: var(--color-tertiary-light);
     border-top: 2px solid $modalColor;
