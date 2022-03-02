@@ -149,6 +149,12 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
 
   getPackges() {
     this.isTiersLoading = true;
+    const { limit } = this.packageService.packagePayload;
+    const updatedPayload = {
+      ...this.packageService.packagePayload,
+      limit: 1000
+    }
+    this.packageService.setPackagePayload(updatedPayload);
     this.packageService.getPackages();
     this.packagesSubscription = this.packageService
       .getPackagesObservable()

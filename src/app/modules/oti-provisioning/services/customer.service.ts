@@ -467,6 +467,7 @@ export class CustomerService {
             accessor: 'packageName',
             isSortable: true,
             renderIcon: true,
+            cell: 'packageName'
           },
           {
             name: 'Created On',

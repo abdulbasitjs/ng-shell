@@ -1,6 +1,17 @@
 <ng-template #companyStatus let-row let-status="status">
   <span>{{ status }}</span>
-  <span *ngIf="row.isExpired" class="suspended"> | Package Expired</span>
+  <span *ngIf="row.isExpired" class="suspended"> | Expired</span>
+</ng-template>
+
+<ng-template #packageName let-row let-packageName="packageName">
+  <span
+    >{{ packageName }}
+    <span
+      *ngIf="row?.packageId !== '0' && row?.isCustomPackage === 1"
+    >
+    &#123;Custom&#125;
+    </span>
+  </span>
 </ng-template>
 
 <app-section-title

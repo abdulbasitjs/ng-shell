@@ -507,7 +507,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
 
   isInvalidDate(d: any) {
     // Disable All previous dates
-    return d.isBefore(moment().subtract(2, 'day'));
+    return d.isBefore(moment().subtract(1, 'day'));
   }
 
   onExpiryDateChange(event: any) {
