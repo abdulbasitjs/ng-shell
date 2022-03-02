@@ -77,11 +77,16 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
     return url.substr(0, url.includes('?') ? url.indexOf('?') : url.length);
   }
 
-  private _buildUrl(current: any, url: string|undefined): string {
+  private _buildUrl(current: any, url: string | undefined): string {
+    const baseUrl =
+      environment[current?.baseUrl as keyof typeof undefined]['baseUrl'];
+    const path =
+      environment[current?.baseUrl as keyof typeof undefined]['path'];
+    const apiVersion =
+      environment[current?.baseUrl as keyof typeof undefined]['apiVersion'];
+
     if (current) {
-      return `${
-        environment[current?.baseUrl as keyof typeof undefined]['baseUrl']
-      }${current?.api}${current?.path}${url}`;
+      return `${baseUrl}${path}${apiVersion}${current.path}${url}`;
     }
 
     return '';

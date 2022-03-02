@@ -13,7 +13,7 @@ $dropdown-left-margin: 1.2rem;
   transition: transform 0.2s ease-in-out;
   transform: scaleY(0);
   transform-origin: top;
-  box-shadow: 0rem 0rem 0.4rem #bfbcbc;
+  box-shadow: 0rem 0rem 0.4rem var(--color-dropdown-box-shadow);
   z-index: $zindex-dropdown;
 
   &--list {

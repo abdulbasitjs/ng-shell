@@ -22,13 +22,18 @@
     ></app-dashboard-list>
   </div>
 </div>
-
 <div class="header__user">
+  <!-- <div class="header__user--theme">
+    <input type="checkbox" hidden="hidden" id="mode" appThemeChanger />
+    <label class="switch" for="mode"></label>
+  </div> -->
   <div class="header__user--info">
     <h3 class="header__user--info__title">
-      {{ (pmService.getCurrentUserObservable()| async)?.name }}
+      {{ (pmService.getCurrentUserObservable() | async)?.name }}
     </h3>
-    <h4 class="header__user--info__role">{{ (pmService.getCurrentUserObservable()| async)?.email }}</h4>
+    <h4 class="header__user--info__role">
+      {{ (pmService.getCurrentUserObservable() | async)?.email }}
+    </h4>
   </div>
   <div class="header__user--settings">
     <div class="dropdown-trigger">

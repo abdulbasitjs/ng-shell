@@ -26,10 +26,10 @@
     top: 0;
     height: 3px;
 
-    -moz-box-shadow: #777777 1px 0 6px 1px;
-    -ms-box-shadow: #777777 1px 0 6px 1px;
-    -webkit-box-shadow: #777777 1px 0 6px 1px;
-    box-shadow: #777777 1px 0 6px 1px;
+    -moz-box-shadow: var(--color-box-shadow-progress-loader) 1px 0 6px 1px;
+    -ms-box-shadow: var(--color-box-shadow-progress-loader) 1px 0 6px 1px;
+    -webkit-box-shadow: var(--color-box-shadow-progress-loader) 1px 0 6px 1px;
+    box-shadow: var(--color-box-shadow-progress-loader) 1px 0 6px 1px;
 
     -moz-border-radius: 100%;
     -webkit-border-radius: 100%;

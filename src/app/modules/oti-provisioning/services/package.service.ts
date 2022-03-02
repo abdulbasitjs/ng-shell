@@ -264,11 +264,13 @@ export class PackageService {
   }
 
   reset() {
+    const limit = this.getPageSize();
     this.paginationConfigSubject$.next(
       this.getPackagesPaginationConfig(1, 10, 1)
     );
     const updated = {
       ...this.packagePayload,
+      limit,
       page: 1,
     };
     this.setPackagePayload(updated);

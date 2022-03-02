@@ -4,7 +4,7 @@ export const UserManagementEndpoints = [
     name: 'listing',
     alias: 'users',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    path: 'users/',
     runAt: 'onDemand',
   },
   {
@@ -12,7 +12,7 @@ export const UserManagementEndpoints = [
     name: 'create',
     alias: 'createUser',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    path: 'users/',
     runAt: 'onDemand',
   },
   {
@@ -20,7 +20,7 @@ export const UserManagementEndpoints = [
     name: 'modules',
     alias: 'usersModules',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    path: 'users/',
     runAt: 'onDemand',
   },
   {
@@ -28,7 +28,7 @@ export const UserManagementEndpoints = [
     name: 'view',
     alias: 'userDetail',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    path: 'users/',
     runAt: 'onDemand',
   },
   {
@@ -36,7 +36,7 @@ export const UserManagementEndpoints = [
     name: 'update',
     alias: 'updateUser',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    path: 'users/',
     runAt: 'onDemand',
   },
   {
@@ -44,7 +44,7 @@ export const UserManagementEndpoints = [
     name: 'delete',
     alias: 'deleteUser',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    path: 'users/',
     runAt: 'onDemand',
   },
   {
@@ -52,7 +52,7 @@ export const UserManagementEndpoints = [
     name: 'me',
     api: '',
     alias: 'me',
-    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    path: 'users/',
     runAt: 'onDemand',
   },
   {
@@ -60,7 +60,7 @@ export const UserManagementEndpoints = [
     name: 'updateprofilepassword',
     alias: 'changePassword',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    path: 'users/',
     runAt: 'onDemand',
   },
   {
@@ -68,7 +68,7 @@ export const UserManagementEndpoints = [
     name: 'updateprofile',
     alias: 'updateProfile',
     api: '',
-    path: 'abubakar/one-portal-api/public/api/v1/users/',
+    path: 'users/',
     runAt: 'onDemand',
   },
 ];

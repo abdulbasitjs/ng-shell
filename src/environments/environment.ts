@@ -9,6 +9,8 @@ export const environment = {
   LOG_LEVEL: 'DEBUG',
   sso: {
     baseUrl: 'http://18.119.133.175/',
+    path: 'abubakar/one-portal-api/public/api/',
+    apiVersion: 'v1/'
   },
   local: {
     baseUrl: 'http://localhost:3000/',

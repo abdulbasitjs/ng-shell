@@ -11,16 +11,17 @@ import { ErrorHandlerInterceptor } from './interceptors/error-handler.intercepto
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { AppDropdownModule } from '@shared/components/app-dropdown/app-dropdown.module';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { AppThemeChangerDirective } from './header/theme.directive';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent],
+  declarations: [HeaderComponent, FooterComponent, AppThemeChangerDirective],
   imports: [
     CommonModule,
     CoreRoutingModule,
     DirectivesModule,
     DashboardCardsModule,
     AppDropdownModule,
-    AngularSvgIconModule
+    AngularSvgIconModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
