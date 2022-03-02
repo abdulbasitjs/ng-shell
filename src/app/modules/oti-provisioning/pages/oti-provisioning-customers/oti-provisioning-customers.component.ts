@@ -16,6 +16,7 @@ export class OtiProvisioningCustomersComponent
   implements OnInit, AfterViewInit
 {
   @ViewChild('companyStatus') csTemplate!: TemplateRef<any>;
+  @ViewChild('packageName') pnTemplate!: TemplateRef<any>;
   customerDatatable!: DataTable;
   customers!: any;
 
@@ -28,6 +29,7 @@ export class OtiProvisioningCustomersComponent
 
   ngAfterViewInit(): void {
     this.dtService.addTemplate('companyStatus', this.csTemplate);
+    this.dtService.addTemplate('packageName', this.pnTemplate);
   }
 
   ngOnInit(): void {

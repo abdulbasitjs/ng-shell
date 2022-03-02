@@ -38,11 +38,20 @@
             [ngTemplateOutletContext]="{ $implicit: row[header.accessor] }"
             [ngTemplateOutlet]="dtService.getTemplate(header.cell)"
           ></ng-container>
+
           <ng-container
           *ngIf="header.cell ==='companyStatus'"
           [ngTemplateOutletContext]="{ $implicit: row, status: row[header.accessor] }"
           [ngTemplateOutlet]="dtService.getTemplate(header.cell)"
         ></ng-container>
+
+        <ng-container
+          *ngIf="header.cell ==='packageName'"
+          [ngTemplateOutletContext]="{ $implicit: row, packageName: row[header.accessor] }"
+          [ngTemplateOutlet]="dtService.getTemplate(header.cell)"
+        ></ng-container>
+
+
         </ng-template>
       </ng-template>
     </td>

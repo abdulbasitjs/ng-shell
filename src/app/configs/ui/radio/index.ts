@@ -3,7 +3,7 @@ export * from './radio.model';
 
 // Radio Boxes
 export const SubscriptionTypes: IRadio[] = [
-  { key: 'community', value: 'Community Editionnnn' },
+  { key: 'community', value: 'Community Edition' },
   { key: 'enterprise', value: 'Enterprise Edition' },
 ];
 
