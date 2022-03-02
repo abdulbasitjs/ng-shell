@@ -117,7 +117,6 @@ export class OtiProvisioningCustomerDetailComponent
       ...this.date,
       format: type
     }
-    console.log(payload);
     this.customerService.downloadStats(payload);
   }
 }

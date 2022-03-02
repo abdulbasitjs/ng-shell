@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   handleDashboardSelect(item: DashboardCard) {
-    // console.log(item);
   }
 
   ngOnDestroy(): void {

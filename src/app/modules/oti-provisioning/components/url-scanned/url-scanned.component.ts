@@ -29,7 +29,6 @@ export class UrlScannedComponent implements OnInit {
     this.customerService.getCustomerStatsObservable().subscribe((stats) => {
       if (stats) {
         this.stats = stats;
-        console.log(this.stats);
       }
     });
   }

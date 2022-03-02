@@ -31,8 +31,6 @@ export class ClipboardDirective {
       this.toasterService.success('Success!', 'Copied');
     } catch (err) {
       this.toasterService.error('Unable to Copy', 'Copied');
-
-      console.log('unable to copy');
     }
     document.body.removeChild(textArea);
   }

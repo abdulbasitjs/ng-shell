@@ -14,7 +14,6 @@ export class DashboardItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // console.log(this.item);
   }
 
 }

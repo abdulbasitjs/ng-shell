@@ -130,7 +130,6 @@ export class PackageService {
           });
           return of({ error: true });
         } else {
-          console.log(res);
         }
         return res;
       })
