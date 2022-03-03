@@ -252,7 +252,7 @@ export class PackageService {
     this.paginationConfigSubject$.next(
       this.getPackagesPaginationConfig(1, limit)
     );
-    return +this.storageService.get(OTIPackagePaginationStoreKey);
+    return limit;
   }
 
   getSortingFromStore() {
