@@ -5,7 +5,7 @@ export const environment = {
   LOG_LEVEL: 'ERROR',
   sso: {
     baseUrl: 'https://staging-sp.slashnext.cloud/',
-    path: 'backend/api/',
+    path: 'sp-api/api/',
     apiVersion: 'v1/',
   },
   endpoints: [...endpoints],

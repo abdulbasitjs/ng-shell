@@ -18,7 +18,7 @@ app-download-report {
   }
 }
 .modal__container--header > p {
-  color:var(--color-primary)!important;
+  color:var(--color-primary);
   font-size: font-size(normalFix)!important;
 }
 
@@ -181,4 +181,8 @@ app-api-usage {
   width: 1.5px;
   height: 10px;
   background-color: var(--color-tertiary);
+}
+
+.tertiary-color {
+  color:var(--color-primary)!important;
 }

@@ -30,6 +30,7 @@ $modalColor: var(--color-black);
     transform: translateY(-30%);
     opacity: 0;
     transition: all 0.3s;
+    top: 10%;
 
     padding: 2rem 2rem 0 2rem;
 
@@ -91,5 +92,15 @@ $modalColor: var(--color-black);
     transform: scale(1);
     // transform: translateY(0);
     opacity: 1;
+  }
+
+  @include media-desktop-hd {
+    .modal {
+      &__container {
+        &--body {
+          max-height: 100%;
+        }
+      }
+    }
   }
 }
