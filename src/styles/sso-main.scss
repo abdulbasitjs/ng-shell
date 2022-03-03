@@ -1,4 +1,11 @@
 //*-*-*-*-*-*-*-*-*-*-- The 1300px Mark Break Point*-*-*-*-*-*-*-*-*-*-*
+@mixin media-desktop-hd {
+  @media screen and (min-width: break-point(desktop-hd)) {
+    @content;
+  }
+}
+
+//*-*-*-*-*-*-*-*-*-*-- The 1300px Mark Break Point*-*-*-*-*-*-*-*-*-*-*
 @mixin media-desktop {
   @media screen and (min-width: break-point(desktop)) {
     @content;

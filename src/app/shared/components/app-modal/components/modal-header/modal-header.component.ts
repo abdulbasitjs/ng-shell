@@ -7,6 +7,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 export class AppModalHeaderComponent implements OnInit {
   @Input() title!: string;
   @Input() size!: string;
+  @Input() classes!: string;
   @Output() onModalClose = new EventEmitter();
   constructor() {}
 

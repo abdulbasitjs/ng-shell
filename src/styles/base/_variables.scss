@@ -159,6 +159,7 @@ $break-points: (
   "break-point-tablet": 800px,
   "break-point-custom-tablet": 1100px,
   "break-point-desktop": 1300px,
+  "break-point-desktop-hd": 1450px,
 );
 
 @function break-point($key) {

@@ -440,6 +440,7 @@
     <app-modal-header
       (onModalClose)="onStatModalClose()"
       [title]="customer?.companyName + ' Scan Stat'"
+      classes="tertiary-color"
     >
       <app-download-report
         [class.disabled]="loaderService.getLoader() | async"

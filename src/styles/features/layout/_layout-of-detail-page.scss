@@ -62,11 +62,19 @@
       }
     }
   }
+
   @include media-desktop {
     .section-container {
       grid-column: section-start / col-start 4;
     }
   }
+
+  @include media-desktop {
+    .section-container {
+      grid-column: section-start / col-start 4;
+    }
+  }
+
   @include media-custom-tablet {
     .section-container {
       grid-column: section-start / col-start 6;
