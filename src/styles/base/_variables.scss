@@ -57,15 +57,16 @@ html {
     #3492c9 100%
   );
   --color-quota-border-right: rgb(151, 151, 151, 0.29);
+  --color-svg: #0084C9;
 }
 
 // Dark Color Palette (Custom Properties) In Future
 html[data-theme="dark"] {
   --color-primary: #173B52;
   --color-primary-light: rgba(29, 74, 102, 0.2);
-  --color-secondary: white;
+  --color-secondary: rgb(255, 255, 255);
   --color-tertiary: #1E5575;
-  --color-tertiary-light: rgba(57, 62, 70, 0.07);
+  --color-tertiary-light: rgba(125, 125, 126, 0.07);
   --color-quaternary: #efefef;
   --color-quinary: #434343;
   --color-senary: #8fc745;
@@ -118,6 +119,7 @@ html[data-theme="dark"] {
     #3492c9 100%
   );
   --color-quota-border-right: rgb(151, 151, 151, 0.29);
+  --color-svg: #2382b9;
 }
 
 // Fonts
