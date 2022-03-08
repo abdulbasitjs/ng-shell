@@ -1,0 +1,20 @@
+.container-dashboard {                           /*--grid area dashbord--*/
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 8.9rem 29rem auto;
+    height: calc(100% - 9.5rem);
+    column-gap: 2.2rem;
+    row-gap:2.2rem;
+    & > .set-container {
+        margin-right: 1.5rem;
+        box-shadow: 1px 0px 8px 0px rgba(0,0,0,0.1);
+        -webkit-box-shadow: 1px 0px 8px 0px rgba(0,0,0,0.1);
+        -moz-box-shadow: 1px 0px 8px 0px rgba(0,0,0,0.1);
+        border:#ddd 1px solid;
+        border-radius:0.2rem;
+    
+    }
+}
+app-total-customers-graph {
+    @extend %total-customers-graph;
+   }
