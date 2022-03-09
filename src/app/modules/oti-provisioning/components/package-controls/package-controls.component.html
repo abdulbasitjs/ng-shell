@@ -1,5 +1,4 @@
 <ng-container [formGroup]="controls">
-
   <div class="form__input form__select" *ngIf="!isLoading; else customLoader">
     <label>Quota Interval</label>
     <div class="dropdown-trigger">
@@ -39,6 +38,7 @@
   <div class="form__input">
     <label>Quota Limit</label>
     <app-range-btn
+      [errorMsg]="uiMessages.INVALID_QUOTA_LIMIT"
       *ngIf="!isLoading; else loader"
       (onValueChange)="changeValueHandler($event)"
       formControlName="quota_limit"
@@ -104,6 +104,7 @@
   >
     <label>API quota / min</label>
     <app-range-btn
+      [errorMsg]="uiMessages.INVALID_QUOTA_PER_MIN"
       formControlName="quota_permin"
       *ngIf="!isLoading; else loader"
     ></app-range-btn>

@@ -50,18 +50,19 @@ export class AppScanDateComponent implements OnInit {
     this.customerService.getCustomerObservable().subscribe((customer) => {
       this.customer = customer;
       this.customerService.getCustomerStats({
-        customer: customer.companyName,
+        customer: customer.id,
         ...this.selected,
       });
     });
   }
 
   onDateSelect(event: any) {
+    console.log(this.customer);
     if (event && event.startDate && event.endDate) {
       const startDate = event.startDate.format('YYYY-MM-DD');
       const endDate = event.endDate.format('YYYY-MM-DD');
       this.customerService.getCustomerStats({
-        customer: this.customer.companyName,
+        customer: this.customer.id,
         startDate,
         endDate,
       });

@@ -46,9 +46,27 @@
               resetForm.get('password')?.touched
             "
           >
-            <p *ngIf="!resetForm.get('password')?.value">
-              {{ UIMSG.PROVIDE_PASSWORD }}
+            <p
+              *ngIf="
+                passwordControl.errors && passwordControl.errors['minlength'];
+                else pattern
+              "
+            >
+              {{ UIMSG.CHANGE_PASSWORD_MIN_LENGTH }}
             </p>
+            <ng-template #pattern>
+              <p
+                *ngIf="
+                  passwordControl.errors && passwordControl.errors['pattern'];
+                  else default
+                "
+              >
+                {{ UIMSG.INVALID_PASSWORD }}
+              </p>
+              <ng-template #default>
+                <p>{{ UIMSG.PROVIDE_PASSWORD }}</p>
+              </ng-template>
+            </ng-template>
           </div>
         </div>
       </div>

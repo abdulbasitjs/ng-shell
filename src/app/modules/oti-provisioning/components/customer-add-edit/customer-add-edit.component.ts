@@ -19,6 +19,7 @@ import {
   IDropdown,
   IRadio,
   QuotaType,
+  UIMESSAGES,
 } from '@configs/index';
 import { IPackageItem } from '../../models/package.model';
 import { LoaderService } from '@core/services/loader.service';
@@ -42,6 +43,7 @@ const RATE_LIMIT_LEN = 12;
   templateUrl: './customer-add-edit.component.html',
 })
 export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
+  uiMessage = UIMESSAGES;
   attempts = 0;
   editMode = false;
   CUSTOM_KEY = 'custom';
@@ -246,11 +248,6 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
       this.customer?.packageInformation?.packageId,
       this.subType?.value
     );
-
-    // Need to fix later, we should merge the observables.
-    // setTimeout(() => {
-    //   this.setTierDefaultSelection(this.customer?.packageInformation?.id);
-    // }, 0);
   }
 
   populatePackageSection() {
@@ -305,15 +302,37 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   populateCompanyForm() {
     this.newCompanyForm = this.formBuilder.group({
       profile: this.formBuilder.group({
-        company_name: [null, Validators.required],
-        customer_name: [null, Validators.required],
-        email: [null, [Validators.required, Validators.email]],
-        address: [null],
-        contact_no: [''],
-        salesforce_id: [''],
+        company_name: [
+          null,
+          [
+            Validators.required,
+            Validators.pattern(/\S/),
+            Validators.maxLength(100),
+          ],
+        ],
+        customer_name: [
+          null,
+          [
+            Validators.required,
+            Validators.pattern(/\S/),
+            Validators.maxLength(100),
+          ],
+        ],
+        email: [
+          null,
+          [
+            Validators.required,
+            Validators.pattern(
+              /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/
+            ),
+          ],
+        ],
+        address: [null, Validators.maxLength(355)],
+        contact_no: ['', Validators.maxLength(35)],
+        salesforce_id: ['', Validators.maxLength(45)],
       }),
       subscription: this.formBuilder.group({
-        company_id: ['', Validators.required],
+        company_id: ['', [Validators.required, Validators.maxLength(45)]],
         type: [this.subscriptionTypes[0].key, Validators.required],
         company_key: [null, Validators.required],
         tier: ['', Validators.required],
@@ -545,7 +564,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
     if (index < this.steps.length) {
       this.activeStep = this.steps[index];
     }
-    if (this.editMode && this.attempts > 1) this.getLastSelection();
+    if (this.attempts > 1) this.getLastSelection();
   }
 
   onPreviousStep() {
@@ -555,7 +574,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
       this.activeStep = this.steps[index - 1];
       this.activeStep.isComplete = false;
     }
-    if (this.editMode && this.attempts > 1) this.getLastSelection();
+    if (this.attempts > 1) this.getLastSelection();
   }
 
   onSave() {
@@ -640,16 +659,19 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
 
       payload = {
         ...payload,
-        quotaLimit,
+        quotaLimit: Array.isArray(quotaLimit) ? +quotaLimit[0] : quotaLimit,
         quotaType: QuotaType[quotaType],
         perMinLimit,
         threshold: threashold,
       };
     }
+
     payload.custExculClassifiers = classifier_list
       .filter((el: any) => !!el.modelKey)
       .map((el: any) => el.value)
       .join(',');
+
+    console.log(payload);
     return payload;
   }
 
@@ -716,5 +738,41 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   get classifiersListArray() {
     return (this.newCompanyForm.get('exclude_classifier') as FormGroup)
       .controls['classifier_list'] as FormArray;
+  }
+
+  get companyControl() {
+    return (this.newCompanyForm.get('profile') as FormGroup).controls[
+      'company_name'
+    ] as FormControl;
+  }
+
+  get customerControl() {
+    return (this.newCompanyForm.get('profile') as FormGroup).controls[
+      'customer_name'
+    ] as FormControl;
+  }
+
+  get contactNOControl() {
+    return (this.newCompanyForm.get('profile') as FormGroup).controls[
+      'contact_no'
+    ] as FormControl;
+  }
+
+  get salesForceIDControl() {
+    return (this.newCompanyForm.get('profile') as FormGroup).controls[
+      'salesforce_id'
+    ] as FormControl;
+  }
+
+  get addressControl() {
+    return (this.newCompanyForm.get('profile') as FormGroup).controls[
+      'address'
+    ] as FormControl;
+  }
+
+  get companyIDControl() {
+    return (this.newCompanyForm.get('subscription') as FormGroup).controls[
+      'company_id'
+    ] as FormControl;
   }
 }

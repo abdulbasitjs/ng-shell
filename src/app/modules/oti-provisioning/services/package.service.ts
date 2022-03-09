@@ -124,9 +124,7 @@ export class PackageService {
             .map((el: any) => response.message[el])
             .flat();
           errors.forEach((e) => {
-            this.toasterService.error(e, 'Validation Failed', {
-              disableTimeOut: true,
-            });
+            this.toasterService.error(e, 'Validation Failed');
           });
           return of({ error: true });
         } else {
@@ -160,9 +158,7 @@ export class PackageService {
             .map((el: any) => response.message[el])
             .flat();
           errors.forEach((e) => {
-            this.toasterService.error(e, 'Validation Failed', {
-              disableTimeOut: true,
-            });
+            this.toasterService.error(e, 'Validation Failed');
           });
           return of({ error: true });
         }
@@ -224,9 +220,7 @@ export class PackageService {
             .map((el: any) => response.message[el])
             .flat();
           errors.forEach((e) => {
-            this.toasterService.error(e, 'Validation Failed', {
-              disableTimeOut: true,
-            });
+            this.toasterService.error(e, 'Validation Failed');
           });
           return of({ error: true });
         }
@@ -373,7 +367,7 @@ export class PackageService {
             accessor: 'createdAt',
             isSortable: true,
             renderIcon: true,
-          },
+          }
         ],
         sortBy: sortName,
         order: orderBy,

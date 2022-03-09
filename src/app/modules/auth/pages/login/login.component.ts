@@ -23,7 +23,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.pattern(
+          /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/
+        ),
+      ]),
       password: new FormControl('', [Validators.required]),
       isRemember: new FormControl(),
     });
@@ -32,13 +37,17 @@ export class LoginComponent implements OnInit {
   onLogin() {
     const { email, password, isRemember } = this.loginForm.value;
     if (email && password) {
-      this.authService.login(email, password, isRemember).subscribe(res => {
+      this.authService.login(email, password, isRemember).subscribe((res) => {
         const response = <SSOResponse>res;
         if (response.code === ProjectStatusCode.AccessRevoked) {
           this.hasError = true;
         }
-
-      })
+      });
     }
   }
+
+  get passwordControl() {
+    return this.loginForm.controls['password'] as FormControl;
+  }
 }
+// Validators.pattern(/^([a-zA-Z0-9!@#$%^&*_])+$/),

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UIMESSAGES } from '@configs/index';
 import { LoaderService } from '@core/services/loader.service';
@@ -34,8 +34,8 @@ export class UserProfileChangePasswordComponent implements OnInit, OnDestroy {
     this.overlayService.showOverlay();
     this.changePasswordForm = this.formBuilder.group({
       current: [null, Validators.required],
-      password: [null, [Validators.required]],
-      cPassword: [null, [Validators.required]],
+      password: [null, [Validators.required, Validators.minLength(6), Validators.pattern(/^([a-zA-Z0-9!@#$%^&*_])+$/)]],
+      cPassword: [null, [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -62,5 +62,11 @@ export class UserProfileChangePasswordComponent implements OnInit, OnDestroy {
     this.isPanelOpen = false;
     const backPath = '../';
     this.router.navigate([backPath], { relativeTo: this.route });
+  }
+
+  get passwordControl() {
+    return this.changePasswordForm.controls[
+      'password'
+    ] as FormControl;
   }
 }

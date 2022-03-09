@@ -227,7 +227,7 @@
       "
       class="section--name"
     >
-      {{ customer?.expiryDate }}
+      {{ customer?.createdAt }}
     </p>
   </div>
   <div class="section">
@@ -361,7 +361,7 @@
     <div class="section">
       <p class="section--title"></p>
       <p *ngIf="customer?.custExculClassifiers !== ''" class="section--name">
-        {{ customer?.custExculClassifiers }}
+        {{ mapExcludeClassifier(customer?.custExculClassifiers) }}
       </p>
       <p *ngIf="customer?.custExculClassifiers === ''" class="section--name">
         n/a
