@@ -1,5 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UIMESSAGES } from '@configs/index';
 import { LoaderService } from '@core/services/loader.service';
@@ -33,8 +38,26 @@ export class UserProfileChangePasswordComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.overlayService.showOverlay();
     this.changePasswordForm = this.formBuilder.group({
-      current: [null, Validators.required],
-      password: [null, [Validators.required, Validators.minLength(6), Validators.pattern(/^([a-zA-Z0-9!@#$%^&*_])+$/)]],
+      current: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.pattern(
+            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*=()_<>.?])[A-Za-z\d!@#$%^&*=()_<>.?]/
+          ),
+        ],
+      ],
+      password: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.pattern(
+            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*=()_<>.?])[A-Za-z\d!@#$%^&*=()_<>.?]/
+          ),
+        ],
+      ],
       cPassword: [null, [Validators.required, Validators.minLength(6)]],
     });
   }
@@ -65,8 +88,10 @@ export class UserProfileChangePasswordComponent implements OnInit, OnDestroy {
   }
 
   get passwordControl() {
-    return this.changePasswordForm.controls[
-      'password'
-    ] as FormControl;
+    return this.changePasswordForm.controls['password'] as FormControl;
+  }
+
+  get currentPasswordControl() {
+    return this.changePasswordForm.controls['current'] as FormControl;
   }
 }

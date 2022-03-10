@@ -340,7 +340,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
           quota_interval: this.createGroup(DefaultSelction),
           quota_limit: [1],
           rate_limit: this.createGroup(DefaultSelction),
-          quota_permin: [''],
+          quota_permin: [1],
         }),
         exp_date_type: [this.expDates[0].key],
         expiry_date: [''],
@@ -434,7 +434,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
         value: 'default',
         active: true,
       }),
-      quota_permin: [''],
+      quota_permin: [1],
     });
   }
 
@@ -471,13 +471,17 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
           if (tierType === this.CUSTOM_KEY) {
             this.shouldEnableExpiryDate = true;
             this.quotaLimitControl?.setValidators([Validators.required]);
+            this.quotaPerMinControl?.setValidators([Validators.required]);
           } else {
             const tier = this.tiers.find((el) => el.id === tierType);
             this.shouldEnableExpiryDate = !!tier?.enablexpdate;
             this.quotaLimitControl?.clearValidators();
+            this.quotaPerMinControl?.clearValidators();
             if (!this.tierControl?.pristine) this.resetPackInfoGroup();
           }
           this.quotaLimitControl?.updateValueAndValidity();
+          this.quotaPerMinControl?.updateValueAndValidity();
+
         })
     );
   }
@@ -661,7 +665,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
         ...payload,
         quotaLimit: Array.isArray(quotaLimit) ? +quotaLimit[0] : quotaLimit,
         quotaType: QuotaType[quotaType],
-        perMinLimit,
+        perMinLimit: Array.isArray(perMinLimit) ? +perMinLimit[0] : perMinLimit,
         threshold: threashold,
       };
     }
@@ -671,7 +675,6 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
       .map((el: any) => el.value)
       .join(',');
 
-    console.log(payload);
     return payload;
   }
 

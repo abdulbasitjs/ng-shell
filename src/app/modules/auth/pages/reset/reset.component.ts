@@ -33,7 +33,7 @@ export class ResetComponent implements OnInit {
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
-        Validators.pattern(/^([a-zA-Z0-9!@#$%^&*_])+$/),
+        Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*=()_<>.?])[A-Za-z\d!@#$%^&*=()_<>.?]/),
       ]),
       cPassword: new FormControl('', [
         Validators.required,

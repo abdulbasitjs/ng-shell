@@ -4,8 +4,9 @@ export const UIMESSAGES = {
   PROVIDE_EMAIL: 'Please enter valid email address',
   PROVIDE_FULL_NAME: 'Please enter full name',
   PROVIDE_PASSWORD: 'Please enter password',
+  PROVIDE_NEW_PASSWORD: 'Please enter new password',
   CONFIRM_PASSWORD: 'Please confirm your password',
-  PASSWORD_NOT_MATCH: "Password mismatched",
+  PASSWORD_NOT_MATCH: "Password mismatch",
   INVALID_PASSWORD: "The password is invalid, permitted characters are [a-zA-Z0-9!@#$%^&*_]",
 
   // Company
