@@ -197,6 +197,10 @@ export class UserManagementService {
     this.userPayload = payload;
   }
 
+  getUserPayload() {
+    return this.userPayload;
+  }
+
   getTotalPages() {
     if (this.userPayload.limit)
       return Math.ceil(this.totalItems / this.userPayload.limit);

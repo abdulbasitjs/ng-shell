@@ -28,6 +28,7 @@
     (onEscape)="handleEsc($event)"
     placeHolder="Search with Company Name"
     class="search-component"
+    [value]="customerService.getCustomerPayload().search"
     [class.disabled]="customerService.isCustomerListLoadingObservable() | async"
   ></app-search>
   <app-button
