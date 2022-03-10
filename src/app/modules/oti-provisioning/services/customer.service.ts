@@ -200,8 +200,8 @@ export class CustomerService {
         this.isCustomerCreating$.next(0);
         if (response.code === HttpStatusCode.Ok) {
           this.toasterService.success(
-            'Company Created Successfully!🚀🚀🚀',
-            'Success!'
+            'Company profile has been successfully added',
+            'Success'
           );
           this.getCustomers();
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
@@ -241,8 +241,8 @@ export class CustomerService {
           //   });
           // }
           this.toasterService.success(
-            'Company Update Successfully!🚀🚀🚀',
-            'Success!'
+            'Company profile has been successfully updated.',
+            'Success'
           );
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
           const errors = Object.keys(response.message)
@@ -253,7 +253,7 @@ export class CustomerService {
           });
           return of({ error: true });
         } else if (response.code === ProjectStatusCode.ScriptBroken) {
-          this.toasterService.error(response.message, 'Script Failed🐛🐛');
+          this.toasterService.error(response.message, 'Script Failed');
         }
         return res;
       })
@@ -279,10 +279,12 @@ export class CustomerService {
       tap((res) => {
         const response = <SSOResponse>res;
         if (response.code === HttpStatusCode.Ok) {
-          // this.customerStatus$.next(
-          //   payload.status === 0 ? 'Reactive' : 'Active'
-          // );
+          const message =
+            payload.status === 0
+              ? 'Company has been successfully suspended'
+              : 'Company has been successfully reactivated';
           this.currentCustomer$.next(response.data);
+          this.toasterService.success(message, 'Success');
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
           const errors = Object.keys(response.message)
             .map((el: any) => response.message[el])
@@ -300,6 +302,10 @@ export class CustomerService {
   // Helper Methods
   setCustomerPayload(payload: IGetCustomersPayload) {
     this.customerPayload = payload;
+  }
+
+  getCustomerPayload() {
+    return this.customerPayload;
   }
 
   getTotalPages() {
@@ -461,7 +467,7 @@ export class CustomerService {
             accessor: 'packageName',
             isSortable: true,
             renderIcon: true,
-            cell: 'packageName'
+            cell: 'packageName',
           },
           {
             name: 'Created On',
@@ -474,7 +480,7 @@ export class CustomerService {
             accessor: 'status',
             isSortable: true,
             renderIcon: true,
-            cell: "companyStatus"
+            cell: 'companyStatus',
           },
         ],
         sortBy: sortName,

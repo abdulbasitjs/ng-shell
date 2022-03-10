@@ -12,6 +12,7 @@
     (onEnter)="handleEnter($event)"
     (onEscape)="handleEsc($event)"
     placeHolder="Search with Full Name or Email"
+    [value]="umService.getUserPayload().search"
     class="search-component"
     [class.disabled]="umService.isUserListLoadingObservable() | async"
   ></app-search>

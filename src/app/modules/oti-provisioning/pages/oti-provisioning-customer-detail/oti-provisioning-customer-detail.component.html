@@ -15,7 +15,7 @@
       ></svg-icon>
       <ul class="breadcrumbs--list">
         <li class="breadcrumbs--list__item inactive">
-          <a href="#">Customer Management</a>
+          <a href="#">Company Management</a>
         </li>
         <li class="breadcrumbs--list__item">
           <a href="#">{{ customer?.companyName }}</a>
@@ -398,13 +398,13 @@
     <app-modal-header
       (onModalClose)="onModalClose()"
       [title]="
-        customer?.status === 'Active' ? 'Suspend Copmany' : 'Reactivate Company'
+        customer?.status === 'Active' ? 'Suspend Company Profile' : 'Reactivate Company Profile'
       "
     ></app-modal-header>
     <app-modal-body>
       <p class="user-modal-body">
         Are you sure you want to
-        {{ customer?.status === "Active" ? "Suspend" : "Reactivate" }}
+        {{ customer?.status === "Active" ? "suspend" : "reactivate" }}
         this company?
       </p>
     </app-modal-body>
