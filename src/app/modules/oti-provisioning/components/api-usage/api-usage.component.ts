@@ -8,7 +8,7 @@ import { CustomerService } from '../../services/customer.service';
 })
 export class ApiUsageComponent implements OnInit {
   @Input() isLoading : boolean | null = false;
-  list!: Array<{ title: string; count: number }>;
+  list!: Array<{ title: string; count: number, key: string }>;
   totalApiCallUsed: number = 1300000;
   stats: any;
 
@@ -17,43 +17,68 @@ export class ApiUsageComponent implements OnInit {
   ngOnInit(): void {
     this.list = [
       {
-        title: 'URLs Scan:',
+        title: 'URL Scan:',
+        key: 'url-scan',
         count: 1,
       },
       {
-        title: 'URLs Scan Sync:',
+        title: 'URL Scan Sync:',
+        key: 'url-scansync',
         count: 1,
       },
       {
-        title: 'URLs Scan Sync:',
+        title: 'URL Scan with ID:',
+        key: 'url-scanwithid',
         count: 1,
       },
       {
         title: 'Host Lookup:',
+        key: 'host-reputation',
         count: 2,
       },
       {
         title: 'Host URLs:',
+        key: 'host-report',
         count: 2,
       },
       {
-        title: 'Host Report',
+        title: 'URL Scan Sync with ID:',
+        key: 'url-scansyncwithid',
         count: 2,
       },
       {
         title: 'Download Screentshot:',
+        key: 'download-screenshot',
         count: 2,
       },
       {
         title: 'Download HTML:',
+        key: 'download-html',
         count: 4,
       },
       {
         title: 'Download Text:',
+        key: 'download-text',
         count: 3,
       },
       {
         title: 'Api Quota:',
+        key: 'quota-status',
+        count: 3,
+      },
+      {
+        title: 'URL Reputation:',
+        key: 'url-reputation',
+        count: 3,
+      },
+      {
+        title: 'URL Force Scan:',
+        key: 'url-forcescan',
+        count: 3,
+      },
+      {
+        title: 'URL Force Scan Sync:',
+        key: 'url-forcescansync',
         count: 3,
       },
     ];

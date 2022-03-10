@@ -28,6 +28,11 @@ export class OtiProvisioningCustomerDetailComponent
     year: 'Yearly',
   };
 
+  subscriptionTypeMapping: any = {
+    enterprise: 'Enterprise Edititon',
+    community: 'Community Edition'
+  };
+
   @ViewChild('scanStatsModal') scanStatsModal!: TemplateRef<any>;
   @ViewChild('suspendCompanyModalTemplate') scModal!: TemplateRef<any>;
   @ViewChild('deleteCompanyModalTemplate') dcModal!: TemplateRef<any>;
@@ -110,7 +115,12 @@ export class OtiProvisioningCustomerDetailComponent
   }
 
   mapExcludeClassifier(classifer: string) {
-    if (classifer) return classifer.split(',').join(' ');
+    if (classifer)
+      return classifer
+        .split(',')
+        .map((el) => ` ${el}`)
+        .join(',')
+        .trim();
     return '';
   }
 
