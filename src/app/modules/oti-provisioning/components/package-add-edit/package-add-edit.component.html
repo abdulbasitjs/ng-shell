@@ -1,6 +1,6 @@
 <app-panel [showPanel]="isPanelOpen">
   <app-panel-header
-    headerTitle="Add a New Package"
+    [headerTitle]="editMode ? 'Edit Package' : 'Add a New Package'"
     clearIcon="assets/svg/panel-close-icon.svg"
     (onPanelClose)="onClose()"
   >
@@ -31,11 +31,11 @@
             packageForm.get('packageName')?.touched
           "
         >
-          <p>Package name could't be empty.</p>
+          <p>{{ UIMSG.INVALID_PACKAGE_NAME }}</p>
         </div>
       </div>
       <app-package-controls
-        [isLoading]="(loaderService.getLoader() | async)"
+        [isLoading]="loaderService.getLoader() | async"
         direction="down"
         formGroupName="package_info"
         [lastSlections]="lastSelection$ | async"

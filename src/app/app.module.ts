@@ -18,6 +18,7 @@ import { AppModalModule } from '@shared/components/app-modal/app-modal.module';
 import { AppModalComponent } from '@shared/components/app-modal/components/modal/modal.component';
 import { DirectivesModule } from '@shared/directives/directives.module';
 import { AppOverlayModule } from '@shared/components/app-overlay/app-ovarlay.module';
+import { TooltipModule } from 'ng2-tooltip-directive';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,6 +34,7 @@ import { AppOverlayModule } from '@shared/components/app-overlay/app-ovarlay.mod
     DirectivesModule,
     AngularSvgIconModule.forRoot(),
     NgxDaterangepickerMd.forRoot(),
+    TooltipModule,
     NgxSkeletonLoaderModule.forRoot({
       theme: {
         'background-color': getComputedStyle(

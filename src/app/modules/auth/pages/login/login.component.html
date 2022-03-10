@@ -6,8 +6,8 @@
     [class.loading]="loaderService.getLoader() | async"
   >
     <app-auth-section
-      title="Single Sign On Portal"
-      description="Enter your details below"
+      title="Single Sign-on Portal"
+      description=""
     ></app-auth-section>
     <form
       (ngSubmit)="onLogin()"
@@ -53,7 +53,7 @@
           <input
             class="fw"
             type="password"
-            placeholder="Enter your password"
+            placeholder="Enter password"
             formControlName="password"
             [class.error-msg]="
               !loginForm.get('password')?.valid &&
