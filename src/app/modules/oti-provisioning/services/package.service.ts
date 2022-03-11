@@ -77,6 +77,7 @@ export class PackageService {
           this.isPackageListIsLoading$.next(false);
           if (response.code === HttpStatusCode.Ok) {
             this.totalItems = +response.data['totalItems'];
+            console.log(response.data);
             const totalPages = this.getTotalPages();
             this.paginationConfigSubject$.next(
               this.getPackagesPaginationConfig(

@@ -25,7 +25,6 @@ export class PaginationListComponent implements OnInit {
       );
     }
 
-    console.log(this.selectedRecordIndex, this.records, pageSize);
   }
 
   selectRecord(record: number, i: number) {

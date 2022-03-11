@@ -55,7 +55,15 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     this.overlayService.showOverlay();
     this.inviteUserForm = this.formBuilder.group({
       full_name: [null, Validators.required],
-      email: [null, [Validators.required, Validators.email]],
+      email: [
+        null,
+        [
+          Validators.required,
+          Validators.pattern(
+            /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/
+          ),
+        ],
+      ],
       permissions: this.formBuilder.array([]),
     });
 
@@ -135,8 +143,10 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         });
     } else {
       this.umService.sendInvite({ ...payload, permission }).subscribe((d) => {
-        this.shouldRenderSuccessScreeen = true;
-        this.isInviteClicked = false;
+        if (d && !d.error) {
+          this.shouldRenderSuccessScreeen = true;
+          this.isInviteClicked = false;
+        }
       });
     }
   }
