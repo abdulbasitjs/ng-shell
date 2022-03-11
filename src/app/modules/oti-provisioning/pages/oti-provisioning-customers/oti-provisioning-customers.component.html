@@ -6,10 +6,8 @@
 <ng-template #packageName let-row let-packageName="packageName">
   <span
     >{{ packageName }}
-    <span
-      *ngIf="row?.packageId !== '0' && row?.isCustomPackage === 1"
-    >
-    &#123;Custom&#125;
+    <span *ngIf="row?.packageId !== '0' && row?.isCustomPackage === 1">
+      &#123;Custom&#125;
     </span>
   </span>
 </ng-template>
@@ -58,6 +56,9 @@
     [isLoading]="customerService.isCustomerListLoadingObservable() | async"
     [pageSize]="
       (customerService.getPaginationConfigObservable() | async)?.pageSize
+    "
+    [currentPage]="
+      (customerService.getPaginationConfigObservable() | async)?.currentPage
     "
     [rows]="(customerService.getCustomersObservable() | async)?.items"
     (onRow)="handleRow($event)"
