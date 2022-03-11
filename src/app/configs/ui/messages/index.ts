@@ -11,26 +11,26 @@ export const UIMESSAGES = {
 
   // Company
   INVALID_COMPANY_NAME: "Please enter company name",
-  COMPANY_NAME_MAX_LENGTH: "The company name can not contain more than 100 characters",
+  COMPANY_NAME_MAX_LENGTH: "The company name cannot contain more than 100 characters",
 
   INVALID_CUSTOMER_NAME: "Please enter customer name",
-  CUSTOMER_NAME_MAX_LENGTH: "The customer name can not contain more than 100 characters",
+  CUSTOMER_NAME_MAX_LENGTH: "The customer name cannot contain more than 100 characters",
 
   INVALID_COMPANY_ID: "Please enter company ID",
-  COMPANY_ID_MAX_LENGTH: "The company id can not contain more than 45 characters",
+  COMPANY_ID_MAX_LENGTH: "The company id cannot contain more than 45 characters",
 
-  INVALID_QUOTA_PER_MIN: "Quota per minute can not be empty",
-  INVALID_QUOTA_LIMIT: "Quota limit can not be empty",
+  INVALID_QUOTA_PER_MIN: "Quota per minute cannot be empty",
+  INVALID_QUOTA_LIMIT: "Quota limit cannot be empty",
   INVALID_EXPIRY_DATE: "Please choose expiry date",
 
-  CONTACT_NO_MAX_LENGTH: "The contact number can not contain more than 35 characters",
-  SALESFORCE_ID_MAX_LENGTH: "The salesforce id can not contain more than 45 characters",
-  COMPANY_ADDRESS_MAX_LENGTH: "The company address can not contain more than 355 characters",
+  CONTACT_NO_MAX_LENGTH: "The contact number cannot contain more than 35 characters",
+  SALESFORCE_ID_MAX_LENGTH: "The salesforce id cannot contain more than 45 characters",
+  COMPANY_ADDRESS_MAX_LENGTH: "The company address cannot contain more than 355 characters",
 
 
   // Package
   NO_PACKAGE: "No package has been added yet",
-  INVALID_PACKAGE_NAME: "Package name can not be empty",
+  INVALID_PACKAGE_NAME: "Package name cannot be empty",
 
   // Profile
   CHANGE_PASSWORD_MIN_LENGTH: "The password must be at least 6 characters",

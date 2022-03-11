@@ -15,6 +15,7 @@
       digitOnly
       class="fw m-0"
       type="text"
+      (paste)="onPaste($event)"
       [value]="inputValue"
     />
     <div class="pos-abs error-align-field error-msg range-btn-errorr" *ngIf="!inputValue">

@@ -56,7 +56,6 @@ export class AppScanDateComponent implements OnInit {
   }
 
   onDateSelect(event: any) {
-    console.log(this.customer);
     if (event && event.startDate && event.endDate) {
       const startDate = event.startDate.format('YYYY-MM-DD');
       const endDate = event.endDate.format('YYYY-MM-DD');
