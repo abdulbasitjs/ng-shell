@@ -35,6 +35,10 @@
 
         & td {
           font-weight: font-weight(light);
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          max-width: 20rem;
         }
       }
     }
