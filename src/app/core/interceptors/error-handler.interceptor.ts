@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 import { HttpStatusCode } from '@core/http/http-codes.enum';
 import { LoggerService } from '@core/services/logger.service';
 import { ToastrService } from 'ngx-toastr';
-import { AuthenticationService } from '@core/authentication/authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -36,12 +35,12 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     LoggerService.error('Request Error: ' + JSON.stringify(response));
     switch (response['status']) {
       case HttpStatusCode.BadRequest:
-        this.toaster.error(response.error.message, response.statusText);
+        this.toaster.error(response.error.message, 'Error');
         break;
 
       case HttpStatusCode.Unauthorized:
         if (response.url.includes('login'))
-        this.toaster.error(response.error.message, response.statusText);
+        this.toaster.error(response.error.message, 'Error');
         break;
 
       case HttpStatusCode.Forbidden:
@@ -52,11 +51,11 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
         break;
 
       case HttpStatusCode.InternalServerError:
-        this.toaster.error(response.message, response.statusText);
+        this.toaster.error(response.message, 'Error');
         break;
 
       default:
-        this.toaster.error(response.message, response.statusText);
+        this.toaster.error(response.message, 'Error');
         break;
     }
     throw response;
