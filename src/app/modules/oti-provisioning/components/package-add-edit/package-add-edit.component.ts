@@ -243,9 +243,9 @@ export class AppPackageAddEditComponent implements OnInit, OnDestroy {
 
     const payload = {
       packageName,
-      quotaLimit,
+      quotaLimit: +quotaLimit,
       quotaType: QuotaType[quotaType],
-      perMinLimit,
+      perMinLimit: +perMinLimit,
       threshold: threashold,
     };
 

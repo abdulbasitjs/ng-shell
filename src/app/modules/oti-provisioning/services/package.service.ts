@@ -117,8 +117,8 @@ export class PackageService {
         this.isPackageCreating$.next(0);
         if (response.code === HttpStatusCode.Ok) {
           this.toasterService.success(
-            'Package Created Successfully!🚀🚀🚀',
-            'Success!'
+            'Package has been created successfully',
+            'Success'
           );
           this.getPackages();
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
@@ -126,7 +126,7 @@ export class PackageService {
             .map((el: any) => response.message[el])
             .flat();
           errors.forEach((e) => {
-            this.toasterService.error(e, 'Validation Failed');
+            this.toasterService.error(e, 'Error');
           });
           return of({ error: true });
         } else {
@@ -152,15 +152,15 @@ export class PackageService {
           };
           this.currentPackage$.next(response.data);
           this.toasterService.success(
-            'Package Update Successfully!🚀🚀🚀',
-            'Success!'
+            'Package has been updated successfully',
+            'Success'
           );
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
           const errors = Object.keys(response.message)
             .map((el: any) => response.message[el])
             .flat();
           errors.forEach((e) => {
-            this.toasterService.error(e, 'Validation Failed');
+            this.toasterService.error(e, 'Error');
           });
           return of({ error: true });
         }
@@ -224,7 +224,7 @@ export class PackageService {
             .map((el: any) => response.message[el])
             .flat();
           errors.forEach((e) => {
-            this.toasterService.error(e, 'Validation Failed');
+            this.toasterService.error(e, 'Error');
           });
           return of({ error: true });
         }
