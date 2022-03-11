@@ -38,7 +38,9 @@
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
-          max-width: 20rem;
+          max-width: 24rem;
+          & span {
+          }
         }
       }
     }
