@@ -1,6 +1,6 @@
 <app-panel [showPanel]="isPanelOpen">
   <app-panel-header
-    headerTitle="Add a New Company Profile"
+    [headerTitle]="editMode ? 'Edit Company Profile' : 'Add a New Company Profile'"
     clearIcon="assets/svg/panel-close-icon.svg"
     (onPanelClose)="onClose()"
   >
@@ -28,6 +28,7 @@
                 newCompanyForm.get('profile.company_name')?.touched
               "
             />
+
             <div
               class="pos-abs error-align-field error-msg"
               *ngIf="
@@ -35,7 +36,17 @@
                 newCompanyForm.get('profile.company_name')?.touched
               "
             >
-              <p>We couldn't find company name.</p>
+              <p
+                *ngIf="
+                  companyControl.errors && companyControl.errors['maxlength'];
+                  else default
+                "
+              >
+                {{ uiMessage.COMPANY_NAME_MAX_LENGTH }}
+              </p>
+              <ng-template #default>
+                <p>{{ uiMessage.INVALID_COMPANY_NAME }}</p>
+              </ng-template>
             </div>
           </div>
           <div class="form__input pos-rel">
@@ -55,7 +66,17 @@
                 newCompanyForm.get('profile.customer_name')?.touched
               "
             >
-              <p>We couldn't find customer name.</p>
+              <p
+                *ngIf="
+                  customerControl.errors && customerControl.errors['maxlength'];
+                  else default
+                "
+              >
+                {{ uiMessage.CUSTOMER_NAME_MAX_LENGTH }}
+              </p>
+              <ng-template #default>
+                <p>{{ uiMessage.INVALID_CUSTOMER_NAME }}</p>
+              </ng-template>
             </div>
           </div>
           <div class="form__input pos-rel">
@@ -75,37 +96,106 @@
                 newCompanyForm.get('profile.email')?.touched
               "
             >
-              <p>We couldn't find customer email address.</p>
+              <p>{{ uiMessage.PROVIDE_EMAIL }}</p>
             </div>
           </div>
-          <div class="form__input">
+          <div class="form__input pos-rel">
             <label>Address (Optional)</label>
-            <input type="text" formControlName="address" />
+            <input
+              type="text"
+              formControlName="address"
+              [class.error-field]="
+                !newCompanyForm.get('profile.address')?.valid &&
+                newCompanyForm.get('profile.address')?.touched
+              "
+            />
+            <div
+              class="pos-abs error-align-field error-msg"
+              *ngIf="
+                !newCompanyForm.get('profile.address')?.valid &&
+                addressControl.errors &&
+                addressControl.errors['maxlength']
+              "
+            >
+              <p>{{ uiMessage.COMPANY_ADDRESS_MAX_LENGTH }}</p>
+            </div>
           </div>
-          <div class="form__input">
+          <div class="form__input pos-rel">
             <label>Contact No. (Optional)</label>
-            <input type="text" formControlName="contact_no" />
+            <input
+              type="text"
+              formControlName="contact_no"
+              [class.error-field]="
+                !newCompanyForm.get('profile.contact_no')?.valid &&
+                newCompanyForm.get('profile.contact_no')?.touched
+              "
+            />
+            <div
+              class="pos-abs error-align-field error-msg"
+              *ngIf="
+                !newCompanyForm.get('profile.contact_no')?.valid &&
+                contactNOControl.errors &&
+                contactNOControl.errors['maxlength']
+              "
+            >
+              <p>{{ uiMessage.CONTACT_NO_MAX_LENGTH }}</p>
+            </div>
           </div>
-          <div class="form__input">
+          <div class="form__input pos-rel">
             <label>Salesforce ID (Optional)</label>
-            <input type="text" formControlName="salesforce_id" />
+            <input
+              type="text"
+              formControlName="salesforce_id"
+              [class.error-field]="
+                !newCompanyForm.get('profile.salesforce_id')?.valid &&
+                newCompanyForm.get('profile.salesforce_id')?.touched
+              "
+            />
+            <div
+              class="pos-abs error-align-field error-msg"
+              *ngIf="
+                !newCompanyForm.get('profile.salesforce_id')?.valid &&
+                salesForceIDControl.errors &&
+                salesForceIDControl.errors['maxlength']
+              "
+            >
+              <p>{{ uiMessage.SALESFORCE_ID_MAX_LENGTH }}</p>
+            </div>
           </div>
-          <!-- <button [disabled]="" (click)="test()">test</button> -->
         </ng-container>
       </div>
       <div app-wizard-template *ngSwitchCase="'2'" [step]="activeStep">
         <ng-container formGroupName="subscription">
-          <div class="form__input">
+          <div class="form__input pos-rel">
             <label>Company ID</label>
             <input
               type="text"
               formControlName="company_id"
-              [ngClass]="{
-                input__error:
-                  !newCompanyForm.get('subscription.company_id')?.valid &&
-                  !newCompanyForm.get('subscription.company_id')?.touched
-              }"
+              [class.error-field]="
+                !newCompanyForm.get('subscription.company_id')?.valid &&
+                newCompanyForm.get('subscription.company_id')?.touched
+              "
             />
+            <div
+              class="pos-abs error-align-field error-msg"
+              *ngIf="
+                !newCompanyForm.get('subscription.company_id')?.valid &&
+                newCompanyForm.get('subscription.company_id')?.touched
+              "
+            >
+              <p
+                *ngIf="
+                  companyIDControl.errors &&
+                    companyIDControl.errors['maxlength'];
+                  else default
+                "
+              >
+                {{ uiMessage.COMPANY_ID_MAX_LENGTH }}
+              </p>
+              <ng-template #default>
+                <p>{{ uiMessage.INVALID_COMPANY_ID }}</p>
+              </ng-template>
+            </div>
           </div>
           <div class="form__input radio">
             <label>Subscription Type</label>
@@ -223,7 +313,7 @@
                 newCompanyForm.get('subscription.expiry_date')?.touched
               "
             >
-              <p>Please choose expiry date.</p>
+              <p>{{ uiMessage.INVALID_EXPIRY_DATE }}</p>
             </div>
           </div>
         </ng-container>

@@ -4,6 +4,7 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  Input,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -19,6 +20,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class ButtonRangeComponent implements OnInit, ControlValueAccessor {
+  @Input() errorMsg = '';
   @Output() onValueChange = new EventEmitter();
   constructor() {}
   inputValue = 1;
@@ -38,8 +40,7 @@ export class ButtonRangeComponent implements OnInit, ControlValueAccessor {
     this.onTouch = fn;
   }
 
-  setDisabledState(state: any) {
-  }
+  setDisabledState(state: any) {}
 
   ngOnInit(): void {}
 
@@ -64,5 +65,9 @@ export class ButtonRangeComponent implements OnInit, ControlValueAccessor {
     this.onValueChange.emit(e);
     this.onChange(e);
     this.inputValue = e;
+  }
+
+  onPaste(e: any) {
+    e.preventDefault();
   }
 }

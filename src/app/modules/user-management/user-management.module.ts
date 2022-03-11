@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { TooltipModule } from 'ng2-tooltip-directive';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+
 import { UserManagementRoutingModule } from './user-management-routing.module';
 import { UserManagementComponent } from './pages/user-management/user-management.component';
 import { AppSideBarModule } from '@shared/components/app-side-bar/app-side-bar.module';
@@ -14,8 +18,6 @@ import { AppPanelModule } from '@shared/components/app-panel/app-panel.module';
 import { AppDropdownModule } from '@shared/components/app-dropdown/app-dropdown.module';
 import { InviteUserComponent } from './components/invite/invite.component';
 import { DirectivesModule } from '@shared/directives/directives.module';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AssignedPortalComponent } from './components/assigned-portal/assigned-portal.component';
 import { AppSearchModule } from '@shared/components/app-search/app-search.module';
 import { UserDetailComponent } from './pages/user-detail/user-detail.component';
@@ -31,7 +33,7 @@ import { PipesModule } from '@shared/pipes/pipes.module';
     AssignedPortalComponent,
   ],
   imports: [
-    CommonModule,
+  CommonModule,
     UserManagementRoutingModule,
     ReactiveFormsModule,
     AppSideBarModule,
@@ -47,7 +49,8 @@ import { PipesModule } from '@shared/pipes/pipes.module';
     AngularSvgIconModule.forRoot(),
     AppModalModule,
     PipesModule,
-    DirectivesModule
+    DirectivesModule,
+    TooltipModule
   ],
   exports: [AssignedPortalComponent],
 })

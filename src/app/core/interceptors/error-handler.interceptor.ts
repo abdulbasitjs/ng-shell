@@ -21,6 +21,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     private router: Router,
     private _: LoggerService,
     private toaster: ToastrService,
+    private auth: AuthenticationService
   ) {}
 
   intercept(
@@ -36,12 +37,13 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     LoggerService.error('Request Error: ' + JSON.stringify(response));
     switch (response['status']) {
       case HttpStatusCode.BadRequest:
-        this.toaster.error(response.error.message, response.statusText);
+        this.toaster.error(response.error.message, 'Error');
         break;
 
       case HttpStatusCode.Unauthorized:
         if (response.url.includes('login'))
-        this.toaster.error(response.error.message, response.statusText);
+        this.toaster.error(response.error.message, 'Error');
+        this.auth.logout();
         break;
 
       case HttpStatusCode.Forbidden:
@@ -52,11 +54,11 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
         break;
 
       case HttpStatusCode.InternalServerError:
-        this.toaster.error(response.message, response.statusText);
+        this.toaster.error(response.message, 'Error');
         break;
 
       default:
-        this.toaster.error(response.message, response.statusText);
+        this.toaster.error(response.message, 'Error');
         break;
     }
     throw response;

@@ -32,13 +32,17 @@ export class LoginComponent implements OnInit {
   onLogin() {
     const { email, password, isRemember } = this.loginForm.value;
     if (email && password) {
-      this.authService.login(email, password, isRemember).subscribe(res => {
+      this.authService.login(email, password, isRemember).subscribe((res) => {
         const response = <SSOResponse>res;
         if (response.code === ProjectStatusCode.AccessRevoked) {
           this.hasError = true;
         }
-
-      })
+      });
     }
   }
+
+  get passwordControl() {
+    return this.loginForm.controls['password'] as FormControl;
+  }
 }
+// Validators.pattern(/^([a-zA-Z0-9!@#$%^&*_])+$/),

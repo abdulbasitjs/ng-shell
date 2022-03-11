@@ -6,8 +6,8 @@
     [class.loading]="loaderService.getLoader() | async"
   >
     <app-auth-section
-      title="Single Sign On Portal"
-      description="Enter your details below"
+      title="Single Sign-on Portal"
+      description=""
     ></app-auth-section>
     <form
       (ngSubmit)="onLogin()"
@@ -53,7 +53,7 @@
           <input
             class="fw"
             type="password"
-            placeholder="Enter your password"
+            placeholder="Enter password"
             formControlName="password"
             [class.error-msg]="
               !loginForm.get('password')?.valid &&
@@ -98,7 +98,7 @@
 </ng-container>
 
 <ng-template #error>
-  <app-auth-action (onAction)="hasError = false;" icon="assets/svg/EmailSent.svg" title="Sign in One Portal">
-    <p class="error">Your access has been revoked. Please contact SlashNext Administrator</p>
+  <app-auth-action (onAction)="hasError = false;" icon="assets/svg/EmailSent.svg" title="Single Sign-on Portal">
+    <p class="error">You are not authorized to use this portal. Please contact <a href="mailto:support@slashnext.com">support@slashnext.com</a> to enable your access.</p>
   </app-auth-action>
 </ng-template>

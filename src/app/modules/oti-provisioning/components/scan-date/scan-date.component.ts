@@ -23,11 +23,10 @@ export class AppScanDateComponent implements OnInit {
 
   ranges: any = {
     Today: [moment(), moment()],
-    Yesterday: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-    '2 Day': [moment().subtract(2, 'days'), moment()],
-    '3 Day': [moment().subtract(3, 'days'), moment()],
-    '4 Day': [moment().subtract(4, 'days'), moment()],
-    '5 Day': [moment().subtract(5, 'days'), moment()],
+    '2 Day': [moment().subtract(1, 'days'), moment()],
+    '3 Day': [moment().subtract(2, 'days'), moment()],
+    '4 Day': [moment().subtract(3, 'days'), moment()],
+    '5 Day': [moment().subtract(4, 'days'), moment()],
     '1 Week': [moment().subtract(6, 'days'), moment()],
   };
 
@@ -50,7 +49,7 @@ export class AppScanDateComponent implements OnInit {
     this.customerService.getCustomerObservable().subscribe((customer) => {
       this.customer = customer;
       this.customerService.getCustomerStats({
-        customer: customer.companyName,
+        customer: customer.id,
         ...this.selected,
       });
     });
@@ -61,7 +60,7 @@ export class AppScanDateComponent implements OnInit {
       const startDate = event.startDate.format('YYYY-MM-DD');
       const endDate = event.endDate.format('YYYY-MM-DD');
       this.customerService.getCustomerStats({
-        customer: this.customer.companyName,
+        customer: this.customer.id,
         startDate,
         endDate,
       });

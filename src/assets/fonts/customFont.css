@@ -1,0 +1,12 @@
+/*****************************
+ All rights reserved.
+ AllFont.ru (c) 2011-2015
+ *****************************/
+ @font-face {
+  font-family: 'Roboto Medium';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Medium'), local('RobotoLt-Regular'),
+      url(https://allfont.ru/cache/fonts/roboto-medium_8e15a56cbec76ef7bdd464649d1a4878.woff) format('woff'),
+      url(https://allfont.ru/cache/fonts/roboto-medium_8e15a56cbec76ef7bdd464649d1a4878.ttf) format('truetype');
+}

@@ -24,6 +24,7 @@ const DEFAULT_LABEL = 'Select Rate Limit / Min';
   templateUrl: './package-controls.component.html',
 })
 export class AppPackageControlsComponent implements OnInit, OnDestroy {
+  uiMessages = UIMESSAGES;
   rateLimitPerMinSelectedIndex = 0;
   quotaIntervalSelectedIndex = 0;
 

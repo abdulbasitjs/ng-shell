@@ -1,9 +1,10 @@
-import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
+import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EP, IDropdown, ClassifierList } from '@configs/index';
 import { ProjectStatusCode } from '@core/http/http-codes.enum';
 import { SSOResponse } from '@core/http/http-response.model';
 import { StoragePrefix } from '@core/models/storage-prefix.enum';
+import { NavigationService } from '@core/services/navigation.service';
 import { StorageService } from '@core/services/storage.service';
 import {
   DataTable,
@@ -12,9 +13,8 @@ import {
 import { Pagination } from '@shared/components/app-pagination/interfaces/pagination';
 import { StepModel } from '@shared/components/app-wizard/interfaces/wizard';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, catchError, delay, map, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, of, tap } from 'rxjs';
 import { IGetCustomersPayload } from '../models/customer.model';
-import { PackageService } from './package.service';
 
 const OTICustomersPaginationStoreKey = `${StoragePrefix.OTIProvisioning}customer.pagination.pageSize`;
 const OTICustomersSortStoreKey = `${StoragePrefix.OTIProvisioning}customer.sorting`;
@@ -60,7 +60,7 @@ export class CustomerService {
     private http: HttpClient,
     private storageService: StorageService,
     private toasterService: ToastrService,
-    private packageService: PackageService
+    private navigationService: NavigationService
   ) {
     // User Listing Configuration
     this.paginationConfigSubject$ = new BehaviorSubject<Pagination>(
@@ -121,20 +121,9 @@ export class CustomerService {
       const response = <SSOResponse>res;
       if (response.code == HttpStatusCode.Ok) {
         this.customerStatus$.next(response.data.status);
-        const { packageId } = response.data.packageInformation;
-        // if (packageId === '0') {
         this.currentCustomer$.next(response.data);
-        // } else {
-        //   this.packageService.getPackage(packageId);
-        //   this.packageService.getPackageObservable().subscribe((data) => {
-        //     if (data) {
-        //       response.data.packageInformation = data;
-        //       this.currentCustomer$.next(response.data);
-        //     } else {
-        //       this.currentCustomer$.next(response.data);
-        //     }
-        //   });
-        // }
+      } else if (response.code === ProjectStatusCode.ValidationFailed) {
+        this.navigationService.back();
       }
     });
   }
@@ -164,6 +153,35 @@ export class CustomerService {
         a.download = `scan-stats`;
         a.click();
       });
+  }
+
+  sendInvite(payload: any) {
+    return this.http.post(EP.SendInvite, payload).pipe(
+      tap((res) => {
+        const response = <SSOResponse>res;
+        if (response.code === HttpStatusCode.Ok) {
+          if (payload.sendEmails) {
+            this.toasterService.success(
+              'Company subscription info sent successfully',
+              'Success'
+            );
+          }
+        } else if (response.code === ProjectStatusCode.ValidationFailed) {
+          const errors = Object.keys(response.message)
+            .map((el: any) => response.message[el])
+            .flat();
+          errors.forEach((e) => {
+            this.toasterService.error(e, 'Error');
+          });
+          return of({ error: true });
+        } else {
+          if (response && response.message) {
+            this.toasterService.error(response.message);
+          }
+        }
+        return res;
+      })
+    );
   }
 
   getCustomerKey() {
@@ -200,8 +218,8 @@ export class CustomerService {
         this.isCustomerCreating$.next(0);
         if (response.code === HttpStatusCode.Ok) {
           this.toasterService.success(
-            'Company Created Successfully!🚀🚀🚀',
-            'Success!'
+            'Company profile has been successfully added',
+            'Success'
           );
           this.getCustomers();
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
@@ -209,9 +227,7 @@ export class CustomerService {
             .map((el: any) => response.message[el])
             .flat();
           errors.forEach((e) => {
-            this.toasterService.error(e, 'Validation Failed', {
-              disableTimeOut: true,
-            });
+            this.toasterService.error(e, 'Error');
           });
           return of({ error: true });
         }
@@ -228,36 +244,23 @@ export class CustomerService {
         this.isCustomerCreating$.next(0);
         if (response.code === HttpStatusCode.Ok) {
           this.customerStatus$.next(response.data.status);
-          const { packageId } = response.data.packageInformation;
-          // if (packageId === '0') {
+
           this.currentCustomer$.next(response.data);
-          // } else {
-          //   this.packageService.getPackage(packageId);
-          //   this.packageService.getPackageObservable().subscribe((data) => {
-          //     if (data) {
-          //       response.data.packageInformation = data;
-          //       this.currentCustomer$.next(response.data);
-          //     } else {
-          //       this.currentCustomer$.next(response.data);
-          //     }
-          //   });
-          // }
+
           this.toasterService.success(
-            'Company Update Successfully!🚀🚀🚀',
-            'Success!'
+            'Company profile has been successfully updated.',
+            'Success'
           );
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
           const errors = Object.keys(response.message)
             .map((el: any) => response.message[el])
             .flat();
           errors.forEach((e) => {
-            this.toasterService.error(e, 'Validation Failed', {
-              disableTimeOut: true,
-            });
+            this.toasterService.error(e, 'Error');
           });
           return of({ error: true });
         } else if (response.code === ProjectStatusCode.ScriptBroken) {
-          this.toasterService.error(response.message, 'Script Failed🐛🐛');
+          this.toasterService.error(response.message, 'Script Failed');
         }
         return res;
       })
@@ -283,18 +286,18 @@ export class CustomerService {
       tap((res) => {
         const response = <SSOResponse>res;
         if (response.code === HttpStatusCode.Ok) {
-          // this.customerStatus$.next(
-          //   payload.status === 0 ? 'Reactive' : 'Active'
-          // );
+          const message =
+            payload.status === 0
+              ? 'Company has been successfully suspended'
+              : 'Company has been successfully reactivated';
           this.currentCustomer$.next(response.data);
+          this.toasterService.success(message, 'Success');
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
           const errors = Object.keys(response.message)
             .map((el: any) => response.message[el])
             .flat();
           errors.forEach((e) => {
-            this.toasterService.error(e, 'Validation Failed', {
-              disableTimeOut: true,
-            });
+            this.toasterService.error(e, 'Error');
           });
           return of({ error: true });
         }
@@ -306,6 +309,10 @@ export class CustomerService {
   // Helper Methods
   setCustomerPayload(payload: IGetCustomersPayload) {
     this.customerPayload = payload;
+  }
+
+  getCustomerPayload() {
+    return this.customerPayload;
   }
 
   getTotalPages() {
@@ -323,7 +330,7 @@ export class CustomerService {
     const limit =
       +this.storageService.get(OTICustomersPaginationStoreKey) || 10;
     this.paginationConfigSubject$.next(this.getUsersPaginationConfig(1, limit));
-    return +this.storageService.get(OTICustomersPaginationStoreKey);
+    return limit;
   }
 
   getSortingFromStore() {
@@ -335,10 +342,13 @@ export class CustomerService {
   }
 
   reset() {
-    this.paginationConfigSubject$.next(this.getUsersPaginationConfig(1, 10, 1));
+    this.paginationConfigSubject$.next(this.getUsersPaginationConfig(1, this.getPageSize(), 1));
     const updated = {
       ...this.customerPayload,
+      search: '',
       page: 1,
+      sort: 'createdAt',
+      order: 'desc'
     };
     this.setCustomerPayload(updated);
   }
@@ -434,7 +444,7 @@ export class CustomerService {
 
   // Configs
   getCustomersDataTableConfig(): DataTable {
-    const { sortName = '', orderBy = Order.Default } =
+    const { sortName = 'createdAt', orderBy = Order.Descending } =
       this.getSortingFromStore() || {};
 
     const configurations = {
@@ -467,7 +477,7 @@ export class CustomerService {
             accessor: 'packageName',
             isSortable: true,
             renderIcon: true,
-            cell: 'packageName'
+            cell: 'packageName',
           },
           {
             name: 'Created On',
@@ -480,7 +490,7 @@ export class CustomerService {
             accessor: 'status',
             isSortable: true,
             renderIcon: true,
-            cell: "companyStatus"
+            cell: 'companyStatus',
           },
         ],
         sortBy: sortName,

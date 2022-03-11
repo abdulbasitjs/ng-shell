@@ -18,24 +18,33 @@ export class SearchComponent implements OnInit {
   @Output() onEnter = new EventEmitter<string>();
   @Output() onEscape = new EventEmitter<string>();
   @ViewChild('term') term!: ElementRef;
-  value = '';
+  @Input() value: string | undefined = '';
 
   constructor() {}
 
   ngOnInit(): void {}
 
   onClickHandler(e: Event) {
-    this.value = this.term.nativeElement.value;
-    this.onSearch.emit(this.value);
+    if (this.term.nativeElement.value.trim().length > 0) {
+      this.value = this.term.nativeElement.value.trim();
+      this.onSearch.emit(this.value);
+    }
   }
 
   handleEnter() {
-    this.value = this.term.nativeElement.value;
-    this.onEnter.emit(this.value);
+    if (this.term.nativeElement.value.trim().length > 0)
+    {
+      this.value = this.term.nativeElement.value.trim();
+      this.onEnter.emit(this.value);
+    }
   }
 
   handleEscape() {
     this.value = '';
     this.onEscape.emit(this.value);
+  }
+  disableSearch = true
+  enableSearch () {
+    this.disableSearch = false
   }
 }

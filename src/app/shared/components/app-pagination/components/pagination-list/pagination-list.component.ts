@@ -5,7 +5,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
   templateUrl: './pagination-list.component.html',
 })
 export class PaginationListComponent implements OnInit {
-  @Input() records!: number[] | undefined;
+  @Input() records: number[] | undefined = [10, 20, 30, 50, 100];
   @Input() set pageSize(value: number | undefined) {
     if (value) {
       this.update(value);
@@ -24,6 +24,8 @@ export class PaginationListComponent implements OnInit {
         (el) => el === pageSize
       );
     }
+
+    console.log(this.selectedRecordIndex, this.records, pageSize);
   }
 
   selectRecord(record: number, i: number) {

@@ -9,7 +9,7 @@ $form-width: 85%;
 }
 
 %customRadioCheckBoxSpan {
-  font-size: font-size(small);
+  font-size: font-size(smallFix);
   color: var(--color-primary);
   font-weight: font-weight(regular);
 }
@@ -25,9 +25,13 @@ $form-width: 85%;
 
     & > label {
       margin-bottom: 0.5rem;
-      font-size: font-size(small);
+      font-size: font-size(smallFix);
       color: var(--color-primary);
       font-weight: font-weight(regular);
+      &.label-heading {
+        font-size: font-size(regularFix);
+        font-weight: font-weight(medium);
+      }
     }
 
     & input[type="text"],

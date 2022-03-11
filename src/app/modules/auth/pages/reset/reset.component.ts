@@ -30,8 +30,15 @@ export class ResetComponent implements OnInit {
 
   ngOnInit(): void {
     this.resetForm = new FormGroup({
-      password: new FormControl('', [Validators.required]),
-      cPassword: new FormControl('', [Validators.required]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*=()_<>.?])[A-Za-z\d!@#$%^&*=()_<>.?]/),
+      ]),
+      cPassword: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
     });
     const { key = '' } = this.route.snapshot.queryParams;
     this.resetMode = this.route.snapshot.url[0].path;
@@ -60,5 +67,9 @@ export class ResetComponent implements OnInit {
           }
         });
     } else return;
+  }
+
+  get passwordControl() {
+    return this.resetForm.controls['password'] as FormControl;
   }
 }
