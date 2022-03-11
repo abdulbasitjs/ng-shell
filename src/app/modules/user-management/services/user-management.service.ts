@@ -168,6 +168,18 @@ export class UserManagementService {
           this.getUsers();
         }
         return res;
+      }),
+      catchError((err) => {
+        if (err.error.code === ProjectStatusCode.InviteValidationFailed) {
+          const errors = Object.keys(err.error.data)
+            .map((el: any) => err.error.data[el])
+            .flat();
+          errors.forEach((e) => {
+            this.toasterService.error(e, 'Error');
+          });
+          return of({ error: true });
+        }
+        return of(err.error);
       })
     );
   }
@@ -232,13 +244,15 @@ export class UserManagementService {
   }
 
   reset() {
-    this.paginationConfigSubject$.next(this.getUsersPaginationConfig(1, this.getPageSize(), 1));
+    this.paginationConfigSubject$.next(
+      this.getUsersPaginationConfig(1, this.getPageSize(), 1)
+    );
     const updated = {
       ...this.userPayload,
       search: '',
       page: 1,
       sort: 'createdAt',
-      order: 'desc'
+      order: 'desc',
     };
     this.setUserPayload(updated);
   }

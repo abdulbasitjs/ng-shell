@@ -37,7 +37,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     LoggerService.error('Request Error: ' + JSON.stringify(response));
     switch (response['status']) {
       case HttpStatusCode.BadRequest:
-        this.toaster.error(response.error.message, 'Error');
+        // this.toaster.error(response.error.message, 'Error');
         break;
 
       case HttpStatusCode.Unauthorized:
