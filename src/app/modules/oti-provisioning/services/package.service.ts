@@ -4,6 +4,7 @@ import { EP } from '@configs/index';
 import { ProjectStatusCode } from '@core/http/http-codes.enum';
 import { SSOResponse } from '@core/http/http-response.model';
 import { StoragePrefix } from '@core/models/storage-prefix.enum';
+import { NavigationService } from '@core/services/navigation.service';
 import { StorageService } from '@core/services/storage.service';
 import {
   DataTable,
@@ -45,7 +46,8 @@ export class PackageService {
   constructor(
     private http: HttpClient,
     private storageService: StorageService,
-    private toasterService: ToastrService
+    private toasterService: ToastrService,
+    private navigationService: NavigationService
   ) {
     // User Listing Configuration
     this.paginationConfigSubject$ = new BehaviorSubject<Pagination>(
@@ -184,6 +186,8 @@ export class PackageService {
         this.packageStatus$.next(
           response.data.status === 0 ? 'Disable' : 'Enable'
         );
+      } else if (response.code === ProjectStatusCode.ValidationFailed) {
+        this.navigationService.back();
       }
     });
   }
@@ -367,7 +371,7 @@ export class PackageService {
             accessor: 'createdAt',
             isSortable: true,
             renderIcon: true,
-          }
+          },
         ],
         sortBy: sortName,
         order: orderBy,

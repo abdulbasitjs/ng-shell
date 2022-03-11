@@ -1,0 +1,22 @@
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+
+  &__item {
+    background-color: var(--color-duodenary-light);
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid var(--color-primary);
+    border-radius: 30px;
+    min-width: 14rem;
+
+    & > span + span {
+      width: 1rem;
+      height: 1.4rem;
+      align-self: center;
+    }
+  }
+}

@@ -33,5 +33,8 @@ export const UIMESSAGES = {
   INVALID_PACKAGE_NAME: "Package name can not be empty",
 
   // Profile
-  CHANGE_PASSWORD_MIN_LENGTH: "The password must be at least 6 characters"
+  CHANGE_PASSWORD_MIN_LENGTH: "The password must be at least 6 characters",
+
+  // Send Invite
+  EMAIL_ADDRESS_ALREADY_ADDED: "Email address is already added"
 };

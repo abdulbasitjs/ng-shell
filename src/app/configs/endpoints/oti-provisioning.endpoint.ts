@@ -71,7 +71,14 @@ export const OTIPPEndpoints = [
     path: 'oti/customers/',
     runAt: 'onDemand',
   },
-
+  {
+    baseUrl: 'sso',
+    name: 'sendinvite',
+    alias: 'sendInvite',
+    api: '',
+    path: 'oti/customers/',
+    runAt: 'onDemand',
+  },
 
   {
     baseUrl: 'sso',
@@ -133,11 +140,12 @@ export const OTIPPEndpointMapping = {
   DeleteCompany: 'deleteCompany',
   CompanyStats: 'companyStats',
   DownloadStats: 'downloadStats',
+  SendInvite: 'sendInvite',
 
   Packages: 'packages',
   CreatePackage: 'createPackage',
   PackageDetail: 'packageDetail',
   UpdatePackage: 'updatePackage',
   DeletePackage: 'deletePackage',
-  ChangePackageStatus: 'changePackageStatus'
+  ChangePackageStatus: 'changePackageStatus',
 };
