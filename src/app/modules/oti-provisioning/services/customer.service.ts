@@ -330,7 +330,7 @@ export class CustomerService {
     const limit =
       +this.storageService.get(OTICustomersPaginationStoreKey) || 10;
     this.paginationConfigSubject$.next(this.getUsersPaginationConfig(1, limit));
-    return +this.storageService.get(OTICustomersPaginationStoreKey);
+    return limit;
   }
 
   getSortingFromStore() {
@@ -342,11 +342,13 @@ export class CustomerService {
   }
 
   reset() {
-    this.paginationConfigSubject$.next(this.getUsersPaginationConfig(1, 10, 1));
+    this.paginationConfigSubject$.next(this.getUsersPaginationConfig(1, this.getPageSize(), 1));
     const updated = {
       ...this.customerPayload,
       search: '',
       page: 1,
+      sort: 'createdAt',
+      order: 'desc'
     };
     this.setCustomerPayload(updated);
   }
@@ -442,7 +444,7 @@ export class CustomerService {
 
   // Configs
   getCustomersDataTableConfig(): DataTable {
-    const { sortName = '', orderBy = Order.Default } =
+    const { sortName = 'createdAt', orderBy = Order.Descending } =
       this.getSortingFromStore() || {};
 
     const configurations = {

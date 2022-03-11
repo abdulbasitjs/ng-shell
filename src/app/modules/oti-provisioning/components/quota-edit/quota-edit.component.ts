@@ -474,7 +474,7 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
           } else {
             this.expiryDateControl?.clearValidators();
             this.subscriptionGroup?.patchValue({
-              expiry_date: '',
+              expiry_date: this.customer?.expiryDate,
             });
           }
           this.expiryDateControl?.updateValueAndValidity();
@@ -590,10 +590,7 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
       subscriptionType,
       key,
     };
-    payload.expiryDate =
-      exp_date_type === 'never'
-        ? '2090-12-12'
-        : expiry_date.endDate.format('YYYY-MM-DD');
+    payload.expiryDate = this.customer?.expiryDate;
     payload.packageId = packageId === this.CUSTOM_KEY ? 0 : packageId;
     if (packageId === this.CUSTOM_KEY) {
       let threashold = 0;
