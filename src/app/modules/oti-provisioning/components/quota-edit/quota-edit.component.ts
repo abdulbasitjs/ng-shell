@@ -338,7 +338,7 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
         .filter((p: IPackageItem) => p.status === Active)
         .map((el: IPackageItem) => ({
           key: el.name.toLowerCase(),
-          value: `${el.name} ${el.quotaPermin}`,
+          value: `${el.name} (Quota/${el.quotaType}: ${el.quotaLimit} | Quota/min: ${el.perMinLimit} Call(s)/min)`,
           type: el.type,
           id: el.id,
           enablexpdate: el.enablexpdate,
@@ -437,7 +437,7 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
             this.shouldEnableExpiryDate = !!tier?.enablexpdate;
             this.quotaLimitControl?.clearValidators();
             this.quotaPerMinControl?.clearValidators();
-            if (!this.tierControl?.pristine) this.resetPackInfoGroup();
+            // if (!this.tierControl?.pristine) this.resetPackInfoGroup();
           }
           this.quotaLimitControl?.updateValueAndValidity();
           this.quotaPerMinControl?.updateValueAndValidity();
@@ -456,10 +456,7 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
             this.quotaPerMinControl?.clearValidators();
             this.attempts += 1;
             this.subscriptionGroup?.get('package_info')?.patchValue({
-              quota_permin:
-                this.editMode && this.attempts === 1
-                  ? this.customer?.packageInformation?.perMinLimit
-                  : '',
+              quota_permin: this.customer?.packageInformation?.perMinLimit || 1
             });
           }
           this.quotaPerMinControl?.updateValueAndValidity();
@@ -696,3 +693,7 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
 //   startDate: moment('2020-10-02'),
 //   endDate: moment('2020-10-02'),
 // },
+
+// this.editMode && this.attempts === 1
+// ? this.customer?.packageInformation?.perMinLimit
+// : '',
