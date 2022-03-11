@@ -44,14 +44,14 @@
         font-size: font-size(regularFix);
         color: var(--color-primary);
         font-weight: font-weight(medium);
+        word-break: break-all;
       }
 
       &--name {
         font-size: font-size(regularFix);
         color: var(--color-quinary);
         font-weight: font-weight(regular);
-        text-overflow: ellipsis;
-
+        word-break: break-all;
       }
 
       &--name.icon {

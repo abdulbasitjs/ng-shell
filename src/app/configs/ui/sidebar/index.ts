@@ -1,6 +1,18 @@
 import { Sidebar } from '@shared/components/app-side-bar/interfaces/sidebar';
 
 // Sidebars
+
+export const OtiDashboardSideBarList: Sidebar[] = [
+  {
+    iconPath: 'assets/svg/navigation-toggle-icon.svg',
+    route: '/customers',
+  },
+  {
+    iconPath: 'assets/svg/dashboard-icon.svg',
+    route: '/customers',
+  },
+];
+
 export const UserManagementSideBarList: Sidebar[] = [
   {
     iconPath: 'assets/svg/navigation-toggle-icon.svg',
@@ -33,3 +45,4 @@ export const OtiProvisioningSideBarList: Sidebar[] = [
     route: '/packages',
   },
 ];
+
