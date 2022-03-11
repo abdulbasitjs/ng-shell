@@ -14,8 +14,9 @@ import { Pagination } from '@shared/components/app-pagination/interfaces/paginat
 import { StorageService } from '@core/services/storage.service';
 import { StoragePrefix } from '@core/models/storage-prefix.enum';
 import { IGetUsersPayload, IUserItem } from '../user-management.model';
-import { HttpStatusCode } from '@core/http/http-codes.enum';
+import { HttpStatusCode, ProjectStatusCode } from '@core/http/http-codes.enum';
 import { ToastrService } from 'ngx-toastr';
+import { NavigationService } from '@core/services/navigation.service';
 
 const userManagementPaginationStoreKey = `${StoragePrefix.SSO}user-management.pagination.pageSize`;
 const userManagementSortStoreKey = `${StoragePrefix.SSO}user-management.sorting`;
@@ -48,7 +49,8 @@ export class UserManagementService {
     private http: HttpClient,
     private auth: AuthenticationService,
     private storageService: StorageService,
-    private toasterService: ToastrService
+    private toasterService: ToastrService,
+    private navigationService: NavigationService
   ) {
     // User Listing Configuration
     this.paginationConfigSubject$ = new BehaviorSubject<Pagination>(
@@ -108,6 +110,8 @@ export class UserManagementService {
       const response = <SSOResponse>res;
       if (response.code == HttpStatusCode.Ok) {
         this.currentUser$.next(response.data);
+      } else if (response.code === ProjectStatusCode.ValidationFailed) {
+        this.navigationService.back();
       }
     });
   }
@@ -231,6 +235,7 @@ export class UserManagementService {
     this.paginationConfigSubject$.next(this.getUsersPaginationConfig(1, 10, 1));
     const updated = {
       ...this.userPayload,
+      search: '',
       page: 1,
     };
     this.setUserPayload(updated);

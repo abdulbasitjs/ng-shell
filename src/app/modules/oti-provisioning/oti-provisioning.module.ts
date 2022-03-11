@@ -34,6 +34,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { DirectivesModule } from '@shared/directives/directives.module';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { AppCustomerQuotaEditComponent } from './components/quota-edit/quota-edit.component';
+import { AppCustomerSendInviteComponent } from './components/send-invite/send-invite.component';
+import { AppTagsModule } from '@shared/components/app-tags/app-tags.module';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import { AppCustomerQuotaEditComponent } from './components/quota-edit/quota-edi
     ApiTierComponent,
     AppPackageControlsComponent,
     AppCustomerQuotaEditComponent,
+    AppCustomerSendInviteComponent
   ],
   imports: [
     CommonModule,
@@ -73,7 +76,8 @@ import { AppCustomerQuotaEditComponent } from './components/quota-edit/quota-edi
     AppSearchModule,
     NgxSkeletonLoaderModule,
     DirectivesModule,
-    PipesModule
+    PipesModule,
+    AppTagsModule
   ],
 })
 export class OtiProvisioningModule {}

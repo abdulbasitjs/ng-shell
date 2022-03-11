@@ -4,6 +4,7 @@ import { EP } from '@configs/index';
 import { ProjectStatusCode } from '@core/http/http-codes.enum';
 import { SSOResponse } from '@core/http/http-response.model';
 import { StoragePrefix } from '@core/models/storage-prefix.enum';
+import { NavigationService } from '@core/services/navigation.service';
 import { StorageService } from '@core/services/storage.service';
 import {
   DataTable,
@@ -45,7 +46,8 @@ export class PackageService {
   constructor(
     private http: HttpClient,
     private storageService: StorageService,
-    private toasterService: ToastrService
+    private toasterService: ToastrService,
+    private navigationService: NavigationService
   ) {
     // User Listing Configuration
     this.paginationConfigSubject$ = new BehaviorSubject<Pagination>(
@@ -115,8 +117,8 @@ export class PackageService {
         this.isPackageCreating$.next(0);
         if (response.code === HttpStatusCode.Ok) {
           this.toasterService.success(
-            'Package Created Successfully!🚀🚀🚀',
-            'Success!'
+            'Package has been created successfully',
+            'Success'
           );
           this.getPackages();
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
@@ -124,7 +126,7 @@ export class PackageService {
             .map((el: any) => response.message[el])
             .flat();
           errors.forEach((e) => {
-            this.toasterService.error(e, 'Validation Failed');
+            this.toasterService.error(e, 'Error');
           });
           return of({ error: true });
         } else {
@@ -150,15 +152,15 @@ export class PackageService {
           };
           this.currentPackage$.next(response.data);
           this.toasterService.success(
-            'Package Update Successfully!🚀🚀🚀',
-            'Success!'
+            'Package has been updated successfully',
+            'Success'
           );
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
           const errors = Object.keys(response.message)
             .map((el: any) => response.message[el])
             .flat();
           errors.forEach((e) => {
-            this.toasterService.error(e, 'Validation Failed');
+            this.toasterService.error(e, 'Error');
           });
           return of({ error: true });
         }
@@ -184,6 +186,8 @@ export class PackageService {
         this.packageStatus$.next(
           response.data.status === 0 ? 'Disable' : 'Enable'
         );
+      } else if (response.code === ProjectStatusCode.ValidationFailed) {
+        this.navigationService.back();
       }
     });
   }
@@ -220,7 +224,7 @@ export class PackageService {
             .map((el: any) => response.message[el])
             .flat();
           errors.forEach((e) => {
-            this.toasterService.error(e, 'Validation Failed');
+            this.toasterService.error(e, 'Error');
           });
           return of({ error: true });
         }
@@ -367,7 +371,7 @@ export class PackageService {
             accessor: 'createdAt',
             isSortable: true,
             renderIcon: true,
-          }
+          },
         ],
         sortBy: sortName,
         order: orderBy,
