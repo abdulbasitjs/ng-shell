@@ -3,6 +3,12 @@
     *ngFor="let p of permissions | keyvalue | portal"
     class="portal--icon"
     [style.background-image]="p.bgColor"
-    >{{ p.label }}</span
+    [tooltip]="p.name + ' | ' + p.fullLabel"
+    placement="top"
+    [hideDelay]="0"
+    >
+    {{ p.label }}
+    </span
+
   >
 </div>

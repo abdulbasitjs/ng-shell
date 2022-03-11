@@ -21,33 +21,41 @@ export class ForgotComponent implements OnInit {
   isEmailSent: boolean = false;
   constructor(
     private authService: AuthenticationService,
-    public loaderService: LoaderService,
+    public loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
     this.forgotForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.pattern(
+          /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/
+        ),
+      ]),
     });
   }
 
   onReset() {
     const { email } = this.forgotForm.value;
     if (email) {
-      this.authService.forgot(email)
-      .pipe(catchError(error => {
-        if (error.error.code === ProjectStatusCode.AccessRevoked) {
-          this.hasError = true;
-        }
-        return of([]);
-      }))
-      .subscribe((res) => {
-        const response = <SSOResponse>res;
-        const { code } = response;
-        if (code === HttpStatusCode.Ok) {
-          this.hasError = false;
-          this.isEmailSent = true;
-        }
-      });
+      this.authService
+        .forgot(email)
+        .pipe(
+          catchError((error) => {
+            if (error.error.code === ProjectStatusCode.AccessRevoked) {
+              this.hasError = true;
+            }
+            return of([]);
+          })
+        )
+        .subscribe((res) => {
+          const response = <SSOResponse>res;
+          const { code } = response;
+          if (code === HttpStatusCode.Ok) {
+            this.hasError = false;
+            this.isEmailSent = true;
+          }
+        });
     }
   }
 }

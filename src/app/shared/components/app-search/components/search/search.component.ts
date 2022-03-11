@@ -18,7 +18,7 @@ export class SearchComponent implements OnInit {
   @Output() onEnter = new EventEmitter<string>();
   @Output() onEscape = new EventEmitter<string>();
   @ViewChild('term') term!: ElementRef;
-  value = '';
+  @Input() value: string | undefined = '';
 
   constructor() {}
 

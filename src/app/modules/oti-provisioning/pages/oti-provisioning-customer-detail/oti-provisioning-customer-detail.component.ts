@@ -20,12 +20,17 @@ import { CustomerService } from '../../services/customer.service';
 export class OtiProvisioningCustomerDetailComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  date: { startDate: string, endDate: string } = { startDate: "", endDate: "" };
+  date: { startDate: string; endDate: string } = { startDate: '', endDate: '' };
   intervalMapping: any = {
     day: 'Daily',
     week: 'Weekly',
     month: 'Monthly',
     year: 'Yearly',
+  };
+
+  subscriptionTypeMapping: any = {
+    enterprise: 'Enterprise Edititon',
+    community: 'Community Edition'
   };
 
   @ViewChild('scanStatsModal') scanStatsModal!: TemplateRef<any>;
@@ -109,14 +114,22 @@ export class OtiProvisioningCustomerDetailComponent
     this.modalService.close();
   }
 
-
+  mapExcludeClassifier(classifer: string) {
+    if (classifer)
+      return classifer
+        .split(',')
+        .map((el) => ` ${el}`)
+        .join(',')
+        .trim();
+    return '';
+  }
 
   handleReport(type: string) {
     const payload = {
-      customer: this.customer.companyName,
+      customer: this.customer.id,
       ...this.date,
-      format: type
-    }
+      format: type,
+    };
     this.customerService.downloadStats(payload);
   }
 }

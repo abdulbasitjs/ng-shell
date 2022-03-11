@@ -6,16 +6,24 @@ const theme: any = {
   'rtpd-pp': '-45deg, #20994F 0%, #0E6027 100%',
 };
 
+const friendlyName: any = {
+  'oti-db': 'OTI Dashboard',
+  'oti-pp': 'OTI Provisioning Portal',
+  'rtpd-db': 'RTPD Dashboard',
+  'rtpd-pp': 'RTPD Provisioning Portal',
+};
+
 @Pipe({ name: 'portal' })
 export class ProtalPipe implements PipeTransform {
   transform(permission: any): any {
     const requiredData = permission.map((el: any) => ({
-      bgColor: `linear-gradient(${theme[el["key"]]})`,
+      bgColor: `linear-gradient(${theme[el['key']]})`,
       label: el.value.l
         .split(' ')
         .reduce((acc: any, cur: any[]) => `${acc}${cur[0]}`, ''),
-
-    } ));
+      name: friendlyName[el['key']],
+      fullLabel: el.value.l
+    }));
     return requiredData;
   }
 }
