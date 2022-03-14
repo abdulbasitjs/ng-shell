@@ -40,6 +40,9 @@
     [pageSize]="
       (packageService.getPaginationConfigObservable() | async)?.pageSize
     "
+    [currentPage]="
+      (packageService.getPaginationConfigObservable() | async)?.currentPage
+    "
     [rows]="(packageService.getPackagesObservable() | async)?.items"
     (onRow)="handleRow($event)"
     [headers]="packagesDatatable.headers.list"

@@ -41,6 +41,9 @@
     [columnsTemplate]="usersDatatable.headers.columnsTemplate"
     [isLoading]="umService.isUserListLoadingObservable() | async"
     [pageSize]="(umService.getPaginationConfigObservable() | async)?.pageSize"
+    [currentPage]="
+      (umService.getPaginationConfigObservable() | async)?.currentPage
+    "
     [rows]="(umService.getUsersObservable() | async)?.items"
     (onRow)="handleRow($event)"
     [headers]="usersDatatable.headers.list"
