@@ -23,7 +23,8 @@ export class NoAuthGuard implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
     if (this.authSerivce.isAuthenticated()) {
       const ResetRoute = '/auth/reset?key=';
-      if (state.url.includes(ResetRoute)) {
+      const InviteRoute = '/auth/invite?key=';
+      if (state.url.includes(ResetRoute) || state.url.includes(InviteRoute)) {
         this.authSerivce.logout();
         this.router.navigateByUrl(state.url);
         return true;
