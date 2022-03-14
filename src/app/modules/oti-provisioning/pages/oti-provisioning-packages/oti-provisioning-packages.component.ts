@@ -36,7 +36,6 @@ export class OtiProvisioningPackagesComponent implements OnInit {
     this.packageService.setSortingToStore(sort, order);
     const updated = {
       ...this.packageService.packagePayload,
-      page: 1,
       sort,
       order,
     };

@@ -50,7 +50,6 @@ export class UsersComponent implements OnInit, AfterViewInit {
     this.umService.setSortingToStore(sort, order);
     const updated = {
       ...this.umService.userPayload,
-      page: 1,
       sort,
       order,
     };

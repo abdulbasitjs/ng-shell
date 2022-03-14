@@ -97,6 +97,9 @@
             "production": {
               "browserTarget": "sso:build:production"
             },
+            "stage": {
+              "browserTarget": "sso:build:stage"
+            },
             "development": {
               "browserTarget": "sso:build:development"
             }
@@ -137,6 +140,15 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "stage": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.stage.ts"
                 }
               ]
             },

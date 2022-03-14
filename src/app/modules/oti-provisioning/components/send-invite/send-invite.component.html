@@ -33,7 +33,7 @@
         (clickHandler)="onSave()"
       ></app-button>
       <app-button
-        *ngIf="!noEmailScreen && !addEmailScreen"
+        *ngIf="currentEmails.length && !addEmailScreen"
         btnTitle="Send Email"
         classes="button-primary button-lg button-box-shadow"
         [isDisabled]="loaderService.getLoader() | async"

@@ -45,7 +45,6 @@ export class OtiProvisioningCustomersComponent
     this.customerService.setSortingToStore(sort, order);
     const updated = {
       ...this.customerService.customerPayload,
-      page: 1,
       sort,
       order,
     };

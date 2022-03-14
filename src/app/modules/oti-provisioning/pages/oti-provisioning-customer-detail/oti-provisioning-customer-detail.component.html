@@ -38,12 +38,12 @@
 
 <article
   *ngIf="
-    customer?.isExpired &&
+    customer?.msg &&
     !(customerService.getCustomerDetailLoadingObservable() | async)
   "
 >
-  <span class="suspended"
-    >⚠ API Quota Limit is expired. Please renew the package</span
+  <span [ngClass]="customer.msg && customer.isExpired ? 'suspended' : 'warning'"
+    >⚠ {{ customer.msg }}</span
   >
   <a routerLink="./company/edit">Please renew the package</a>
 </article>
@@ -277,7 +277,11 @@
 <div class="action-container m-0" *appAccessControl="'send-invitation'">
   <app-button
     class="button-component"
-    btnTitle="Send Invitation"
+    [btnTitle]="
+      customer?.sendInvite?.mailCount > 0
+        ? 'Resend Invitation'
+        : 'Send Invitation'
+    "
     classes="button-primary button-pd"
     routerLink="./company/send-invite"
     [class.disabled]="

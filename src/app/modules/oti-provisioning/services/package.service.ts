@@ -343,6 +343,7 @@ export class PackageService {
             accessor: 'name',
             isSortable: true,
             renderIcon: true,
+            width: '2fr',
           },
           {
             name: 'Quota Interval',
