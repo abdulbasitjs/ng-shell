@@ -122,7 +122,7 @@ export class UserManagementService {
         const response = <SSOResponse>res;
         if (response.code === HttpStatusCode.Ok) {
           this.currentUser$.next(response.data);
-          this.toasterService.success(response.message, 'Success!');
+          this.toasterService.success(response.message, 'Success');
         }
         return res;
       })
@@ -168,6 +168,18 @@ export class UserManagementService {
           this.getUsers();
         }
         return res;
+      }),
+      catchError((err) => {
+        if (err.error.code === ProjectStatusCode.InviteValidationFailed) {
+          const errors = Object.keys(err.error.data)
+            .map((el: any) => err.error.data[el])
+            .flat();
+          errors.forEach((e) => {
+            this.toasterService.error(e, 'Error');
+          });
+          return of({ error: true });
+        }
+        return of(err.error);
       })
     );
   }
@@ -177,7 +189,7 @@ export class UserManagementService {
       map((res) => {
         const response = <SSOResponse>res;
         if (response.code === HttpStatusCode.Ok) {
-          this.toasterService.success(response.message, 'Success!');
+          this.toasterService.success(response.message, 'Success');
           this.getUsers();
           return { ok: true };
         }
@@ -220,7 +232,7 @@ export class UserManagementService {
     const limit =
       +this.storageService.get(userManagementPaginationStoreKey) || 10;
     this.paginationConfigSubject$.next(this.getUsersPaginationConfig(1, limit));
-    return +this.storageService.get(userManagementPaginationStoreKey);
+    return limit;
   }
 
   getSortingFromStore() {
@@ -232,11 +244,15 @@ export class UserManagementService {
   }
 
   reset() {
-    this.paginationConfigSubject$.next(this.getUsersPaginationConfig(1, 10, 1));
+    this.paginationConfigSubject$.next(
+      this.getUsersPaginationConfig(1, this.getPageSize(), 1)
+    );
     const updated = {
       ...this.userPayload,
       search: '',
       page: 1,
+      sort: 'createdAt',
+      order: 'desc',
     };
     this.setUserPayload(updated);
   }
@@ -276,7 +292,7 @@ export class UserManagementService {
 
   // Configs
   getUsersTableConfig(): DataTable {
-    const { sortName = '', orderBy = Order.Default } =
+    const { sortName = 'createdAt', orderBy = Order.Descending } =
       this.getSortingFromStore() || {};
     const configurations = {
       get totalColumns() {

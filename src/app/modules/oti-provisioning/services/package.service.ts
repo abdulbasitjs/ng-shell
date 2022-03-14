@@ -77,6 +77,7 @@ export class PackageService {
           this.isPackageListIsLoading$.next(false);
           if (response.code === HttpStatusCode.Ok) {
             this.totalItems = +response.data['totalItems'];
+            console.log(response.data);
             const totalPages = this.getTotalPages();
             this.paginationConfigSubject$.next(
               this.getPackagesPaginationConfig(
@@ -270,12 +271,14 @@ export class PackageService {
   reset() {
     const limit = this.getPageSize();
     this.paginationConfigSubject$.next(
-      this.getPackagesPaginationConfig(1, 10, 1)
+      this.getPackagesPaginationConfig(1, this.getPageSize(), 1)
     );
     const updated = {
       ...this.packagePayload,
       limit,
       page: 1,
+      sort: 'createdAt',
+      order: 'desc'
     };
     this.setPackagePayload(updated);
   }
@@ -320,7 +323,7 @@ export class PackageService {
 
   // Configs
   getPackagesDataTableConfig(): DataTable {
-    const { sortName = '', orderBy = Order.Default } =
+    const { sortName = 'createdAt', orderBy = Order.Descending } =
       this.getSortingFromStore() || {};
     const configurations = {
       get totalColumns() {

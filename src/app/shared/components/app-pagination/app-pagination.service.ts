@@ -18,6 +18,11 @@ export class PaginationService {
     return items.slice(startIndex).slice(0, pageSize);
   };
 
+  public paginatePerPageIndex = (pageNumber: number, pageSize: number) => {
+    const startIndex = (pageNumber - 1) * pageSize;
+    return startIndex;
+  };
+
   getPages(
     current: number,
     windowRange: number,

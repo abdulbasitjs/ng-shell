@@ -63,7 +63,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
             return this.handleUnauthorized(req, next);
           } else {
             this.isRefreshing = false;
-            this.toaster.error(error.error.message, error.statusText);
+            this.toaster.error(error.error.message, "Error");
             // this.auth.logout();
             return throwError(error);
           }
@@ -115,7 +115,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
           }),
           catchError((err) => {
             this.isRefreshing = false;
-            this.toaster.error(err.error.message, err.statusText);
+            this.toaster.error(err.error.message, "Error");
             this.auth.logout();
             return throwError(() => {
               new Error(err);

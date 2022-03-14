@@ -514,7 +514,10 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
           } else {
             this.expiryDateControl?.clearValidators();
             this.subscriptionGroup?.patchValue({
-              expiry_date: '',
+              expiry_date: {
+                startDate: moment(),
+                endDate: moment(),
+              },
             });
           }
           this.expiryDateControl?.updateValueAndValidity();
