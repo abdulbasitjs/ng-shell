@@ -166,6 +166,7 @@ export class CustomerService {
               'Success'
             );
           }
+          this.currentCustomer$.next(response.data);
         } else if (response.code === ProjectStatusCode.ValidationFailed) {
           const errors = Object.keys(response.message)
             .map((el: any) => response.message[el])
