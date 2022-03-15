@@ -62,7 +62,7 @@ export class ApiUsageComponent implements OnInit {
         count: 3,
       },
       {
-        title: 'Api Quota:',
+        title: 'API Quota:',
         key: 'quota-status',
         count: 3,
       },
