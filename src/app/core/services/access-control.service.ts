@@ -27,18 +27,18 @@ export class AccessControlService {
         (el) => roles[el]['r'] === AllRolesEnum.SuperAdmin
       );
 
-      const isAdmin = Object.keys(roles).some(
-        (el) => roles[el]['r'] === AllRolesEnum.Admin
-      );
+      // const isAdmin = Object.keys(roles).some(
+      //   (el) => roles[el]['r'] === AllRolesEnum.Admin
+      // );
 
       if (isSuperAdmin)
         return ProjectAccessControls[USER_MANAGEMENT_KEY][
           AllRolesReverseEnum.superadmin
         ];
-      if (isAdmin)
-        return ProjectAccessControls[USER_MANAGEMENT_KEY][
-          AllRolesReverseEnum.admin
-        ];
+      // if (isAdmin)
+      //   return ProjectAccessControls[USER_MANAGEMENT_KEY][
+      //     AllRolesReverseEnum.admin
+      //   ];
     }
 
     if (projectKey && Object.keys(roles).length) {

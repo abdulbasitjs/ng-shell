@@ -6,6 +6,7 @@ import {
   RTPD_DASHBOARD_KEY,
   RTPD_PROVISIONING_KEY,
   USER_MANAGEMENT_KEY,
+  USER_MANAMGEMENT_EXPECTED_ROLES,
   USER_PROFILE_KEY,
 } from '@configs/index';
 import { AuthGuard } from '@core/guards/auth.guard';
@@ -48,7 +49,7 @@ const routes: Routes = [
         title: 'USER',
         desc: 'Management',
       },
-      expectedRoles: ['superadmin', 'admin'],
+      expectedRoles: USER_MANAMGEMENT_EXPECTED_ROLES,
     },
   },
   {
