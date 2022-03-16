@@ -47,7 +47,7 @@ export class ApiUsageComponent implements OnInit {
         count: 2,
       },
       {
-        title: 'Download Screentshot:',
+        title: 'Download Screenshot:',
         key: 'download-screenshot',
         count: 2,
       },
