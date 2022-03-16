@@ -30,14 +30,17 @@ export class DashboarResolverGuard implements Resolve<SSORoles> {
     const userRoles = this.rolesService.getUserRolesFromStorage();
     const len = Object.keys(userRoles).length;
     if (len) {
-      if (len === 1) {
-        const list = this.rolesService.getUserRolesFromStorage();
-        this.defaultItems = this.defaultItems.filter(
-          (item) => !!list[SSORolesMappingOfServer[item.route]]
-        );
-        const route = this.defaultItems[0].route;
-        this.router.navigateByUrl(`/${route}`);
-      }
+      // Proper Solution, but hiding it for now because currenlty
+      // This feature is not required.
+      // if (len === 1) {
+      //   const list = this.rolesService.getUserRolesFromStorage();
+      //   this.defaultItems = this.defaultItems.filter(
+      //     (item) => !!list[SSORolesMappingOfServer[item.route]]
+      //   );
+      //   const route = this.defaultItems[0].route;
+      //   this.router.navigateByUrl(`/${route}`);
+      // }
+      this.router.navigateByUrl('/oti-provisioning');
       return this.rolesService.getUserRolesFromStorage();
     } else {
       return this.rolesService.getUserRolesAsync();
