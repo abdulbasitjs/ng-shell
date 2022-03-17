@@ -1,7 +1,7 @@
 <div class="search-input">
-  <input [value]="value" (keyup)="enableSearch()" (keyup.esc)="handleEscape()" (keyup.enter)="handleEnter()" type="text" [placeholder]="placeHolder" #term/>
+  <input [value]="value" (keyup)="enableSearch()" (keyup.esc)="handleEscape()" (keyup.backspace)="handleBackSpace()" (keyup.enter)="handleEnter()" type="text" [placeholder]="placeHolder" #term/>
   
-  <button [ngClass]="value == '' ? 'hide-button' : 'close-search-button'" (click)="handleClose()">
+  <button [ngClass]="showCross" class="close-search-button" (click)="handleClose()">
       <svg-icon src="assets/svg/edit-api-close-icon.svg"></svg-icon>
   </button>
     

@@ -32,25 +32,46 @@ export class SearchComponent implements OnInit {
   }
 
   handleEnter() {
-    if (this.term.nativeElement.value.trim().length > 0)
+    console.log(this.value);
+    if (this.value || this.term.nativeElement.value.trim().length > 0)
     {
       this.value = this.term.nativeElement.value.trim();
       this.onEnter.emit(this.value);
     }
   }
 
+  showCross = 'hide-button'
+
   handleEscape() {
     this.value = '';
+    this.term.nativeElement.value = ''; // check with AB
     this.onEscape.emit(this.value);
+    this.showCross = 'hide-button'
   }
 
   disableSearch = true
+  
   enableSearch() {
+    if (this.term.nativeElement.value.trim().length > 0) {
+      this.showCross = ''
+    }
     this.disableSearch = false
+    
   }
   
   handleClose() {
     this.value = '';
     this.onEscape.emit(this.value);
+    this.showCross = 'hide-button'
+  }
+  handleBackSpace() {
+    if (this.term.nativeElement.value.trim().length < 1) {
+      this.showCross = 'hide-button'
+
+      if(this.value) {
+        this.value = '';
+        this.onSearch.emit(this.value);
+      }
+    }
   }
 }
