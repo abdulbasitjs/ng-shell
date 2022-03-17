@@ -32,7 +32,6 @@ export class SearchComponent implements OnInit {
   }
 
   handleEnter() {
-    console.log(this.value);
     if (this.value || this.term.nativeElement.value.trim().length > 0)
     {
       this.value = this.term.nativeElement.value.trim();
