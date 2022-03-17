@@ -30,6 +30,7 @@ export class DashboarResolverGuard implements Resolve<SSORoles> {
     const userRoles = this.rolesService.getUserRolesFromStorage();
     const len = Object.keys(userRoles).length;
     if (len) {
+      // FIXME:
       // Proper Solution, but hiding it for now because currenlty
       // This feature is not required.
       // if (len === 1) {

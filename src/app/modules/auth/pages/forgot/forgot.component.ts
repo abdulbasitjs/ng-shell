@@ -36,26 +36,28 @@ export class ForgotComponent implements OnInit {
   }
 
   onReset() {
-    const { email } = this.forgotForm.value;
-    if (email) {
-      this.authService
-        .forgot(email)
-        .pipe(
-          catchError((error) => {
-            if (error.error.code === ProjectStatusCode.AccessRevoked) {
-              this.hasError = true;
+    if (this.forgotForm.valid) {
+      const { email } = this.forgotForm.value;
+      if (email) {
+        this.authService
+          .forgot(email)
+          .pipe(
+            catchError((error) => {
+              if (error.error.code === ProjectStatusCode.AccessRevoked) {
+                this.hasError = true;
+              }
+              return of([]);
+            })
+          )
+          .subscribe((res) => {
+            const response = <SSOResponse>res;
+            const { code } = response;
+            if (code === HttpStatusCode.Ok) {
+              this.hasError = false;
+              this.isEmailSent = true;
             }
-            return of([]);
-          })
-        )
-        .subscribe((res) => {
-          const response = <SSOResponse>res;
-          const { code } = response;
-          if (code === HttpStatusCode.Ok) {
-            this.hasError = false;
-            this.isEmailSent = true;
-          }
-        });
+          });
+      }
     }
   }
 }

@@ -37,20 +37,19 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     LoggerService.error('Request Error: ' + JSON.stringify(response));
     switch (response['status']) {
       case HttpStatusCode.BadRequest:
-        // this.toaster.error(response.error.message, 'Error');
+        if (!response.url.includes('users/create') && (!response.url.includes('resetpassword'))) {
+          this.toaster.error(response.error.message, 'Error');
+        }
         break;
 
       case HttpStatusCode.Unauthorized:
         if (response.url.includes('login'))
-        this.toaster.error(response.error.message, 'Error');
+          this.toaster.error(response.error.message, 'Error');
         this.auth.logout();
         break;
 
       case HttpStatusCode.Forbidden:
         this.router.navigateByUrl('/403');
-        break;
-
-      case HttpStatusCode.BadRequest:
         break;
 
       case HttpStatusCode.InternalServerError:

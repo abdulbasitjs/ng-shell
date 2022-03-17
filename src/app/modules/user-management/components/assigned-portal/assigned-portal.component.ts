@@ -7,5 +7,6 @@ import { Component, Input, OnInit } from '@angular/core';
 export class AssignedPortalComponent implements OnInit {
   @Input() permissions: any;
   constructor() {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }
