@@ -8,6 +8,8 @@ export const RTPD_DASHBOARD_KEY = 'rtpd-dashboard';
 export const USER_MANAGEMENT_KEY = 'user-management';
 export const USER_PROFILE_KEY = 'user-profile';
 
+export const USER_MANAMGEMENT_EXPECTED_ROLES = ['superadmin', 'admin'];
+
 export const SSORolesMappingOfServer: any = {
   [OTI_DASHBOARD_KEY]: 'oti-db',
   [OTI_PROVISIONING_KEY]: 'oti-pp',

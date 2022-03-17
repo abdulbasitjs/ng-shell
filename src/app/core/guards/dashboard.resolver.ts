@@ -3,10 +3,12 @@ import {
   Resolve,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
+  Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { SSORoles } from '@configs/index';
+import { SSORoles, SSORolesMappingOfServer } from '@configs/index';
 import { RolesService } from '@core/services/roles.service';
+import { deafultDashboardCards } from '@shared/components/app-dashboard-cards/values/dashboard.values';
 
 type ResolveType = Observable<SSORoles> | Promise<SSORoles> | SSORoles;
 
@@ -14,7 +16,8 @@ type ResolveType = Observable<SSORoles> | Promise<SSORoles> | SSORoles;
   providedIn: 'root',
 })
 export class DashboarResolverGuard implements Resolve<SSORoles> {
-  constructor(private rolesService: RolesService) {}
+  defaultItems = deafultDashboardCards;
+  constructor(private rolesService: RolesService, private router: Router) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
@@ -25,7 +28,19 @@ export class DashboarResolverGuard implements Resolve<SSORoles> {
 
   getDashboardRoles(): ResolveType {
     const userRoles = this.rolesService.getUserRolesFromStorage();
-    if (Object.keys(userRoles).length) {
+    const len = Object.keys(userRoles).length;
+    if (len) {
+      // Proper Solution, but hiding it for now because currenlty
+      // This feature is not required.
+      // if (len === 1) {
+      //   const list = this.rolesService.getUserRolesFromStorage();
+      //   this.defaultItems = this.defaultItems.filter(
+      //     (item) => !!list[SSORolesMappingOfServer[item.route]]
+      //   );
+      //   const route = this.defaultItems[0].route;
+      //   this.router.navigateByUrl(`/${route}`);
+      // }
+      this.router.navigateByUrl('/oti-provisioning');
       return this.rolesService.getUserRolesFromStorage();
     } else {
       return this.rolesService.getUserRolesAsync();

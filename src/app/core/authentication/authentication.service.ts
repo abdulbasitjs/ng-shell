@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
@@ -11,6 +11,8 @@ import { catchError, of, Subscription, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { EP } from '@configs/index';
 import { ProfileService } from '../../modules/user-profile/services/profile-management.service';
+import { ToastrService } from 'ngx-toastr';
+import { ProjectStatusCode } from '@core/http/http-codes.enum';
 
 const USER_PROFILE_STORAGE_KEY = `${StoragePrefix.SSO}user-profile`;
 @Injectable({ providedIn: 'root' })
@@ -31,7 +33,8 @@ export class AuthenticationService implements OnDestroy {
     private storage: StorageService,
     private jwtHelperService: JwtHelperService,
     private router: Router,
-    private pmService: ProfileService
+    private pmService: ProfileService,
+    private toasterService: ToastrService
   ) {
     this.userSusbscription = this.storage.changes.subscribe((status) => {
       if (status.value === -1) {
@@ -65,7 +68,7 @@ export class AuthenticationService implements OnDestroy {
               token,
               refreshToken,
             });
-            this.pmService.getMe().subscribe(d => {
+            this.pmService.getMe().subscribe((d) => {
               this.router.navigateByUrl('/');
             });
           }
@@ -78,7 +81,19 @@ export class AuthenticationService implements OnDestroy {
 
   // Forgot
   forgot(email: string) {
-    return this.http.post(EP.Forgot, { email });
+    return this.http.post(EP.Forgot, { email }).pipe(
+      catchError((err) => {
+        const {
+          error: { code, message },
+        } = err;
+        if (code == ProjectStatusCode.UserNotFound) {
+          this.toasterService.error(message, 'Error');
+        } else if (code === ProjectStatusCode.AccessRevoked) {
+          return of({ hasError: true });
+        }
+        return of([]);
+      })
+    );
   }
 
   // Reset Password

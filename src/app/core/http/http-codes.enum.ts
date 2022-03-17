@@ -23,5 +23,6 @@ export enum ProjectStatusCode {
   AccessRevoked = 2504,
   ValidationFailed = 2600,
   InviteValidationFailed = 2500,
+  UserNotFound = 2501,
   ScriptBroken = 500
 }

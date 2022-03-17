@@ -35,6 +35,7 @@ export class AccessControlService {
         return ProjectAccessControls[USER_MANAGEMENT_KEY][
           AllRolesReverseEnum.superadmin
         ];
+
       if (isAdmin)
         return ProjectAccessControls[USER_MANAGEMENT_KEY][
           AllRolesReverseEnum.admin

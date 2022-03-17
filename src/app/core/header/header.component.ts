@@ -6,6 +6,7 @@ import {
   SettingDropdownEnum,
   USER_MANAGEMENT_KEY,
   USER_PROFILE_KEY,
+  USER_MANAMGEMENT_EXPECTED_ROLES,
 } from '@configs/index';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { RolesService } from '@core/services/roles.service';
@@ -20,7 +21,7 @@ import { HeaderService, Module } from './header.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   header!: Module;
-  private exptectedRoles = ['superadmin', 'admin'];
+  private exptectedRoles = USER_MANAMGEMENT_EXPECTED_ROLES;
 
   headerSubscription!: Subscription;
 
