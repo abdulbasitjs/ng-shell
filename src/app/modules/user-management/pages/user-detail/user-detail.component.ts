@@ -61,6 +61,8 @@ export class UserDetailComponent implements OnInit, OnDestroy {
             .getAdminModules()
             .subscribe((adminModules) => {
               this.adminModules = this._checkPermissions(adminModules);
+              // FIXME: In order to work for next portal, hide the below line
+              this.adminModules = this.adminModules.filter(el => el.name === 'oti-pp');
               this.isPermissionLoaded = true;
             });
         }

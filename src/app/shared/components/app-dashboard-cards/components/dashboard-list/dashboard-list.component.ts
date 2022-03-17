@@ -23,6 +23,8 @@ export class DashboardListComponent implements OnInit {
   constructor(public headerService: HeaderService) {}
 
   ngOnInit(): void {
+    // FIXME: This filter should be removed in order to see next portal
+    this.dashboardItems = this.dashboardItems.filter(el => el.title === 'OTI' && el.desc === 'Provisioning')
     this.dashboardItems = this.dashboardItems.filter(
       (item) => !!this.list[SSORolesMappingOfServer[item.route]]
     );
