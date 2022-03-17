@@ -92,7 +92,17 @@ export class InviteUserComponent implements OnInit, OnDestroy {
           (el) =>
             el.name === this.editMode && !this.currentUser?.permission[el.name]
         );
-      } else this.modulesList = modules;
+        // FIXME:
+        this.modulesList = this.modulesList.filter(
+          (el) => el.name === 'oti-pp'
+        );
+      } else {
+        this.modulesList = modules;
+        // FIXME:
+        this.modulesList = this.modulesList.filter(
+          (el) => el.name === 'oti-pp'
+        );
+      }
 
       this.selectedRoles = Array.from(
         { length: this.modulesList.length },
@@ -103,9 +113,6 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         { length: this.modulesList.length },
         () => !!this.editMode
       );
-
-      // FIXME:
-      this.modulesList = this.modulesList.filter(el => el.name === 'oti-pp');
 
       this.buildModuleFormArray(this.modulesList);
     });
