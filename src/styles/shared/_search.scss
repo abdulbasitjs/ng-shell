@@ -42,10 +42,27 @@ $size: 3.4rem;
     height: $size;
     background-color: var(--color-primary);
     right: 0;
+    border: none;
 
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+  }
+  & > .close-search-button {
+    padding:0px;
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    right:4rem;
+    top:.9rem;
+    background: none;
+    border:none;
+  }
+  .show-button {
+    display: block;
+  }
+  .hide-button {
+    display: none;
   }
 }

@@ -138,4 +138,7 @@ export class OtiProvisioningCustomersComponent
   handleEsc(term: string) {
     this.onSearchTerm('');
   }
+  handleClose(term: string) {
+    this.onSearchTerm('')
+  }
 }
