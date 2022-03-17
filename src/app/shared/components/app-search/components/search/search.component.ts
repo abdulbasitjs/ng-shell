@@ -43,8 +43,14 @@ export class SearchComponent implements OnInit {
     this.value = '';
     this.onEscape.emit(this.value);
   }
+
   disableSearch = true
-  enableSearch () {
+  enableSearch() {
     this.disableSearch = false
+  }
+  
+  handleClose() {
+    this.value = '';
+    this.onEscape.emit(this.value);
   }
 }
