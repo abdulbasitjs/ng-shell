@@ -24,7 +24,7 @@
     (onSearch)="onSearchTerm($event)"
     (onEnter)="handleEnter($event)"
     (onEscape)="handleEsc($event)"
-    placeHolder="Search with Company Name"
+    placeHolder="Search Company"
     class="search-component"
     [value]="customerService.getCustomerPayload().search"
     [class.disabled]="customerService.isCustomerListLoadingObservable() | async"
@@ -32,7 +32,7 @@
   <app-button
     class="button-component"
     icon="assets/svg/add-button-icon.svg"
-    btnTitle="Add a New Company Profile"
+    btnTitle="Add New Company Profile"
     classes="button-primary button-pd"
     (clickHandler)="onAddNewCompany()"
     *appAccessControl="'create-company'"
