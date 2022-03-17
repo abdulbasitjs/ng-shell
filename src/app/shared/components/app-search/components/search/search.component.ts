@@ -32,8 +32,7 @@ export class SearchComponent implements OnInit {
   }
 
   handleEnter() {
-    if (this.term.nativeElement.value.trim().length > 0)
-    {
+    if (this.term.nativeElement.value.trim().length > 0) {
       this.value = this.term.nativeElement.value.trim();
       this.onEnter.emit(this.value);
     }
@@ -43,8 +42,8 @@ export class SearchComponent implements OnInit {
     this.value = '';
     this.onEscape.emit(this.value);
   }
-  disableSearch = true
-  enableSearch () {
-    this.disableSearch = false
+  disableSearch = true;
+  enableSearch() {
+    this.disableSearch = false;
   }
 }

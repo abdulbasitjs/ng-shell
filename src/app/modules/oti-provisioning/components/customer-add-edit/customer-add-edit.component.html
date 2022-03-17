@@ -241,10 +241,10 @@
                   newCompanyForm.get('subscription.company_key')?.touched
                 "
               >
-                <p>Unable to match key please regenerate Api Key.</p>
+                <p>Unable to match key please regenerate API Key.</p>
               </div>
               <a href="#" (click)="reGenerateCustomerKey($event)"
-                >| Regenerate Api Key
+                >| Regenerate API Key
                 <svg-icon src="assets/svg/regenerate-key-icon.svg"></svg-icon>
               </a>
             </ng-template>
@@ -305,6 +305,7 @@
               opens="left"
               (datesUpdated)="onExpiryDateChange($event)"
               [isInvalidDate]="isInvalidDate"
+              readonly
             />
             <div
               class="pos-abs error-msg-date error-msg"

@@ -87,7 +87,7 @@ export class AuthenticationService implements OnDestroy {
           error: { code, message },
         } = err;
         if (code == ProjectStatusCode.UserNotFound) {
-          this.toasterService.error(message, 'Error');
+          // this.toasterService.error(message, 'Error');
         } else if (code === ProjectStatusCode.AccessRevoked) {
           return of({ hasError: true });
         }
@@ -98,11 +98,33 @@ export class AuthenticationService implements OnDestroy {
 
   // Reset Password
   resetPassword(password: string, cPassword: string, token: string) {
-    return this.http.post(EP.Reset, {
-      password,
-      passwordConfirmation: cPassword,
-      token,
-    });
+    return this.http
+      .post(EP.Reset, {
+        password,
+        passwordConfirmation: cPassword,
+        token,
+      })
+      .pipe(
+        catchError((err) => {
+          const {
+            error: { code, message, data },
+          } = err;
+          if (code === ProjectStatusCode.InviteValidationFailed) {
+            const errors = Object.keys(data)
+              .map((el: any) => data[el])
+              .flat();
+            errors.forEach((e) => {
+              this.toasterService.error(e, 'Error');
+            });
+            return of([]);
+          }
+
+          else {
+            this.toasterService.error(message, 'Error');
+            return of([]);
+          }
+        })
+      );
   }
 
   // Logout

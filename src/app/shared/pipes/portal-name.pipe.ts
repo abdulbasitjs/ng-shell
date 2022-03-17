@@ -16,7 +16,7 @@ const friendlyName: any = {
 @Pipe({ name: 'portal' })
 export class ProtalPipe implements PipeTransform {
   transform(permission: any): any {
-    const requiredData = permission.map((el: any) => ({
+    let requiredData = permission.map((el: any) => ({
       bgColor: `linear-gradient(${theme[el['key']]})`,
       label: el.value.l
         .split(' ')
@@ -24,6 +24,8 @@ export class ProtalPipe implements PipeTransform {
       name: friendlyName[el['key']],
       fullLabel: el.value.l
     }));
+    // FIXME:
+    requiredData = requiredData.filter((el: any)=> el.name === 'OTI Provisioning Portal');
     return requiredData;
   }
 }

@@ -104,6 +104,9 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         () => !!this.editMode
       );
 
+      // FIXME:
+      this.modulesList = this.modulesList.filter(el => el.name === 'oti-pp');
+
       this.buildModuleFormArray(this.modulesList);
     });
   }

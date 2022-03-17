@@ -159,7 +159,8 @@
 </ng-template>
 
 <ng-template #permissionLoader>
-  <div *ngFor="let i of [1, 2,3,4]" class="section">
+  <!-- FIXME -->
+  <div *ngFor="let i of [1]" class="section">
     <ng-container [ngTemplateOutlet]="loader"></ng-container>
   </div>
 </ng-template>
@@ -197,7 +198,7 @@
       (onActionHanlder)="onChangePermission()"
       (onModalClose)="onModalClose()"
       closeTitle="Cancel"
-      actionTitle="Delete"
+      actionTitle="Revoke"
       [disableAction]="loaderService.getLoader() | async"
     ></app-modal-footer>
   </app-modal>
