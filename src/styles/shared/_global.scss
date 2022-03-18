@@ -145,3 +145,7 @@ $sides: (top, bottom, left, right);
   color: var(--warning);
   font-size: font-size(smallFix);
 }
+
+.hide {
+  display: none;
+}
