@@ -15,7 +15,13 @@
       #dropdownDirection="dropdownDirection"
       [ngClass]="dropdownDirection.direction === 1 ? 'top' : 'bottom'"
     ></span>
-    <span>{{ paginationService.paginatePerPageIndex(_currentPage, _pageSize) + 1 }} - {{ (_pageSize * _currentPage) >= _totalItems ? _totalItems : (_pageSize * _currentPage) }} of {{ _totalItems }} items</span>
+    <span>{{
+      paginationService.paginatePerPageLabel(
+        _currentPage,
+        _pageSize,
+        _totalItems
+      )
+    }}</span>
   </div>
   <div class="pagination--tabs" *ngIf="_totalPages > 1">
     <span

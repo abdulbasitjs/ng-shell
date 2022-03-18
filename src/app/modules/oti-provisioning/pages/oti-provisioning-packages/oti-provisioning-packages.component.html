@@ -50,7 +50,7 @@
 </app-datatable>
 <app-pagination
   *ngIf="((packageService.getPackagesObservable() | async)?.items).length"
-  [class.disabled]="packageService.isPackageListLoadingObservable() | async"
+  [class.hide]="packageService.isPackageListLoadingObservable() | async"
   class="pagination-component"
   [$$paginationConfigObservable]="
     packageService.getPaginationConfigObservable()

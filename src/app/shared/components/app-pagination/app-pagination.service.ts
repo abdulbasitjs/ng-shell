@@ -23,6 +23,13 @@ export class PaginationService {
     return startIndex;
   };
 
+  public paginatePerPageLabel = (pageNumber: number, pageSize: number, totalItems: number) => {
+    const startIndex = this.paginatePerPageIndex(pageNumber, pageSize) + 1;
+    let endIndex = pageNumber * pageSize;
+    endIndex = endIndex >= totalItems ? totalItems : endIndex;
+    return `${startIndex} - ${endIndex} of ${totalItems} items`
+  }
+
   getPages(
     current: number,
     windowRange: number,

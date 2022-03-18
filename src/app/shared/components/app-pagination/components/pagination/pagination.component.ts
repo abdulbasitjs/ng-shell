@@ -26,6 +26,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   @Input() $$paginationConfigObservable!: Observable<Pagination>;
   @Input() pagiantionConfig!: Pagination | null;
+  @Input() isLoading!: boolean | null;
   @Output() onPageSelect: EventEmitter<number> = new EventEmitter<number>();
   @Output() onNextPageSelect: EventEmitter<void> = new EventEmitter<void>();
   @Output() onPrevPageSelect: EventEmitter<void> = new EventEmitter<void>();
