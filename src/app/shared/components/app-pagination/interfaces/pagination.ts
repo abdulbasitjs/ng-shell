@@ -7,4 +7,5 @@ export interface Pagination {
   recordRanges: Array<number>;
   currentPage: number;
   totalPages: number;
+  totalItems: number;
 }

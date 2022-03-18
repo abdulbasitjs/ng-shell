@@ -84,7 +84,8 @@ export class UserManagementService {
               this.getUsersPaginationConfig(
                 this.userPayload.page,
                 this.userPayload.limit,
-                totalPages
+                totalPages,
+                this.totalItems
               )
             );
             this.users$.next(response.data);
@@ -346,15 +347,17 @@ export class UserManagementService {
   getUsersPaginationConfig(
     cPage?: number,
     limit?: number,
-    totalPages?: number
+    totalPages?: number,
+    totalItems?: number
   ): Pagination {
     return {
-      label: 'Showing',
+      label: 'Items per page',
       currentPage: cPage || 1,
       windowRange: 3,
       breakMargin: 2,
       breakLabel: '...',
       totalPages: totalPages || 1,
+      totalItems: totalItems || 0,
       recordRanges: [10, 20, 30, 50, 100],
       pageSize: limit || 10,
     };

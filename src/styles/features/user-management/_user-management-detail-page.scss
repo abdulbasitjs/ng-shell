@@ -6,6 +6,7 @@
     & > label {
       position: absolute;
       width: 15rem;
+      z-index: 5;
     }
 
     & > .dropdown-trigger {

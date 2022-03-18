@@ -21,6 +21,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
   _breakLabel!: string;
   _pageSize!: number;
   _totalPages!: number;
+  _totalItems!: number;
   _currentPage: number = 1;
 
   @Input() $$paginationConfigObservable!: Observable<Pagination>;
@@ -34,7 +35,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   paginationDirection!: 1;
 
-  constructor(private paginationService: PaginationService) {}
+  constructor(public paginationService: PaginationService) {}
 
   ngOnDestroy(): void {
     if (this.paginationSubscripton) this.paginationSubscripton.unsubscribe();
@@ -62,6 +63,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
         breakLabel = '...',
         pageSize,
         totalPages,
+        totalItems
       } = config;
       this._currentPage = currentPage;
       this._windowRange = windowRange;
@@ -69,6 +71,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
       this._breakLabel = breakLabel;
       this._pageSize = pageSize;
       this._totalPages = totalPages;
+      this._totalItems = totalItems;
     }
   }
 

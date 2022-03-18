@@ -47,6 +47,7 @@ $form-width: 85%;
       flex: 1;
       color: var(--color-quinary);
       font-size: font-size(smallFix);
+      background: transparent;
     }
     & ::placeholder {
       font-size: font-size(smallFix);
@@ -205,6 +206,7 @@ $form-width: 85%;
       position: absolute;
       right: 1.5rem;
       top: 1.5rem;
+      z-index: -1;
     }
 
     & .dropdown {

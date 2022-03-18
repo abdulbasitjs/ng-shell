@@ -95,7 +95,8 @@ export class CustomerService {
               this.getUsersPaginationConfig(
                 this.customerPayload.page,
                 this.customerPayload.limit,
-                totalPages
+                totalPages,
+                this.totalItems
               )
             );
             this.customers$.next(response.data);
@@ -506,15 +507,17 @@ export class CustomerService {
   getUsersPaginationConfig(
     cPage?: number,
     limit?: number,
-    totalPages?: number
+    totalPages?: number,
+    totalItems?: number
   ): Pagination {
     return {
-      label: 'Showing',
+      label: 'Items per page',
       currentPage: cPage || 1,
       windowRange: 3,
       breakMargin: 2,
       breakLabel: '...',
       totalPages: totalPages || 1,
+      totalItems: totalItems || 0,
       recordRanges: [10, 20, 30, 50, 100],
       pageSize: limit || 10,
     };
