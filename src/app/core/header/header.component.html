@@ -32,7 +32,7 @@
       {{ (pmService.getCurrentUserObservable() | async)?.name }}
     </h3>
     <h4 class="header__user--info__role">
-      {{ (pmService.getCurrentUserObservable() | async)?.email }}
+      {{ getUserRole((pmService.getCurrentUserObservable() | async)) }}
     </h4>
   </div>
   <div class="header__user--settings">

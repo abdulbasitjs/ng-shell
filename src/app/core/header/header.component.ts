@@ -83,4 +83,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       return { ...el, active: false };
     });
   }
+
+  getUserRole(user: any) {
+    const role = user && user.permission && user.permission['oti-pp'] && user.permission['oti-pp']['l'];
+    return role;
+  } 
 }

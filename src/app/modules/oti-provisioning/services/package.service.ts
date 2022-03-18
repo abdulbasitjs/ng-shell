@@ -82,7 +82,8 @@ export class PackageService {
               this.getPackagesPaginationConfig(
                 this.packagePayload.page,
                 this.packagePayload.limit,
-                totalPages
+                totalPages,
+                this.totalItems
               )
             );
             response.data.items = this.mapPackages(response.data.items);
@@ -388,15 +389,17 @@ export class PackageService {
   getPackagesPaginationConfig(
     cPage?: number,
     limit?: number,
-    totalPages?: number
+    totalPages?: number,
+    totalItems?: number
   ): Pagination {
     return {
-      label: 'Showing',
+      label: 'Items per page',
       currentPage: cPage || 1,
       windowRange: 3,
       breakMargin: 2,
       breakLabel: '...',
       totalPages: totalPages || 1,
+      totalItems: totalItems || 0,
       recordRanges: [10, 20, 30, 50, 100],
       pageSize: limit || 10,
     };
