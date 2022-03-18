@@ -117,6 +117,7 @@ export class OtiProvisioningPackagesComponent implements OnInit {
     const updated = {
       ...this.packageService.packagePayload,
       search: term,
+      page: 1
     };
     this.packageService.setPackagePayload(updated);
     this.getPackages();
