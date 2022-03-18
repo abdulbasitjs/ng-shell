@@ -131,6 +131,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
     const updated = {
       ...this.umService.userPayload,
       search: term,
+      page: 1
     };
     this.umService.setUserPayload(updated);
     this.getUsers();

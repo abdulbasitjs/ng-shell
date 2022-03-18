@@ -125,6 +125,7 @@ export class OtiProvisioningCustomersComponent
   onSearchTerm(term: string) {
     const updated = {
       ...this.customerService.customerPayload,
+      page: 1,
       search: term,
     };
     this.customerService.setCustomerPayload(updated);
