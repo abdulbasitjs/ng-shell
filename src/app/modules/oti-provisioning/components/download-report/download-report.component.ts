@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './download-report.component.html',
 })
 export class AppDownloadReportComponent implements OnInit {
-  @Input() title!: string;
+  @Input() title2!: string;
   @Input() icon!: string;
   @Output() onDownloadReport: EventEmitter<void> = new EventEmitter<void>();
 

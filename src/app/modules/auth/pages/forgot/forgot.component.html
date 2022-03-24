@@ -12,7 +12,7 @@
         Sign in
       </a>
       <app-auth-section
-        title="Forgot Password"
+        title2="Forgot Password"
         description="Enter your details below"
       ></app-auth-section>
       <form
@@ -70,7 +70,7 @@
 <ng-template #emailSent>
   <app-auth-action
     icon="assets/svg/EmailSent.svg"
-    title="Email Sent Successfully!!"
+    title2="Email Sent Successfully!!"
   >
   </app-auth-action>
 </ng-template>
@@ -79,7 +79,7 @@
   <app-auth-action
     (onAction)="hasError = false"
     icon="assets/svg/EmailSent.svg"
-    title="SIngle Sign-on Portal"
+    title2="SIngle Sign-on Portal"
   >
     <p class="error">
         You are not authorized to use this portal. Please contact <a href="mailto:support@slashnext.com">support@slashnext.com</a> to enable your access.

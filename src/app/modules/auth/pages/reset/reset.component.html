@@ -5,7 +5,7 @@
     [class.loading]="loaderService.getLoader() | async"
   >
     <app-auth-section
-      [title]="sectionTitle"
+      [title2]="sectionTitle"
       [description]="
         'Enter ' + (this.resetMode === 'reset' ? 'new' : '') + ' password below'
       "
@@ -134,7 +134,7 @@
   <app-auth-action
     icon="assets/svg/NewPasswordCreated.svg"
     [error]="error"
-    [title]="sectionTitle"
+    [title2]="sectionTitle"
   >
     Your password has been successfully
     {{ this.resetMode === "reset" ? "reset" : "generated" }}, <br />
