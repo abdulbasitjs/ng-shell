@@ -406,7 +406,7 @@
   <app-modal [showModal]="true">
     <app-modal-header
       (onModalClose)="onModalClose()"
-      [title]="
+      [title2]="
         customer?.status === 'Active'
           ? 'Suspend Company Profile'
           : 'Reactivate Company Profile'
@@ -433,7 +433,7 @@
   <app-modal [showModal]="true">
     <app-modal-header
       (onModalClose)="onModalClose()"
-      title="Delete Company Profile"
+      title2="Delete Company Profile"
     ></app-modal-header>
     <app-modal-body>
       <p class="user-modal-body">
@@ -454,17 +454,17 @@
   <app-modal [showModal]="true">
     <app-modal-header
       (onModalClose)="onStatModalClose()"
-      [title]="customer?.companyName + ' Scan Stats'"
+      [title2]="customer?.companyName + ' Scan Stats'"
       classes="tertiary-color"
     >
       <app-download-report
         [class.disabled]="loaderService.getLoader() | async"
-        title="Download Summary"
+        title2="Download Summary"
         icon="assets/svg/PDF.svg"
         (onDownloadReport)="handleReport('pdf')"
       ></app-download-report>
       <app-download-report
-        title="Download Daily Breakdown"
+        title2="Download Daily Breakdown"
         icon="assets/svg/CSV.svg"
         (onDownloadReport)="handleReport('csv')"
       ></app-download-report>

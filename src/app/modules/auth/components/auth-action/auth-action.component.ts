@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class AuthActionComponent implements OnInit {
   @Input() error = null;
   @Input() icon = '';
-  @Input() title = '';
+  @Input() title2 = '';
   @Output() onAction = new EventEmitter();
 
   constructor(private router: Router) {}
