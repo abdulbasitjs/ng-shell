@@ -29,7 +29,7 @@ export class OtiProvisioningCustomerDetailComponent
   };
 
   subscriptionTypeMapping: any = {
-    enterprise: 'Enterprise Edititon',
+    enterprise: 'Enterprise Edition',
     community: 'Community Edition'
   };
 
