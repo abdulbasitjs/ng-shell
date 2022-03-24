@@ -8,14 +8,14 @@ import {
 @Component({
   selector: 'app-auth-section',
   template: `
-    <p class="auth--form__section--title">{{ title2 }}</p>
+    <p class="auth--form__section--title">{{ caption }}</p>
     <p class="auth--form__section--description">{{ description }}</p>
   `,
   styleUrls: ['./auth-section.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthSectionComponent implements OnInit {
-  @Input() title2!: string;
+  @Input() caption!: string;
   @Input() description!: string;
   constructor() {}
 
