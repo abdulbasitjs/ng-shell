@@ -55,7 +55,7 @@
       <app-dropdown
         [direction]="dropdownDirection.direction"
         class="rate-limit-dropdown"
-        [class]="direction"
+        
         [items]="rateLimitPerMinList"
         (onSelect)="handleRatesLimitSelect($event); intervalDropdown.close()"
       >

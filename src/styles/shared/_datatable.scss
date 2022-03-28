@@ -38,7 +38,7 @@
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
-          max-width: 21rem;
+          //max-width: 21rem;
           & span {
           }
         }
@@ -120,3 +120,14 @@
     cursor: pointer;
   }
 }
+.user-management {
+  & app-users > .table-component {
+     .datatable td:nth-child(3) {
+      width: 52rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+     }
+  }
+}
+

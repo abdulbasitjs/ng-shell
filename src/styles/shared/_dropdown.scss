@@ -16,10 +16,12 @@ $dropdown-left-margin: 1.2rem;
   box-shadow: 0rem 0rem 0.4rem var(--color-dropdown-box-shadow);
   z-index: $zindex-dropdown;
 
+
   &--list {
     flex: 1;
     align-self: center;
     margin-bottom: 0;
+
     &__item {
       display: flex;
       justify-content: space-between;
