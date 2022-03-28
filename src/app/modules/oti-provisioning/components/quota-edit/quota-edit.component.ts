@@ -616,10 +616,13 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
         ...payload,
         quotaLimit: Array.isArray(quotaLimit) ? +quotaLimit[0] : +quotaLimit,
         quotaType: QuotaType[quotaType],
-        perMinLimit: Array.isArray(perMinLimit) ? +perMinLimit[0] : +perMinLimit,
+        perMinLimit: Array.isArray(perMinLimit)
+          ? +perMinLimit[0]
+          : +perMinLimit,
         threshold: threashold,
       };
     }
+    payload.isEditingPackage = packageId === this.CUSTOM_KEY ? 1 : 0;
     payload.custExculClassifiers = classifier_list
       .filter((el: any) => !!el.modelKey)
       .map((el: any) => el.value)
