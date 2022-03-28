@@ -120,3 +120,14 @@
     cursor: pointer;
   }
 }
+.user-management {
+  & app-users > .table-component {
+     .datatable td:nth-child(3) {
+      max-width: 42rem!important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+     }
+  }
+}
+
