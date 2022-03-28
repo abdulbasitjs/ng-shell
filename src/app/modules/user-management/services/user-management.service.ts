@@ -319,7 +319,7 @@ export class UserManagementService {
             accessor: 'email',
             isSortable: true,
             renderIcon: true,
-            width: '2fr',
+            width: '3fr',
           },
           {
             name: 'Assigned Portals',

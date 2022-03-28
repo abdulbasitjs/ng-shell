@@ -152,8 +152,8 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
     const { limit } = this.packageService.packagePayload;
     const updatedPayload = {
       ...this.packageService.packagePayload,
-      limit: 1000
-    }
+      limit: 1000,
+    };
     this.packageService.setPackagePayload(updatedPayload);
     this.packageService.getPackages();
     this.packagesSubscription = this.packageService
@@ -310,6 +310,7 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
   }
 
   setTierDefaultSelection(tierId: any, type = 'community') {
+    const isCustomPackage = this.customer && this.customer?.isCustomPackage;
     const id = this.customer?.packageInformation?.packageId;
     const subType = this.subType?.value || 'community';
     const filteredTiers = this.tiers.filter((el) => el.type === subType);
@@ -320,7 +321,11 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
     } else key = this.CUSTOM_KEY;
 
     if (this.editMode) {
-      if (id && filteredTiers.some((el) => el.id === id)) {
+      if (
+        id &&
+        filteredTiers.some((el) => el.id === id) &&
+        isCustomPackage !== 1
+      ) {
         key = id;
       } else key = this.CUSTOM_KEY;
     }
@@ -456,7 +461,7 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
             this.quotaPerMinControl?.clearValidators();
             this.attempts += 1;
             this.subscriptionGroup?.get('package_info')?.patchValue({
-              quota_permin: this.customer?.packageInformation?.perMinLimit || 1
+              quota_permin: this.customer?.packageInformation?.perMinLimit || 1,
             });
           }
           this.quotaPerMinControl?.updateValueAndValidity();
@@ -558,6 +563,8 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
   }
 
   createPayload() {
+    const { packageInformation: { packageId: pkgId = 0 } = {} } =
+      this.customer || {};
     const {
       profile: {
         company_name: companyName,
@@ -591,7 +598,7 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
       key,
     };
     payload.expiryDate = this.customer?.expiryDate;
-    payload.packageId = packageId === this.CUSTOM_KEY ? 0 : packageId;
+    payload.packageId = packageId === this.CUSTOM_KEY ? pkgId : packageId;
     if (packageId === this.CUSTOM_KEY) {
       let threashold = 0;
       let {
@@ -607,9 +614,9 @@ export class AppCustomerQuotaEditComponent implements OnInit, OnDestroy {
 
       payload = {
         ...payload,
-        quotaLimit: Array.isArray(quotaLimit) ? +quotaLimit[0] : quotaLimit,
+        quotaLimit: Array.isArray(quotaLimit) ? +quotaLimit[0] : +quotaLimit,
         quotaType: QuotaType[quotaType],
-        perMinLimit: Array.isArray(perMinLimit) ? +perMinLimit[0] : perMinLimit,
+        perMinLimit: Array.isArray(perMinLimit) ? +perMinLimit[0] : +perMinLimit,
         threshold: threashold,
       };
     }

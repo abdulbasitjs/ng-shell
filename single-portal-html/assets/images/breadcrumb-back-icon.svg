@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="14px" viewBox="0 0 16 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Back</title>
+    <g id="full-design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="mockup-15" transform="translate(-65.000000, -145.000000)" fill="#2E79A6">
+            <g id="noun_back_2087398" transform="translate(65.000000, 145.000000)">
+                <path d="M3.2,5.77040141 L14.7612903,5.77040141 C16.4129032,5.77040141 16.4129032,8.22959859 14.7612903,8.22959859 L3.2,8.22959859 L6.91612903,12.3282606 C7.74193548,13.147993 6.09032258,14.7874577 5.26451613,13.5578592 L0.309677419,7.81973239 C-0.103225806,7.4098662 -0.103225806,6.5901338 0.309677419,6.18026761 L5.26451613,0.44214085 C6.09032258,-0.787457741 7.74193548,0.852007047 6.91612903,1.67173944 L3.2,5.77040141 Z" id="Path"></path>
+            </g>
+        </g>
+    </g>
+</svg>
