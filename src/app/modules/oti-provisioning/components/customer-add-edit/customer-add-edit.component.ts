@@ -352,6 +352,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   }
 
   setTierDefaultSelection(tierId = '', type = 'community') {
+    const isCustomPackage = this.customer && this.customer?.isCustomPackage;
     const id = this.customer?.packageInformation?.packageId;
     const subType = this.subType?.value || 'community';
     const filteredTiers = this.tiers.filter((el) => el.type === subType);
@@ -362,7 +363,11 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
     } else key = this.CUSTOM_KEY;
 
     if (this.editMode) {
-      if (id && filteredTiers.some((el) => el.id === id)) {
+      if (
+        id &&
+        filteredTiers.some((el) => el.id === id) &&
+        isCustomPackage !== 1
+      ) {
         key = id;
       } else key = this.CUSTOM_KEY;
     }
@@ -496,7 +501,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
             this.quotaPerMinControl?.clearValidators();
             this.attempts += 1;
             this.subscriptionGroup?.get('package_info')?.patchValue({
-              quota_permin: this.customer?.packageInformation?.perMinLimit || 1
+              quota_permin: this.customer?.packageInformation?.perMinLimit || 1,
             });
           }
           this.quotaPerMinControl?.updateValueAndValidity();
@@ -610,6 +615,9 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
   }
 
   createPayload() {
+    const { packageInformation: { packageId: pkgId = 0 } = {} } =
+      this.customer || {};
+
     const {
       profile: {
         company_name: companyName,
@@ -646,7 +654,8 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
       exp_date_type === 'never'
         ? '2090-12-12'
         : expiry_date.endDate.format('YYYY-MM-DD');
-    payload.packageId = packageId === this.CUSTOM_KEY ? 0 : packageId;
+    // payload.packageId = packageId === this.CUSTOM_KEY ? 0 : packageId;
+    payload.packageId = packageId === this.CUSTOM_KEY ? pkgId : packageId;
     if (packageId === this.CUSTOM_KEY) {
       let threashold = 0;
       let {
@@ -668,7 +677,7 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
         threshold: threashold,
       };
     }
-
+    payload.isEditingPackage = packageId === this.CUSTOM_KEY ? 1 : 0;
     payload.custExculClassifiers = classifier_list
       .filter((el: any) => !!el.modelKey)
       .map((el: any) => el.value)
