@@ -6,7 +6,7 @@
     [class.loading]="loaderService.getLoader() | async"
   >
     <app-auth-section
-      caption="Single Sign-on Portal"
+      caption="SlashNext Portal"
       description=""
     ></app-auth-section>
     <form
@@ -98,7 +98,7 @@
 </ng-container>
 
 <ng-template #error>
-  <app-auth-action (onAction)="hasError = false;" icon="assets/svg/EmailSent.svg" caption="Single Sign-on Portal">
+  <app-auth-action (onAction)="hasError = false;" icon="assets/svg/EmailSent.svg" caption="SlashNext Portal">
     <p class="error">You are not authorized to use this portal. Please contact <a href="mailto:support@slashnext.com">support@slashnext.com</a> to enable your access.</p>
   </app-auth-action>
 </ng-template>
