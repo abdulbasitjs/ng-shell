@@ -671,9 +671,9 @@ export class AppCustomerAddEditComponent implements OnInit, OnDestroy {
 
       payload = {
         ...payload,
-        quotaLimit: Array.isArray(quotaLimit) ? +quotaLimit[0] : quotaLimit,
+        quotaLimit: Array.isArray(quotaLimit) ? +quotaLimit[0] : +quotaLimit,
         quotaType: QuotaType[quotaType],
-        perMinLimit: Array.isArray(perMinLimit) ? +perMinLimit[0] : perMinLimit,
+        perMinLimit: Array.isArray(perMinLimit) ? +perMinLimit[0] : +perMinLimit,
         threshold: threashold,
       };
     }
