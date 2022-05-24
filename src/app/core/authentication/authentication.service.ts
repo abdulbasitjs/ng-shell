@@ -1,8 +1,7 @@
-import { HttpClient, HttpStatusCode } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
-import { User } from './user.model';
 import { StorageService } from '@core/services/storage.service';
 import { StoragePrefix } from '@core/models/storage-prefix.enum';
 import { SSOResponse } from '@core/http/http-response.model';
@@ -10,31 +9,19 @@ import { JwtHelperService } from '@core/services/jwt-helper.service';
 import { catchError, of, Subscription, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { EP } from '@configs/index';
-import { ProfileService } from '../../modules/user-profile/services/profile-management.service';
-import { ToastrService } from 'ngx-toastr';
-import { ProjectStatusCode } from '@core/http/http-codes.enum';
 
 const USER_PROFILE_STORAGE_KEY = `${StoragePrefix.SSO}user-profile`;
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService implements OnDestroy {
-  _user$ = new BehaviorSubject<User | null>(null);
+  _user$ = new BehaviorSubject<any>(null);
   userKey = `${StoragePrefix.SSO}user`;
   userSusbscription!: Subscription;
-
-  fakePermissions = {
-    'oti-pp': { l: 'Admin', r: 'admin' },
-    'oti-db': { l: 'Admin', r: 'admin' },
-    'rtpd-pp': { l: 'Admin', r: 'admin' },
-    'rtpd-db': { l: 'Admin', r: 'admin' },
-  };
 
   constructor(
     private http: HttpClient,
     private storage: StorageService,
     private jwtHelperService: JwtHelperService,
-    private router: Router,
-    private pmService: ProfileService,
-    private toasterService: ToastrService
+    private router: Router
   ) {
     this.userSusbscription = this.storage.changes.subscribe((status) => {
       if (status.value === -1) {
@@ -68,61 +55,12 @@ export class AuthenticationService implements OnDestroy {
               token,
               refreshToken,
             });
-            this.pmService.getMe().subscribe((d) => {
-              this.router.navigateByUrl('/');
-            });
+
+            this.router.navigateByUrl('/');
           }
         }),
         catchError((err) => {
           return of(err.error);
-        })
-      );
-  }
-
-  // Forgot
-  forgot(email: string) {
-    return this.http.post(EP.Forgot, { email }).pipe(
-      catchError((err) => {
-        const {
-          error: { code, message },
-        } = err;
-        if (code == ProjectStatusCode.UserNotFound) {
-          // this.toasterService.error(message, 'Error');
-        } else if (code === ProjectStatusCode.AccessRevoked) {
-          return of({ hasError: true });
-        }
-        return of([]);
-      })
-    );
-  }
-
-  // Reset Password
-  resetPassword(password: string, cPassword: string, token: string) {
-    return this.http
-      .post(EP.Reset, {
-        password,
-        passwordConfirmation: cPassword,
-        token,
-      })
-      .pipe(
-        catchError((err) => {
-          const {
-            error: { code, message, data },
-          } = err;
-          if (code === ProjectStatusCode.InviteValidationFailed) {
-            const errors = Object.keys(data)
-              .map((el: any) => data[el])
-              .flat();
-            errors.forEach((e) => {
-              this.toasterService.error(e, 'Error');
-            });
-            return of([]);
-          }
-
-          else {
-            this.toasterService.error(message, 'Error');
-            return of([]);
-          }
         })
       );
   }
@@ -132,7 +70,7 @@ export class AuthenticationService implements OnDestroy {
     if (this.getToken()) this.storage.remove(this.userKey);
     this._user$.next(null);
     this.storage.remove(USER_PROFILE_STORAGE_KEY);
-    this.router.navigateByUrl('/auth/login');
+    this.router.navigateByUrl('/oti-provisioning/login');
   }
 
   // Refresh Token API
@@ -173,10 +111,6 @@ export class AuthenticationService implements OnDestroy {
       data: { name = '', email = '', password = '' },
     } = this.decodeToken() || { data: {} };
     return { name, email, password };
-  }
-
-  getPermissions() {
-    return this.storage.get(this.userKey).permissions;
   }
 
   setNewToken(res: any) {

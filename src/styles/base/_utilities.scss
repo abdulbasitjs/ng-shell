@@ -8,28 +8,6 @@ body {
   background-color: var(--color-secondary);
 }
 
-.container {
-  display: grid;
-  grid-template-columns:
-    [container-start] 1fr [center-start] repeat(
-      6,
-      [col-start] minmax(min-content, 16.66667rem) [col-end]
-    )
-    [center-end] 1fr [container-end];
-  grid-template-rows: minmax(min-content, 7rem) 1fr;
-}
-
-.auth-container {
-  display: grid;
-  grid-template-columns:
-    [container-start] repeat(
-      8,
-      [col-start] minmax(min-content, 1fr) [col-end]
-    )
-    [container-end];
-    grid-template-rows: 1fr;
-}
-
 li {
   list-style: none;
 }

@@ -5,7 +5,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { interval, Subscription, take } from 'rxjs';
+import { interval, take } from 'rxjs';
 
 @Directive({
   selector: '[appThemeChanger]',

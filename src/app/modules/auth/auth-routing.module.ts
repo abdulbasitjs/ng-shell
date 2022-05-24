@@ -10,7 +10,7 @@ const routes: Routes = [
     path: '',
     component: AuthComponent,
     children: [
-      { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
+      { path: '', redirectTo: '/oti-provisioning/login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
       { path: 'forgot', component: ForgotComponent },
       { path: 'reset', component: ResetComponent },

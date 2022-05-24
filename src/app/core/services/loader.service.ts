@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { OverlayService } from './overlay.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,19 +13,17 @@ export class LoaderService {
     0
   );
 
-  constructor(private overlayService: OverlayService) {
+  constructor() {
     // this.status$ = this.subject.asObservable().pipe(delay(0));
   }
 
   showLoader() {
     this.loader$.next(true);
     this.progressWidth$.next(0);
-    this.overlayService.showOverlay();
   }
 
   hideLoader() {
     this.loader$.next(false);
-    this.overlayService.hideOverlay();
   }
 
   getProgressWidth() {
